@@ -12,9 +12,9 @@
   </properties>
 <dependencies>
   	<dependency>
-  		<groupId>io.github.egg-03</groupId>
-  		<artifactId>ferrum-x</artifactId>
-  		<version>1.3.6</version>
+  		<groupId>io.github.eggy03</groupId>
+  		<artifactId>ferrumx-windows</artifactId>
+  		<version>3.0.0</version>
   	</dependency>
 	<dependency>
     	<groupId>org.tinylog</groupId>
@@ -58,7 +58,7 @@
         </descriptorRefs>
         <archive>
           <manifest>
-            <mainClass>com.ferrumx.ui.primary.FerrumX</mainClass>
+            <mainClass>io.github.eggy03.ui.primary.FerrumX</mainClass>
           </manifest>
         </archive>
       </configuration>

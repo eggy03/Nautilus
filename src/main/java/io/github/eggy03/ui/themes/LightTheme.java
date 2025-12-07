@@ -1,4 +1,4 @@
-package com.ferrumx.ui.themes;
+package io.github.eggy03.ui.themes;
 
 import com.formdev.flatlaf.FlatLightLaf;
 

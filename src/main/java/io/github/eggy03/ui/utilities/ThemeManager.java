@@ -1,4 +1,4 @@
-package com.ferrumx.ui.utilities;
+package io.github.eggy03.ui.utilities;
 
 import java.util.prefs.Preferences;
 
@@ -7,7 +7,7 @@ import javax.swing.SwingUtilities;
 
 import org.tinylog.Logger;
 
-import com.ferrumx.ui.themes.DarkTheme;
+import io.github.eggy03.ui.themes.DarkTheme;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 
 public class ThemeManager {

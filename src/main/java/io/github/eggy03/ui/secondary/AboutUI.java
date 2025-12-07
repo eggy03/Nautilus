@@ -1,4 +1,4 @@
-package com.ferrumx.ui.secondary;
+package io.github.eggy03.ui.secondary;
 
 import java.awt.Color;
 import java.awt.Cursor;
@@ -30,7 +30,7 @@ import javax.swing.border.TitledBorder;
 
 import org.tinylog.Logger;
 
-import com.ferrumx.ui.utilities.VersionAndOtherInfo;
+import io.github.eggy03.ui.utilities.VersionAndOtherInfo;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 
 public class AboutUI extends JFrame {
