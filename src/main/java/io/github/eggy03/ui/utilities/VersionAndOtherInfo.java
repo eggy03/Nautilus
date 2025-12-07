@@ -1,4 +1,4 @@
-package com.ferrumx.ui.utilities;
+package io.github.eggy03.ui.utilities;
 
 public class VersionAndOtherInfo {
 	

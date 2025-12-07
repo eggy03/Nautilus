@@ -1,4 +1,4 @@
-package com.ferrumx.ui.secondary;
+package io.github.eggy03.ui.secondary;
 
 import java.awt.Font;
 import java.awt.Toolkit;

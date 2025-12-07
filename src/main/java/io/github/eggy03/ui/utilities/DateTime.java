@@ -1,4 +1,4 @@
-package com.ferrumx.ui.utilities;
+package io.github.eggy03.ui.utilities;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -8,7 +8,7 @@ import java.util.Date;
 
 import org.tinylog.Logger;
 
-import com.ferrumx.ui.secondary.ExceptionUI;
+import io.github.eggy03.ui.secondary.ExceptionUI;
 
 public class DateTime {
 	private DateTime() {
