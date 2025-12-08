@@ -1,20 +1,24 @@
 package io.github.eggy03.ui.primary.panels;
 
-import javax.swing.JPanel;
-import javax.swing.border.TitledBorder;
-import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import javax.swing.JTextField;
-import javax.swing.JButton;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import javax.swing.JLabel;
+import java.awt.Insets;
+import java.io.Serial;
+
+import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.border.LineBorder;
-import java.awt.Color;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.TitledBorder;
 
 public class CpuPanel extends JPanel {
 
+	@Serial
 	private static final long serialVersionUID = 2423707166878662262L;
 	private JTextField hardwareIdTextField;
 	private JTextField coreTextField;
@@ -33,6 +37,10 @@ public class CpuPanel extends JPanel {
 	private JTextField addressWidthTextField;
 	private JTextField socketTextField;
 	private JTextField baseClockTextField;
+	private JTextField l1TextField;
+	private JTextField l2TextField;
+	private JTextField l3TextField;
+	private JTextField l4TextField;
 	
 	public JPanel getPanel() {
 		return this;
@@ -56,7 +64,7 @@ public class CpuPanel extends JPanel {
 	private void setHardwareIdPanel() {
 		
 		JPanel hardwareIdPanel = new JPanel();
-		hardwareIdPanel.setBorder(new TitledBorder(null, "HardwareID", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		hardwareIdPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "HardwareID", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		GridBagConstraints gbc_hardwareIdPanel = new GridBagConstraints();
 		gbc_hardwareIdPanel.insets = new Insets(0, 0, 5, 0);
 		gbc_hardwareIdPanel.fill = GridBagConstraints.BOTH;
@@ -90,7 +98,7 @@ public class CpuPanel extends JPanel {
 	private void setCpuPanel() {
 		
 		JPanel cpuPanel = new JPanel();
-		cpuPanel.setBorder(new TitledBorder(null, "CPU", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		cpuPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "CPU", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		GridBagConstraints gbc_cpuPanel = new GridBagConstraints();
 		gbc_cpuPanel.insets = new Insets(0, 0, 5, 0);
 		gbc_cpuPanel.fill = GridBagConstraints.BOTH;
@@ -101,7 +109,7 @@ public class CpuPanel extends JPanel {
 		
 		// PRIMARY INFO PANEL
 		JPanel primaryInfoPanel = new JPanel();
-		primaryInfoPanel.setBorder(new TitledBorder(null, "Primary Information", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		primaryInfoPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Primary Information", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		cpuPanel.add(primaryInfoPanel);
 		GridBagLayout gbl_primaryInfoPanel = new GridBagLayout();
 		gbl_primaryInfoPanel.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0};
@@ -254,7 +262,7 @@ public class CpuPanel extends JPanel {
 		
 		// SECONDARY INFO PANEL
 		JPanel secondaryInfoPanel = new JPanel();
-		secondaryInfoPanel.setBorder(new TitledBorder(new LineBorder(new Color(184, 207, 229)), "Secondary Information", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(51, 51, 51)));
+		secondaryInfoPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Secondary Information", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		cpuPanel.add(secondaryInfoPanel);
 		GridBagLayout gbl_secondaryInfoPanel = new GridBagLayout();
 		gbl_secondaryInfoPanel.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0};
@@ -424,6 +432,109 @@ public class CpuPanel extends JPanel {
 		gbc_reservedTextField.gridy = 2;
 		secondaryInfoPanel.add(reservedTextField, gbc_reservedTextField);
 		reservedTextField.setColumns(10);
+		
+		// CACHE PANEL
+		JPanel cachePanel = new JPanel();
+		cachePanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Cache Information", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		cpuPanel.add(cachePanel);
+		cachePanel.setLayout(new GridLayout(1, 0, 0, 0));
+		
+		JPanel cacheSizePanel = new JPanel();
+		cacheSizePanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Cache Sizes", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		cachePanel.add(cacheSizePanel);
+		GridBagLayout gbl_cacheSizePanel = new GridBagLayout();
+		gbl_cacheSizePanel.columnWidths = new int[]{0, 0, 0};
+		gbl_cacheSizePanel.rowHeights = new int[]{0, 0, 0, 0};
+		gbl_cacheSizePanel.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
+		gbl_cacheSizePanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0};
+		cacheSizePanel.setLayout(gbl_cacheSizePanel);
+		
+		JLabel l1Label = new JLabel("L1 Cache");
+		GridBagConstraints gbc_l1Label = new GridBagConstraints();
+		gbc_l1Label.insets = new Insets(0, 0, 5, 5);
+		gbc_l1Label.anchor = GridBagConstraints.EAST;
+		gbc_l1Label.gridx = 0;
+		gbc_l1Label.gridy = 0;
+		cacheSizePanel.add(l1Label, gbc_l1Label);
+		
+		l1TextField = new JTextField();
+		l1TextField.setEditable(false);
+		GridBagConstraints gbc_l1TextField = new GridBagConstraints();
+		gbc_l1TextField.insets = new Insets(0, 0, 5, 0);
+		gbc_l1TextField.fill = GridBagConstraints.HORIZONTAL;
+		gbc_l1TextField.gridx = 1;
+		gbc_l1TextField.gridy = 0;
+		cacheSizePanel.add(l1TextField, gbc_l1TextField);
+		l1TextField.setColumns(10);
+		
+		JLabel l2Label = new JLabel("L2 Cache");
+		GridBagConstraints gbc_l2Label = new GridBagConstraints();
+		gbc_l2Label.anchor = GridBagConstraints.EAST;
+		gbc_l2Label.insets = new Insets(0, 0, 5, 5);
+		gbc_l2Label.gridx = 0;
+		gbc_l2Label.gridy = 1;
+		cacheSizePanel.add(l2Label, gbc_l2Label);
+		
+		l2TextField = new JTextField();
+		l2TextField.setEditable(false);
+		GridBagConstraints gbc_l2TextField = new GridBagConstraints();
+		gbc_l2TextField.insets = new Insets(0, 0, 5, 0);
+		gbc_l2TextField.fill = GridBagConstraints.HORIZONTAL;
+		gbc_l2TextField.gridx = 1;
+		gbc_l2TextField.gridy = 1;
+		cacheSizePanel.add(l2TextField, gbc_l2TextField);
+		l2TextField.setColumns(10);
+		
+		JLabel l3Label = new JLabel("L3 Cache");
+		GridBagConstraints gbc_l3Label = new GridBagConstraints();
+		gbc_l3Label.insets = new Insets(0, 0, 5, 5);
+		gbc_l3Label.anchor = GridBagConstraints.EAST;
+		gbc_l3Label.gridx = 0;
+		gbc_l3Label.gridy = 2;
+		cacheSizePanel.add(l3Label, gbc_l3Label);
+		
+		l3TextField = new JTextField();
+		l3TextField.setEditable(false);
+		GridBagConstraints gbc_l3TextField = new GridBagConstraints();
+		gbc_l3TextField.insets = new Insets(0, 0, 5, 0);
+		gbc_l3TextField.fill = GridBagConstraints.HORIZONTAL;
+		gbc_l3TextField.gridx = 1;
+		gbc_l3TextField.gridy = 2;
+		cacheSizePanel.add(l3TextField, gbc_l3TextField);
+		l3TextField.setColumns(10);
+		
+		JLabel l4Label = new JLabel("L4 Cache");
+		GridBagConstraints gbc_l4Label = new GridBagConstraints();
+		gbc_l4Label.anchor = GridBagConstraints.EAST;
+		gbc_l4Label.insets = new Insets(0, 0, 0, 5);
+		gbc_l4Label.gridx = 0;
+		gbc_l4Label.gridy = 3;
+		cacheSizePanel.add(l4Label, gbc_l4Label);
+		
+		l4TextField = new JTextField();
+		l4TextField.setEditable(false);
+		GridBagConstraints gbc_l4TextField = new GridBagConstraints();
+		gbc_l4TextField.fill = GridBagConstraints.HORIZONTAL;
+		gbc_l4TextField.gridx = 1;
+		gbc_l4TextField.gridy = 3;
+		cacheSizePanel.add(l4TextField, gbc_l4TextField);
+		l4TextField.setColumns(10);
+		
+		JPanel cpuManufacturerLogoPanel = new JPanel();
+		cpuManufacturerLogoPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "CPU Manufacturer Logo", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		cachePanel.add(cpuManufacturerLogoPanel);
+		
+		JPanel extraCacheInfoPanel = new JPanel();
+		extraCacheInfoPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Extra Cache Info", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		cachePanel.add(extraCacheInfoPanel);
+		extraCacheInfoPanel.setLayout(new GridLayout(1, 0, 0, 0));
+		
+		JScrollPane extraCacheScrollPane = new JScrollPane();
+		extraCacheInfoPanel.add(extraCacheScrollPane);
+		
+		JTextArea extraCacheTextArea = new JTextArea();
+		extraCacheTextArea.setEditable(false);
+		extraCacheScrollPane.setViewportView(extraCacheTextArea);
 	}
 	
 	
