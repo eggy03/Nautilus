@@ -69,11 +69,11 @@ public class ApplicationUI extends JFrame {
 		contentPane.add(menuBar, BorderLayout.NORTH);
 		menuBar.setFont(new Font("Ubuntu", Font.PLAIN, 21));
 		
-		JMenu mnNewMenu = new JMenu("PlaceHolderMenu1");
-		menuBar.add(mnNewMenu);
+		JMenu appearanceMenu = new JMenu("Appearance");
+		menuBar.add(appearanceMenu);
 		
-		JMenu mnNewMenu_1 = new JMenu("PlaceholderMenu2");
-		menuBar.add(mnNewMenu_1);
+		JMenu helpMenu = new JMenu("Help");
+		menuBar.add(helpMenu);
 	}
 	
 	private void setTabbedPane(JPanel contentPane) {
