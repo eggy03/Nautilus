@@ -1,7 +1,5 @@
 package io.github.eggy03.ui.primary;
 
-import io.github.eggy03.ui.primary.panels.CpuPanel;
-
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -10,7 +8,14 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+
+import com.formdev.flatlaf.FlatLaf;
+
+import io.github.eggy03.ui.primary.panels.CpuPanel;
+import io.github.eggy03.ui.themes.LightTheme;
+import io.github.eggy03.ui.utilities.UIManagerConfigurations;
 
 
 
@@ -26,6 +31,11 @@ public class ApplicationUI extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					FlatLaf.registerCustomDefaultsSource("themes"); // for maven build, this points towards src/main/resources/themes
+					LightTheme.setup(); // TODO remove hardcoding
+					UIManagerConfigurations.enableRoundComponents();
+					UIManagerConfigurations.enableTabSeparators(true);
+					
 					ApplicationUI frame = new ApplicationUI();
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -43,8 +53,12 @@ public class ApplicationUI extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 737, 461);
 		contentPane = new JPanel();
-		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
+		
+		JScrollPane scrollPane = new JScrollPane(contentPane);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+		setContentPane(scrollPane);
 		
 		setupMenu(contentPane);
 		setTabbedPane(contentPane);
