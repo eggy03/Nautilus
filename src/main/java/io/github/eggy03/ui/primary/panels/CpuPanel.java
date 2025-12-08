@@ -1,10 +1,6 @@
 package io.github.eggy03.ui.primary.panels;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.Insets;
-import java.io.Serial;
+import io.github.eggy03.ui.primary.worker.CpuWorker;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -15,12 +11,19 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Insets;
+import java.io.Serial;
+import java.util.List;
 
 public class CpuPanel extends JPanel {
 
 	@Serial
 	private static final long serialVersionUID = 2423707166878662262L;
 	private JTextField hardwareIdTextField;
+    JComboBox<String> cpuIdComboBox;
 	private JTextField coreTextField;
 	private JTextField threadTextField;
 	private JTextField factoryClockTextField;
@@ -41,6 +44,7 @@ public class CpuPanel extends JPanel {
 	private JTextField l2TextField;
 	private JTextField l3TextField;
 	private JTextField l4TextField;
+    
 	
 	public JPanel getPanel() {
 		return this;
@@ -59,39 +63,63 @@ public class CpuPanel extends JPanel {
 		
 		setHardwareIdPanel();
 		setCpuPanel();
+        new CpuWorker(cpuIdComboBox, List.of(
+                hardwareIdTextField,
+                coreTextField,
+                threadTextField,
+                factoryClockTextField,
+                cpuNameTextField,
+                versionTextField,
+                familyTextField,
+                steppingTextField,
+                manufacturerTextField,
+                captionTextField,
+                processorIdTextField,
+                enabledCoresTextField,
+                enabledThreadsTextField,
+                reservedTextField,
+                addressWidthTextField,
+                socketTextField,
+                baseClockTextField,
+                l1TextField,
+                l2TextField,
+                l3TextField,
+                l4TextField
+        )).execute();
 	}
 	
 	private void setHardwareIdPanel() {
 		
 		JPanel hardwareIdPanel = new JPanel();
 		hardwareIdPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "HardwareID", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		GridBagConstraints gbc_hardwareIdPanel = new GridBagConstraints();
-		gbc_hardwareIdPanel.insets = new Insets(0, 0, 5, 0);
-		gbc_hardwareIdPanel.fill = GridBagConstraints.BOTH;
-		gbc_hardwareIdPanel.gridx = 0;
-		gbc_hardwareIdPanel.gridy = 0;
-		add(hardwareIdPanel, gbc_hardwareIdPanel);
-		GridBagLayout gbl_hardwareIdPanel = new GridBagLayout();
-		gbl_hardwareIdPanel.columnWidths = new int[]{956, 0, 0};
-		gbl_hardwareIdPanel.rowHeights = new int[]{21, 0};
-		gbl_hardwareIdPanel.columnWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
-		gbl_hardwareIdPanel.rowWeights = new double[]{0.0, Double.MIN_VALUE};
-		hardwareIdPanel.setLayout(gbl_hardwareIdPanel);
-		
+        GridBagConstraints gbcHardwareIdPanel = new GridBagConstraints();
+		gbcHardwareIdPanel.insets = new Insets(0, 0, 5, 0);
+		gbcHardwareIdPanel.fill = GridBagConstraints.BOTH;
+		gbcHardwareIdPanel.gridx = 0;
+		gbcHardwareIdPanel.gridy = 0;
+		add(hardwareIdPanel, gbcHardwareIdPanel);
+        GridBagLayout gblHardwareIdPanel = new GridBagLayout();
+        gblHardwareIdPanel.columnWidths = new int[]{956, 0, 0};
+        gblHardwareIdPanel.rowHeights = new int[]{21, 0};
+        gblHardwareIdPanel.columnWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
+        gblHardwareIdPanel.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+		hardwareIdPanel.setLayout(gblHardwareIdPanel);
+
+
 		hardwareIdTextField = new JTextField();
-		GridBagConstraints gbc_hardwareIdTf = new GridBagConstraints();
-		gbc_hardwareIdTf.insets = new Insets(0, 0, 0, 5);
-		gbc_hardwareIdTf.fill = GridBagConstraints.BOTH;
-		gbc_hardwareIdTf.gridx = 0;
-		gbc_hardwareIdTf.gridy = 0;
-		hardwareIdPanel.add(hardwareIdTextField, gbc_hardwareIdTf);
+		GridBagConstraints gbcHardwareIdTf = new GridBagConstraints();
+		gbcHardwareIdTf.insets = new Insets(0, 0, 0, 5);
+		gbcHardwareIdTf.fill = GridBagConstraints.BOTH;
+		gbcHardwareIdTf.gridx = 0;
+		gbcHardwareIdTf.gridy = 0;
+		hardwareIdPanel.add(hardwareIdTextField, gbcHardwareIdTf);
 		hardwareIdTextField.setColumns(10);
 		
 		JButton copyHwid = new JButton("Button");
-		GridBagConstraints gbc_copyHwid = new GridBagConstraints();
-		gbc_copyHwid.gridx = 1;
-		gbc_copyHwid.gridy = 0;
-		hardwareIdPanel.add(copyHwid, gbc_copyHwid);
+		GridBagConstraints gbcCopyHwid = new GridBagConstraints();
+		gbcCopyHwid.gridx = 1;
+		gbcCopyHwid.gridy = 0;
+		hardwareIdPanel.add(copyHwid, gbcCopyHwid);
 		
 	}
 	
@@ -99,338 +127,338 @@ public class CpuPanel extends JPanel {
 		
 		JPanel cpuPanel = new JPanel();
 		cpuPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "CPU", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		GridBagConstraints gbc_cpuPanel = new GridBagConstraints();
-		gbc_cpuPanel.insets = new Insets(0, 0, 5, 0);
-		gbc_cpuPanel.fill = GridBagConstraints.BOTH;
-		gbc_cpuPanel.gridx = 0;
-		gbc_cpuPanel.gridy = 1;
-		add(cpuPanel, gbc_cpuPanel);
+		GridBagConstraints gbcCpuPanel = new GridBagConstraints();
+		gbcCpuPanel.insets = new Insets(0, 0, 5, 0);
+		gbcCpuPanel.fill = GridBagConstraints.BOTH;
+		gbcCpuPanel.gridx = 0;
+		gbcCpuPanel.gridy = 1;
+		add(cpuPanel, gbcCpuPanel);
 		cpuPanel.setLayout(new GridLayout(0, 1, 0, 0));
 		
 		// PRIMARY INFO PANEL
 		JPanel primaryInfoPanel = new JPanel();
 		primaryInfoPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Primary Information", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		cpuPanel.add(primaryInfoPanel);
-		GridBagLayout gbl_primaryInfoPanel = new GridBagLayout();
-		gbl_primaryInfoPanel.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0};
-		gbl_primaryInfoPanel.rowHeights = new int[]{0, 0, 0, 0};
-		gbl_primaryInfoPanel.columnWeights = new double[]{0.0, 1.0, 0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE};
-		gbl_primaryInfoPanel.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
-		primaryInfoPanel.setLayout(gbl_primaryInfoPanel);
+		GridBagLayout gblPrimaryInfoPanel = new GridBagLayout();
+		gblPrimaryInfoPanel.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0};
+		gblPrimaryInfoPanel.rowHeights = new int[]{0, 0, 0, 0};
+		gblPrimaryInfoPanel.columnWeights = new double[]{0.0, 1.0, 0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE};
+		gblPrimaryInfoPanel.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+		primaryInfoPanel.setLayout(gblPrimaryInfoPanel);
 		
 		JLabel cpuIdLabel = new JLabel("CPU#");
-		GridBagConstraints gbc_cpuIdLabel = new GridBagConstraints();
-		gbc_cpuIdLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_cpuIdLabel.anchor = GridBagConstraints.EAST;
-		gbc_cpuIdLabel.gridx = 0;
-		gbc_cpuIdLabel.gridy = 0;
-		primaryInfoPanel.add(cpuIdLabel, gbc_cpuIdLabel);
-		
-		JComboBox<Integer> cpuIdComboBox = new JComboBox<>();
-		GridBagConstraints gbc_cpuIdComboBox = new GridBagConstraints();
-		gbc_cpuIdComboBox.insets = new Insets(0, 0, 5, 5);
-		gbc_cpuIdComboBox.fill = GridBagConstraints.HORIZONTAL;
-		gbc_cpuIdComboBox.gridx = 1;
-		gbc_cpuIdComboBox.gridy = 0;
-		primaryInfoPanel.add(cpuIdComboBox, gbc_cpuIdComboBox);
+		GridBagConstraints gbcCpuIdLabel = new GridBagConstraints();
+		gbcCpuIdLabel.insets = new Insets(0, 0, 5, 5);
+		gbcCpuIdLabel.anchor = GridBagConstraints.EAST;
+		gbcCpuIdLabel.gridx = 0;
+		gbcCpuIdLabel.gridy = 0;
+		primaryInfoPanel.add(cpuIdLabel, gbcCpuIdLabel);
+
+        cpuIdComboBox = new JComboBox<>();
+		GridBagConstraints gbcCpuIdComboBox = new GridBagConstraints();
+		gbcCpuIdComboBox.insets = new Insets(0, 0, 5, 5);
+		gbcCpuIdComboBox.fill = GridBagConstraints.HORIZONTAL;
+		gbcCpuIdComboBox.gridx = 1;
+		gbcCpuIdComboBox.gridy = 0;
+		primaryInfoPanel.add(cpuIdComboBox, gbcCpuIdComboBox);
 		
 		JLabel cpuNameLabel = new JLabel("Name");
-		GridBagConstraints gbc_cpuNameLabel = new GridBagConstraints();
-		gbc_cpuNameLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_cpuNameLabel.anchor = GridBagConstraints.EAST;
-		gbc_cpuNameLabel.gridx = 2;
-		gbc_cpuNameLabel.gridy = 0;
-		primaryInfoPanel.add(cpuNameLabel, gbc_cpuNameLabel);
+		GridBagConstraints gbcCpuNameLabel = new GridBagConstraints();
+		gbcCpuNameLabel.insets = new Insets(0, 0, 5, 5);
+		gbcCpuNameLabel.anchor = GridBagConstraints.EAST;
+		gbcCpuNameLabel.gridx = 2;
+		gbcCpuNameLabel.gridy = 0;
+		primaryInfoPanel.add(cpuNameLabel, gbcCpuNameLabel);
 		
 		cpuNameTextField = new JTextField();
 		cpuNameTextField.setEditable(false);
-		GridBagConstraints gbc_cpuNameTextField = new GridBagConstraints();
-		gbc_cpuNameTextField.gridwidth = 3;
-		gbc_cpuNameTextField.insets = new Insets(0, 0, 5, 0);
-		gbc_cpuNameTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_cpuNameTextField.gridx = 3;
-		gbc_cpuNameTextField.gridy = 0;
-		primaryInfoPanel.add(cpuNameTextField, gbc_cpuNameTextField);
+		GridBagConstraints gbcCpuNameTextField = new GridBagConstraints();
+		gbcCpuNameTextField.gridwidth = 3;
+		gbcCpuNameTextField.insets = new Insets(0, 0, 5, 0);
+		gbcCpuNameTextField.fill = GridBagConstraints.HORIZONTAL;
+		gbcCpuNameTextField.gridx = 3;
+		gbcCpuNameTextField.gridy = 0;
+		primaryInfoPanel.add(cpuNameTextField, gbcCpuNameTextField);
 		cpuNameTextField.setColumns(10);
 		
 		JLabel coreLabel = new JLabel("Cores");
-		GridBagConstraints gbc_coreLabel = new GridBagConstraints();
-		gbc_coreLabel.anchor = GridBagConstraints.EAST;
-		gbc_coreLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_coreLabel.gridx = 0;
-		gbc_coreLabel.gridy = 1;
-		primaryInfoPanel.add(coreLabel, gbc_coreLabel);
+		GridBagConstraints gbcCoreLabel = new GridBagConstraints();
+		gbcCoreLabel.anchor = GridBagConstraints.EAST;
+		gbcCoreLabel.insets = new Insets(0, 0, 5, 5);
+		gbcCoreLabel.gridx = 0;
+		gbcCoreLabel.gridy = 1;
+		primaryInfoPanel.add(coreLabel, gbcCoreLabel);
 		
 		coreTextField = new JTextField();
 		coreTextField.setEditable(false);
 		coreTextField.setColumns(10);
-		GridBagConstraints gbc_coreTextField = new GridBagConstraints();
-		gbc_coreTextField.insets = new Insets(0, 0, 5, 5);
-		gbc_coreTextField.fill = GridBagConstraints.BOTH;
-		gbc_coreTextField.gridx = 1;
-		gbc_coreTextField.gridy = 1;
-		primaryInfoPanel.add(coreTextField, gbc_coreTextField);
+		GridBagConstraints gbcCoreTextField = new GridBagConstraints();
+		gbcCoreTextField.insets = new Insets(0, 0, 5, 5);
+		gbcCoreTextField.fill = GridBagConstraints.BOTH;
+		gbcCoreTextField.gridx = 1;
+		gbcCoreTextField.gridy = 1;
+		primaryInfoPanel.add(coreTextField, gbcCoreTextField);
 		
-		JLabel threaLabel = new JLabel("Threads");
-		GridBagConstraints gbc_threaLabel = new GridBagConstraints();
-		gbc_threaLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_threaLabel.anchor = GridBagConstraints.EAST;
-		gbc_threaLabel.gridx = 2;
-		gbc_threaLabel.gridy = 1;
-		primaryInfoPanel.add(threaLabel, gbc_threaLabel);
+		JLabel threadLabel = new JLabel("Threads");
+		GridBagConstraints gbcThreadLabel = new GridBagConstraints();
+		gbcThreadLabel.insets = new Insets(0, 0, 5, 5);
+		gbcThreadLabel.anchor = GridBagConstraints.EAST;
+		gbcThreadLabel.gridx = 2;
+		gbcThreadLabel.gridy = 1;
+		primaryInfoPanel.add(threadLabel, gbcThreadLabel);
 		
 		threadTextField = new JTextField();
 		threadTextField.setEditable(false);
 		threadTextField.setColumns(10);
-		GridBagConstraints gbc_threadTextField = new GridBagConstraints();
-		gbc_threadTextField.insets = new Insets(0, 0, 5, 5);
-		gbc_threadTextField.fill = GridBagConstraints.BOTH;
-		gbc_threadTextField.gridx = 3;
-		gbc_threadTextField.gridy = 1;
-		primaryInfoPanel.add(threadTextField, gbc_threadTextField);
+		GridBagConstraints gbcThreadTextField = new GridBagConstraints();
+		gbcThreadTextField.insets = new Insets(0, 0, 5, 5);
+		gbcThreadTextField.fill = GridBagConstraints.BOTH;
+		gbcThreadTextField.gridx = 3;
+		gbcThreadTextField.gridy = 1;
+		primaryInfoPanel.add(threadTextField, gbcThreadTextField);
 		
 		JLabel effectiveClockLabel = new JLabel("Effective Clock");
-		GridBagConstraints gbc_effectiveClockLabel = new GridBagConstraints();
-		gbc_effectiveClockLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_effectiveClockLabel.anchor = GridBagConstraints.EAST;
-		gbc_effectiveClockLabel.gridx = 4;
-		gbc_effectiveClockLabel.gridy = 1;
-		primaryInfoPanel.add(effectiveClockLabel, gbc_effectiveClockLabel);
+		GridBagConstraints gbcEffectiveClockLabel = new GridBagConstraints();
+		gbcEffectiveClockLabel.insets = new Insets(0, 0, 5, 5);
+		gbcEffectiveClockLabel.anchor = GridBagConstraints.EAST;
+		gbcEffectiveClockLabel.gridx = 4;
+		gbcEffectiveClockLabel.gridy = 1;
+		primaryInfoPanel.add(effectiveClockLabel, gbcEffectiveClockLabel);
 		
 		factoryClockTextField = new JTextField();
 		factoryClockTextField.setEditable(false);
-		GridBagConstraints gbc_factoryClockTextField = new GridBagConstraints();
-		gbc_factoryClockTextField.insets = new Insets(0, 0, 5, 0);
-		gbc_factoryClockTextField.fill = GridBagConstraints.BOTH;
-		gbc_factoryClockTextField.gridx = 5;
-		gbc_factoryClockTextField.gridy = 1;
-		primaryInfoPanel.add(factoryClockTextField, gbc_factoryClockTextField);
+		GridBagConstraints gbcFactoryClockTextField = new GridBagConstraints();
+		gbcFactoryClockTextField.insets = new Insets(0, 0, 5, 0);
+		gbcFactoryClockTextField.fill = GridBagConstraints.BOTH;
+		gbcFactoryClockTextField.gridx = 5;
+		gbcFactoryClockTextField.gridy = 1;
+		primaryInfoPanel.add(factoryClockTextField, gbcFactoryClockTextField);
 		factoryClockTextField.setColumns(10);
 		
 		JLabel addressWidthLabel = new JLabel("Address Width");
-		GridBagConstraints gbc_addressWidthLabel = new GridBagConstraints();
-		gbc_addressWidthLabel.anchor = GridBagConstraints.EAST;
-		gbc_addressWidthLabel.insets = new Insets(0, 0, 0, 5);
-		gbc_addressWidthLabel.gridx = 0;
-		gbc_addressWidthLabel.gridy = 2;
-		primaryInfoPanel.add(addressWidthLabel, gbc_addressWidthLabel);
+		GridBagConstraints gbcAddressWidthLabel = new GridBagConstraints();
+		gbcAddressWidthLabel.anchor = GridBagConstraints.EAST;
+		gbcAddressWidthLabel.insets = new Insets(0, 0, 0, 5);
+		gbcAddressWidthLabel.gridx = 0;
+		gbcAddressWidthLabel.gridy = 2;
+		primaryInfoPanel.add(addressWidthLabel, gbcAddressWidthLabel);
 		
 		addressWidthTextField = new JTextField();
 		addressWidthTextField.setEditable(false);
-		GridBagConstraints gbc_addressWidthTextField = new GridBagConstraints();
-		gbc_addressWidthTextField.insets = new Insets(0, 0, 0, 5);
-		gbc_addressWidthTextField.fill = GridBagConstraints.BOTH;
-		gbc_addressWidthTextField.gridx = 1;
-		gbc_addressWidthTextField.gridy = 2;
-		primaryInfoPanel.add(addressWidthTextField, gbc_addressWidthTextField);
+		GridBagConstraints gbcAddressWidthTextField = new GridBagConstraints();
+		gbcAddressWidthTextField.insets = new Insets(0, 0, 0, 5);
+		gbcAddressWidthTextField.fill = GridBagConstraints.BOTH;
+		gbcAddressWidthTextField.gridx = 1;
+		gbcAddressWidthTextField.gridy = 2;
+		primaryInfoPanel.add(addressWidthTextField, gbcAddressWidthTextField);
 		addressWidthTextField.setColumns(10);
 		
 		JLabel socketLabel = new JLabel("Socket");
-		GridBagConstraints gbc_socketLabel = new GridBagConstraints();
-		gbc_socketLabel.anchor = GridBagConstraints.EAST;
-		gbc_socketLabel.insets = new Insets(0, 0, 0, 5);
-		gbc_socketLabel.gridx = 2;
-		gbc_socketLabel.gridy = 2;
-		primaryInfoPanel.add(socketLabel, gbc_socketLabel);
+		GridBagConstraints gbcSocketLabel = new GridBagConstraints();
+		gbcSocketLabel.anchor = GridBagConstraints.EAST;
+		gbcSocketLabel.insets = new Insets(0, 0, 0, 5);
+		gbcSocketLabel.gridx = 2;
+		gbcSocketLabel.gridy = 2;
+		primaryInfoPanel.add(socketLabel, gbcSocketLabel);
 		
 		socketTextField = new JTextField();
 		socketTextField.setEditable(false);
-		GridBagConstraints gbc_socketTextField = new GridBagConstraints();
-		gbc_socketTextField.insets = new Insets(0, 0, 0, 5);
-		gbc_socketTextField.fill = GridBagConstraints.BOTH;
-		gbc_socketTextField.gridx = 3;
-		gbc_socketTextField.gridy = 2;
-		primaryInfoPanel.add(socketTextField, gbc_socketTextField);
+		GridBagConstraints gbcSocketTextField = new GridBagConstraints();
+		gbcSocketTextField.insets = new Insets(0, 0, 0, 5);
+		gbcSocketTextField.fill = GridBagConstraints.BOTH;
+		gbcSocketTextField.gridx = 3;
+		gbcSocketTextField.gridy = 2;
+		primaryInfoPanel.add(socketTextField, gbcSocketTextField);
 		socketTextField.setColumns(10);
 		
 		JLabel baseClockLabel = new JLabel("Base Clock");
-		GridBagConstraints gbc_baseClockLabel = new GridBagConstraints();
-		gbc_baseClockLabel.anchor = GridBagConstraints.EAST;
-		gbc_baseClockLabel.insets = new Insets(0, 0, 0, 5);
-		gbc_baseClockLabel.gridx = 4;
-		gbc_baseClockLabel.gridy = 2;
-		primaryInfoPanel.add(baseClockLabel, gbc_baseClockLabel);
+		GridBagConstraints gbcBaseClockLabel = new GridBagConstraints();
+		gbcBaseClockLabel.anchor = GridBagConstraints.EAST;
+		gbcBaseClockLabel.insets = new Insets(0, 0, 0, 5);
+		gbcBaseClockLabel.gridx = 4;
+		gbcBaseClockLabel.gridy = 2;
+		primaryInfoPanel.add(baseClockLabel, gbcBaseClockLabel);
 		
 		baseClockTextField = new JTextField();
 		baseClockTextField.setEditable(false);
-		GridBagConstraints gbc_baseClockTextField = new GridBagConstraints();
-		gbc_baseClockTextField.fill = GridBagConstraints.BOTH;
-		gbc_baseClockTextField.gridx = 5;
-		gbc_baseClockTextField.gridy = 2;
-		primaryInfoPanel.add(baseClockTextField, gbc_baseClockTextField);
+		GridBagConstraints gbcBaseClockTextField = new GridBagConstraints();
+		gbcBaseClockTextField.fill = GridBagConstraints.BOTH;
+		gbcBaseClockTextField.gridx = 5;
+		gbcBaseClockTextField.gridy = 2;
+		primaryInfoPanel.add(baseClockTextField, gbcBaseClockTextField);
 		baseClockTextField.setColumns(10);
 		
 		// SECONDARY INFO PANEL
 		JPanel secondaryInfoPanel = new JPanel();
 		secondaryInfoPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Secondary Information", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		cpuPanel.add(secondaryInfoPanel);
-		GridBagLayout gbl_secondaryInfoPanel = new GridBagLayout();
-		gbl_secondaryInfoPanel.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0};
-		gbl_secondaryInfoPanel.rowHeights = new int[]{0, 0, 0, 0};
-		gbl_secondaryInfoPanel.columnWeights = new double[]{0.0, 1.0, 0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE};
-		gbl_secondaryInfoPanel.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
-		secondaryInfoPanel.setLayout(gbl_secondaryInfoPanel);
+		GridBagLayout gblSecondaryInfoPanel = new GridBagLayout();
+		gblSecondaryInfoPanel.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0};
+		gblSecondaryInfoPanel.rowHeights = new int[]{0, 0, 0, 0};
+		gblSecondaryInfoPanel.columnWeights = new double[]{0.0, 1.0, 0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE};
+		gblSecondaryInfoPanel.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+		secondaryInfoPanel.setLayout(gblSecondaryInfoPanel);
 		
 		JLabel versionLabel = new JLabel("Version");
-		GridBagConstraints gbc_versionLabel = new GridBagConstraints();
-		gbc_versionLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_versionLabel.anchor = GridBagConstraints.EAST;
-		gbc_versionLabel.gridx = 0;
-		gbc_versionLabel.gridy = 0;
-		secondaryInfoPanel.add(versionLabel, gbc_versionLabel);
+		GridBagConstraints gbcVersionLabel = new GridBagConstraints();
+		gbcVersionLabel.insets = new Insets(0, 0, 5, 5);
+		gbcVersionLabel.anchor = GridBagConstraints.EAST;
+		gbcVersionLabel.gridx = 0;
+		gbcVersionLabel.gridy = 0;
+		secondaryInfoPanel.add(versionLabel, gbcVersionLabel);
 		
 		versionTextField = new JTextField();
 		versionTextField.setEditable(false);
-		GridBagConstraints gbc_versionTextField = new GridBagConstraints();
-		gbc_versionTextField.insets = new Insets(0, 0, 5, 5);
-		gbc_versionTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_versionTextField.gridx = 1;
-		gbc_versionTextField.gridy = 0;
-		secondaryInfoPanel.add(versionTextField, gbc_versionTextField);
+		GridBagConstraints gbcVersionTextField = new GridBagConstraints();
+		gbcVersionTextField.insets = new Insets(0, 0, 5, 5);
+		gbcVersionTextField.fill = GridBagConstraints.HORIZONTAL;
+		gbcVersionTextField.gridx = 1;
+		gbcVersionTextField.gridy = 0;
+		secondaryInfoPanel.add(versionTextField, gbcVersionTextField);
 		versionTextField.setColumns(10);
 		
 		JLabel familyLabel = new JLabel("Family");
-		GridBagConstraints gbc_familyLabel = new GridBagConstraints();
-		gbc_familyLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_familyLabel.anchor = GridBagConstraints.EAST;
-		gbc_familyLabel.gridx = 2;
-		gbc_familyLabel.gridy = 0;
-		secondaryInfoPanel.add(familyLabel, gbc_familyLabel);
+		GridBagConstraints gbcFamilyLabel = new GridBagConstraints();
+		gbcFamilyLabel.insets = new Insets(0, 0, 5, 5);
+		gbcFamilyLabel.anchor = GridBagConstraints.EAST;
+		gbcFamilyLabel.gridx = 2;
+		gbcFamilyLabel.gridy = 0;
+		secondaryInfoPanel.add(familyLabel, gbcFamilyLabel);
 		
 		familyTextField = new JTextField();
 		familyTextField.setEditable(false);
-		GridBagConstraints gbc_familyTextField = new GridBagConstraints();
-		gbc_familyTextField.insets = new Insets(0, 0, 5, 5);
-		gbc_familyTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_familyTextField.gridx = 3;
-		gbc_familyTextField.gridy = 0;
-		secondaryInfoPanel.add(familyTextField, gbc_familyTextField);
+		GridBagConstraints gbcFamilyTextField = new GridBagConstraints();
+		gbcFamilyTextField.insets = new Insets(0, 0, 5, 5);
+		gbcFamilyTextField.fill = GridBagConstraints.HORIZONTAL;
+		gbcFamilyTextField.gridx = 3;
+		gbcFamilyTextField.gridy = 0;
+		secondaryInfoPanel.add(familyTextField, gbcFamilyTextField);
 		familyTextField.setColumns(10);
 		
 		JLabel steppingLabel = new JLabel("Stepping");
-		GridBagConstraints gbc_steppingLabel = new GridBagConstraints();
-		gbc_steppingLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_steppingLabel.anchor = GridBagConstraints.EAST;
-		gbc_steppingLabel.gridx = 4;
-		gbc_steppingLabel.gridy = 0;
-		secondaryInfoPanel.add(steppingLabel, gbc_steppingLabel);
+		GridBagConstraints gbcSteppingLabel = new GridBagConstraints();
+		gbcSteppingLabel.insets = new Insets(0, 0, 5, 5);
+		gbcSteppingLabel.anchor = GridBagConstraints.EAST;
+		gbcSteppingLabel.gridx = 4;
+		gbcSteppingLabel.gridy = 0;
+		secondaryInfoPanel.add(steppingLabel, gbcSteppingLabel);
 		
 		steppingTextField = new JTextField();
 		steppingTextField.setEditable(false);
-		GridBagConstraints gbc_steppingTextField = new GridBagConstraints();
-		gbc_steppingTextField.insets = new Insets(0, 0, 5, 0);
-		gbc_steppingTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_steppingTextField.gridx = 5;
-		gbc_steppingTextField.gridy = 0;
-		secondaryInfoPanel.add(steppingTextField, gbc_steppingTextField);
+		GridBagConstraints gbcSteppingTextField = new GridBagConstraints();
+		gbcSteppingTextField.insets = new Insets(0, 0, 5, 0);
+		gbcSteppingTextField.fill = GridBagConstraints.HORIZONTAL;
+		gbcSteppingTextField.gridx = 5;
+		gbcSteppingTextField.gridy = 0;
+		secondaryInfoPanel.add(steppingTextField, gbcSteppingTextField);
 		steppingTextField.setColumns(10);
 		
 		JLabel manufacturerLabel = new JLabel("Manufacturer");
-		GridBagConstraints gbc_manufacturerLabel = new GridBagConstraints();
-		gbc_manufacturerLabel.anchor = GridBagConstraints.EAST;
-		gbc_manufacturerLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_manufacturerLabel.gridx = 0;
-		gbc_manufacturerLabel.gridy = 1;
-		secondaryInfoPanel.add(manufacturerLabel, gbc_manufacturerLabel);
+		GridBagConstraints gbcManufacturerLabel = new GridBagConstraints();
+		gbcManufacturerLabel.anchor = GridBagConstraints.EAST;
+		gbcManufacturerLabel.insets = new Insets(0, 0, 5, 5);
+		gbcManufacturerLabel.gridx = 0;
+		gbcManufacturerLabel.gridy = 1;
+		secondaryInfoPanel.add(manufacturerLabel, gbcManufacturerLabel);
 		
 		manufacturerTextField = new JTextField();
 		manufacturerTextField.setEditable(false);
-		GridBagConstraints gbc_manufacturerTextField = new GridBagConstraints();
-		gbc_manufacturerTextField.insets = new Insets(0, 0, 5, 5);
-		gbc_manufacturerTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_manufacturerTextField.gridx = 1;
-		gbc_manufacturerTextField.gridy = 1;
-		secondaryInfoPanel.add(manufacturerTextField, gbc_manufacturerTextField);
+		GridBagConstraints gbcManufacturerTextField = new GridBagConstraints();
+		gbcManufacturerTextField.insets = new Insets(0, 0, 5, 5);
+		gbcManufacturerTextField.fill = GridBagConstraints.HORIZONTAL;
+		gbcManufacturerTextField.gridx = 1;
+		gbcManufacturerTextField.gridy = 1;
+		secondaryInfoPanel.add(manufacturerTextField, gbcManufacturerTextField);
 		manufacturerTextField.setColumns(10);
 		
 		JLabel captionLabel = new JLabel("Caption");
-		GridBagConstraints gbc_captionLabel = new GridBagConstraints();
-		gbc_captionLabel.anchor = GridBagConstraints.EAST;
-		gbc_captionLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_captionLabel.gridx = 2;
-		gbc_captionLabel.gridy = 1;
-		secondaryInfoPanel.add(captionLabel, gbc_captionLabel);
+		GridBagConstraints gbcCaptionLabel = new GridBagConstraints();
+		gbcCaptionLabel.anchor = GridBagConstraints.EAST;
+		gbcCaptionLabel.insets = new Insets(0, 0, 5, 5);
+		gbcCaptionLabel.gridx = 2;
+		gbcCaptionLabel.gridy = 1;
+		secondaryInfoPanel.add(captionLabel, gbcCaptionLabel);
 		
 		captionTextField = new JTextField();
 		captionTextField.setEditable(false);
-		GridBagConstraints gbc_captionTextField = new GridBagConstraints();
-		gbc_captionTextField.insets = new Insets(0, 0, 5, 5);
-		gbc_captionTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_captionTextField.gridx = 3;
-		gbc_captionTextField.gridy = 1;
-		secondaryInfoPanel.add(captionTextField, gbc_captionTextField);
+		GridBagConstraints gbcCaptionTextField = new GridBagConstraints();
+		gbcCaptionTextField.insets = new Insets(0, 0, 5, 5);
+		gbcCaptionTextField.fill = GridBagConstraints.HORIZONTAL;
+		gbcCaptionTextField.gridx = 3;
+		gbcCaptionTextField.gridy = 1;
+		secondaryInfoPanel.add(captionTextField, gbcCaptionTextField);
 		captionTextField.setColumns(10);
 		
 		JLabel processorIdLabel = new JLabel("Processor ID");
-		GridBagConstraints gbc_processorIdLabel = new GridBagConstraints();
-		gbc_processorIdLabel.anchor = GridBagConstraints.EAST;
-		gbc_processorIdLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_processorIdLabel.gridx = 4;
-		gbc_processorIdLabel.gridy = 1;
-		secondaryInfoPanel.add(processorIdLabel, gbc_processorIdLabel);
+		GridBagConstraints gbcProcessorIdLabel = new GridBagConstraints();
+		gbcProcessorIdLabel.anchor = GridBagConstraints.EAST;
+		gbcProcessorIdLabel.insets = new Insets(0, 0, 5, 5);
+		gbcProcessorIdLabel.gridx = 4;
+		gbcProcessorIdLabel.gridy = 1;
+		secondaryInfoPanel.add(processorIdLabel, gbcProcessorIdLabel);
 		
 		processorIdTextField = new JTextField();
 		processorIdTextField.setEditable(false);
-		GridBagConstraints gbc_processorIdTextField = new GridBagConstraints();
-		gbc_processorIdTextField.insets = new Insets(0, 0, 5, 0);
-		gbc_processorIdTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_processorIdTextField.gridx = 5;
-		gbc_processorIdTextField.gridy = 1;
-		secondaryInfoPanel.add(processorIdTextField, gbc_processorIdTextField);
+		GridBagConstraints gbcProcessorIdTextField = new GridBagConstraints();
+		gbcProcessorIdTextField.insets = new Insets(0, 0, 5, 0);
+		gbcProcessorIdTextField.fill = GridBagConstraints.HORIZONTAL;
+		gbcProcessorIdTextField.gridx = 5;
+		gbcProcessorIdTextField.gridy = 1;
+		secondaryInfoPanel.add(processorIdTextField, gbcProcessorIdTextField);
 		processorIdTextField.setColumns(10);
 		
 		JLabel enabledCoresLabel = new JLabel("Enabled Cores");
-		GridBagConstraints gbc_enabledCoresLabel = new GridBagConstraints();
-		gbc_enabledCoresLabel.anchor = GridBagConstraints.EAST;
-		gbc_enabledCoresLabel.insets = new Insets(0, 0, 0, 5);
-		gbc_enabledCoresLabel.gridx = 0;
-		gbc_enabledCoresLabel.gridy = 2;
-		secondaryInfoPanel.add(enabledCoresLabel, gbc_enabledCoresLabel);
+		GridBagConstraints gbcEnabledCoresLabel = new GridBagConstraints();
+		gbcEnabledCoresLabel.anchor = GridBagConstraints.EAST;
+		gbcEnabledCoresLabel.insets = new Insets(0, 0, 0, 5);
+		gbcEnabledCoresLabel.gridx = 0;
+		gbcEnabledCoresLabel.gridy = 2;
+		secondaryInfoPanel.add(enabledCoresLabel, gbcEnabledCoresLabel);
 		
 		enabledCoresTextField = new JTextField();
 		enabledCoresTextField.setEditable(false);
-		GridBagConstraints gbc_enabledCoresTextField = new GridBagConstraints();
-		gbc_enabledCoresTextField.insets = new Insets(0, 0, 0, 5);
-		gbc_enabledCoresTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_enabledCoresTextField.gridx = 1;
-		gbc_enabledCoresTextField.gridy = 2;
-		secondaryInfoPanel.add(enabledCoresTextField, gbc_enabledCoresTextField);
+		GridBagConstraints gbcEnabledCoresTextField = new GridBagConstraints();
+		gbcEnabledCoresTextField.insets = new Insets(0, 0, 0, 5);
+		gbcEnabledCoresTextField.fill = GridBagConstraints.HORIZONTAL;
+		gbcEnabledCoresTextField.gridx = 1;
+		gbcEnabledCoresTextField.gridy = 2;
+		secondaryInfoPanel.add(enabledCoresTextField, gbcEnabledCoresTextField);
 		enabledCoresTextField.setColumns(10);
 		
 		JLabel enabledThreadsLabel = new JLabel("Enabled Threads");
-		GridBagConstraints gbc_enabledThreadsLabel = new GridBagConstraints();
-		gbc_enabledThreadsLabel.anchor = GridBagConstraints.EAST;
-		gbc_enabledThreadsLabel.insets = new Insets(0, 0, 0, 5);
-		gbc_enabledThreadsLabel.gridx = 2;
-		gbc_enabledThreadsLabel.gridy = 2;
-		secondaryInfoPanel.add(enabledThreadsLabel, gbc_enabledThreadsLabel);
+		GridBagConstraints gbcEnabledThreadsLabel = new GridBagConstraints();
+		gbcEnabledThreadsLabel.anchor = GridBagConstraints.EAST;
+		gbcEnabledThreadsLabel.insets = new Insets(0, 0, 0, 5);
+		gbcEnabledThreadsLabel.gridx = 2;
+		gbcEnabledThreadsLabel.gridy = 2;
+		secondaryInfoPanel.add(enabledThreadsLabel, gbcEnabledThreadsLabel);
 		
 		enabledThreadsTextField = new JTextField();
 		enabledThreadsTextField.setEditable(false);
-		GridBagConstraints gbc_enabledThreadsTextField = new GridBagConstraints();
-		gbc_enabledThreadsTextField.insets = new Insets(0, 0, 0, 5);
-		gbc_enabledThreadsTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_enabledThreadsTextField.gridx = 3;
-		gbc_enabledThreadsTextField.gridy = 2;
-		secondaryInfoPanel.add(enabledThreadsTextField, gbc_enabledThreadsTextField);
+		GridBagConstraints gbcEnabledThreadsTextField = new GridBagConstraints();
+		gbcEnabledThreadsTextField.insets = new Insets(0, 0, 0, 5);
+		gbcEnabledThreadsTextField.fill = GridBagConstraints.HORIZONTAL;
+		gbcEnabledThreadsTextField.gridx = 3;
+		gbcEnabledThreadsTextField.gridy = 2;
+		secondaryInfoPanel.add(enabledThreadsTextField, gbcEnabledThreadsTextField);
 		enabledThreadsTextField.setColumns(10);
 		
 		JLabel reservedLabel = new JLabel("RESERVED");
-		GridBagConstraints gbc_reservedLabel = new GridBagConstraints();
-		gbc_reservedLabel.anchor = GridBagConstraints.EAST;
-		gbc_reservedLabel.insets = new Insets(0, 0, 0, 5);
-		gbc_reservedLabel.gridx = 4;
-		gbc_reservedLabel.gridy = 2;
-		secondaryInfoPanel.add(reservedLabel, gbc_reservedLabel);
+		GridBagConstraints gbcReservedLabel = new GridBagConstraints();
+		gbcReservedLabel.anchor = GridBagConstraints.EAST;
+		gbcReservedLabel.insets = new Insets(0, 0, 0, 5);
+		gbcReservedLabel.gridx = 4;
+		gbcReservedLabel.gridy = 2;
+		secondaryInfoPanel.add(reservedLabel, gbcReservedLabel);
 		
 		reservedTextField = new JTextField();
 		reservedTextField.setText("RESERVED_FOR_FUTURE");
 		reservedTextField.setEditable(false);
-		GridBagConstraints gbc_reservedTextField = new GridBagConstraints();
-		gbc_reservedTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_reservedTextField.gridx = 5;
-		gbc_reservedTextField.gridy = 2;
-		secondaryInfoPanel.add(reservedTextField, gbc_reservedTextField);
+		GridBagConstraints gbcReservedTextField = new GridBagConstraints();
+		gbcReservedTextField.fill = GridBagConstraints.HORIZONTAL;
+		gbcReservedTextField.gridx = 5;
+		gbcReservedTextField.gridy = 2;
+		secondaryInfoPanel.add(reservedTextField, gbcReservedTextField);
 		reservedTextField.setColumns(10);
 		
 		// CACHE PANEL
@@ -442,82 +470,82 @@ public class CpuPanel extends JPanel {
 		JPanel cacheSizePanel = new JPanel();
 		cacheSizePanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Cache Sizes", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		cachePanel.add(cacheSizePanel);
-		GridBagLayout gbl_cacheSizePanel = new GridBagLayout();
-		gbl_cacheSizePanel.columnWidths = new int[]{0, 0, 0};
-		gbl_cacheSizePanel.rowHeights = new int[]{0, 0, 0, 0};
-		gbl_cacheSizePanel.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-		gbl_cacheSizePanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0};
-		cacheSizePanel.setLayout(gbl_cacheSizePanel);
+		GridBagLayout gblCacheSizePanel = new GridBagLayout();
+		gblCacheSizePanel.columnWidths = new int[]{0, 0, 0};
+		gblCacheSizePanel.rowHeights = new int[]{0, 0, 0, 0};
+		gblCacheSizePanel.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
+		gblCacheSizePanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0};
+		cacheSizePanel.setLayout(gblCacheSizePanel);
 		
 		JLabel l1Label = new JLabel("L1 Cache");
-		GridBagConstraints gbc_l1Label = new GridBagConstraints();
-		gbc_l1Label.insets = new Insets(0, 0, 5, 5);
-		gbc_l1Label.anchor = GridBagConstraints.EAST;
-		gbc_l1Label.gridx = 0;
-		gbc_l1Label.gridy = 0;
-		cacheSizePanel.add(l1Label, gbc_l1Label);
+		GridBagConstraints gbcL1Label = new GridBagConstraints();
+		gbcL1Label.insets = new Insets(0, 0, 5, 5);
+		gbcL1Label.anchor = GridBagConstraints.EAST;
+		gbcL1Label.gridx = 0;
+		gbcL1Label.gridy = 0;
+		cacheSizePanel.add(l1Label, gbcL1Label);
 		
 		l1TextField = new JTextField();
 		l1TextField.setEditable(false);
-		GridBagConstraints gbc_l1TextField = new GridBagConstraints();
-		gbc_l1TextField.insets = new Insets(0, 0, 5, 0);
-		gbc_l1TextField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_l1TextField.gridx = 1;
-		gbc_l1TextField.gridy = 0;
-		cacheSizePanel.add(l1TextField, gbc_l1TextField);
+		GridBagConstraints gbcL1TextField = new GridBagConstraints();
+		gbcL1TextField.insets = new Insets(0, 0, 5, 0);
+		gbcL1TextField.fill = GridBagConstraints.HORIZONTAL;
+		gbcL1TextField.gridx = 1;
+		gbcL1TextField.gridy = 0;
+		cacheSizePanel.add(l1TextField, gbcL1TextField);
 		l1TextField.setColumns(10);
 		
 		JLabel l2Label = new JLabel("L2 Cache");
-		GridBagConstraints gbc_l2Label = new GridBagConstraints();
-		gbc_l2Label.anchor = GridBagConstraints.EAST;
-		gbc_l2Label.insets = new Insets(0, 0, 5, 5);
-		gbc_l2Label.gridx = 0;
-		gbc_l2Label.gridy = 1;
-		cacheSizePanel.add(l2Label, gbc_l2Label);
+		GridBagConstraints gbcL2Label = new GridBagConstraints();
+		gbcL2Label.anchor = GridBagConstraints.EAST;
+		gbcL2Label.insets = new Insets(0, 0, 5, 5);
+		gbcL2Label.gridx = 0;
+		gbcL2Label.gridy = 1;
+		cacheSizePanel.add(l2Label, gbcL2Label);
 		
 		l2TextField = new JTextField();
 		l2TextField.setEditable(false);
-		GridBagConstraints gbc_l2TextField = new GridBagConstraints();
-		gbc_l2TextField.insets = new Insets(0, 0, 5, 0);
-		gbc_l2TextField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_l2TextField.gridx = 1;
-		gbc_l2TextField.gridy = 1;
-		cacheSizePanel.add(l2TextField, gbc_l2TextField);
+		GridBagConstraints gbcL2TextField = new GridBagConstraints();
+		gbcL2TextField.insets = new Insets(0, 0, 5, 0);
+		gbcL2TextField.fill = GridBagConstraints.HORIZONTAL;
+		gbcL2TextField.gridx = 1;
+		gbcL2TextField.gridy = 1;
+		cacheSizePanel.add(l2TextField, gbcL2TextField);
 		l2TextField.setColumns(10);
 		
 		JLabel l3Label = new JLabel("L3 Cache");
-		GridBagConstraints gbc_l3Label = new GridBagConstraints();
-		gbc_l3Label.insets = new Insets(0, 0, 5, 5);
-		gbc_l3Label.anchor = GridBagConstraints.EAST;
-		gbc_l3Label.gridx = 0;
-		gbc_l3Label.gridy = 2;
-		cacheSizePanel.add(l3Label, gbc_l3Label);
+		GridBagConstraints gbcL3Label = new GridBagConstraints();
+		gbcL3Label.insets = new Insets(0, 0, 5, 5);
+		gbcL3Label.anchor = GridBagConstraints.EAST;
+		gbcL3Label.gridx = 0;
+		gbcL3Label.gridy = 2;
+		cacheSizePanel.add(l3Label, gbcL3Label);
 		
 		l3TextField = new JTextField();
 		l3TextField.setEditable(false);
-		GridBagConstraints gbc_l3TextField = new GridBagConstraints();
-		gbc_l3TextField.insets = new Insets(0, 0, 5, 0);
-		gbc_l3TextField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_l3TextField.gridx = 1;
-		gbc_l3TextField.gridy = 2;
-		cacheSizePanel.add(l3TextField, gbc_l3TextField);
+		GridBagConstraints gbcL3TextField = new GridBagConstraints();
+		gbcL3TextField.insets = new Insets(0, 0, 5, 0);
+		gbcL3TextField.fill = GridBagConstraints.HORIZONTAL;
+		gbcL3TextField.gridx = 1;
+		gbcL3TextField.gridy = 2;
+		cacheSizePanel.add(l3TextField, gbcL3TextField);
 		l3TextField.setColumns(10);
 		
 		JLabel l4Label = new JLabel("L4 Cache");
-		GridBagConstraints gbc_l4Label = new GridBagConstraints();
-		gbc_l4Label.anchor = GridBagConstraints.EAST;
-		gbc_l4Label.insets = new Insets(0, 0, 0, 5);
-		gbc_l4Label.gridx = 0;
-		gbc_l4Label.gridy = 3;
-		cacheSizePanel.add(l4Label, gbc_l4Label);
+		GridBagConstraints gbcL4Label = new GridBagConstraints();
+		gbcL4Label.anchor = GridBagConstraints.EAST;
+		gbcL4Label.insets = new Insets(0, 0, 0, 5);
+		gbcL4Label.gridx = 0;
+		gbcL4Label.gridy = 3;
+		cacheSizePanel.add(l4Label, gbcL4Label);
 		
 		l4TextField = new JTextField();
 		l4TextField.setEditable(false);
-		GridBagConstraints gbc_l4TextField = new GridBagConstraints();
-		gbc_l4TextField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_l4TextField.gridx = 1;
-		gbc_l4TextField.gridy = 3;
-		cacheSizePanel.add(l4TextField, gbc_l4TextField);
+		GridBagConstraints gbcL4TextField = new GridBagConstraints();
+		gbcL4TextField.fill = GridBagConstraints.HORIZONTAL;
+		gbcL4TextField.gridx = 1;
+		gbcL4TextField.gridy = 3;
+		cacheSizePanel.add(l4TextField, gbcL4TextField);
 		l4TextField.setColumns(10);
 		
 		JPanel cpuManufacturerLogoPanel = new JPanel();
@@ -536,6 +564,4 @@ public class CpuPanel extends JPanel {
 		extraCacheTextArea.setEditable(false);
 		extraCacheScrollPane.setViewportView(extraCacheTextArea);
 	}
-	
-	
 }

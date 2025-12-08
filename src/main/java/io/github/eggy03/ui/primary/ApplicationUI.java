@@ -3,6 +3,7 @@ package io.github.eggy03.ui.primary;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.io.Serial;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -10,6 +11,9 @@ import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingConstants;
+import javax.swing.WindowConstants;
 
 import com.formdev.flatlaf.FlatLaf;
 
@@ -21,28 +25,26 @@ import io.github.eggy03.ui.utilities.UIManagerConfigurations;
 
 public class ApplicationUI extends JFrame {
 
-	private static final long serialVersionUID = 1L;
-	private JPanel contentPane;
+	@Serial
+    private static final long serialVersionUID = 1L;
 
-	/**
+    /**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					FlatLaf.registerCustomDefaultsSource("themes"); // for maven build, this points towards src/main/resources/themes
-					LightTheme.setup(); // TODO remove hardcoding
-					UIManagerConfigurations.enableRoundComponents();
-					UIManagerConfigurations.enableTabSeparators(true);
-					
-					ApplicationUI frame = new ApplicationUI();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+		EventQueue.invokeLater(() -> {
+            try {
+                FlatLaf.registerCustomDefaultsSource("themes"); // for maven build, this points towards src/main/resources/themes
+                LightTheme.setup(); // TODO remove hardcoding
+                UIManagerConfigurations.enableRoundComponents();
+                UIManagerConfigurations.enableTabSeparators(true);
+
+                ApplicationUI frame = new ApplicationUI();
+                frame.setVisible(true);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
 	}
 
 	/**
@@ -50,14 +52,14 @@ public class ApplicationUI extends JFrame {
 	 */
 	public ApplicationUI() {
 		setTitle("FerrumX-Windows");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setBounds(100, 100, 737, 461);
-		contentPane = new JPanel();
+        JPanel contentPane = new JPanel();
 		contentPane.setLayout(new BorderLayout(0, 0));
 		
 		JScrollPane scrollPane = new JScrollPane(contentPane);
-        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 		setContentPane(scrollPane);
 		
 		setupMenu(contentPane);
@@ -77,7 +79,7 @@ public class ApplicationUI extends JFrame {
 	}
 	
 	private void setTabbedPane(JPanel contentPane) {
-		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		JTabbedPane tabbedPane = new JTabbedPane(SwingConstants.TOP);
 		contentPane.add(tabbedPane, BorderLayout.CENTER);
 		
 		tabbedPane.addTab("CPU", null, new CpuPanel().getPanel(), null);
