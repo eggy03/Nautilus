@@ -20,6 +20,7 @@ import com.formdev.flatlaf.FlatLaf;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import io.github.eggy03.ui.windows.panels.CpuPanelUI;
+import io.github.eggy03.ui.windows.panels.MainboardPanelUI;
 import io.github.eggy03.ui.windows.panels.MemoryPanelUI;
 import io.github.eggy03.ui.themes.DarkTheme;
 import io.github.eggy03.ui.utilities.UIManagerConfigurations;
@@ -88,6 +89,7 @@ public class ApplicationUI extends JFrame {
 		
 		tabbedPane.addTab("CPU", new FlatSVGIcon(ApplicationUI.class.getResource("/icons/tab_icons_small/CPU.svg")), new CpuPanelUI().getPanel(), null);
 		tabbedPane.addTab("Memory", new FlatSVGIcon(ApplicationUI.class.getResource("/icons/tab_icons_small/RAM.svg")), new MemoryPanelUI().getPanel(), null);
+		tabbedPane.addTab("Mainboard", new FlatSVGIcon(ApplicationUI.class.getResource("/icons/tab_icons_small/MainBoard.svg")), new MainboardPanelUI().getPanel(), null);
 	}
 
 }
