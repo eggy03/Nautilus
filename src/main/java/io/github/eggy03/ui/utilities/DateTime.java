@@ -8,7 +8,7 @@ import java.util.Date;
 
 import org.tinylog.Logger;
 
-import io.github.eggy03.ui.secondary.ExceptionUI;
+import io.github.eggy03.ui.common.ExceptionUI;
 
 public class DateTime {
 	private DateTime() {
