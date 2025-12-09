@@ -1,6 +1,6 @@
-package io.github.eggy03.ui.primary.panels;
+package io.github.eggy03.ui.windows.panels;
 
-import io.github.eggy03.ui.primary.worker.CpuWorker;
+import io.github.eggy03.ui.windows.worker.CpuPanelWorker;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -18,12 +18,13 @@ import java.awt.Insets;
 import java.io.Serial;
 import java.util.List;
 
-public class CpuPanel extends JPanel {
+public class CpuPanelUI extends JPanel {
 
 	@Serial
 	private static final long serialVersionUID = 2423707166878662262L;
+
 	private JTextField hardwareIdTextField;
-    JComboBox<String> cpuIdComboBox;
+    private JComboBox<String> cpuIdComboBox;
 	private JTextField coreTextField;
 	private JTextField threadTextField;
 	private JTextField factoryClockTextField;
@@ -53,7 +54,7 @@ public class CpuPanel extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public CpuPanel() {
+	public CpuPanelUI() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0};
@@ -63,7 +64,7 @@ public class CpuPanel extends JPanel {
 		
 		setHardwareIdPanel();
 		setCpuPanel();
-        new CpuWorker(cpuIdComboBox, List.of(
+        new CpuPanelWorker(cpuIdComboBox, List.of(
                 hardwareIdTextField,
                 coreTextField,
                 threadTextField,

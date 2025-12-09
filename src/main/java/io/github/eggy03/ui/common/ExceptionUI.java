@@ -1,4 +1,4 @@
-package io.github.eggy03.ui.secondary;
+package io.github.eggy03.ui.common;
 
 import java.awt.Color;
 import java.awt.Desktop;

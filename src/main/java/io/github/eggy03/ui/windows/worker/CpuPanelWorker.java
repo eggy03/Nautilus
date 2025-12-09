@@ -1,4 +1,4 @@
-package io.github.eggy03.ui.primary.worker;
+package io.github.eggy03.ui.windows.worker;
 
 import com.profesorfalken.jpowershell.PowerShell;
 import io.github.eggy03.ferrumx.windows.entity.compounded.Win32ProcessorToCacheMemory;
@@ -14,13 +14,13 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-public class CpuWorker extends SwingWorker<List<Win32ProcessorToCacheMemory>, Void> {
+public class CpuPanelWorker extends SwingWorker<List<Win32ProcessorToCacheMemory>, Void> {
 
     private final JComboBox<String> cpuIdComboBox;
     private final List<JTextField> cpuFields;
     private static List<Win32ProcessorToCacheMemory> storedResult;
 
-    public CpuWorker(JComboBox<String> cpuIdComboBox, List<JTextField> cpuFields){
+    public CpuPanelWorker(JComboBox<String> cpuIdComboBox, List<JTextField> cpuFields){
         this.cpuIdComboBox=cpuIdComboBox;
         this.cpuFields=cpuFields;
     }

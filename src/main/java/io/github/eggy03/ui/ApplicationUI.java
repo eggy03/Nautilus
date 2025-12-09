@@ -1,4 +1,4 @@
-package io.github.eggy03.ui.primary;
+package io.github.eggy03.ui;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -17,7 +17,7 @@ import javax.swing.WindowConstants;
 
 import com.formdev.flatlaf.FlatLaf;
 
-import io.github.eggy03.ui.primary.panels.CpuPanel;
+import io.github.eggy03.ui.windows.panels.CpuPanelUI;
 import io.github.eggy03.ui.themes.LightTheme;
 import io.github.eggy03.ui.utilities.UIManagerConfigurations;
 
@@ -82,7 +82,7 @@ public class ApplicationUI extends JFrame {
 		JTabbedPane tabbedPane = new JTabbedPane(SwingConstants.TOP);
 		contentPane.add(tabbedPane, BorderLayout.CENTER);
 		
-		tabbedPane.addTab("CPU", null, new CpuPanel().getPanel(), null);
+		tabbedPane.addTab("CPU", null, new CpuPanelUI().getPanel(), null);
 	}
 
 }

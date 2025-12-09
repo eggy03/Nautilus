@@ -2,8 +2,8 @@ package io.github.eggy03.ui.utilities;
 
 public class VersionAndOtherInfo {
 	
-	public static final String APP_VERSION = "1.2.2";
-	public static final String FERRUMX_VERSION = "1.3.6";
+	public static final String APP_VERSION = "2.0.0";
+	public static final String FERRUMX_VERSION = "3.0.0";
 	
 	
 	private VersionAndOtherInfo() {
