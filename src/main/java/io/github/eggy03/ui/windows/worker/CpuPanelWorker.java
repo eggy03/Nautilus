@@ -1,17 +1,5 @@
 package io.github.eggy03.ui.windows.worker;
 
-import com.profesorfalken.jpowershell.PowerShell;
-import io.github.eggy03.ferrumx.windows.entity.compounded.Win32ProcessorToCacheMemory;
-import io.github.eggy03.ferrumx.windows.entity.processor.Win32CacheMemory;
-import io.github.eggy03.ferrumx.windows.entity.processor.Win32Processor;
-import io.github.eggy03.ferrumx.windows.service.compounded.Win32ProcessorToCacheMemoryService;
-import io.github.eggy03.ui.utilities.PowerShellManager;
-import org.jetbrains.annotations.NotNull;
-
-import javax.swing.JComboBox;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.SwingWorker;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -20,18 +8,35 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.stream.Collectors;
 
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.SwingWorker;
+
+import org.jetbrains.annotations.NotNull;
+
+import io.github.eggy03.ferrumx.windows.entity.compounded.Win32ProcessorToCacheMemory;
+import io.github.eggy03.ferrumx.windows.entity.processor.Win32CacheMemory;
+import io.github.eggy03.ferrumx.windows.entity.processor.Win32Processor;
+import io.github.eggy03.ferrumx.windows.service.compounded.Win32ProcessorToCacheMemoryService;
+import io.github.eggy03.ui.utilities.IconImageChooser;
+import io.github.eggy03.ui.utilities.PowerShellManager;
+
 public class CpuPanelWorker extends SwingWorker<List<Win32ProcessorToCacheMemory>, Void> {
 
     private final JComboBox<String> cpuIdComboBox;
     private final List<JTextField> cpuFields;
     private final JTextArea cacheTextArea;
+    private final JLabel cpuManufacturerLogoLabel;
 
     private List<Win32ProcessorToCacheMemory> cpuAndCacheObjectList;
 
-    public CpuPanelWorker(JComboBox<String> cpuIdComboBox, List<JTextField> cpuFields, JTextArea cacheTextArea){
+    public CpuPanelWorker(JComboBox<String> cpuIdComboBox, List<JTextField> cpuFields, JTextArea cacheTextArea, JLabel cpuManufacturerLogoLabel){
         this.cpuIdComboBox=cpuIdComboBox;
         this.cpuFields=cpuFields;
         this.cacheTextArea=cacheTextArea;
+        this.cpuManufacturerLogoLabel=cpuManufacturerLogoLabel;
     }
 
     @Override
@@ -89,9 +94,14 @@ public class CpuPanelWorker extends SwingWorker<List<Win32ProcessorToCacheMemory
         	cpuFields.get(13).setText(currentCpu.getAddressWidth()+" bit");
         	cpuFields.get(14).setText(String.valueOf(currentCpu.getSocketDesignation()));
         	cpuFields.get(15).setText(currentCpu.getExtClock()+ "MHz");
+        	
+        	// assign the cpu manufacturer logo
+        	if(currentCpu.getManufacturer()!=null)
+        		IconImageChooser.cpuImageChooser(cpuManufacturerLogoLabel, currentCpu.getManufacturer());
         }
         
         // populate cache size fields
+
         if(currentCacheList !=null && !currentCacheList.isEmpty()) {
         	
         	Map<Integer, Long> cacheLevelAndSizeMap = currentCacheList.stream()
@@ -105,6 +115,7 @@ public class CpuPanelWorker extends SwingWorker<List<Win32ProcessorToCacheMemory
             cpuFields.get(19).setText(String.valueOf(cacheLevelAndSizeMap.get(2))); // l4 is not specifically mentioned in WMI so we will use the unknown type
 
             // populate the text area with raw details
+            cacheTextArea.setText(null); //before populating, clean the previous data if any
             currentCacheList.forEach(cache -> cacheTextArea.append(
                     "DeviceID: "+cache.getDeviceId()+System.lineSeparator()+
                     "Purpose: "+cache.getPurpose()+System.lineSeparator()+
