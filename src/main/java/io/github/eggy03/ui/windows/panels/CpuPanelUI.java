@@ -1,6 +1,7 @@
 package io.github.eggy03.ui.windows.panels;
 
 import io.github.eggy03.ui.windows.worker.CpuPanelWorker;
+import io.github.eggy03.ui.windows.worker.HardwareIdWorker;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -15,15 +16,12 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
-import java.io.Serial;
 import java.util.List;
 
 public class CpuPanelUI extends JPanel {
 
-	@Serial
-	private static final long serialVersionUID = 2423707166878662262L;
-
 	private JTextField hardwareIdTextField;
+
     private JComboBox<String> cpuIdComboBox;
 	private JTextField coreTextField;
 	private JTextField threadTextField;
@@ -45,6 +43,8 @@ public class CpuPanelUI extends JPanel {
 	private JTextField l2TextField;
 	private JTextField l3TextField;
 	private JTextField l4TextField;
+
+    private JTextArea extraCacheTextArea;
     
 	
 	public JPanel getPanel() {
@@ -64,8 +64,9 @@ public class CpuPanelUI extends JPanel {
 		
 		setHardwareIdPanel();
 		setCpuPanel();
+        // execute workers
+		new HardwareIdWorker(hardwareIdTextField).execute();
         new CpuPanelWorker(cpuIdComboBox, List.of(
-                hardwareIdTextField,
                 coreTextField,
                 threadTextField,
                 factoryClockTextField,
@@ -86,7 +87,7 @@ public class CpuPanelUI extends JPanel {
                 l2TextField,
                 l3TextField,
                 l4TextField
-        )).execute();
+        ), extraCacheTextArea).execute();
 	}
 	
 	private void setHardwareIdPanel() {
@@ -561,7 +562,8 @@ public class CpuPanelUI extends JPanel {
 		JScrollPane extraCacheScrollPane = new JScrollPane();
 		extraCacheInfoPanel.add(extraCacheScrollPane);
 		
-		JTextArea extraCacheTextArea = new JTextArea();
+		extraCacheTextArea = new JTextArea();
+		extraCacheTextArea.setRows(4);
 		extraCacheTextArea.setEditable(false);
 		extraCacheScrollPane.setViewportView(extraCacheTextArea);
 	}
