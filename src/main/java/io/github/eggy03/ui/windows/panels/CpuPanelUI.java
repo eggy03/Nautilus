@@ -17,6 +17,7 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
 import java.util.List;
+import javax.swing.SwingConstants;
 
 public class CpuPanelUI extends JPanel {
 
@@ -45,6 +46,8 @@ public class CpuPanelUI extends JPanel {
 	private JTextField l4TextField;
 
     private JTextArea extraCacheTextArea;
+    
+    private JLabel cpuManufacturerLogoLabel;
     
 	
 	public JPanel getPanel() {
@@ -87,7 +90,7 @@ public class CpuPanelUI extends JPanel {
                 l2TextField,
                 l3TextField,
                 l4TextField
-        ), extraCacheTextArea).execute();
+        ), extraCacheTextArea, cpuManufacturerLogoLabel).execute();
 	}
 	
 	private void setHardwareIdPanel() {
@@ -553,6 +556,11 @@ public class CpuPanelUI extends JPanel {
 		JPanel cpuManufacturerLogoPanel = new JPanel();
 		cpuManufacturerLogoPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "CPU Manufacturer Logo", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		cachePanel.add(cpuManufacturerLogoPanel);
+		cpuManufacturerLogoPanel.setLayout(new GridLayout(1, 0, 0, 0));
+		
+		cpuManufacturerLogoLabel = new JLabel();
+		cpuManufacturerLogoLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		cpuManufacturerLogoPanel.add(cpuManufacturerLogoLabel);
 		
 		JPanel extraCacheInfoPanel = new JPanel();
 		extraCacheInfoPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Extra Cache Info", TitledBorder.LEADING, TitledBorder.TOP, null, null));
