@@ -5,6 +5,7 @@ import io.github.eggy03.ferrumx.windows.entity.compounded.Win32ProcessorToCacheM
 import io.github.eggy03.ferrumx.windows.entity.processor.Win32CacheMemory;
 import io.github.eggy03.ferrumx.windows.entity.processor.Win32Processor;
 import io.github.eggy03.ferrumx.windows.service.compounded.Win32ProcessorToCacheMemoryService;
+import io.github.eggy03.ui.utilities.PowerShellManager;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.JComboBox;
@@ -35,9 +36,7 @@ public class CpuPanelWorker extends SwingWorker<List<Win32ProcessorToCacheMemory
 
     @Override
     protected @NotNull List<Win32ProcessorToCacheMemory> doInBackground() {
-        try(PowerShell shell = PowerShell.openSession()){
-            return new Win32ProcessorToCacheMemoryService().get(shell);
-        }
+       return PowerShellManager.invoke(shell -> new Win32ProcessorToCacheMemoryService().get(shell));
     }
 
     @Override
