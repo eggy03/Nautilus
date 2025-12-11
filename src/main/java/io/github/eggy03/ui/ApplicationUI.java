@@ -57,7 +57,7 @@ public class ApplicationUI extends JFrame {
 	public ApplicationUI() {
 		setTitle("FerrumX-Windows");
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1000, 800);
+		setBounds(100, 100, 700, 600);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(ApplicationUI.class.getResource("/icons/icon_main.png")));
         JPanel contentPane = new JPanel();
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -74,7 +74,7 @@ public class ApplicationUI extends JFrame {
 	private void setupMenu(JPanel contentPane) {
 		JMenuBar menuBar = new JMenuBar();
 		contentPane.add(menuBar, BorderLayout.NORTH);
-		menuBar.setFont(new Font("Ubuntu", Font.PLAIN, 21));
+		menuBar.setFont(new Font("Ubuntu", Font.PLAIN, 11));
 		
 		JMenu appearanceMenu = new JMenu("Appearance");
 		menuBar.add(appearanceMenu);
