@@ -14,7 +14,7 @@ import java.util.concurrent.ExecutionException;
 @RequiredArgsConstructor
 public class MemoryPanelWorker extends SwingWorker<List<Win32PhysicalMemory>, Void> {
 
-    private final JComboBox<String> slotComboBox;
+    private final JComboBox<String> memoryTagComboBox;
     private final List<JTextField> memoryFields;
 
     @Override
@@ -28,8 +28,8 @@ public class MemoryPanelWorker extends SwingWorker<List<Win32PhysicalMemory>, Vo
             List<Win32PhysicalMemory> physicalMemoryList = get();
             if(physicalMemoryList.isEmpty())
                 return;
-            // fill the slot with memory tags
-            physicalMemoryList.forEach(memory -> slotComboBox.addItem(memory.getTag()));
+            // fill the combo box with memory tags
+            physicalMemoryList.forEach(memory -> memoryTagComboBox.addItem(memory.getTag()));
             populateMemoryFields(physicalMemoryList);
             addListenerToComboBox(physicalMemoryList);
 
@@ -40,13 +40,13 @@ public class MemoryPanelWorker extends SwingWorker<List<Win32PhysicalMemory>, Vo
 
     // this listener will repopulate the fields based on the current item selected in the combo box
     private void addListenerToComboBox(List<Win32PhysicalMemory> physicalMemoryList) {
-        slotComboBox.addActionListener(actionEvent-> populateMemoryFields(physicalMemoryList));
+        memoryTagComboBox.addActionListener(actionEvent-> populateMemoryFields(physicalMemoryList));
     }
 
     private void populateMemoryFields(List<Win32PhysicalMemory> physicalMemoryList) {
 
         // get the current selected item in the combo box
-        String memoryTag = String.valueOf(slotComboBox.getSelectedItem());
+        String memoryTag = String.valueOf(memoryTagComboBox.getSelectedItem());
 
         // from the memory list, filter the memory module based on the selected tag
         Optional<Win32PhysicalMemory> selectedMemory = physicalMemoryList
