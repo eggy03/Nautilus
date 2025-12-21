@@ -101,7 +101,7 @@ public class CpuPanelWorker extends SwingWorker<List<Win32ProcessorToCacheMemory
         	cpuFields.get(16).setText(String.valueOf(cacheLevelAndSizeMap.get(3))+" KB"); // level 3 - L1 cache
             cpuFields.get(17).setText(String.valueOf(cacheLevelAndSizeMap.get(4))+" KB"); // level 4 - L2 cache
             cpuFields.get(18).setText(String.valueOf(cacheLevelAndSizeMap.get(5))+" KB"); // level 5 - L3 cache
-            cpuFields.get(19).setText(String.valueOf(cacheLevelAndSizeMap.get(2))+" KB"); // l4 is not specifically mentioned in WMI so we will use the unknown type (level 2)
+            cpuFields.get(19).setText(String.valueOf(cacheLevelAndSizeMap.get(2))); // l4 is not specifically mentioned in WMI so we will use the unknown type (level 2)
 
             // populate the text area with raw details
             cacheTextArea.setText(null); //before populating, clean the previous data if any
