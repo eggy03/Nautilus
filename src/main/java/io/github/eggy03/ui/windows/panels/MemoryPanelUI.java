@@ -1,5 +1,7 @@
 package io.github.eggy03.ui.windows.panels;
 
+import io.github.eggy03.ui.windows.worker.MemoryPanelWorker;
+
 import javax.swing.JPanel;
 import java.awt.GridLayout;
 import javax.swing.border.TitledBorder;
@@ -9,10 +11,12 @@ import javax.swing.JLabel;
 import java.awt.GridBagConstraints;
 import javax.swing.JComboBox;
 import java.awt.Insets;
+import java.util.List;
 import javax.swing.JTextField;
 
 public class MemoryPanelUI extends JPanel {
 
+	private JComboBox<String> slotComboBox;
 	private JTextField nameTextField;
 	private JTextField manufacturerTextField;
 	private JTextField modelTextField;
@@ -35,6 +39,12 @@ public class MemoryPanelUI extends JPanel {
 	 * Create the panel.
 	 */
 	public MemoryPanelUI() {
+		setUI();
+		setWorker();
+	}
+	
+	private void setUI() {
+		
 		setLayout(new GridLayout(1, 0, 0, 0));
 		
 		JPanel memoryPanel = new JPanel();
@@ -55,7 +65,7 @@ public class MemoryPanelUI extends JPanel {
 		gbcSlotLabel.gridy = 0;
 		memoryPanel.add(slotLabel, gbcSlotLabel);
 		
-		JComboBox<String> slotComboBox = new JComboBox<>();
+		slotComboBox = new JComboBox<>();
 		GridBagConstraints gbcSlotComboBox = new GridBagConstraints();
 		gbcSlotComboBox.insets = new Insets(0, 0, 5, 0);
 		gbcSlotComboBox.fill = GridBagConstraints.HORIZONTAL;
@@ -295,7 +305,15 @@ public class MemoryPanelUI extends JPanel {
 		gbcDeviceLocatorTextField.gridx = 1;
 		gbcDeviceLocatorTextField.gridy = 13;
 		memoryPanel.add(deviceLocatorTextField, gbcDeviceLocatorTextField);
+	}
+	
+	private void setWorker() {
 
+		List<JTextField> memoryFields = List.of(nameTextField, manufacturerTextField, modelTextField, oidTextField,
+		partNumberTextField, serialTextField, formFactorTextField, bankLabelTextField, capacityTextField,
+		dataWidthTextField, speedTextField, configSpeedTextField, deviceLocatorTextField);
+
+		new MemoryPanelWorker(slotComboBox, memoryFields).execute();
 	}
 
 }
