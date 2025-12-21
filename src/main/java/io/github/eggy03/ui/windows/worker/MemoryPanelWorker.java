@@ -69,9 +69,9 @@ public class MemoryPanelWorker extends SwingWorker<List<Win32PhysicalMemory>, Vo
         memoryFields.get(6).setText(String.valueOf(memory.getFormFactor()));
         memoryFields.get(7).setText(memory.getBankLabel());
         memoryFields.get(8).setText(String.valueOf(memory.getCapacity())+" KB");
-        memoryFields.get(9).setText(String.valueOf(memory.getDataWidth())+ "Bits");
-        memoryFields.get(10).setText(String.valueOf(memory.getSpeed())+ "MHz");
-        memoryFields.get(11).setText(String.valueOf(memory.getConfiguredClockSpeed())+ "MHz");
+        memoryFields.get(9).setText(String.valueOf(memory.getDataWidth())+ " Bits");
+        memoryFields.get(10).setText(String.valueOf(memory.getSpeed())+ " MHz");
+        memoryFields.get(11).setText(String.valueOf(memory.getConfiguredClockSpeed())+ " MHz");
         memoryFields.get(12).setText(memory.getDeviceLocator());
 
     }
