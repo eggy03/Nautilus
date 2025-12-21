@@ -1,42 +1,31 @@
 package io.github.eggy03.ui.windows.worker;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
-import java.util.stream.Collectors;
+import io.github.eggy03.ferrumx.windows.entity.compounded.Win32ProcessorToCacheMemory;
+import io.github.eggy03.ferrumx.windows.entity.processor.Win32CacheMemory;
+import io.github.eggy03.ferrumx.windows.entity.processor.Win32Processor;
+import io.github.eggy03.ferrumx.windows.service.compounded.Win32ProcessorToCacheMemoryService;
+import io.github.eggy03.ui.utilities.IconImageChooser;
+import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingWorker;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 
-import org.jetbrains.annotations.NotNull;
-
-import io.github.eggy03.ferrumx.windows.entity.compounded.Win32ProcessorToCacheMemory;
-import io.github.eggy03.ferrumx.windows.entity.processor.Win32CacheMemory;
-import io.github.eggy03.ferrumx.windows.entity.processor.Win32Processor;
-import io.github.eggy03.ferrumx.windows.service.compounded.Win32ProcessorToCacheMemoryService;
-import io.github.eggy03.ui.utilities.IconImageChooser;
-
+@RequiredArgsConstructor
 public class CpuPanelWorker extends SwingWorker<List<Win32ProcessorToCacheMemory>, Void> {
 
     private final JComboBox<String> cpuIdComboBox;
     private final List<JTextField> cpuFields;
     private final JTextArea cacheTextArea;
     private final JLabel cpuManufacturerLogoLabel;
-
-    private List<Win32ProcessorToCacheMemory> cpuAndCacheObjectList;
-
-    public CpuPanelWorker(JComboBox<String> cpuIdComboBox, List<JTextField> cpuFields, JTextArea cacheTextArea, JLabel cpuManufacturerLogoLabel){
-        this.cpuIdComboBox=cpuIdComboBox;
-        this.cpuFields=cpuFields;
-        this.cacheTextArea=cacheTextArea;
-        this.cpuManufacturerLogoLabel=cpuManufacturerLogoLabel;
-    }
 
     @Override
     protected @NotNull List<Win32ProcessorToCacheMemory> doInBackground() {
@@ -46,27 +35,27 @@ public class CpuPanelWorker extends SwingWorker<List<Win32ProcessorToCacheMemory
     @Override
     protected void done() {
         try {
-            cpuAndCacheObjectList = get(20L, TimeUnit.SECONDS);            
-            cpuAndCacheObjectList.forEach(cpuAndCacheCombo -> cpuIdComboBox.addItem(cpuAndCacheCombo.getDeviceId())); // add all cpu device ids to the combo box
+            List<Win32ProcessorToCacheMemory> cpuAndCacheList = get();
+            cpuAndCacheList.forEach(cpuAndCache -> cpuIdComboBox.addItem(cpuAndCache.getDeviceId())); // add all cpu device ids to the combo box
                        
-            populateFieldsBasedOnCurrentCpuId(); // for the first ID in the combo box, populate the fields         
-            addCpuComboBoxActionListener(); //add cpu combo box action listener
-        } catch (InterruptedException | ExecutionException | TimeoutException e) {
+            populateFieldsBasedOnCurrentCpuId(cpuAndCacheList); // for the first ID in the combo box, populate the fields
+            addCpuComboBoxActionListener(cpuAndCacheList); //add cpu combo box action listener
+        } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
         }
     }
 
     // add a listener to the combo box such that fields are updated to reflect the values of the corresponding cpu in the combo box
-    private void addCpuComboBoxActionListener() {
-        cpuIdComboBox.addActionListener(cbSelectEvent -> populateFieldsBasedOnCurrentCpuId ());
+    private void addCpuComboBoxActionListener(List<Win32ProcessorToCacheMemory> cpuAndCacheList) {
+        cpuIdComboBox.addActionListener(cbSelectEvent -> populateFieldsBasedOnCurrentCpuId (cpuAndCacheList));
     }
     
-    // populate the fields based on the current cpuid in the combo-box
-    private void populateFieldsBasedOnCurrentCpuId () {
+    // populate the fields based on the current cpu-id in the combo-box
+    private void populateFieldsBasedOnCurrentCpuId (List<Win32ProcessorToCacheMemory> cpuAndCacheList) {
     	
     	// filter a cpuAndCacheObject based on the cpu id in the combo box
-    	Optional<Win32ProcessorToCacheMemory> current = cpuAndCacheObjectList.stream()
-                .filter(cpuAndCacheObject -> cpuAndCacheObject.getDeviceId().equals(cpuIdComboBox.getSelectedItem()))
+    	Optional<Win32ProcessorToCacheMemory> current = cpuAndCacheList.stream()
+                .filter(cpuAndCache -> cpuAndCache.getDeviceId()!=null && cpuAndCache.getDeviceId().equals(cpuIdComboBox.getSelectedItem()))
                 .findFirst();
 
         if (current.isEmpty())
@@ -109,10 +98,10 @@ public class CpuPanelWorker extends SwingWorker<List<Win32ProcessorToCacheMemory
                     .collect(Collectors.toMap(Win32CacheMemory::getLevel, Win32CacheMemory::getInstalledSize));
 
             // set cache size fields
-        	cpuFields.get(16).setText(String.valueOf(cacheLevelAndSizeMap.get(3))); // level 3 - L1 cache
-            cpuFields.get(17).setText(String.valueOf(cacheLevelAndSizeMap.get(4))); // level 4 - L2 cache
-            cpuFields.get(18).setText(String.valueOf(cacheLevelAndSizeMap.get(5))); // level 5 - L3 cache
-            cpuFields.get(19).setText(String.valueOf(cacheLevelAndSizeMap.get(2))); // l4 is not specifically mentioned in WMI so we will use the unknown type (level 2)
+        	cpuFields.get(16).setText(String.valueOf(cacheLevelAndSizeMap.get(3))+" KB"); // level 3 - L1 cache
+            cpuFields.get(17).setText(String.valueOf(cacheLevelAndSizeMap.get(4))+" KB"); // level 4 - L2 cache
+            cpuFields.get(18).setText(String.valueOf(cacheLevelAndSizeMap.get(5))+" KB"); // level 5 - L3 cache
+            cpuFields.get(19).setText(String.valueOf(cacheLevelAndSizeMap.get(2))+" KB"); // l4 is not specifically mentioned in WMI so we will use the unknown type (level 2)
 
             // populate the text area with raw details
             cacheTextArea.setText(null); //before populating, clean the previous data if any

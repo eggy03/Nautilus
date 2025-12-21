@@ -64,33 +64,13 @@ public class CpuPanelUI extends JPanel {
 		gridBagLayout.columnWeights = new double[]{1.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 1.0};
 		setLayout(gridBagLayout);
-		
+
+		//set UI
 		setHardwareIdPanel();
 		setCpuPanel();
         // execute workers
-		new HardwareIdWorker(hardwareIdTextField).execute();
-        new CpuPanelWorker(cpuIdComboBox, List.of(
-                coreTextField,
-                threadTextField,
-                factoryClockTextField,
-                cpuNameTextField,
-                versionTextField,
-                familyTextField,
-                steppingTextField,
-                manufacturerTextField,
-                captionTextField,
-                processorIdTextField,
-                enabledCoresTextField,
-                enabledThreadsTextField,
-                reservedTextField,
-                addressWidthTextField,
-                socketTextField,
-                baseClockTextField,
-                l1TextField,
-                l2TextField,
-                l3TextField,
-                l4TextField
-        ), extraCacheTextArea, cpuManufacturerLogoLabel).execute();
+		setWorkers();
+
 	}
 	
 	private void setHardwareIdPanel() {
@@ -574,5 +554,16 @@ public class CpuPanelUI extends JPanel {
 		extraCacheTextArea.setRows(4);
 		extraCacheTextArea.setEditable(false);
 		extraCacheScrollPane.setViewportView(extraCacheTextArea);
+	}
+
+	private void setWorkers() {
+		new HardwareIdWorker(hardwareIdTextField).execute();
+
+		List<JTextField> cpuFields = List.of(coreTextField, threadTextField, factoryClockTextField, cpuNameTextField,
+				versionTextField, familyTextField, steppingTextField, manufacturerTextField, captionTextField,
+				processorIdTextField, enabledCoresTextField, enabledThreadsTextField, reservedTextField, addressWidthTextField,
+				socketTextField, baseClockTextField, l1TextField, l2TextField, l3TextField, l4TextField);
+
+		new CpuPanelWorker(cpuIdComboBox, cpuFields, extraCacheTextArea, cpuManufacturerLogoLabel).execute();
 	}
 }
