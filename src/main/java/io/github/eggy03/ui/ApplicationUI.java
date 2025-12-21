@@ -4,10 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Toolkit;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.io.Serial;
-
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -19,21 +15,17 @@ import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 
 import com.formdev.flatlaf.FlatLaf;
-
 import com.formdev.flatlaf.extras.FlatSVGIcon;
-import io.github.eggy03.ui.utilities.PowerShellManager;
+
+import io.github.eggy03.ui.themes.DarkTheme;
+import io.github.eggy03.ui.utilities.UIManagerConfigurations;
 import io.github.eggy03.ui.windows.panels.CpuPanelUI;
 import io.github.eggy03.ui.windows.panels.MainboardPanelUI;
 import io.github.eggy03.ui.windows.panels.MemoryPanelUI;
-import io.github.eggy03.ui.themes.DarkTheme;
-import io.github.eggy03.ui.utilities.UIManagerConfigurations;
 
 
 
 public class ApplicationUI extends JFrame {
-
-	@Serial
-    private static final long serialVersionUID = 1L;
 
     /**
 	 * Launch the application.
@@ -72,7 +64,6 @@ public class ApplicationUI extends JFrame {
 		
 		setupMenu(contentPane);
 		setTabbedPane(contentPane);
-        addApplicationExitListener();
 	}
 	
 	private void setupMenu(JPanel contentPane) {
@@ -95,14 +86,5 @@ public class ApplicationUI extends JFrame {
 		tabbedPane.addTab("Memory", new FlatSVGIcon(ApplicationUI.class.getResource("/icons/tab_icons_small/RAM.svg")), new MemoryPanelUI().getPanel(), null);
 		tabbedPane.addTab("Mainboard", new FlatSVGIcon(ApplicationUI.class.getResource("/icons/tab_icons_small/MainBoard.svg")), new MainboardPanelUI().getPanel(), null);
 	}
-
-    private void addApplicationExitListener() {
-        this.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                PowerShellManager.close();
-            }
-        });
-    }
 
 }

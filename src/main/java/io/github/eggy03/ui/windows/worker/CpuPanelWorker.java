@@ -21,7 +21,6 @@ import io.github.eggy03.ferrumx.windows.entity.processor.Win32CacheMemory;
 import io.github.eggy03.ferrumx.windows.entity.processor.Win32Processor;
 import io.github.eggy03.ferrumx.windows.service.compounded.Win32ProcessorToCacheMemoryService;
 import io.github.eggy03.ui.utilities.IconImageChooser;
-import io.github.eggy03.ui.utilities.PowerShellManager;
 
 public class CpuPanelWorker extends SwingWorker<List<Win32ProcessorToCacheMemory>, Void> {
 
@@ -41,7 +40,7 @@ public class CpuPanelWorker extends SwingWorker<List<Win32ProcessorToCacheMemory
 
     @Override
     protected @NotNull List<Win32ProcessorToCacheMemory> doInBackground() {
-       return PowerShellManager.invoke(shell -> new Win32ProcessorToCacheMemoryService().get(shell));
+       return new Win32ProcessorToCacheMemoryService().get(15L);
     }
 
     @Override
@@ -67,7 +66,8 @@ public class CpuPanelWorker extends SwingWorker<List<Win32ProcessorToCacheMemory
     	
     	// filter a cpuAndCacheObject based on the cpu id in the combo box
     	Optional<Win32ProcessorToCacheMemory> current = cpuAndCacheObjectList.stream()
-                .filter(cpuAndCacheObject -> cpuAndCacheObject.getDeviceId()!=null && cpuAndCacheObject.getDeviceId().equals(cpuIdComboBox.getSelectedItem())).findFirst();
+                .filter(cpuAndCacheObject -> cpuAndCacheObject.getDeviceId().equals(cpuIdComboBox.getSelectedItem()))
+                .findFirst();
 
         if (current.isEmpty())
             return;
@@ -109,10 +109,10 @@ public class CpuPanelWorker extends SwingWorker<List<Win32ProcessorToCacheMemory
                     .collect(Collectors.toMap(Win32CacheMemory::getLevel, Win32CacheMemory::getInstalledSize));
 
             // set cache size fields
-        	cpuFields.get(16).setText(String.valueOf(cacheLevelAndSizeMap.get(3))); // l1
-            cpuFields.get(17).setText(String.valueOf(cacheLevelAndSizeMap.get(4))); // l2
-            cpuFields.get(18).setText(String.valueOf(cacheLevelAndSizeMap.get(5))); // l3
-            cpuFields.get(19).setText(String.valueOf(cacheLevelAndSizeMap.get(2))); // l4 is not specifically mentioned in WMI so we will use the unknown type
+        	cpuFields.get(16).setText(String.valueOf(cacheLevelAndSizeMap.get(3))); // level 3 - L1 cache
+            cpuFields.get(17).setText(String.valueOf(cacheLevelAndSizeMap.get(4))); // level 4 - L2 cache
+            cpuFields.get(18).setText(String.valueOf(cacheLevelAndSizeMap.get(5))); // level 5 - L3 cache
+            cpuFields.get(19).setText(String.valueOf(cacheLevelAndSizeMap.get(2))); // l4 is not specifically mentioned in WMI so we will use the unknown type (level 2)
 
             // populate the text area with raw details
             cacheTextArea.setText(null); //before populating, clean the previous data if any

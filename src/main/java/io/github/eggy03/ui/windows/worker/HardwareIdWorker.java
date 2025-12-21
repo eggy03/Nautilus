@@ -5,11 +5,8 @@ import java.util.concurrent.ExecutionException;
 import javax.swing.JTextField;
 import javax.swing.SwingWorker;
 
-import com.profesorfalken.jpowershell.PowerShell;
-
 import io.github.eggy03.ferrumx.windows.entity.compounded.HardwareId;
 import io.github.eggy03.ferrumx.windows.service.compounded.HardwareIdService;
-import io.github.eggy03.ui.utilities.PowerShellManager;
 
 public class HardwareIdWorker extends SwingWorker<HardwareId, Void>{
 	
@@ -21,7 +18,7 @@ public class HardwareIdWorker extends SwingWorker<HardwareId, Void>{
 
 	@Override
 	protected HardwareId doInBackground() {
-		return PowerShellManager.invoke(shell -> new HardwareIdService().get(shell).orElseThrow());
+		return new HardwareIdService().get(15L).orElse(HardwareId.builder().build()); // TODO i wonder if i should throw an exception or just return an empty build
 	}
 	
 	@Override
