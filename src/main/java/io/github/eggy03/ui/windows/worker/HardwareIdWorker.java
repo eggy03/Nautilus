@@ -7,14 +7,12 @@ import javax.swing.SwingWorker;
 
 import io.github.eggy03.ferrumx.windows.entity.compounded.HardwareId;
 import io.github.eggy03.ferrumx.windows.service.compounded.HardwareIdService;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 public class HardwareIdWorker extends SwingWorker<HardwareId, Void>{
 	
 	private final JTextField hwidField;
-	
-	public HardwareIdWorker(JTextField hwidField) {
-		this.hwidField = hwidField;
-	}
 
 	@Override
 	protected HardwareId doInBackground() {
