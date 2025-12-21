@@ -1,0 +1,78 @@
+package io.github.eggy03.ui.windows.worker;
+
+import io.github.eggy03.ferrumx.windows.entity.memory.Win32PhysicalMemory;
+import io.github.eggy03.ferrumx.windows.service.memory.Win32PhysicalMemoryService;
+import lombok.RequiredArgsConstructor;
+
+import javax.swing.JComboBox;
+import javax.swing.JTextField;
+import javax.swing.SwingWorker;
+import java.util.List;
+import java.util.Optional;
+import java.util.concurrent.ExecutionException;
+
+@RequiredArgsConstructor
+public class MemoryPanelWorker extends SwingWorker<List<Win32PhysicalMemory>, Void> {
+
+    private final JComboBox<String> slotComboBox;
+    private final List<JTextField> memoryFields;
+
+    @Override
+    protected List<Win32PhysicalMemory> doInBackground() {
+        return new Win32PhysicalMemoryService().get(15L);
+    }
+
+    @Override
+    protected void done() {
+        try {
+            List<Win32PhysicalMemory> physicalMemoryList = get();
+            if(physicalMemoryList.isEmpty())
+                return;
+            // fill the slot with memory tags
+            physicalMemoryList.forEach(memory -> slotComboBox.addItem(memory.getTag()));
+            populateMemoryFields(physicalMemoryList);
+            addListenerToComboBox(physicalMemoryList);
+
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    // this listener will repopulate the fields based on the current item selected in the combo box
+    private void addListenerToComboBox(List<Win32PhysicalMemory> physicalMemoryList) {
+        slotComboBox.addActionListener(actionEvent-> populateMemoryFields(physicalMemoryList));
+    }
+
+    private void populateMemoryFields(List<Win32PhysicalMemory> physicalMemoryList) {
+
+        // get the current selected item in the combo box
+        String memoryTag = String.valueOf(slotComboBox.getSelectedItem());
+
+        // from the memory list, filter the memory module based on the selected tag
+        Optional<Win32PhysicalMemory> selectedMemory = physicalMemoryList
+                .stream()
+                .filter(memory ->  memory.getTag()!=null && memory.getTag().equals(memoryTag))
+                .findFirst(); // tag is a unique ID, and it will always return at most 1 Win32PhysicalMemory object
+
+        if (selectedMemory.isEmpty())
+            return;
+
+        Win32PhysicalMemory memory = selectedMemory.get();
+
+        // populate the fields
+        memoryFields.get(0).setText(memory.getName());
+        memoryFields.get(1).setText(memory.getManufacturer());
+        memoryFields.get(2).setText(memory.getModel());
+        memoryFields.get(3).setText(memory.getOtherIdentifyingInfo());
+        memoryFields.get(4).setText(memory.getPartNumber());
+        memoryFields.get(5).setText(memory.getSerialNumber());
+        memoryFields.get(6).setText(String.valueOf(memory.getFormFactor()));
+        memoryFields.get(7).setText(memory.getBankLabel());
+        memoryFields.get(8).setText(String.valueOf(memory.getCapacity())+" KB");
+        memoryFields.get(9).setText(String.valueOf(memory.getDataWidth())+ "Bits");
+        memoryFields.get(10).setText(String.valueOf(memory.getSpeed())+ "MHz");
+        memoryFields.get(11).setText(String.valueOf(memory.getConfiguredClockSpeed())+ "MHz");
+        memoryFields.get(12).setText(memory.getDeviceLocator());
+
+    }
+}
