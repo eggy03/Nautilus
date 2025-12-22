@@ -110,6 +110,7 @@ public class CpuPanelWorker extends SwingWorker<List<Win32ProcessorToCacheMemory
                     "Purpose: "+cache.getPurpose()+System.lineSeparator()+
                     "Level: "+cache.getLevel()+System.lineSeparator()+
                     "Size: "+cache.getInstalledSize()+" KB"+System.lineSeparator()+
+                    "Associativity: "+cache.getAssociativity()+" way"+System.lineSeparator()+
                     "Status: "+cache.getStatus()+System.lineSeparator()+System.lineSeparator()
             ));
         }
