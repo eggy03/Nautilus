@@ -14,6 +14,7 @@ import java.awt.Insets;
 import java.util.List;
 import javax.swing.JTextField;
 
+@SuppressWarnings("serial")
 public class MemoryPanelUI extends JPanel {
 
 	private JComboBox<String> slotComboBox;
@@ -60,7 +61,7 @@ public class MemoryPanelUI extends JPanel {
 		JLabel slotLabel = new JLabel("Slot#");
 		GridBagConstraints gbcSlotLabel = new GridBagConstraints();
 		gbcSlotLabel.insets = new Insets(0, 0, 5, 5);
-		gbcSlotLabel.anchor = GridBagConstraints.EAST;
+		gbcSlotLabel.anchor = GridBagConstraints.WEST;
 		gbcSlotLabel.gridx = 0;
 		gbcSlotLabel.gridy = 0;
 		memoryPanel.add(slotLabel, gbcSlotLabel);
@@ -75,7 +76,7 @@ public class MemoryPanelUI extends JPanel {
 		
 		JLabel nameLabel = new JLabel("Name");
 		GridBagConstraints gbcNameLabel = new GridBagConstraints();
-		gbcNameLabel.anchor = GridBagConstraints.EAST;
+		gbcNameLabel.anchor = GridBagConstraints.WEST;
 		gbcNameLabel.insets = new Insets(0, 0, 5, 5);
 		gbcNameLabel.gridx = 0;
 		gbcNameLabel.gridy = 1;
@@ -93,7 +94,7 @@ public class MemoryPanelUI extends JPanel {
 		
 		JLabel manufacturerLabel = new JLabel("Manufacturer");
 		GridBagConstraints gbcManufacturerLabel = new GridBagConstraints();
-		gbcManufacturerLabel.anchor = GridBagConstraints.EAST;
+		gbcManufacturerLabel.anchor = GridBagConstraints.WEST;
 		gbcManufacturerLabel.insets = new Insets(0, 0, 5, 5);
 		gbcManufacturerLabel.gridx = 0;
 		gbcManufacturerLabel.gridy = 2;
@@ -111,7 +112,7 @@ public class MemoryPanelUI extends JPanel {
 		
 		JLabel modelLabel = new JLabel("Model");
 		GridBagConstraints gbcModelLabel = new GridBagConstraints();
-		gbcModelLabel.anchor = GridBagConstraints.EAST;
+		gbcModelLabel.anchor = GridBagConstraints.WEST;
 		gbcModelLabel.insets = new Insets(0, 0, 5, 5);
 		gbcModelLabel.gridx = 0;
 		gbcModelLabel.gridy = 3;
@@ -129,7 +130,7 @@ public class MemoryPanelUI extends JPanel {
 		
 		JLabel otherIdLabel = new JLabel("Other ID");
 		GridBagConstraints gbcOtherIdLabel = new GridBagConstraints();
-		gbcOtherIdLabel.anchor = GridBagConstraints.EAST;
+		gbcOtherIdLabel.anchor = GridBagConstraints.WEST;
 		gbcOtherIdLabel.insets = new Insets(0, 0, 5, 5);
 		gbcOtherIdLabel.gridx = 0;
 		gbcOtherIdLabel.gridy = 4;
@@ -147,7 +148,7 @@ public class MemoryPanelUI extends JPanel {
 		
 		JLabel partNumberLabel = new JLabel("Part Number");
 		GridBagConstraints gbcPartNumberLabel = new GridBagConstraints();
-		gbcPartNumberLabel.anchor = GridBagConstraints.EAST;
+		gbcPartNumberLabel.anchor = GridBagConstraints.WEST;
 		gbcPartNumberLabel.insets = new Insets(0, 0, 5, 5);
 		gbcPartNumberLabel.gridx = 0;
 		gbcPartNumberLabel.gridy = 5;
@@ -165,7 +166,7 @@ public class MemoryPanelUI extends JPanel {
 		
 		JLabel serialNumberLabel = new JLabel("Serial Number");
 		GridBagConstraints gbcSerialNumberLabel = new GridBagConstraints();
-		gbcSerialNumberLabel.anchor = GridBagConstraints.EAST;
+		gbcSerialNumberLabel.anchor = GridBagConstraints.WEST;
 		gbcSerialNumberLabel.insets = new Insets(0, 0, 5, 5);
 		gbcSerialNumberLabel.gridx = 0;
 		gbcSerialNumberLabel.gridy = 6;
@@ -183,7 +184,7 @@ public class MemoryPanelUI extends JPanel {
 		
 		JLabel formFactorLabel = new JLabel("Form Factor");
 		GridBagConstraints gbcFormFactorLabel = new GridBagConstraints();
-		gbcFormFactorLabel.anchor = GridBagConstraints.EAST;
+		gbcFormFactorLabel.anchor = GridBagConstraints.WEST;
 		gbcFormFactorLabel.insets = new Insets(0, 0, 5, 5);
 		gbcFormFactorLabel.gridx = 0;
 		gbcFormFactorLabel.gridy = 7;
@@ -201,7 +202,7 @@ public class MemoryPanelUI extends JPanel {
 		
 		JLabel bankLabel = new JLabel("Bank Label");
 		GridBagConstraints gbcBankLabel = new GridBagConstraints();
-		gbcBankLabel.anchor = GridBagConstraints.EAST;
+		gbcBankLabel.anchor = GridBagConstraints.WEST;
 		gbcBankLabel.insets = new Insets(0, 0, 5, 5);
 		gbcBankLabel.gridx = 0;
 		gbcBankLabel.gridy = 8;
@@ -219,7 +220,7 @@ public class MemoryPanelUI extends JPanel {
 		
 		JLabel capacityLabel = new JLabel("Capacity");
 		GridBagConstraints gbcCapacityLabel = new GridBagConstraints();
-		gbcCapacityLabel.anchor = GridBagConstraints.EAST;
+		gbcCapacityLabel.anchor = GridBagConstraints.WEST;
 		gbcCapacityLabel.insets = new Insets(0, 0, 5, 5);
 		gbcCapacityLabel.gridx = 0;
 		gbcCapacityLabel.gridy = 9;
@@ -237,7 +238,7 @@ public class MemoryPanelUI extends JPanel {
 		
 		JLabel dataWidthLabel = new JLabel("Data Width");
 		GridBagConstraints gbcDataWidthLabel = new GridBagConstraints();
-		gbcDataWidthLabel.anchor = GridBagConstraints.EAST;
+		gbcDataWidthLabel.anchor = GridBagConstraints.WEST;
 		gbcDataWidthLabel.insets = new Insets(0, 0, 5, 5);
 		gbcDataWidthLabel.gridx = 0;
 		gbcDataWidthLabel.gridy = 10;
@@ -255,7 +256,7 @@ public class MemoryPanelUI extends JPanel {
 		
 		JLabel speedLabel = new JLabel("Speed");
 		GridBagConstraints gbcSpeedLabel = new GridBagConstraints();
-		gbcSpeedLabel.anchor = GridBagConstraints.EAST;
+		gbcSpeedLabel.anchor = GridBagConstraints.WEST;
 		gbcSpeedLabel.insets = new Insets(0, 0, 5, 5);
 		gbcSpeedLabel.gridx = 0;
 		gbcSpeedLabel.gridy = 11;
@@ -273,7 +274,7 @@ public class MemoryPanelUI extends JPanel {
 		
 		JLabel configSpeedLabel = new JLabel("Configured Speed");
 		GridBagConstraints gbcConfigSpeedLabel = new GridBagConstraints();
-		gbcConfigSpeedLabel.anchor = GridBagConstraints.EAST;
+		gbcConfigSpeedLabel.anchor = GridBagConstraints.WEST;
 		gbcConfigSpeedLabel.insets = new Insets(0, 0, 5, 5);
 		gbcConfigSpeedLabel.gridx = 0;
 		gbcConfigSpeedLabel.gridy = 12;
@@ -291,7 +292,7 @@ public class MemoryPanelUI extends JPanel {
 		
 		JLabel deviceLocatorLabel = new JLabel("Device Locator");
 		GridBagConstraints gbcDeviceLocatorLabel = new GridBagConstraints();
-		gbcDeviceLocatorLabel.anchor = GridBagConstraints.EAST;
+		gbcDeviceLocatorLabel.anchor = GridBagConstraints.WEST;
 		gbcDeviceLocatorLabel.insets = new Insets(0, 0, 0, 5);
 		gbcDeviceLocatorLabel.gridx = 0;
 		gbcDeviceLocatorLabel.gridy = 13;

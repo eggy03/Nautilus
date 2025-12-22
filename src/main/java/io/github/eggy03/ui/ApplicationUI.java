@@ -25,6 +25,7 @@ import io.github.eggy03.ui.windows.panels.MemoryPanelUI;
 
 
 
+@SuppressWarnings("serial")
 public class ApplicationUI extends JFrame {
 
     /**
