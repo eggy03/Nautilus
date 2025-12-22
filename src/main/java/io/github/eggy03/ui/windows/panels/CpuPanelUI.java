@@ -19,6 +19,7 @@ import java.awt.Insets;
 import java.util.List;
 import javax.swing.SwingConstants;
 
+@SuppressWarnings("serial")
 public class CpuPanelUI extends JPanel {
 
 	private JTextField hardwareIdTextField;
@@ -134,7 +135,7 @@ public class CpuPanelUI extends JPanel {
 		JLabel cpuIdLabel = new JLabel("CPU#");
 		GridBagConstraints gbcCpuIdLabel = new GridBagConstraints();
 		gbcCpuIdLabel.insets = new Insets(0, 0, 5, 5);
-		gbcCpuIdLabel.anchor = GridBagConstraints.EAST;
+		gbcCpuIdLabel.anchor = GridBagConstraints.WEST;
 		gbcCpuIdLabel.gridx = 0;
 		gbcCpuIdLabel.gridy = 0;
 		primaryInfoPanel.add(cpuIdLabel, gbcCpuIdLabel);
@@ -149,8 +150,8 @@ public class CpuPanelUI extends JPanel {
 		
 		JLabel cpuNameLabel = new JLabel("Name");
 		GridBagConstraints gbcCpuNameLabel = new GridBagConstraints();
+		gbcCpuNameLabel.anchor = GridBagConstraints.WEST;
 		gbcCpuNameLabel.insets = new Insets(0, 0, 5, 5);
-		gbcCpuNameLabel.anchor = GridBagConstraints.EAST;
 		gbcCpuNameLabel.gridx = 2;
 		gbcCpuNameLabel.gridy = 0;
 		primaryInfoPanel.add(cpuNameLabel, gbcCpuNameLabel);
@@ -168,7 +169,7 @@ public class CpuPanelUI extends JPanel {
 		
 		JLabel coreLabel = new JLabel("Cores");
 		GridBagConstraints gbcCoreLabel = new GridBagConstraints();
-		gbcCoreLabel.anchor = GridBagConstraints.EAST;
+		gbcCoreLabel.anchor = GridBagConstraints.WEST;
 		gbcCoreLabel.insets = new Insets(0, 0, 5, 5);
 		gbcCoreLabel.gridx = 0;
 		gbcCoreLabel.gridy = 1;
@@ -186,8 +187,8 @@ public class CpuPanelUI extends JPanel {
 		
 		JLabel threadLabel = new JLabel("Threads");
 		GridBagConstraints gbcThreadLabel = new GridBagConstraints();
+		gbcThreadLabel.anchor = GridBagConstraints.WEST;
 		gbcThreadLabel.insets = new Insets(0, 0, 5, 5);
-		gbcThreadLabel.anchor = GridBagConstraints.EAST;
 		gbcThreadLabel.gridx = 2;
 		gbcThreadLabel.gridy = 1;
 		primaryInfoPanel.add(threadLabel, gbcThreadLabel);
@@ -205,7 +206,7 @@ public class CpuPanelUI extends JPanel {
 		JLabel effectiveClockLabel = new JLabel("Effective Clock");
 		GridBagConstraints gbcEffectiveClockLabel = new GridBagConstraints();
 		gbcEffectiveClockLabel.insets = new Insets(0, 0, 5, 5);
-		gbcEffectiveClockLabel.anchor = GridBagConstraints.EAST;
+		gbcEffectiveClockLabel.anchor = GridBagConstraints.WEST;
 		gbcEffectiveClockLabel.gridx = 4;
 		gbcEffectiveClockLabel.gridy = 1;
 		primaryInfoPanel.add(effectiveClockLabel, gbcEffectiveClockLabel);
@@ -222,7 +223,7 @@ public class CpuPanelUI extends JPanel {
 		
 		JLabel addressWidthLabel = new JLabel("Address Width");
 		GridBagConstraints gbcAddressWidthLabel = new GridBagConstraints();
-		gbcAddressWidthLabel.anchor = GridBagConstraints.EAST;
+		gbcAddressWidthLabel.anchor = GridBagConstraints.WEST;
 		gbcAddressWidthLabel.insets = new Insets(0, 0, 0, 5);
 		gbcAddressWidthLabel.gridx = 0;
 		gbcAddressWidthLabel.gridy = 2;
@@ -240,7 +241,7 @@ public class CpuPanelUI extends JPanel {
 		
 		JLabel socketLabel = new JLabel("Socket");
 		GridBagConstraints gbcSocketLabel = new GridBagConstraints();
-		gbcSocketLabel.anchor = GridBagConstraints.EAST;
+		gbcSocketLabel.anchor = GridBagConstraints.WEST;
 		gbcSocketLabel.insets = new Insets(0, 0, 0, 5);
 		gbcSocketLabel.gridx = 2;
 		gbcSocketLabel.gridy = 2;
@@ -258,7 +259,7 @@ public class CpuPanelUI extends JPanel {
 		
 		JLabel baseClockLabel = new JLabel("Base Clock");
 		GridBagConstraints gbcBaseClockLabel = new GridBagConstraints();
-		gbcBaseClockLabel.anchor = GridBagConstraints.EAST;
+		gbcBaseClockLabel.anchor = GridBagConstraints.WEST;
 		gbcBaseClockLabel.insets = new Insets(0, 0, 0, 5);
 		gbcBaseClockLabel.gridx = 4;
 		gbcBaseClockLabel.gridy = 2;
@@ -287,7 +288,7 @@ public class CpuPanelUI extends JPanel {
 		JLabel versionLabel = new JLabel("Version");
 		GridBagConstraints gbcVersionLabel = new GridBagConstraints();
 		gbcVersionLabel.insets = new Insets(0, 0, 5, 5);
-		gbcVersionLabel.anchor = GridBagConstraints.EAST;
+		gbcVersionLabel.anchor = GridBagConstraints.WEST;
 		gbcVersionLabel.gridx = 0;
 		gbcVersionLabel.gridy = 0;
 		secondaryInfoPanel.add(versionLabel, gbcVersionLabel);
@@ -304,8 +305,8 @@ public class CpuPanelUI extends JPanel {
 		
 		JLabel familyLabel = new JLabel("Family");
 		GridBagConstraints gbcFamilyLabel = new GridBagConstraints();
+		gbcFamilyLabel.anchor = GridBagConstraints.WEST;
 		gbcFamilyLabel.insets = new Insets(0, 0, 5, 5);
-		gbcFamilyLabel.anchor = GridBagConstraints.EAST;
 		gbcFamilyLabel.gridx = 2;
 		gbcFamilyLabel.gridy = 0;
 		secondaryInfoPanel.add(familyLabel, gbcFamilyLabel);
@@ -323,7 +324,7 @@ public class CpuPanelUI extends JPanel {
 		JLabel steppingLabel = new JLabel("Stepping");
 		GridBagConstraints gbcSteppingLabel = new GridBagConstraints();
 		gbcSteppingLabel.insets = new Insets(0, 0, 5, 5);
-		gbcSteppingLabel.anchor = GridBagConstraints.EAST;
+		gbcSteppingLabel.anchor = GridBagConstraints.WEST;
 		gbcSteppingLabel.gridx = 4;
 		gbcSteppingLabel.gridy = 0;
 		secondaryInfoPanel.add(steppingLabel, gbcSteppingLabel);
@@ -340,7 +341,7 @@ public class CpuPanelUI extends JPanel {
 		
 		JLabel manufacturerLabel = new JLabel("Manufacturer");
 		GridBagConstraints gbcManufacturerLabel = new GridBagConstraints();
-		gbcManufacturerLabel.anchor = GridBagConstraints.EAST;
+		gbcManufacturerLabel.anchor = GridBagConstraints.WEST;
 		gbcManufacturerLabel.insets = new Insets(0, 0, 5, 5);
 		gbcManufacturerLabel.gridx = 0;
 		gbcManufacturerLabel.gridy = 1;
@@ -358,7 +359,7 @@ public class CpuPanelUI extends JPanel {
 		
 		JLabel captionLabel = new JLabel("Caption");
 		GridBagConstraints gbcCaptionLabel = new GridBagConstraints();
-		gbcCaptionLabel.anchor = GridBagConstraints.EAST;
+		gbcCaptionLabel.anchor = GridBagConstraints.WEST;
 		gbcCaptionLabel.insets = new Insets(0, 0, 5, 5);
 		gbcCaptionLabel.gridx = 2;
 		gbcCaptionLabel.gridy = 1;
@@ -376,7 +377,7 @@ public class CpuPanelUI extends JPanel {
 		
 		JLabel processorIdLabel = new JLabel("Processor ID");
 		GridBagConstraints gbcProcessorIdLabel = new GridBagConstraints();
-		gbcProcessorIdLabel.anchor = GridBagConstraints.EAST;
+		gbcProcessorIdLabel.anchor = GridBagConstraints.WEST;
 		gbcProcessorIdLabel.insets = new Insets(0, 0, 5, 5);
 		gbcProcessorIdLabel.gridx = 4;
 		gbcProcessorIdLabel.gridy = 1;
@@ -394,7 +395,7 @@ public class CpuPanelUI extends JPanel {
 		
 		JLabel enabledCoresLabel = new JLabel("Enabled Cores");
 		GridBagConstraints gbcEnabledCoresLabel = new GridBagConstraints();
-		gbcEnabledCoresLabel.anchor = GridBagConstraints.EAST;
+		gbcEnabledCoresLabel.anchor = GridBagConstraints.WEST;
 		gbcEnabledCoresLabel.insets = new Insets(0, 0, 0, 5);
 		gbcEnabledCoresLabel.gridx = 0;
 		gbcEnabledCoresLabel.gridy = 2;
@@ -412,7 +413,7 @@ public class CpuPanelUI extends JPanel {
 		
 		JLabel enabledThreadsLabel = new JLabel("Enabled Threads");
 		GridBagConstraints gbcEnabledThreadsLabel = new GridBagConstraints();
-		gbcEnabledThreadsLabel.anchor = GridBagConstraints.EAST;
+		gbcEnabledThreadsLabel.anchor = GridBagConstraints.WEST;
 		gbcEnabledThreadsLabel.insets = new Insets(0, 0, 0, 5);
 		gbcEnabledThreadsLabel.gridx = 2;
 		gbcEnabledThreadsLabel.gridy = 2;
@@ -430,7 +431,7 @@ public class CpuPanelUI extends JPanel {
 		
 		JLabel reservedLabel = new JLabel("RESERVED");
 		GridBagConstraints gbcReservedLabel = new GridBagConstraints();
-		gbcReservedLabel.anchor = GridBagConstraints.EAST;
+		gbcReservedLabel.anchor = GridBagConstraints.WEST;
 		gbcReservedLabel.insets = new Insets(0, 0, 0, 5);
 		gbcReservedLabel.gridx = 4;
 		gbcReservedLabel.gridy = 2;
@@ -465,7 +466,7 @@ public class CpuPanelUI extends JPanel {
 		JLabel l1Label = new JLabel("L1 Cache");
 		GridBagConstraints gbcL1Label = new GridBagConstraints();
 		gbcL1Label.insets = new Insets(0, 0, 5, 5);
-		gbcL1Label.anchor = GridBagConstraints.EAST;
+		gbcL1Label.anchor = GridBagConstraints.WEST;
 		gbcL1Label.gridx = 0;
 		gbcL1Label.gridy = 0;
 		cacheSizePanel.add(l1Label, gbcL1Label);
@@ -482,7 +483,7 @@ public class CpuPanelUI extends JPanel {
 		
 		JLabel l2Label = new JLabel("L2 Cache");
 		GridBagConstraints gbcL2Label = new GridBagConstraints();
-		gbcL2Label.anchor = GridBagConstraints.EAST;
+		gbcL2Label.anchor = GridBagConstraints.WEST;
 		gbcL2Label.insets = new Insets(0, 0, 5, 5);
 		gbcL2Label.gridx = 0;
 		gbcL2Label.gridy = 1;
@@ -501,7 +502,7 @@ public class CpuPanelUI extends JPanel {
 		JLabel l3Label = new JLabel("L3 Cache");
 		GridBagConstraints gbcL3Label = new GridBagConstraints();
 		gbcL3Label.insets = new Insets(0, 0, 5, 5);
-		gbcL3Label.anchor = GridBagConstraints.EAST;
+		gbcL3Label.anchor = GridBagConstraints.WEST;
 		gbcL3Label.gridx = 0;
 		gbcL3Label.gridy = 2;
 		cacheSizePanel.add(l3Label, gbcL3Label);
@@ -518,7 +519,7 @@ public class CpuPanelUI extends JPanel {
 		
 		JLabel l4Label = new JLabel("L4 Cache");
 		GridBagConstraints gbcL4Label = new GridBagConstraints();
-		gbcL4Label.anchor = GridBagConstraints.EAST;
+		gbcL4Label.anchor = GridBagConstraints.WEST;
 		gbcL4Label.insets = new Insets(0, 0, 0, 5);
 		gbcL4Label.gridx = 0;
 		gbcL4Label.gridy = 3;
