@@ -13,6 +13,7 @@ import javax.swing.JComboBox;
 import java.awt.Insets;
 import java.util.List;
 import javax.swing.JTextField;
+import javax.swing.JScrollPane;
 
 @SuppressWarnings("serial")
 public class MemoryPanelUI extends JPanel {
@@ -48,9 +49,9 @@ public class MemoryPanelUI extends JPanel {
 		
 		setLayout(new GridLayout(1, 0, 0, 0));
 		
+		// add panel
 		JPanel memoryPanel = new JPanel();
 		memoryPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Memory", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		add(memoryPanel);
 		GridBagLayout gblMemoryPanel = new GridBagLayout();
 		gblMemoryPanel.columnWidths = new int[]{0, 0, 0};
 		gblMemoryPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
@@ -306,6 +307,11 @@ public class MemoryPanelUI extends JPanel {
 		gbcDeviceLocatorTextField.gridx = 1;
 		gbcDeviceLocatorTextField.gridy = 13;
 		memoryPanel.add(deviceLocatorTextField, gbcDeviceLocatorTextField);
+		
+		// add scroll-pane to the panel
+		JScrollPane memoryScrollPane = new JScrollPane();
+		memoryScrollPane.setViewportView(memoryPanel);
+		add(memoryScrollPane);
 	}
 	
 	private void setWorker() {

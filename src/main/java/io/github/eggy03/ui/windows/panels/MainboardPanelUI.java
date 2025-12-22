@@ -9,8 +9,10 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.JScrollPane;
 
 @SuppressWarnings("serial")
 public class MainboardPanelUI extends JPanel {
@@ -58,9 +60,10 @@ public class MainboardPanelUI extends JPanel {
 	}
 
 	private void setBaseboardPanel() {
+		
+		//add panel
 		JPanel baseboardPanel = new JPanel();
 		baseboardPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Baseboard", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		add(baseboardPanel);
 		GridBagLayout gblBaseboardPanel = new GridBagLayout();
 		gblBaseboardPanel.columnWidths = new int[]{0, 0, 0};
 		gblBaseboardPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0};
@@ -172,13 +175,21 @@ public class MainboardPanelUI extends JPanel {
 		gbcBaseboardVersionTextField.gridy = 5;
 		baseboardPanel.add(baseboardVersionTextField, gbcBaseboardVersionTextField);
 		baseboardVersionTextField.setColumns(10);
+		
+		// add scroll-pane to the panel
+		JScrollPane baseboardScrollPane = new JScrollPane();
+		baseboardScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		baseboardScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+		baseboardScrollPane.setViewportView(baseboardPanel);
+		add(baseboardScrollPane);
 
 	}
 
 	private void setBaseboardPortPanel() {
+		
+		//add panel
 		JPanel baseboardPortPanel = new JPanel();
 		baseboardPortPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Baseboard Port", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		add(baseboardPortPanel);
 		GridBagLayout gblBaseboardPortPanel = new GridBagLayout();
 		gblBaseboardPortPanel.columnWidths = new int[]{0, 0, 0};
 		gblBaseboardPortPanel.rowHeights = new int[]{0, 0, 0, 0, 0};
@@ -254,12 +265,20 @@ public class MainboardPanelUI extends JPanel {
 		gbcBaseboardPortERDTextField.gridy = 3;
 		baseboardPortPanel.add(baseboardPortERDTextField, gbcBaseboardPortERDTextField);
 		baseboardPortERDTextField.setColumns(10);
+		
+		// add scroll-pane to the panel
+		JScrollPane baseboardPortScrollPane = new JScrollPane();
+		baseboardPortScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		baseboardPortScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+		baseboardPortScrollPane.setViewportView(baseboardPortPanel);
+		add(baseboardPortScrollPane);
 	}
 
 	private void setBIOSPanel() {
+		
+		// add panel
 		JPanel biosPanel = new JPanel();
 		biosPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "BIOS", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		add(biosPanel);
 		GridBagLayout gblBiosPanel = new GridBagLayout();
 		gblBiosPanel.columnWidths = new int[]{0, 0, 0};
 		gblBiosPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
@@ -462,6 +481,13 @@ public class MainboardPanelUI extends JPanel {
 		gbcBiosVersionTextField.gridy = 10;
 		biosPanel.add(biosVersionTextField, gbcBiosVersionTextField);
 		biosVersionTextField.setColumns(10);
+		
+		// add scroll-pane to the panel
+		JScrollPane biosScrollPane = new JScrollPane();
+		biosScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		biosScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+		biosScrollPane.setViewportView(biosPanel);
+		add(biosScrollPane);
 	}
 
 	private void setWorkers() {

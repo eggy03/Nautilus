@@ -4,13 +4,12 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Toolkit;
+
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
-import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 
@@ -53,15 +52,12 @@ public class ApplicationUI extends JFrame {
 	public ApplicationUI() {
 		setTitle("FerrumX-Windows");
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		setBounds(100, 100, 700, 600);
+		setBounds(100, 100, 900, 580);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(ApplicationUI.class.getResource("/icons/icon_main.png")));
-        JPanel contentPane = new JPanel();
+        
+		JPanel contentPane = new JPanel();
 		contentPane.setLayout(new BorderLayout(0, 0));
-		
-		JScrollPane scrollPane = new JScrollPane(contentPane);
-        scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-		setContentPane(scrollPane);
+		setContentPane(contentPane);
 		
 		setupMenu(contentPane);
 		setTabbedPane(contentPane);
