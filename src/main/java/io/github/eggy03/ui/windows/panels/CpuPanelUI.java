@@ -110,21 +110,24 @@ public class CpuPanelUI extends JPanel {
 	}
 	
 	private void setCpuPanel() {
-		
+		// add main cpu panel
 		JPanel cpuPanel = new JPanel();
 		cpuPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "CPU", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		GridBagConstraints gbcCpuPanel = new GridBagConstraints();
-		gbcCpuPanel.insets = new Insets(0, 0, 5, 0);
-		gbcCpuPanel.fill = GridBagConstraints.BOTH;
-		gbcCpuPanel.gridx = 0;
-		gbcCpuPanel.gridy = 1;
-		add(cpuPanel, gbcCpuPanel);
 		cpuPanel.setLayout(new GridLayout(0, 1, 0, 0));
 		
+		// set scroll pane to the main cpu panel
+		JScrollPane cpuScrollPane = new JScrollPane();
+		cpuScrollPane.setViewportView(cpuPanel);
+		GridBagConstraints gbcCpuScrollPane = new GridBagConstraints();
+		gbcCpuScrollPane.fill = GridBagConstraints.BOTH;
+		gbcCpuScrollPane.gridx = 0;
+		gbcCpuScrollPane.gridy = 1;
+		add(cpuScrollPane, gbcCpuScrollPane);
+		
+		// add sub panels (no scroll panes on individual sub panels)
 		// PRIMARY INFO PANEL
 		JPanel primaryInfoPanel = new JPanel();
 		primaryInfoPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Primary Information", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		cpuPanel.add(primaryInfoPanel);
 		GridBagLayout gblPrimaryInfoPanel = new GridBagLayout();
 		gblPrimaryInfoPanel.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0};
 		gblPrimaryInfoPanel.rowHeights = new int[]{0, 0, 0, 0};
@@ -277,7 +280,6 @@ public class CpuPanelUI extends JPanel {
 		// SECONDARY INFO PANEL
 		JPanel secondaryInfoPanel = new JPanel();
 		secondaryInfoPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Secondary Information", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		cpuPanel.add(secondaryInfoPanel);
 		GridBagLayout gblSecondaryInfoPanel = new GridBagLayout();
 		gblSecondaryInfoPanel.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0};
 		gblSecondaryInfoPanel.rowHeights = new int[]{0, 0, 0, 0};
@@ -450,7 +452,6 @@ public class CpuPanelUI extends JPanel {
 		// CACHE PANEL
 		JPanel cachePanel = new JPanel();
 		cachePanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Cache Information", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		cpuPanel.add(cachePanel);
 		cachePanel.setLayout(new GridLayout(1, 0, 0, 0));
 		
 		JPanel cacheSizePanel = new JPanel();
@@ -555,6 +556,11 @@ public class CpuPanelUI extends JPanel {
 		extraCacheTextArea.setRows(4);
 		extraCacheTextArea.setEditable(false);
 		extraCacheScrollPane.setViewportView(extraCacheTextArea);
+		
+		// add the sub panels to the cpu panel
+		cpuPanel.add(primaryInfoPanel);
+		cpuPanel.add(secondaryInfoPanel);
+		cpuPanel.add(cachePanel);
 	}
 
 	private void setWorkers() {
