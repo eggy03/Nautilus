@@ -6,12 +6,10 @@ import java.util.Map;
 import javax.swing.JLabel;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
+import lombok.experimental.UtilityClass;
 
+@UtilityClass
 public class IconImageChooser {
-
-	private IconImageChooser() {
-		throw new IllegalStateException("Utility Class");
-	}
 
 	public static void cpuImageChooser(JLabel icon, String cpuName) {
 		Map<String, String> logoMap = new LinkedHashMap<>();
