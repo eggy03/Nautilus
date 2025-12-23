@@ -1,5 +1,6 @@
 package io.github.eggy03.ui.windows.panels;
 
+import com.formdev.flatlaf.extras.FlatSVGIcon;
 import io.github.eggy03.ui.windows.worker.CpuPanelWorker;
 import io.github.eggy03.ui.windows.worker.HardwareIdWorker;
 
@@ -10,14 +11,16 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.awt.Toolkit;
+import java.awt.datatransfer.StringSelection;
 import java.util.List;
-import javax.swing.SwingConstants;
 
 public class CpuPanelUI extends JPanel {
 
@@ -90,8 +93,8 @@ public class CpuPanelUI extends JPanel {
         gblHardwareIdPanel.rowWeights = new double[]{0.0, Double.MIN_VALUE};
 		hardwareIdPanel.setLayout(gblHardwareIdPanel);
 
-
 		hardwareIdTextField = new JTextField();
+		hardwareIdTextField.setEditable(false);
 		GridBagConstraints gbcHardwareIdTf = new GridBagConstraints();
 		gbcHardwareIdTf.insets = new Insets(0, 0, 0, 5);
 		gbcHardwareIdTf.fill = GridBagConstraints.BOTH;
@@ -100,11 +103,17 @@ public class CpuPanelUI extends JPanel {
 		hardwareIdPanel.add(hardwareIdTextField, gbcHardwareIdTf);
 		hardwareIdTextField.setColumns(10);
 		
-		JButton copyHwid = new JButton("Button");
+		JButton copyHwid = new JButton();
+		copyHwid.setIcon(new FlatSVGIcon(CpuPanelUI.class.getResource("/icons/extra_icons/copy.svg")));
+		copyHwid.addActionListener(copyAction -> {
+			StringSelection textToCopy = new StringSelection(hardwareIdTextField.getText());
+			Toolkit.getDefaultToolkit().getSystemClipboard().setContents(textToCopy, null);
+		});
 		GridBagConstraints gbcCopyHwid = new GridBagConstraints();
 		gbcCopyHwid.gridx = 1;
 		gbcCopyHwid.gridy = 0;
 		hardwareIdPanel.add(copyHwid, gbcCopyHwid);
+
 		
 	}
 	
