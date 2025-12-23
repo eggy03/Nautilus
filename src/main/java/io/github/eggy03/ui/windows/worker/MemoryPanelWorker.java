@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 
+import static io.github.eggy03.ui.windows.constant.WMIConstants.resolveWMIPhysicalMemoryFormFactor;
+
 @RequiredArgsConstructor
 @Slf4j
 public class MemoryPanelWorker extends SwingWorker<List<Win32PhysicalMemory>, Void> {
@@ -71,7 +73,7 @@ public class MemoryPanelWorker extends SwingWorker<List<Win32PhysicalMemory>, Vo
         memoryFields.get(3).setText(memory.getOtherIdentifyingInfo());
         memoryFields.get(4).setText(memory.getPartNumber());
         memoryFields.get(5).setText(memory.getSerialNumber());
-        memoryFields.get(6).setText(String.valueOf(memory.getFormFactor()));
+        memoryFields.get(6).setText(resolveWMIPhysicalMemoryFormFactor(memory.getFormFactor()));
         memoryFields.get(7).setText(memory.getBankLabel());
         memoryFields.get(8).setText(memory.getCapacity()+" KB");
         memoryFields.get(9).setText(memory.getDataWidth()+ " Bits");

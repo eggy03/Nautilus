@@ -20,6 +20,13 @@ import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
+import static io.github.eggy03.ui.windows.constant.WMIConstants.resolveWMIAvailability;
+import static io.github.eggy03.ui.windows.constant.WMIConstants.resolveWMICacheErrorCorrectType;
+import static io.github.eggy03.ui.windows.constant.WMIConstants.resolveWMICacheMemoryAssociativity;
+import static io.github.eggy03.ui.windows.constant.WMIConstants.resolveWMICacheMemoryLevel;
+import static io.github.eggy03.ui.windows.constant.WMIConstants.resolveWMICacheMemoryLocation;
+import static io.github.eggy03.ui.windows.constant.WMIConstants.resolveWMICacheMemoryType;
+
 @RequiredArgsConstructor
 @Slf4j
 public class CpuPanelWorker extends SwingWorker<List<Win32ProcessorToCacheMemory>, Void> {
@@ -106,16 +113,19 @@ public class CpuPanelWorker extends SwingWorker<List<Win32ProcessorToCacheMemory
         	cpuFields.get(16).setText(cacheLevelAndSizeMap.get(3)+" KB"); // level 3 - L1 cache
             cpuFields.get(17).setText(cacheLevelAndSizeMap.get(4)+" KB"); // level 4 - L2 cache
             cpuFields.get(18).setText(cacheLevelAndSizeMap.get(5)+" KB"); // level 5 - L3 cache
-            cpuFields.get(19).setText(String.valueOf(cacheLevelAndSizeMap.get(2))); // l4 is not specifically mentioned in WMI so we will use the unknown type (level 2)
 
             // populate the text area with raw details
             cacheTextArea.setText(null); //before populating, clean the previous data if any
             currentCacheList.forEach(cache -> cacheTextArea.append(
                     "DeviceID: "+cache.getDeviceId()+System.lineSeparator()+
                     "Purpose: "+cache.getPurpose()+System.lineSeparator()+
-                    "Level: "+cache.getLevel()+System.lineSeparator()+
+                    "Type: "+resolveWMICacheMemoryType(cache.getCacheType())+System.lineSeparator()+
+                    "Level: "+resolveWMICacheMemoryLevel(cache.getLevel())+System.lineSeparator()+
                     "Size: "+cache.getInstalledSize()+" KB"+System.lineSeparator()+
-                    "Associativity: "+cache.getAssociativity()+" way"+System.lineSeparator()+
+                    "Associativity: "+resolveWMICacheMemoryAssociativity(cache.getAssociativity())+System.lineSeparator()+
+                    "Location: "+resolveWMICacheMemoryLocation(cache.getLocation())+System.lineSeparator()+
+                    "Error Correct Type: "+resolveWMICacheErrorCorrectType(cache.getErrorCorrectType())+System.lineSeparator()+
+                    "Availability: "+resolveWMIAvailability(cache.getAvailability())+System.lineSeparator()+
                     "Status: "+cache.getStatus()+System.lineSeparator()+System.lineSeparator()
             ));
         }
