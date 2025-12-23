@@ -6,6 +6,7 @@ import io.github.eggy03.ferrumx.windows.entity.processor.Win32Processor;
 import io.github.eggy03.ferrumx.windows.service.compounded.Win32ProcessorToCacheMemoryService;
 import io.github.eggy03.ui.utilities.IconImageChooser;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.JComboBox;
@@ -20,6 +21,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
+@Slf4j
 public class CpuPanelWorker extends SwingWorker<List<Win32ProcessorToCacheMemory>, Void> {
 
     private final JComboBox<String> cpuIdComboBox;
@@ -40,8 +42,11 @@ public class CpuPanelWorker extends SwingWorker<List<Win32ProcessorToCacheMemory
                        
             populateFieldsBasedOnCurrentCpuId(cpuAndCacheList); // for the first ID in the combo box, populate the fields
             addCpuComboBoxActionListener(cpuAndCacheList); //add cpu combo box action listener
-        } catch (InterruptedException | ExecutionException e) {
-            throw new RuntimeException(e);
+        } catch (ExecutionException e) {
+            log.error("CPU Fetch Failure", e);
+        } catch (InterruptedException e) {
+            log.error("CPU Fetch Interrupted", e);
+            Thread.currentThread().interrupt();
         }
     }
 
@@ -98,9 +103,9 @@ public class CpuPanelWorker extends SwingWorker<List<Win32ProcessorToCacheMemory
                     .collect(Collectors.toMap(Win32CacheMemory::getLevel, Win32CacheMemory::getInstalledSize));
 
             // set cache size fields
-        	cpuFields.get(16).setText(String.valueOf(cacheLevelAndSizeMap.get(3))+" KB"); // level 3 - L1 cache
-            cpuFields.get(17).setText(String.valueOf(cacheLevelAndSizeMap.get(4))+" KB"); // level 4 - L2 cache
-            cpuFields.get(18).setText(String.valueOf(cacheLevelAndSizeMap.get(5))+" KB"); // level 5 - L3 cache
+        	cpuFields.get(16).setText(cacheLevelAndSizeMap.get(3)+" KB"); // level 3 - L1 cache
+            cpuFields.get(17).setText(cacheLevelAndSizeMap.get(4)+" KB"); // level 4 - L2 cache
+            cpuFields.get(18).setText(cacheLevelAndSizeMap.get(5)+" KB"); // level 5 - L3 cache
             cpuFields.get(19).setText(String.valueOf(cacheLevelAndSizeMap.get(2))); // l4 is not specifically mentioned in WMI so we will use the unknown type (level 2)
 
             // populate the text area with raw details

@@ -3,6 +3,7 @@ package io.github.eggy03.ui.windows.worker;
 import io.github.eggy03.ferrumx.windows.entity.memory.Win32PhysicalMemory;
 import io.github.eggy03.ferrumx.windows.service.memory.Win32PhysicalMemoryService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
@@ -12,6 +13,7 @@ import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 
 @RequiredArgsConstructor
+@Slf4j
 public class MemoryPanelWorker extends SwingWorker<List<Win32PhysicalMemory>, Void> {
 
     private final JComboBox<String> memoryTagComboBox;
@@ -26,15 +28,18 @@ public class MemoryPanelWorker extends SwingWorker<List<Win32PhysicalMemory>, Vo
     protected void done() {
         try {
             List<Win32PhysicalMemory> physicalMemoryList = get();
-            if(physicalMemoryList.isEmpty())
-                return;
+            if(physicalMemoryList.isEmpty()) return;
+
             // fill the combo box with memory tags
             physicalMemoryList.forEach(memory -> memoryTagComboBox.addItem(memory.getTag()));
             populateMemoryFields(physicalMemoryList);
             addListenerToComboBox(physicalMemoryList);
 
-        } catch (InterruptedException | ExecutionException e) {
-            throw new RuntimeException(e);
+        } catch (ExecutionException e) {
+            log.error("Memory Fetch Failure", e);
+        } catch (InterruptedException e) {
+            log.error("Memory Fetch Interrupted", e);
+            Thread.currentThread().interrupt();
         }
     }
 
@@ -68,10 +73,10 @@ public class MemoryPanelWorker extends SwingWorker<List<Win32PhysicalMemory>, Vo
         memoryFields.get(5).setText(memory.getSerialNumber());
         memoryFields.get(6).setText(String.valueOf(memory.getFormFactor()));
         memoryFields.get(7).setText(memory.getBankLabel());
-        memoryFields.get(8).setText(String.valueOf(memory.getCapacity())+" KB");
-        memoryFields.get(9).setText(String.valueOf(memory.getDataWidth())+ " Bits");
-        memoryFields.get(10).setText(String.valueOf(memory.getSpeed())+ " MHz");
-        memoryFields.get(11).setText(String.valueOf(memory.getConfiguredClockSpeed())+ " MHz");
+        memoryFields.get(8).setText(memory.getCapacity()+" KB");
+        memoryFields.get(9).setText(memory.getDataWidth()+ " Bits");
+        memoryFields.get(10).setText(memory.getSpeed()+ " MHz");
+        memoryFields.get(11).setText(memory.getConfiguredClockSpeed()+ " MHz");
         memoryFields.get(12).setText(memory.getDeviceLocator());
 
     }

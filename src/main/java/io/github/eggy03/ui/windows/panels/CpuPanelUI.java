@@ -19,7 +19,6 @@ import java.awt.Insets;
 import java.util.List;
 import javax.swing.SwingConstants;
 
-@SuppressWarnings("serial")
 public class CpuPanelUI extends JPanel {
 
 	private JTextField hardwareIdTextField;

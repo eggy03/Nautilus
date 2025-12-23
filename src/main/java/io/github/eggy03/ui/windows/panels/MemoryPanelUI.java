@@ -15,7 +15,6 @@ import java.util.List;
 import javax.swing.JTextField;
 import javax.swing.JScrollPane;
 
-@SuppressWarnings("serial")
 public class MemoryPanelUI extends JPanel {
 
 	private JComboBox<String> slotComboBox;

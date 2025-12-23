@@ -14,7 +14,6 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.JScrollPane;
 
-@SuppressWarnings("serial")
 public class MainboardPanelUI extends JPanel {
 	
 	private JComboBox<Integer> baseboardNumberComboBox;
