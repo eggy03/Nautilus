@@ -1,15 +1,14 @@
 package io.github.eggy03.ui.utilities;
 
-import java.util.prefs.Preferences;
+import com.formdev.flatlaf.extras.FlatSVGIcon;
+import io.github.eggy03.ui.themes.DarkTheme;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.SwingUtilities;
+import java.util.prefs.Preferences;
 
-import org.tinylog.Logger;
-
-import io.github.eggy03.ui.themes.DarkTheme;
-import com.formdev.flatlaf.extras.FlatSVGIcon;
-
+@Slf4j
 public class ThemeManager {
 	
 	private static final Preferences prefs = Preferences.userNodeForPackage(ThemeManager.class);
@@ -40,7 +39,7 @@ public class ThemeManager {
     	
     		case "com.ferrumx.ui.themes.LightTheme":
     			SwingUtilities.invokeLater(()-> j[0].setSelected(true));
-    			FlatSVGIcon.ColorFilter.getInstance().setMapper(Color -> java.awt.Color.decode("#fc8d00"));
+    			FlatSVGIcon.ColorFilter.getInstance().setMapper(color -> java.awt.Color.decode("#fc8d00"));
     			break;
 
     		case "com.ferrumx.ui.themes.DarkTheme":
@@ -48,7 +47,7 @@ public class ThemeManager {
     			break;
     		
     		default:
-    			Logger.warn("Theme usage could not be notified");	
+    			log.warn("Theme usage could not be notified");
     	}
     }
 }
