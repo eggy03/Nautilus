@@ -32,17 +32,13 @@ public class ApplicationUI extends JFrame {
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(() -> {
-            try {
-                FlatLaf.registerCustomDefaultsSource("themes"); // for maven build, this points towards src/main/resources/themes
-                DarkTheme.setup(); // TODO remove hardcoding
-                UIManagerConfigurations.enableRoundComponents();
-                UIManagerConfigurations.enableTabSeparators(true);
+			FlatLaf.registerCustomDefaultsSource("themes"); // for maven build, this points towards src/main/resources/themes
+			DarkTheme.setup(); // TODO remove hardcoding
+			UIManagerConfigurations.enableRoundComponents();
+			UIManagerConfigurations.enableTabSeparators(true);
 
-                ApplicationUI frame = new ApplicationUI();
-                frame.setVisible(true);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+			ApplicationUI frame = new ApplicationUI();
+			frame.setVisible(true);
         });
 	}
 
@@ -52,7 +48,7 @@ public class ApplicationUI extends JFrame {
 	public ApplicationUI() {
 		setTitle("FerrumX-Windows");
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		setBounds(100, 100, 900, 580);
+		setBounds(0, 0, 900, 650);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(ApplicationUI.class.getResource("/icons/icon_main.png")));
         
 		JPanel contentPane = new JPanel();
@@ -66,7 +62,7 @@ public class ApplicationUI extends JFrame {
 	private void setupMenu(JPanel contentPane) {
 		JMenuBar menuBar = new JMenuBar();
 		contentPane.add(menuBar, BorderLayout.NORTH);
-		menuBar.setFont(new Font("Ubuntu", Font.PLAIN, 11));
+		menuBar.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		
 		JMenu appearanceMenu = new JMenu("Appearance");
 		menuBar.add(appearanceMenu);

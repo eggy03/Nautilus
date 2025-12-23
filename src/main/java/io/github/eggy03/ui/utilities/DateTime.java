@@ -6,10 +6,10 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
-import org.tinylog.Logger;
-
 import io.github.eggy03.ui.common.ExceptionUI;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class DateTime {
 	private DateTime() {
 		throw new IllegalStateException("Utility Class");
@@ -26,7 +26,7 @@ public class DateTime {
 			return sdf.format(myDate);
 		} catch (ParseException e) {
 			new ExceptionUI("Date Parsing Error", e.getMessage()+"\nPlease refer to the logs for more information.");
-			Logger.error(e);
+			log.error("Date Time Parsing Error: ",e);
 			return "Date Unavailable";
 		}
 	}
