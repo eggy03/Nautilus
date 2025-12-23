@@ -61,7 +61,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>io.github.eggy03.ui.ApplicationUI</mainClass>
+                            <mainClass>io.github.eggy03.ui.Start</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
