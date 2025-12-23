@@ -1,12 +1,11 @@
 package io.github.eggy03.ui.utilities;
 
+import lombok.experimental.UtilityClass;
+
+@UtilityClass
 public class VersionAndOtherInfo {
 	
 	public static final String APP_VERSION = "2.0.0";
-	public static final String FERRUMX_VERSION = "3.0.0";
-	
-	
-	private VersionAndOtherInfo() {
-		throw new IllegalStateException("Cannot instantiate utility class");
-	}
+	public static final String FERRUMX_VERSION = "3.1.0";
+
 }
