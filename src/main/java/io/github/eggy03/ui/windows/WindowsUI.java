@@ -1,4 +1,4 @@
-package io.github.eggy03.ui;
+package io.github.eggy03.ui.windows;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import io.github.eggy03.ui.windows.panels.CpuPanelUI;
@@ -16,20 +16,21 @@ import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.Toolkit;
 
-public class ApplicationUI extends JFrame {
+public class WindowsUI extends JFrame {
 
 	/**
 	 * Create the frame.
 	 */
-	public ApplicationUI() {
+	public WindowsUI() {
+
+		setTitle("FerrumX-Windows");
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setBounds(0, 0, 900, 650);
-		setIconImage(Toolkit.getDefaultToolkit().getImage(ApplicationUI.class.getResource("/icons/icon_main.png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(WindowsUI.class.getResource("/icons/icon_main.png")));
         
 		JPanel contentPane = new JPanel();
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
-		
 		setupMenu(contentPane);
 		setTabbedPane(contentPane);
 	}
@@ -50,9 +51,9 @@ public class ApplicationUI extends JFrame {
 		JTabbedPane tabbedPane = new JTabbedPane(SwingConstants.TOP);
 		contentPane.add(tabbedPane, BorderLayout.CENTER);
 		
-		tabbedPane.addTab("CPU", new FlatSVGIcon(ApplicationUI.class.getResource("/icons/tab_icons_small/CPU.svg")), new CpuPanelUI().getPanel(), null);
-		tabbedPane.addTab("Memory", new FlatSVGIcon(ApplicationUI.class.getResource("/icons/tab_icons_small/RAM.svg")), new MemoryPanelUI().getPanel(), null);
-		tabbedPane.addTab("Mainboard", new FlatSVGIcon(ApplicationUI.class.getResource("/icons/tab_icons_small/MainBoard.svg")), new MainboardPanelUI().getPanel(), null);
+		tabbedPane.addTab("CPU", new FlatSVGIcon(WindowsUI.class.getResource("/icons/tab_icons_small/CPU.svg")), new CpuPanelUI().getPanel(), null);
+		tabbedPane.addTab("Memory", new FlatSVGIcon(WindowsUI.class.getResource("/icons/tab_icons_small/RAM.svg")), new MemoryPanelUI().getPanel(), null);
+		tabbedPane.addTab("Mainboard", new FlatSVGIcon(WindowsUI.class.getResource("/icons/tab_icons_small/MainBoard.svg")), new MainboardPanelUI().getPanel(), null);
 	}
 
 }
