@@ -61,7 +61,7 @@ public class ApplicationUI extends JFrame {
 	private void setupMenu(JPanel contentPane) {
 		JMenuBar menuBar = new JMenuBar();
 		contentPane.add(menuBar, BorderLayout.NORTH);
-		menuBar.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		menuBar.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		
 		JMenu appearanceMenu = new JMenu("Appearance");
 		menuBar.add(appearanceMenu);
