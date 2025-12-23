@@ -4,13 +4,11 @@ import javax.swing.JPanel;
 
 public class CpuPanelUI extends JPanel {
 
-	private static final long serialVersionUID = 1L;
-
 	/**
 	 * Create the panel.
 	 */
 	public CpuPanelUI() {
-
+		// TODO
 	}
 
 }

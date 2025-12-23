@@ -5,7 +5,7 @@ import javax.swing.SwingWorker;
 public class CpuPanelWorker extends SwingWorker<Void, Void>{
 
 	@Override
-	protected Void doInBackground() throws Exception {
+	protected Void doInBackground(){
 		// TODO return and work on it later
 		return null;
 	}

@@ -8,7 +8,9 @@ import javax.swing.SwingWorker;
 import io.github.eggy03.ferrumx.windows.entity.compounded.HardwareId;
 import io.github.eggy03.ferrumx.windows.service.compounded.HardwareIdService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RequiredArgsConstructor
 public class HardwareIdWorker extends SwingWorker<HardwareId, Void>{
 	
@@ -16,7 +18,8 @@ public class HardwareIdWorker extends SwingWorker<HardwareId, Void>{
 
 	@Override
 	protected HardwareId doInBackground() {
-		return new HardwareIdService().get(15L).orElse(HardwareId.builder().build()); // TODO i wonder if i should throw an exception or just return an empty build
+		return new HardwareIdService().get(15L).orElse(HardwareId.builder().build());
+		// I wonder if I should throw an exception or just return an empty build
 	}
 	
 	@Override
@@ -25,9 +28,11 @@ public class HardwareIdWorker extends SwingWorker<HardwareId, Void>{
 		try {
 			HardwareId hwid = get();
 			hwidField.setText(hwid.getHashHWID());
-		} catch (InterruptedException | ExecutionException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (ExecutionException e) {
+			log.error("HWID Fetch Failure", e);
+		} catch (InterruptedException e) {
+			log.error("HWID Fetch Interrupted", e);
+			Thread.currentThread().interrupt();
 		}
 	}
 

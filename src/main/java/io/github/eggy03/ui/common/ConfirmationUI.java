@@ -1,9 +1,9 @@
 package io.github.eggy03.ui.common;
 
+import lombok.Getter;
+
 import java.awt.Font;
 import java.awt.Toolkit;
-import java.io.Serial;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -13,10 +13,11 @@ import javax.swing.WindowConstants;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
 
+@Getter
 public class ConfirmationUI extends JFrame {
-	@Serial
-    private static final long serialVersionUID = -4503451098970252115L;
-	private JButton btnYes;
+
+    //allows for implementation of your own action listeners
+    private JButton btnYes;
 	private JButton btnNo;
 	
 	public ConfirmationUI(String heading, String question) {
@@ -54,15 +55,6 @@ public class ConfirmationUI extends JFrame {
 		questionLabel.setFont(new Font("Segoe UI", Font.ITALIC, 11));
 		questionLabel.setBounds(10, 18, 244, 24);
 		panel.add(questionLabel);
-	}
-	
-	//allows for implementation of your own action listeners
-	public JButton getBtnYes() {
-		return btnYes;
-	}
-
-	public JButton getBtnNo() {
-		return btnNo;
 	}
 
 }
