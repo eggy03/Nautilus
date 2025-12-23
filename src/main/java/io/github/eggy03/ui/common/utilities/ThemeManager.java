@@ -1,7 +1,7 @@
-package io.github.eggy03.ui.utilities;
+package io.github.eggy03.ui.common.utilities;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
-import io.github.eggy03.ui.themes.DarkTheme;
+import io.github.eggy03.ui.common.themes.DarkTheme;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.swing.JRadioButtonMenuItem;

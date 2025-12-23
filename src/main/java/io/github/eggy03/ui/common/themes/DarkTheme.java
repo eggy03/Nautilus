@@ -1,4 +1,4 @@
-package io.github.eggy03.ui.themes;
+package io.github.eggy03.ui.common.themes;
 
 import com.formdev.flatlaf.FlatDarkLaf;
 

@@ -4,7 +4,7 @@ import io.github.eggy03.ferrumx.windows.entity.compounded.Win32ProcessorToCacheM
 import io.github.eggy03.ferrumx.windows.entity.processor.Win32CacheMemory;
 import io.github.eggy03.ferrumx.windows.entity.processor.Win32Processor;
 import io.github.eggy03.ferrumx.windows.service.compounded.Win32ProcessorToCacheMemoryService;
-import io.github.eggy03.ui.utilities.IconImageChooser;
+import io.github.eggy03.ui.common.utilities.IconImageChooser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
