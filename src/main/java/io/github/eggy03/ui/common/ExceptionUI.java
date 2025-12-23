@@ -1,11 +1,8 @@
 package io.github.eggy03.ui.common;
 
 import java.awt.Color;
-import java.awt.Desktop;
 import java.awt.Toolkit;
-import java.io.File;
-import java.io.IOException;
-import java.io.Serial;
+import java.awt.datatransfer.StringSelection;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -13,14 +10,11 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
-import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
 public class ExceptionUI extends JFrame {
-	@Serial
-	private static final long serialVersionUID = 5951705399700376822L;
 	private final JTextArea exceptionArea = new JTextArea();
 
 	public ExceptionUI(String errorName, String errorMessage) {
@@ -53,28 +47,14 @@ public class ExceptionUI extends JFrame {
 		scrollPane.setBounds(10, 22, 434, 70);
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 		panel.add(scrollPane);
-
-		JButton openLogFolder = new JButton("Open The Log Folder");
-		openLogFolder.addActionListener( e-> {
-			try {
-				Desktop.getDesktop().open(new File("crashlogs"));
-			} catch (IOException | NullPointerException | IllegalArgumentException | UnsupportedOperationException | SecurityException e1) {
-				SwingUtilities.invokeLater(()->exceptionArea.setText(e1.getMessage()));
-			}
-		});
-		openLogFolder.setBounds(10, 98, 170, 22);
-		panel.add(openLogFolder);
 		
-		JButton checkLatestLogs = new JButton("Check The Latest Log");
-		checkLatestLogs.addActionListener( e-> {
-			try {
-				Desktop.getDesktop().open(new File("crashlogs/latest.log"));
-			} catch (IOException | NullPointerException | IllegalArgumentException | UnsupportedOperationException | SecurityException e1) {
-				SwingUtilities.invokeLater(()->exceptionArea.setText(e1.getMessage()));
-			}
+		JButton copyLog = new JButton("Copy Log");
+		copyLog.addActionListener( e-> {
+			StringSelection strse = new StringSelection(exceptionArea.getText());
+			Toolkit.getDefaultToolkit().getSystemClipboard().setContents(strse, null);
 		});
-		checkLatestLogs.setBounds(284, 98, 160, 22);
-		panel.add(checkLatestLogs);
+		copyLog.setBounds(284, 98, 160, 22);
+		panel.add(copyLog);
 		
 		setVisible(true);
 	}
