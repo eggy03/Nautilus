@@ -1,4 +1,4 @@
-package io.github.eggy03.ui.common;
+package io.github.eggy03.ui.common.ui;
 
 import lombok.Getter;
 

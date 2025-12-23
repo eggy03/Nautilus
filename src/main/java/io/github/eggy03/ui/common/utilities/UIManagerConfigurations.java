@@ -1,4 +1,4 @@
-package io.github.eggy03.ui.utilities;
+package io.github.eggy03.ui.common.utilities;
 
 import java.awt.Insets;
 
