@@ -29,7 +29,7 @@ public class WinHardwareIdWorker extends SwingWorker<HardwareId, Void>{
 			HardwareId hwid = get();
 			hwidField.setText(hwid.getHashHWID());
 		} catch (ExecutionException e) {
-			log.error("HWID Fetch Failure", e);
+			log.error("HWID Fetch Failed", e);
 		} catch (InterruptedException e) {
 			log.error("HWID Fetch Interrupted", e);
 			Thread.currentThread().interrupt();
