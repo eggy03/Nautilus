@@ -45,23 +45,26 @@ public class WinProcessorPanelWorker extends SwingWorker<List<Win32ProcessorToCa
     protected void done() {
         try {
             List<Win32ProcessorToCacheMemory> cpuAndCacheList = get();
-            cpuAndCacheList.forEach(cpuAndCache -> cpuIdComboBox.addItem(cpuAndCache.getDeviceId())); // add all cpu device ids to the combo box
-                       
-            populateFieldsBasedOnCurrentCpuId(cpuAndCacheList); // for the first ID in the combo box, populate the fields
-            addCpuComboBoxActionListener(cpuAndCacheList); //add cpu combo box action listener
+            if(cpuAndCacheList.isEmpty()) {
+                log.info("No entries for Win32Processor were found");
+                return;
+            }
+            log.info("Found {} Win32Processor entry/entries", cpuAndCacheList.size());
+
+            // populate the combo box with cpu device id
+            cpuAndCacheList.forEach(cpuAndCache -> cpuIdComboBox.addItem(cpuAndCache.getDeviceId()));
+            // populate fields for the first entry in the combo box
+            populateFieldsBasedOnCurrentCpuId(cpuAndCacheList);
+            // add a listener to the combo box to re-populate fields on new selection
+            cpuIdComboBox.addActionListener(selectEvent -> populateFieldsBasedOnCurrentCpuId (cpuAndCacheList));
         } catch (ExecutionException e) {
-            log.error("CPU Fetch Failure", e);
+            log.error("CPU Fetch Failed", e);
         } catch (InterruptedException e) {
             log.error("CPU Fetch Interrupted", e);
             Thread.currentThread().interrupt();
         }
     }
 
-    // add a listener to the combo box such that fields are updated to reflect the values of the corresponding cpu in the combo box
-    private void addCpuComboBoxActionListener(List<Win32ProcessorToCacheMemory> cpuAndCacheList) {
-        cpuIdComboBox.addActionListener(cbSelectEvent -> populateFieldsBasedOnCurrentCpuId (cpuAndCacheList));
-    }
-    
     // populate the fields based on the current cpu-id in the combo-box
     private void populateFieldsBasedOnCurrentCpuId (List<Win32ProcessorToCacheMemory> cpuAndCacheList) {
     	

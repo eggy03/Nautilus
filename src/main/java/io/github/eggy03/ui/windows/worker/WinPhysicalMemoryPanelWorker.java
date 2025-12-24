@@ -30,25 +30,28 @@ public class WinPhysicalMemoryPanelWorker extends SwingWorker<List<Win32Physical
     protected void done() {
         try {
             List<Win32PhysicalMemory> physicalMemoryList = get();
-            if(physicalMemoryList.isEmpty()) return;
+
+            if(physicalMemoryList.isEmpty()) {
+                log.info("No entries for Win32PhysicalMemory were found");
+                return;
+            }
+            log.info("Found {} Win32PhysicalMemory entry/entries", physicalMemoryList.size());
 
             // fill the combo box with memory tags
             physicalMemoryList.forEach(memory -> memoryTagComboBox.addItem(memory.getTag()));
+            // populate fields for the first entry in the combo box
             populateMemoryFields(physicalMemoryList);
-            addListenerToComboBox(physicalMemoryList);
+            // add a listener to the combo box to re-populate fields on new selection
+            memoryTagComboBox.addActionListener(selectEvent-> populateMemoryFields(physicalMemoryList));
 
         } catch (ExecutionException e) {
-            log.error("Memory Fetch Failure", e);
+            log.error("Memory Fetch Failed", e);
         } catch (InterruptedException e) {
             log.error("Memory Fetch Interrupted", e);
             Thread.currentThread().interrupt();
         }
     }
 
-    // this listener will repopulate the fields based on the current item selected in the combo box
-    private void addListenerToComboBox(List<Win32PhysicalMemory> physicalMemoryList) {
-        memoryTagComboBox.addActionListener(actionEvent-> populateMemoryFields(physicalMemoryList));
-    }
 
     private void populateMemoryFields(List<Win32PhysicalMemory> physicalMemoryList) {
 
