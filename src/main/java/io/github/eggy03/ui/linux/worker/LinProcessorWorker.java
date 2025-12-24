@@ -2,7 +2,7 @@ package io.github.eggy03.ui.linux.worker;
 
 import javax.swing.SwingWorker;
 
-public class CpuPanelWorker extends SwingWorker<Void, Void>{
+public class LinProcessorWorker extends SwingWorker<Void, Void>{
 
 	@Override
 	protected Void doInBackground(){

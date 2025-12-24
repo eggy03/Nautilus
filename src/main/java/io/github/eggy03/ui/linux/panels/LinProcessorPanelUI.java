@@ -2,12 +2,12 @@ package io.github.eggy03.ui.linux.panels;
 
 import javax.swing.JPanel;
 
-public class CpuPanelUI extends JPanel {
+public class LinProcessorPanelUI extends JPanel {
 
 	/**
 	 * Create the panel.
 	 */
-	public CpuPanelUI() {
+	public LinProcessorPanelUI() {
 		// TODO
 	}
 

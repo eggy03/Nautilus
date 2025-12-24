@@ -12,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RequiredArgsConstructor
-public class HardwareIdWorker extends SwingWorker<HardwareId, Void>{
+public class WinHardwareIdWorker extends SwingWorker<HardwareId, Void>{
 	
 	private final JTextField hwidField;
 

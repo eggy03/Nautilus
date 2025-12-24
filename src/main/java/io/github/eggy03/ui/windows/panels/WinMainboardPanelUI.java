@@ -14,7 +14,7 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.JScrollPane;
 
-public class MainboardPanelUI extends JPanel {
+public class WinMainboardPanelUI extends JPanel {
 	
 	private JComboBox<Integer> baseboardNumberComboBox;
 	private JTextField baseboardManufacturerTextField;
@@ -48,7 +48,7 @@ public class MainboardPanelUI extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public MainboardPanelUI() {
+	public WinMainboardPanelUI() {
 		setLayout(new GridLayout(0, 1, 0, 0));
 
 		setBaseboardPanel();
