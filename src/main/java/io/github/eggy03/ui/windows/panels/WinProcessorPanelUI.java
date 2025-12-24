@@ -1,8 +1,8 @@
 package io.github.eggy03.ui.windows.panels;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
-import io.github.eggy03.ui.windows.worker.CpuPanelWorker;
-import io.github.eggy03.ui.windows.worker.HardwareIdWorker;
+import io.github.eggy03.ui.windows.worker.WinProcessorPanelWorker;
+import io.github.eggy03.ui.windows.worker.WinHardwareIdWorker;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -22,7 +22,7 @@ import java.awt.Toolkit;
 import java.awt.datatransfer.StringSelection;
 import java.util.List;
 
-public class CpuPanelUI extends JPanel {
+public class WinProcessorPanelUI extends JPanel {
 
 	private JTextField hardwareIdTextField;
 
@@ -60,7 +60,7 @@ public class CpuPanelUI extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public CpuPanelUI() {
+	public WinProcessorPanelUI() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0};
@@ -104,7 +104,7 @@ public class CpuPanelUI extends JPanel {
 		hardwareIdTextField.setColumns(10);
 		
 		JButton copyHwid = new JButton();
-		copyHwid.setIcon(new FlatSVGIcon(CpuPanelUI.class.getResource("/icons/extra_icons/copy.svg")));
+		copyHwid.setIcon(new FlatSVGIcon(WinProcessorPanelUI.class.getResource("/icons/extra_icons/copy.svg")));
 		copyHwid.addActionListener(copyAction -> {
 			StringSelection textToCopy = new StringSelection(hardwareIdTextField.getText());
 			Toolkit.getDefaultToolkit().getSystemClipboard().setContents(textToCopy, null);
@@ -572,13 +572,13 @@ public class CpuPanelUI extends JPanel {
 	}
 
 	private void setWorkers() {
-		new HardwareIdWorker(hardwareIdTextField).execute();
+		new WinHardwareIdWorker(hardwareIdTextField).execute();
 
 		List<JTextField> cpuFields = List.of(coreTextField, threadTextField, factoryClockTextField, cpuNameTextField,
 				versionTextField, familyTextField, steppingTextField, manufacturerTextField, captionTextField,
 				processorIdTextField, enabledCoresTextField, enabledThreadsTextField, reservedTextField, addressWidthTextField,
 				socketTextField, baseClockTextField, l1TextField, l2TextField, l3TextField, l4TextField);
 
-		new CpuPanelWorker(cpuIdComboBox, cpuFields, extraCacheTextArea, cpuManufacturerLogoLabel).execute();
+		new WinProcessorPanelWorker(cpuIdComboBox, cpuFields, extraCacheTextArea, cpuManufacturerLogoLabel).execute();
 	}
 }

@@ -1,6 +1,6 @@
 package io.github.eggy03.ui.windows.panels;
 
-import io.github.eggy03.ui.windows.worker.MemoryPanelWorker;
+import io.github.eggy03.ui.windows.worker.WinPhysicalMemoryPanelWorker;
 
 import javax.swing.JPanel;
 import java.awt.GridLayout;
@@ -15,7 +15,7 @@ import java.util.List;
 import javax.swing.JTextField;
 import javax.swing.JScrollPane;
 
-public class MemoryPanelUI extends JPanel {
+public class WinPhysicalMemoryPanelUI extends JPanel {
 
 	private JComboBox<String> slotComboBox;
 	private JTextField nameTextField;
@@ -39,7 +39,7 @@ public class MemoryPanelUI extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public MemoryPanelUI() {
+	public WinPhysicalMemoryPanelUI() {
 		setUI();
 		setWorker();
 	}
@@ -319,7 +319,7 @@ public class MemoryPanelUI extends JPanel {
 		partNumberTextField, serialTextField, formFactorTextField, bankLabelTextField, capacityTextField,
 		dataWidthTextField, speedTextField, configSpeedTextField, deviceLocatorTextField);
 
-		new MemoryPanelWorker(slotComboBox, memoryFields).execute();
+		new WinPhysicalMemoryPanelWorker(slotComboBox, memoryFields).execute();
 	}
 
 }
