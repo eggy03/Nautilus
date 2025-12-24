@@ -7,7 +7,7 @@ import org.jetbrains.annotations.Nullable;
 @UtilityClass
 public class WMIConstants {
 
-    // CACHE MEMORY SPECIFIC
+    // Win32CacheMemory
     @NotNull
     public static String resolveWMICacheMemoryType(@Nullable Integer cacheType) {
 
@@ -78,7 +78,7 @@ public class WMIConstants {
         };
     }
 
-    // PHYSICAL MEMORY SPECIFIC
+    // Win32PhysicalMemory
     @NotNull
     public static String resolveWMIPhysicalMemoryFormFactor(@Nullable Integer formFactor) {
 
@@ -110,6 +110,50 @@ public class WMIConstants {
             case null, default -> "N/A";
         };
     }
+
+    // Win32PortConnector
+    @NotNull
+    public static String resolveWMIPortType(@Nullable Integer portType) {
+
+        return switch (portType) {
+            case 0  -> "None";
+            case 1  -> "Parallel Port XT/AT Compatible";
+            case 2  -> "Parallel Port PS/2";
+            case 3  -> "Parallel Port ECP";
+            case 4  -> "Parallel Port EPP";
+            case 5  -> "Parallel Port ECP/EPP";
+            case 6  -> "Serial Port XT/AT Compatible";
+            case 7  -> "Serial Port 16450 Compatible";
+            case 8  -> "Serial Port 16550 Compatible";
+            case 9  -> "Serial Port 16550A Compatible";
+            case 10 -> "SCSI Port";
+            case 11 -> "MIDI Port";
+            case 12 -> "Joy Stick Port";
+            case 13 -> "Keyboard Port";
+            case 14 -> "Mouse Port";
+            case 15 -> "SSA SCSI";
+            case 16 -> "USB";
+            case 17 -> "FireWire (IEEE 1394)";
+            case 18 -> "PCMCIA Type I";
+            case 19 -> "PCMCIA Type II";
+            case 20 -> "PCMCIA Type III";
+            case 21 -> "Cardbus";
+            case 22 -> "Access Bus Port";
+            case 23 -> "SCSI II";
+            case 24 -> "SCSI Wide";
+            case 25 -> "PC-98";
+            case 26 -> "PC-98-Hireso";
+            case 27 -> "PC-H98";
+            case 28 -> "Video Port";
+            case 29 -> "Audio Port";
+            case 30 -> "Modem Port";
+            case 31 -> "Network Port";
+            case 32 -> "8251 Compatible";
+            case 33 -> "8251 FIFO Compatible";
+            case null, default -> "N/A";
+        };
+    }
+
 
     // GENERAL
     @NotNull
