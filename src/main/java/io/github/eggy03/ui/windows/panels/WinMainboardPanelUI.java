@@ -1,9 +1,14 @@
 package io.github.eggy03.ui.windows.panels;
 
+import io.github.eggy03.ui.windows.worker.WinBaseboardWorker;
+import io.github.eggy03.ui.windows.worker.WinBiosWorker;
+import io.github.eggy03.ui.windows.worker.WinPortConnectorWorker;
+
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.util.List;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -35,8 +40,8 @@ public class WinMainboardPanelUI extends JPanel {
 	private JTextField biosNameTextField;
 	private JTextField biosPrimaryTextField;
 	private JTextField biosReleaseDateTextField;
-	private JTextField biosSmbiosVersionTextField;
 	private JTextField biosSmbiosPresenceTextField;
+	private JTextField biosSmbiosVersionTextField;
 	private JTextField biosStatusTextField;
 	private JTextField biosVersionTextField;
 	
@@ -409,30 +414,12 @@ public class WinMainboardPanelUI extends JPanel {
 		biosPanel.add(biosReleaseDateTextField, gbcBiosReleaseDateTextField);
 		biosReleaseDateTextField.setColumns(10);
 		
-		JLabel biosSmbiosVersionLabel = new JLabel("SMBIOS BIOS Ver.");
-		GridBagConstraints gbcBiosSmbiosVersionLabel = new GridBagConstraints();
-		gbcBiosSmbiosVersionLabel.anchor = GridBagConstraints.WEST;
-		gbcBiosSmbiosVersionLabel.insets = new Insets(0, 0, 5, 5);
-		gbcBiosSmbiosVersionLabel.gridx = 0;
-		gbcBiosSmbiosVersionLabel.gridy = 7;
-		biosPanel.add(biosSmbiosVersionLabel, gbcBiosSmbiosVersionLabel);
-		
-		biosSmbiosVersionTextField = new JTextField();
-		biosSmbiosVersionTextField.setEditable(false);
-		GridBagConstraints gbcBiosSmbiosVersionTextField = new GridBagConstraints();
-		gbcBiosSmbiosVersionTextField.insets = new Insets(0, 0, 5, 0);
-		gbcBiosSmbiosVersionTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbcBiosSmbiosVersionTextField.gridx = 1;
-		gbcBiosSmbiosVersionTextField.gridy = 7;
-		biosPanel.add(biosSmbiosVersionTextField, gbcBiosSmbiosVersionTextField);
-		biosSmbiosVersionTextField.setColumns(10);
-		
 		JLabel biosSmbiosPresenceLabel = new JLabel("SMBIOS Present");
 		GridBagConstraints gbcBiosSmbiosPresenceLabel = new GridBagConstraints();
 		gbcBiosSmbiosPresenceLabel.anchor = GridBagConstraints.WEST;
 		gbcBiosSmbiosPresenceLabel.insets = new Insets(0, 0, 5, 5);
 		gbcBiosSmbiosPresenceLabel.gridx = 0;
-		gbcBiosSmbiosPresenceLabel.gridy = 8;
+		gbcBiosSmbiosPresenceLabel.gridy = 7;
 		biosPanel.add(biosSmbiosPresenceLabel, gbcBiosSmbiosPresenceLabel);
 		
 		biosSmbiosPresenceTextField = new JTextField();
@@ -441,9 +428,27 @@ public class WinMainboardPanelUI extends JPanel {
 		gbcBiosSmbiosPresenceTextField.insets = new Insets(0, 0, 5, 0);
 		gbcBiosSmbiosPresenceTextField.fill = GridBagConstraints.HORIZONTAL;
 		gbcBiosSmbiosPresenceTextField.gridx = 1;
-		gbcBiosSmbiosPresenceTextField.gridy = 8;
-		biosPanel.add(biosSmbiosPresenceTextField, gbcBiosSmbiosPresenceTextField);
+		gbcBiosSmbiosPresenceTextField.gridy = 7;
 		biosSmbiosPresenceTextField.setColumns(10);
+		biosPanel.add(biosSmbiosPresenceTextField, gbcBiosSmbiosPresenceTextField);
+
+		JLabel biosSmbiosVersionLabel = new JLabel("SMBIOS BIOS Ver.");
+		GridBagConstraints gbcBiosSmbiosVersionLabel = new GridBagConstraints();
+		gbcBiosSmbiosVersionLabel.anchor = GridBagConstraints.WEST;
+		gbcBiosSmbiosVersionLabel.insets = new Insets(0, 0, 5, 5);
+		gbcBiosSmbiosVersionLabel.gridx = 0;
+		gbcBiosSmbiosVersionLabel.gridy = 8;
+		biosPanel.add(biosSmbiosVersionLabel, gbcBiosSmbiosVersionLabel);
+
+		biosSmbiosVersionTextField = new JTextField();
+		biosSmbiosVersionTextField.setEditable(false);
+		GridBagConstraints gbcBiosSmbiosVersionTextField = new GridBagConstraints();
+		gbcBiosSmbiosVersionTextField.insets = new Insets(0, 0, 5, 0);
+		gbcBiosSmbiosVersionTextField.fill = GridBagConstraints.HORIZONTAL;
+		gbcBiosSmbiosVersionTextField.gridx = 1;
+		gbcBiosSmbiosVersionTextField.gridy = 8;
+		biosPanel.add(biosSmbiosVersionTextField, gbcBiosSmbiosVersionTextField);
+		biosSmbiosVersionTextField.setColumns(10);
 		
 		JLabel biosStatusLabel = new JLabel("Status");
 		GridBagConstraints gbcBiosStatusLabel = new GridBagConstraints();
@@ -490,7 +495,30 @@ public class WinMainboardPanelUI extends JPanel {
 	}
 
 	private void setWorkers() {
-			// TODO
+
+		// baseboard worker
+		List<JTextField> baseBoardFields = List.of(
+				baseboardManufacturerTextField, baseboardModelTextField,
+				baseboardProductTextField, baseboardSerialNumberTextField,
+				baseboardVersionTextField
+		);
+		new WinBaseboardWorker(baseboardNumberComboBox, baseBoardFields).execute();
+
+		// baseboard port worker
+		List<JTextField> baseBoardPortFields = List.of(
+				baseboardPortTypeTextField, baseboardPortIRDTextField, baseboardPortERDTextField
+		);
+		new WinPortConnectorWorker(baseboardPortTagComboBox, baseBoardPortFields).execute();
+
+		// BIOS worker
+		List<JTextField> biosFields = List.of(
+				biosCaptionTextField, biosCurrentLanguageTextField, biosManufacturerTextField,
+				biosNameTextField, biosPrimaryTextField, biosReleaseDateTextField,
+				biosSmbiosPresenceTextField, biosSmbiosVersionTextField, biosStatusTextField,
+				biosVersionTextField
+		);
+		new WinBiosWorker(biosNumberComboBox, biosFields).execute();
+
 	}
 
 }
