@@ -2,6 +2,7 @@ package io.github.eggy03.ui.windows;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import io.github.eggy03.ui.windows.panels.WinProcessorPanelUI;
+import io.github.eggy03.ui.windows.panels.WinVideoControllerPanelUI;
 import io.github.eggy03.ui.windows.panels.WinMainboardPanelUI;
 import io.github.eggy03.ui.windows.panels.WinPhysicalMemoryPanelUI;
 
@@ -54,6 +55,7 @@ public class WindowsUI extends JFrame {
 		tabbedPane.addTab("CPU", new FlatSVGIcon(WindowsUI.class.getResource("/icons/tab_icons_small/CPU.svg")), new WinProcessorPanelUI().getPanel(), null);
 		tabbedPane.addTab("Memory", new FlatSVGIcon(WindowsUI.class.getResource("/icons/tab_icons_small/RAM.svg")), new WinPhysicalMemoryPanelUI().getPanel(), null);
 		tabbedPane.addTab("Mainboard", new FlatSVGIcon(WindowsUI.class.getResource("/icons/tab_icons_small/MainBoard.svg")), new WinMainboardPanelUI().getPanel(), null);
+		tabbedPane.addTab("GPU", new FlatSVGIcon(WindowsUI.class.getResource("/icons/tab_icons_small/GPU.svg")), new WinVideoControllerPanelUI().getPanel(), null);
 	}
 
 }
