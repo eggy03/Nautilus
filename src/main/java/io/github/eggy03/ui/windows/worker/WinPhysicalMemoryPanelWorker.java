@@ -2,6 +2,7 @@ package io.github.eggy03.ui.windows.worker;
 
 import io.github.eggy03.ferrumx.windows.entity.memory.Win32PhysicalMemory;
 import io.github.eggy03.ferrumx.windows.service.memory.Win32PhysicalMemoryService;
+import io.github.eggy03.ui.windows.utilities.WMISizeUtility;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -78,7 +79,7 @@ public class WinPhysicalMemoryPanelWorker extends SwingWorker<List<Win32Physical
         memoryFields.get(5).setText(memory.getSerialNumber());
         memoryFields.get(6).setText(resolveWMIPhysicalMemoryFormFactor(memory.getFormFactor()));
         memoryFields.get(7).setText(memory.getBankLabel());
-        memoryFields.get(8).setText(memory.getCapacity()+" KB");
+        memoryFields.get(8).setText(WMISizeUtility.parseToGBString(memory.getCapacity()));
         memoryFields.get(9).setText(memory.getDataWidth()+ " Bits");
         memoryFields.get(10).setText(memory.getSpeed()+ " MHz");
         memoryFields.get(11).setText(memory.getConfiguredClockSpeed()+ " MHz");
