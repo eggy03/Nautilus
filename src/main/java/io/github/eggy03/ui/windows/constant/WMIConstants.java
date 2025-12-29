@@ -154,6 +154,143 @@ public class WMIConstants {
         };
     }
 
+    // MSFT_NetCommon
+    @NotNull
+    public static String resolveMsftIPvAddressFamily(@Nullable Object addressFamily) {
+
+        if (addressFamily == null) {
+            return "N/A";
+        }
+
+        if(addressFamily instanceof Long addressFamilyLong) {
+            return switch (addressFamilyLong.intValue()) {
+                case 2  -> "IPv4";
+                case 23 -> "IPv6";
+                default -> "Unknown";
+            };
+        }
+
+        if(addressFamily instanceof Integer addressFamilyInt) {
+            return switch (addressFamilyInt) {
+                case 2  -> "IPv4";
+                case 23 -> "IPv6";
+                default -> "Unknown";
+            };
+        }
+
+        return "N/A";
+    }
+
+    // MSFT_NetAdapter
+    @NotNull
+    public static String resolveMsftNetAdapterMediaConnectState(@Nullable Long mediaConnectState) {
+
+        if (mediaConnectState == null) {
+            return "N/A";
+        }
+
+        return switch (mediaConnectState.intValue()) {
+            case 0 -> "Unknown";
+            case 1 -> "Connected";
+            case 2 -> "Disconnected";
+            default -> "N/A";
+        };
+    }
+
+    // MSFT_NetIpAddress
+    @NotNull
+    public static String resolveMsftNetIpAddressType(@Nullable Integer type) {
+
+        return switch (type) {
+            case 1 -> "Unicast";
+            case 2 -> "Anycast";
+            case null, default -> "N/A";
+        };
+    }
+
+    @NotNull
+    public static String resolveMsftNetIpAddressPrefixOrigin(@Nullable Long prefixOrigin) {
+
+        if (prefixOrigin == null) {
+            return "N/A";
+        }
+
+        return switch (prefixOrigin.intValue()) {
+            case 0 -> "Other";
+            case 1 -> "Manual";
+            case 2 -> "Well Known";
+            case 3 -> "DHCP";
+            case 4 -> "Router Advertisement";
+            default -> "N/A";
+        };
+    }
+
+    @NotNull
+    public static String resolveMsftNetIpAddressSuffixOrigin(@Nullable Long suffixOrigin) {
+
+        if (suffixOrigin == null) {
+            return "N/A";
+        }
+
+        return switch (suffixOrigin.intValue()) {
+            case 0 -> "Other";
+            case 1 -> "Manual";
+            case 2 -> "Well Known";
+            case 3 -> "DHCP";
+            case 4 -> "Link";
+            case 5 -> "Random";
+            default -> "N/A";
+        };
+    }
+
+    // MSFT_NetConnectionProfile
+    @NotNull
+    public static String resolveMsftNetConnectionProfileNetworkCategory(@Nullable Long networkCategory) {
+
+        if (networkCategory == null) {
+            return "N/A";
+        }
+
+        return switch (networkCategory.intValue()) {
+            case 0 -> "Public";
+            case 1 -> "Private";
+            case 2 -> "Domain Authenticated";
+            default -> "N/A";
+        };
+    }
+
+    @NotNull
+    public static String resolveMsftNetConnectionProfileDomainAuthenticationKind(
+            @Nullable Long domainAuthenticationKind) {
+
+        if (domainAuthenticationKind == null) {
+            return "N/A";
+        }
+
+        return switch (domainAuthenticationKind.intValue()) {
+            case 0 -> "None";
+            case 1 -> "LDAP";
+            case 2 -> "TLS";
+            default -> "N/A";
+        };
+    }
+
+    @NotNull
+    public static String resolveMsftNetConnectionProfileConnectivity(@Nullable Long connectivity) {
+
+        if (connectivity == null) {
+            return "N/A";
+        }
+
+        return switch (connectivity.intValue()) {
+            case 0 -> "Disconnected";
+            case 1 -> "No Traffic";
+            case 2 -> "Subnet";
+            case 3 -> "Local Network";
+            case 4 -> "Internet";
+            default -> "N/A";
+        };
+    }
 
     // GENERAL
     @NotNull
