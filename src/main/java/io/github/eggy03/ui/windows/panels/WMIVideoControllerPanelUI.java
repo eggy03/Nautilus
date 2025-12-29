@@ -1,6 +1,6 @@
 package io.github.eggy03.ui.windows.panels;
 
-import io.github.eggy03.ui.windows.worker.WinVideoControllerPanelWorker;
+import io.github.eggy03.ui.windows.worker.WMIVideoControllerPanelWorker;
 
 import javax.swing.JPanel;
 import java.awt.GridLayout;
@@ -16,7 +16,7 @@ import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-public class WinVideoControllerPanelUI extends JPanel {
+public class WMIVideoControllerPanelUI extends JPanel {
 	
 	private JComboBox<String> gpuDeviceIdComboBox;
 	private JTextField gpuNameTextField;
@@ -39,7 +39,7 @@ public class WinVideoControllerPanelUI extends JPanel {
 		return this;
 	}
 	
-	public WinVideoControllerPanelUI() {
+	public WMIVideoControllerPanelUI() {
 		setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Video Controller", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		setLayout(new GridLayout(3, 0, 0, 0));
 		
@@ -372,6 +372,6 @@ public class WinVideoControllerPanelUI extends JPanel {
 		gpuVideoProcessorTextField
 		);
 
-		new WinVideoControllerPanelWorker(gpuManufacturerLogoLabel, gpuDeviceIdComboBox, gpuFields).execute();
+		new WMIVideoControllerPanelWorker(gpuManufacturerLogoLabel, gpuDeviceIdComboBox, gpuFields).execute();
 	}
 }

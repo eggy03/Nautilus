@@ -29,7 +29,7 @@ import static io.github.eggy03.ui.windows.constant.WMIConstants.resolveWMICacheM
 
 @RequiredArgsConstructor
 @Slf4j
-public class WinProcessorPanelWorker extends SwingWorker<List<Win32ProcessorToCacheMemory>, Void> {
+public class WMIProcessorPanelWorker extends SwingWorker<List<Win32ProcessorToCacheMemory>, Void> {
 
     private final JComboBox<String> cpuIdComboBox;
     private final List<JTextField> cpuFields;

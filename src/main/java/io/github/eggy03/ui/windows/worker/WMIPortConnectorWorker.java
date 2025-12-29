@@ -16,7 +16,7 @@ import static io.github.eggy03.ui.windows.constant.WMIConstants.resolveWMIPortTy
 
 @Slf4j
 @RequiredArgsConstructor
-public class WinPortConnectorWorker extends SwingWorker<List<Win32PortConnector>, Void> {
+public class WMIPortConnectorWorker extends SwingWorker<List<Win32PortConnector>, Void> {
 
     private final JComboBox<String> tagComboBox;
     private final List<JTextField> portFields;

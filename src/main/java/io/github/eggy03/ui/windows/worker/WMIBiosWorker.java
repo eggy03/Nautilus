@@ -16,7 +16,7 @@ import java.util.concurrent.ExecutionException;
 
 @Slf4j
 @RequiredArgsConstructor
-public class WinBiosWorker extends SwingWorker<List<Win32Bios>, Void> {
+public class WMIBiosWorker extends SwingWorker<List<Win32Bios>, Void> {
 
     private final JComboBox<Integer> biosNumberComboBox;
     private final List<JTextField> biosFields;
