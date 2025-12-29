@@ -17,7 +17,7 @@ import static io.github.eggy03.ui.windows.constant.WMIConstants.resolveWMIPhysic
 
 @RequiredArgsConstructor
 @Slf4j
-public class WinPhysicalMemoryPanelWorker extends SwingWorker<List<Win32PhysicalMemory>, Void> {
+public class WMIPhysicalMemoryPanelWorker extends SwingWorker<List<Win32PhysicalMemory>, Void> {
 
     private final JComboBox<String> memoryTagComboBox;
     private final List<JTextField> memoryFields;

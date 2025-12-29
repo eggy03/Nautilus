@@ -15,7 +15,7 @@ import java.util.concurrent.ExecutionException;
 
 @Slf4j
 @RequiredArgsConstructor
-public class WinBaseboardWorker extends SwingWorker<List<Win32Baseboard>, Void> {
+public class WMIBaseboardWorker extends SwingWorker<List<Win32Baseboard>, Void> {
 
     private final JComboBox<Integer> baseboardNumberComboBox;
     private final List<JTextField> baseboardFields;

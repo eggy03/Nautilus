@@ -1,6 +1,6 @@
 package io.github.eggy03.ui.windows.panels;
 
-import io.github.eggy03.ui.windows.worker.WinNetworkPanelWorker;
+import io.github.eggy03.ui.windows.worker.WMINetworkPanelWorker;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -18,7 +18,7 @@ import javax.swing.JTextField;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
 
-public class WinNetworkPanelUI extends JPanel {
+public class WMINetworkPanelUI extends JPanel {
 	
 	private JComboBox<Long> networkInterfaceIdComboBox;
 
@@ -46,7 +46,7 @@ public class WinNetworkPanelUI extends JPanel {
 		return this;
 	}
 
-	public WinNetworkPanelUI() {
+	public WMINetworkPanelUI() {
 		setLayout(new GridLayout(2, 0, 0, 0));
 		
 		setAdapterPanel();
@@ -408,7 +408,7 @@ public class WinNetworkPanelUI extends JPanel {
 
 		List<JEditorPane> editorPanes = List.of(adapterIpEditorPane, adapterDnsEditorPane, adapterConnectionProfileEditorPane);
 
-		new WinNetworkPanelWorker(networkInterfaceIdComboBox, adapterFields, editorPanes).execute();
+		new WMINetworkPanelWorker(networkInterfaceIdComboBox, adapterFields, editorPanes).execute();
 	}
 
 }

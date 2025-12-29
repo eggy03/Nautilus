@@ -19,11 +19,10 @@ import javax.swing.SwingWorker;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.atomic.AtomicInteger;
 
 @RequiredArgsConstructor
 @Slf4j
-public class WinNetworkPanelWorker extends SwingWorker<List<MsftNetAdapterToIpAndDnsAndProfile>, Void> {
+public class WMINetworkPanelWorker extends SwingWorker<List<MsftNetAdapterToIpAndDnsAndProfile>, Void> {
 
     private final JComboBox<Long> networkIndexComboBox;
     private final List<JTextField> networkFields;

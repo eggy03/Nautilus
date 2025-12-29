@@ -1,8 +1,8 @@
 package io.github.eggy03.ui.windows.panels;
 
-import io.github.eggy03.ui.windows.worker.WinBaseboardWorker;
-import io.github.eggy03.ui.windows.worker.WinBiosWorker;
-import io.github.eggy03.ui.windows.worker.WinPortConnectorWorker;
+import io.github.eggy03.ui.windows.worker.WMIBaseboardWorker;
+import io.github.eggy03.ui.windows.worker.WMIBiosWorker;
+import io.github.eggy03.ui.windows.worker.WMIPortConnectorWorker;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -19,7 +19,7 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.JScrollPane;
 
-public class WinMainboardPanelUI extends JPanel {
+public class WMIMainboardPanelUI extends JPanel {
 	
 	private JComboBox<Integer> baseboardNumberComboBox;
 	private JTextField baseboardManufacturerTextField;
@@ -53,7 +53,7 @@ public class WinMainboardPanelUI extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public WinMainboardPanelUI() {
+	public WMIMainboardPanelUI() {
 		setLayout(new GridLayout(0, 1, 0, 0));
 
 		setBaseboardPanel();
@@ -502,13 +502,13 @@ public class WinMainboardPanelUI extends JPanel {
 				baseboardProductTextField, baseboardSerialNumberTextField,
 				baseboardVersionTextField
 		);
-		new WinBaseboardWorker(baseboardNumberComboBox, baseBoardFields).execute();
+		new WMIBaseboardWorker(baseboardNumberComboBox, baseBoardFields).execute();
 
 		// baseboard port worker
 		List<JTextField> baseBoardPortFields = List.of(
 				baseboardPortTypeTextField, baseboardPortIRDTextField, baseboardPortERDTextField
 		);
-		new WinPortConnectorWorker(baseboardPortTagComboBox, baseBoardPortFields).execute();
+		new WMIPortConnectorWorker(baseboardPortTagComboBox, baseBoardPortFields).execute();
 
 		// BIOS worker
 		List<JTextField> biosFields = List.of(
@@ -517,7 +517,7 @@ public class WinMainboardPanelUI extends JPanel {
 				biosSmbiosPresenceTextField, biosSmbiosVersionTextField, biosStatusTextField,
 				biosVersionTextField
 		);
-		new WinBiosWorker(biosNumberComboBox, biosFields).execute();
+		new WMIBiosWorker(biosNumberComboBox, biosFields).execute();
 
 	}
 
