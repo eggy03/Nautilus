@@ -1,6 +1,6 @@
 package io.github.eggy03.ui.windows.panels;
 
-import io.github.eggy03.ui.windows.worker.WinVideoControllerWorker;
+import io.github.eggy03.ui.windows.worker.WinVideoControllerPanelWorker;
 
 import javax.swing.JPanel;
 import java.awt.GridLayout;
@@ -372,6 +372,6 @@ public class WinVideoControllerPanelUI extends JPanel {
 		gpuVideoProcessorTextField
 		);
 
-		new WinVideoControllerWorker(gpuManufacturerLogoLabel, gpuDeviceIdComboBox, gpuFields).execute();
+		new WinVideoControllerPanelWorker(gpuManufacturerLogoLabel, gpuDeviceIdComboBox, gpuFields).execute();
 	}
 }

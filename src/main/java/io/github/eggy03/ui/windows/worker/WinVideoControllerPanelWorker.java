@@ -18,7 +18,7 @@ import java.util.concurrent.ExecutionException;
 
 @Slf4j
 @RequiredArgsConstructor
-public class WinVideoControllerWorker extends SwingWorker<List<Win32VideoController>, Void> {
+public class WinVideoControllerPanelWorker extends SwingWorker<List<Win32VideoController>, Void> {
 
     private final JLabel gpuManufacturerLabel;
     private final JComboBox<String> gpuDeviceIdComboBox;
