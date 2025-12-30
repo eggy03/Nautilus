@@ -21,16 +21,16 @@ public class WMIStoragePanelUI extends JPanel {
 	
 	private JComboBox<String> diskDeviceIdComboBox;
 
-	private JTextField diskStatusTextField;
-	private JTextField diskCapabilitiesTextField;
-	private JTextField diskPartitionsTextField;
-	private JTextField diskSizeTextField;
-	private JTextField diskSerialNumberTextField;
-	private JTextField diskInterfaceTypeTextField;
-	private JTextField diskFirmwareRevisionTextField;
-	private JTextField diskModelTextField;
-	private JTextField diskCaptionTextField;
 	private JTextField diskPnpDeviceIdTextField;
+	private JTextField diskCaptionTextField;
+	private JTextField diskModelTextField;
+	private JTextField diskFirmwareRevisionTextField;
+	private JTextField diskInterfaceTypeTextField;
+	private JTextField diskSerialNumberTextField;
+	private JTextField diskSizeTextField;
+	private JTextField diskPartitionsTextField;
+	private JTextField diskCapabilitiesTextField;
+	private JTextField diskStatusTextField;
 
 	private JEditorPane diskPartitionEditorPane;
 	private JEditorPane diskVolumeEditorPane;
@@ -276,6 +276,7 @@ public class WMIStoragePanelUI extends JPanel {
 		diskPartitionPanel.add(diskPartitionScrollPane);
 		
 		diskPartitionEditorPane = new JEditorPane();
+		diskPartitionEditorPane.setContentType("text/html");
 		diskPartitionScrollPane.setViewportView(diskPartitionEditorPane);
 		diskPartitionEditorPane.setEditable(false);
 		
@@ -289,15 +290,16 @@ public class WMIStoragePanelUI extends JPanel {
 		diskVolumePanel.add(diskVolumeScrollPane);
 		
 		diskVolumeEditorPane = new JEditorPane();
+		diskVolumeEditorPane.setContentType("text/html");
 		diskVolumeScrollPane.setViewportView(diskVolumeEditorPane);
 		diskVolumeEditorPane.setEditable(false);
 	}
 	
 	private void setWorker() {
 
-		List<JTextField> storageFields = List.of(diskStatusTextField, diskCapabilitiesTextField, diskPartitionsTextField,
-		diskSizeTextField, diskSerialNumberTextField, diskInterfaceTypeTextField, diskFirmwareRevisionTextField,
-		diskModelTextField, diskCaptionTextField, diskPnpDeviceIdTextField);
+		List<JTextField> storageFields = List.of(diskPnpDeviceIdTextField, diskCaptionTextField, diskModelTextField,
+		diskFirmwareRevisionTextField, diskInterfaceTypeTextField, diskSerialNumberTextField, diskSizeTextField,
+		diskPartitionsTextField, diskCapabilitiesTextField, diskStatusTextField);
 
 		List<JEditorPane> editorPanes = List.of(diskPartitionEditorPane, diskVolumeEditorPane);
 
