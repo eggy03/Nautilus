@@ -292,6 +292,63 @@ public class WMIConstants {
         };
     }
 
+    // Win32_LogicalDisk
+    @NotNull
+    public static String resolveWMILogicalDiskDriveType(@Nullable Long driveType) {
+
+        if (driveType == null) {
+            return "N/A";
+        }
+
+        return switch (driveType.intValue()) {
+            case 0 -> "Unknown";
+            case 1 -> "No Root Directory";
+            case 2 -> "Removable Disk";
+            case 3 -> "Local Disk";
+            case 4 -> "Network Drive";
+            case 5 -> "Compact Disc";
+            case 6 -> "RAM Disk";
+            default -> "N/A";
+        };
+    }
+
+    @NotNull
+    public static String resolveWMILogicalDiskMediaType(@Nullable Long mediaType) {
+
+        if (mediaType == null) {
+            return "N/A";
+        }
+
+        return switch (mediaType.intValue()) {
+            case 0  -> "Unknown format";
+            case 1  -> "5.25 inch floppy (1.2 MB, 512 bytes/sector)";
+            case 2  -> "3.5 inch floppy (1.44 MB, 512 bytes/sector)";
+            case 3  -> "3.5 inch floppy (2.88 MB, 512 bytes/sector)";
+            case 4  -> "3.5 inch floppy (20.8 MB, 512 bytes/sector)";
+            case 5  -> "3.5 inch floppy (720 KB, 512 bytes/sector)";
+            case 6  -> "5.25 inch floppy (360 KB, 512 bytes/sector)";
+            case 7  -> "5.25 inch floppy (320 KB, 512 bytes/sector)";
+            case 8  -> "5.25 inch floppy (320 KB, 1024 bytes/sector)";
+            case 9  -> "5.25 inch floppy (180 KB, 512 bytes/sector)";
+            case 10 -> "5.25 inch floppy (160 KB, 512 bytes/sector)";
+            case 11 -> "Removable Media (non-floppy)";
+            case 12 -> "Fixed Hard Disk Media";
+            case 13 -> "3.5 inch floppy (120 MB, 512 bytes/sector)";
+            case 14 -> "3.5 inch floppy (640 KB, 512 bytes/sector)";
+            case 15 -> "5.25 inch floppy (640 KB, 512 bytes/sector)";
+            case 16 -> "5.25 inch floppy (720 KB, 512 bytes/sector)";
+            case 17 -> "3.5 inch floppy (1.2 MB, 512 bytes/sector)";
+            case 18 -> "3.5 inch floppy (1.23 MB, 1024 bytes/sector)";
+            case 19 -> "5.25 inch floppy (1.23 MB, 1024 bytes/sector)";
+            case 20 -> "3.5 inch floppy (128 MB, 512 bytes/sector)";
+            case 21 -> "3.5 inch floppy (230 MB, 512 bytes/sector)";
+            case 22 -> "8 inch floppy (256 KB, 128 bytes/sector)";
+            default -> "N/A";
+        };
+    }
+
+
+
     // GENERAL
     @NotNull
     public static String resolveWMIAvailability(@Nullable Integer availability) {
