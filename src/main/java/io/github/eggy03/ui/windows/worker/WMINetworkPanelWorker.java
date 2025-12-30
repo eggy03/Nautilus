@@ -83,7 +83,7 @@ public class WMINetworkPanelWorker extends SwingWorker<List<MsftNetAdapterToIpAn
 
         if(currentAdapter!=null){
             networkFields.get(0).setText(currentAdapter.getDeviceId());
-            networkFields.get(1).setText(currentAdapter.getInterfaceName());
+            networkFields.get(1).setText(currentAdapter.getInterfaceDescription());
             networkFields.get(2).setText(currentAdapter.getDriverVersion());
             networkFields.get(3).setText(currentAdapter.getDriverDate());
             networkFields.get(4).setText(String.valueOf(currentAdapter.getInterfaceType())); //not parsed cause long list
