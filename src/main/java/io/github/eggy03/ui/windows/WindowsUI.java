@@ -2,6 +2,7 @@ package io.github.eggy03.ui.windows;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import io.github.eggy03.ui.windows.panels.WMIProcessorPanelUI;
+import io.github.eggy03.ui.windows.panels.WMIStoragePanelUI;
 import io.github.eggy03.ui.windows.panels.WMIVideoControllerPanelUI;
 import io.github.eggy03.ui.windows.panels.WMIMainboardPanelUI;
 import io.github.eggy03.ui.windows.panels.WMINetworkPanelUI;
@@ -58,6 +59,7 @@ public class WindowsUI extends JFrame {
 		tabbedPane.addTab("Mainboard", new FlatSVGIcon(WindowsUI.class.getResource("/icons/tab_icons_small/MainBoard.svg")), new WMIMainboardPanelUI().getPanel(), null);
 		tabbedPane.addTab("GPU", new FlatSVGIcon(WindowsUI.class.getResource("/icons/tab_icons_small/GPU.svg")), new WMIVideoControllerPanelUI().getPanel(), null);
 		tabbedPane.addTab("Network", new FlatSVGIcon(WindowsUI.class.getResource("/icons/tab_icons_small/Network.svg")), new WMINetworkPanelUI().getPanel(), null);
+		tabbedPane.addTab("Storage", new FlatSVGIcon(WindowsUI.class.getResource("/icons/tab_icons_small/Storage.svg")), new WMIStoragePanelUI().getPanel(), null);
 	}
 
 }
