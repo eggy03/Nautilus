@@ -18,7 +18,7 @@ public class LinuxUI extends JFrame {
 	 */
 	public LinuxUI() {
 
-		setTitle("FerrumX-Linux");
+		setTitle("Nautilus");
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setBounds(0, 0, 900, 650);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(LinuxUI.class.getResource("/icons/icon_main.png")));

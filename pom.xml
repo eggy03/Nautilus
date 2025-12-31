@@ -2,10 +2,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.github.egg-03</groupId>
-    <artifactId>ferrumx-gui</artifactId>
-    <version>2.0.0</version>
-    <name>FerrumX-GUI</name>
-    <description>A standard GUI based on the FerrumX wrapper</description>
+    <artifactId>nautilus</artifactId>
+    <version>1.0.0</version>
+    <name>Nautilus</name>
+    <description>A Swing based GUI for viewing system information</description>
     <properties>
         <maven.compiler.release>21</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
