@@ -26,7 +26,7 @@ public class WindowsUI extends JFrame {
 	 */
 	public WindowsUI() {
 
-		setTitle("FerrumX-Windows");
+		setTitle("Nautilus");
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setBounds(0, 0, 900, 650);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(WindowsUI.class.getResource("/icons/icon_main.png")));
