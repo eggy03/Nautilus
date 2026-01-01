@@ -6,6 +6,7 @@ import io.github.eggy03.ui.windows.panels.WMIStoragePanelUI;
 import io.github.eggy03.ui.windows.panels.WMIVideoControllerPanelUI;
 import io.github.eggy03.ui.windows.panels.WMIMainboardPanelUI;
 import io.github.eggy03.ui.windows.panels.WMINetworkPanelUI;
+import io.github.eggy03.ui.windows.panels.WMIOperatingSystemUI;
 import io.github.eggy03.ui.windows.panels.WMIPhysicalMemoryPanelUI;
 
 import javax.swing.JFrame;
@@ -60,6 +61,7 @@ public class WindowsUI extends JFrame {
 		tabbedPane.addTab("GPU", new FlatSVGIcon(WindowsUI.class.getResource("/icons/tab_icons_small/GPU.svg")), new WMIVideoControllerPanelUI().getPanel(), null);
 		tabbedPane.addTab("Network", new FlatSVGIcon(WindowsUI.class.getResource("/icons/tab_icons_small/Network.svg")), new WMINetworkPanelUI().getPanel(), null);
 		tabbedPane.addTab("Storage", new FlatSVGIcon(WindowsUI.class.getResource("/icons/tab_icons_small/Storage.svg")), new WMIStoragePanelUI().getPanel(), null);
+		tabbedPane.addTab("OS", new FlatSVGIcon(WindowsUI.class.getResource("/icons/tab_icons_small/OS.svg")), new WMIOperatingSystemUI().getPanel(), null);
 	}
 
 }
