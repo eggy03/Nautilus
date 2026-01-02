@@ -7,6 +7,9 @@ import org.jetbrains.annotations.Nullable;
 @UtilityClass
 public class WMIConstants {
 
+    private static final String NOT_AVAILABLE = "N/A";
+    private static final String NOT_RESOLVED = "Value Not Resolved For: ";
+
     // Win32CacheMemory
     @NotNull
     public static String resolveWMICacheMemoryType(@Nullable Integer cacheType) {
@@ -17,7 +20,8 @@ public class WMIConstants {
             case 3-> "Instruction";
             case 4-> "Data";
             case 5-> "Unified";
-            case null, default -> "N/A";
+            case null -> NOT_AVAILABLE;
+            default -> NOT_RESOLVED;
         };
     }
 
@@ -31,7 +35,8 @@ public class WMIConstants {
             case 4-> "Secondary (L2)";
             case 5-> "Tertiary (L3)";
             case 6-> "Not Applicable";
-            case null, default -> "Not Found";
+            case null -> NOT_AVAILABLE;
+            default -> NOT_RESOLVED +cacheLevel;
         };
     }
 
@@ -47,7 +52,8 @@ public class WMIConstants {
             case 6-> "Fully Associative";
             case 7-> "8-way Set-Associative";
             case 8-> "16-way Set-Associative";
-            case null, default -> "N/A";
+            case null -> NOT_AVAILABLE;
+            default -> NOT_RESOLVED +associativity;
         };
     }
 
@@ -59,7 +65,8 @@ public class WMIConstants {
             case 1-> "External";
             case 2-> "Reserved";
             case 3-> "Unknown";
-            case null, default -> "N/A";
+            case null -> NOT_AVAILABLE;
+            default -> NOT_RESOLVED +location;
         };
     }
 
@@ -74,7 +81,8 @@ public class WMIConstants {
             case 4 -> "Parity";
             case 5 -> "Single-bit ECC";
             case 6 -> "Multi-bit ECC";
-            case null, default -> "N/A";
+            case null -> NOT_AVAILABLE;
+            default -> NOT_RESOLVED +errorCorrectType;
         };
     }
 
@@ -107,7 +115,8 @@ public class WMIConstants {
             case 21-> "BGA";
             case 22-> "FPBGA";
             case 23-> "LGA";
-            case null, default -> "N/A";
+            case null -> NOT_AVAILABLE;
+            default -> NOT_RESOLVED +formFactor;
         };
     }
 
@@ -150,7 +159,8 @@ public class WMIConstants {
             case 31 -> "Network Port";
             case 32 -> "8251 Compatible";
             case 33 -> "8251 FIFO Compatible";
-            case null, default -> "N/A";
+            case null -> NOT_AVAILABLE;
+            default -> NOT_RESOLVED +portType;
         };
     }
 
@@ -158,27 +168,21 @@ public class WMIConstants {
     @NotNull
     public static String resolveMsftIPvAddressFamily(@Nullable Object addressFamily) {
 
-        if (addressFamily == null) {
-            return "N/A";
-        }
-
-        if(addressFamily instanceof Long addressFamilyLong) {
-            return switch (addressFamilyLong.intValue()) {
-                case 2  -> "IPv4";
+        return switch (addressFamily) {
+            case null -> NOT_AVAILABLE;
+            case Long addressFamilyLong -> switch (addressFamilyLong.intValue()) {
+                case 2 -> "IPv4";
                 case 23 -> "IPv6";
                 default -> "Unknown";
             };
-        }
-
-        if(addressFamily instanceof Integer addressFamilyInt) {
-            return switch (addressFamilyInt) {
-                case 2  -> "IPv4";
+            case Integer addressFamilyInt -> switch (addressFamilyInt) {
+                case 2 -> "IPv4";
                 case 23 -> "IPv6";
                 default -> "Unknown";
             };
-        }
+            default -> NOT_RESOLVED +addressFamily;
+        };
 
-        return "N/A";
     }
 
     // MSFT_NetAdapter
@@ -186,14 +190,14 @@ public class WMIConstants {
     public static String resolveMsftNetAdapterMediaConnectState(@Nullable Long mediaConnectState) {
 
         if (mediaConnectState == null) {
-            return "N/A";
+            return NOT_AVAILABLE;
         }
 
         return switch (mediaConnectState.intValue()) {
             case 0 -> "Unknown";
             case 1 -> "Connected";
             case 2 -> "Disconnected";
-            default -> "N/A";
+            default -> NOT_RESOLVED +mediaConnectState;
         };
     }
 
@@ -204,7 +208,8 @@ public class WMIConstants {
         return switch (type) {
             case 1 -> "Unicast";
             case 2 -> "Anycast";
-            case null, default -> "N/A";
+            case null -> NOT_AVAILABLE;
+            default -> NOT_RESOLVED +type;
         };
     }
 
@@ -212,7 +217,7 @@ public class WMIConstants {
     public static String resolveMsftNetIpAddressPrefixOrigin(@Nullable Long prefixOrigin) {
 
         if (prefixOrigin == null) {
-            return "N/A";
+            return NOT_AVAILABLE;
         }
 
         return switch (prefixOrigin.intValue()) {
@@ -221,7 +226,7 @@ public class WMIConstants {
             case 2 -> "Well Known";
             case 3 -> "DHCP";
             case 4 -> "Router Advertisement";
-            default -> "N/A";
+            default -> NOT_RESOLVED +prefixOrigin.intValue();
         };
     }
 
@@ -229,7 +234,7 @@ public class WMIConstants {
     public static String resolveMsftNetIpAddressSuffixOrigin(@Nullable Long suffixOrigin) {
 
         if (suffixOrigin == null) {
-            return "N/A";
+            return NOT_AVAILABLE;
         }
 
         return switch (suffixOrigin.intValue()) {
@@ -239,7 +244,7 @@ public class WMIConstants {
             case 3 -> "DHCP";
             case 4 -> "Link";
             case 5 -> "Random";
-            default -> "N/A";
+            default -> NOT_RESOLVED +suffixOrigin.intValue();
         };
     }
 
@@ -248,14 +253,14 @@ public class WMIConstants {
     public static String resolveMsftNetConnectionProfileNetworkCategory(@Nullable Long networkCategory) {
 
         if (networkCategory == null) {
-            return "N/A";
+            return NOT_AVAILABLE;
         }
 
         return switch (networkCategory.intValue()) {
             case 0 -> "Public";
             case 1 -> "Private";
             case 2 -> "Domain Authenticated";
-            default -> "N/A";
+            default -> NOT_RESOLVED +networkCategory.intValue();
         };
     }
 
@@ -264,14 +269,14 @@ public class WMIConstants {
             @Nullable Long domainAuthenticationKind) {
 
         if (domainAuthenticationKind == null) {
-            return "N/A";
+            return NOT_AVAILABLE;
         }
 
         return switch (domainAuthenticationKind.intValue()) {
             case 0 -> "None";
             case 1 -> "LDAP";
             case 2 -> "TLS";
-            default -> "N/A";
+            default -> NOT_RESOLVED +domainAuthenticationKind.intValue();
         };
     }
 
@@ -279,7 +284,7 @@ public class WMIConstants {
     public static String resolveMsftNetConnectionProfileConnectivity(@Nullable Long connectivity) {
 
         if (connectivity == null) {
-            return "N/A";
+            return NOT_AVAILABLE;
         }
 
         return switch (connectivity.intValue()) {
@@ -288,7 +293,7 @@ public class WMIConstants {
             case 2 -> "Subnet";
             case 3 -> "Local Network";
             case 4 -> "Internet";
-            default -> "N/A";
+            default -> NOT_RESOLVED +connectivity;
         };
     }
 
@@ -297,7 +302,7 @@ public class WMIConstants {
     public static String resolveWMILogicalDiskDriveType(@Nullable Long driveType) {
 
         if (driveType == null) {
-            return "N/A";
+            return NOT_AVAILABLE;
         }
 
         return switch (driveType.intValue()) {
@@ -308,7 +313,7 @@ public class WMIConstants {
             case 4 -> "Network Drive";
             case 5 -> "Compact Disc";
             case 6 -> "RAM Disk";
-            default -> "N/A";
+            default -> NOT_RESOLVED +driveType;
         };
     }
 
@@ -316,7 +321,7 @@ public class WMIConstants {
     public static String resolveWMILogicalDiskMediaType(@Nullable Long mediaType) {
 
         if (mediaType == null) {
-            return "N/A";
+            return NOT_AVAILABLE;
         }
 
         return switch (mediaType.intValue()) {
@@ -343,10 +348,46 @@ public class WMIConstants {
             case 20 -> "3.5 inch floppy (128 MB, 512 bytes/sector)";
             case 21 -> "3.5 inch floppy (230 MB, 512 bytes/sector)";
             case 22 -> "8 inch floppy (256 KB, 128 bytes/sector)";
-            default -> "N/A";
+            default -> NOT_RESOLVED +mediaType;
         };
     }
 
+    // Win32UserAccount
+    @NotNull
+    public static String resolveWMIUserAccountSidType(@Nullable Integer sidType) {
+
+        return switch (sidType) {
+            case 1 -> "User";
+            case 2 -> "Group";
+            case 3 -> "Domain";
+            case 4 -> "Alias";
+            case 5 -> "Well-known Group";
+            case 6 -> "Deleted Account";
+            case 7 -> "Invalid";
+            case 8 -> "Unknown";
+            case 9 -> "Computer";
+            case null -> NOT_AVAILABLE;
+            default -> NOT_RESOLVED +sidType;
+        };
+    }
+
+    // Win32_UserAccount
+    @NotNull
+    public static String resolveWMIUserAccountType(@Nullable Long accountType) {
+
+        if (accountType == null) {
+            return NOT_AVAILABLE;
+        }
+
+        return switch (accountType.intValue()) {
+            case 256  -> "Temporary Duplicate Account";
+            case 512  -> "Normal Account";
+            case 2048 -> "Interdomain Trust Account";
+            case 4096 -> "Workstation Trust Account";
+            case 8192 -> "Server Trust Account";
+            default -> NOT_RESOLVED +accountType.intValue();
+        };
+    }
 
 
     // GENERAL
@@ -375,7 +416,8 @@ public class WMIConstants {
             case 19 -> "Not Ready";
             case 20 -> "Not Configured";
             case 21 -> "Quiesced";
-            case null, default -> "N/A";
+            case null -> NOT_AVAILABLE;
+            default -> NOT_RESOLVED +availability;
         };
     }
 }

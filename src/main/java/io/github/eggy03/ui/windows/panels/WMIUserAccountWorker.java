@@ -2,6 +2,7 @@ package io.github.eggy03.ui.windows.panels;
 
 import io.github.eggy03.ferrumx.windows.entity.user.Win32UserAccount;
 import io.github.eggy03.ferrumx.windows.service.user.Win32UserAccountService;
+import io.github.eggy03.ui.windows.constant.WMIConstants;
 import io.github.eggy03.ui.windows.utilities.WMIBooleanUtility;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -73,8 +74,8 @@ public class WMIUserAccountWorker extends SwingWorker<List<Win32UserAccount>, Vo
         userAccountFields.get(7).setText(WMIBooleanUtility.resolveBoolean(account.isLocalAccount()));
         userAccountFields.get(8).setText(WMIBooleanUtility.resolveBoolean(account.isDisabled()));
         userAccountFields.get(9).setText(WMIBooleanUtility.resolveBoolean(account.isLockedOut()));
-        userAccountFields.get(10).setText(String.valueOf(account.getAccountType()));
-        userAccountFields.get(11).setText(String.valueOf(account.getSidType()));
+        userAccountFields.get(10).setText(WMIConstants.resolveWMIUserAccountType(account.getAccountType()));
+        userAccountFields.get(11).setText(WMIConstants.resolveWMIUserAccountSidType(account.getSidType()));
         userAccountFields.get(12).setText(account.getStatus());
     }
 }
