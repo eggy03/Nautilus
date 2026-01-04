@@ -99,27 +99,23 @@ public class WMIProcessorPanelWorker extends SwingWorker<List<Win32ProcessorToCa
         	
         	// assign text to the concise cpu text area
             JTextArea conciseCpuTextArea = cpuTextAreas.getFirst();
-            String conciseText = "This CPU: " + String.valueOf(currentCpu.getName()).trim() +
-                    " consists of: " + currentCpu.getNumberOfCores() +
-                    " cores and " + currentCpu.getThreadCount() + " threads, out of which " +
-                    currentCpu.getNumberOfEnabledCores() + " cores and " + currentCpu.getNumberOfLogicalProcessors() +
-                    " threads are enabled. The factory reported base clock for this CPU is: " + currentCpu.getMaxClockSpeed() +
-                    " MHz. The reported socket for this CPU is: " + currentCpu.getSocketDesignation();
+            String conciseText = "This CPU, " + String.valueOf(currentCpu.getName()).trim() + " consists of "
+                    + System.lineSeparator() +
+                    currentCpu.getNumberOfCores() + " cores and " + currentCpu.getThreadCount() + " threads, out of which "
+                    + System.lineSeparator() +
+                    currentCpu.getNumberOfEnabledCores() + " cores and " + currentCpu.getNumberOfLogicalProcessors() + " threads are enabled."
+                    + System.lineSeparator() +
+                    "The factory reported base clock for this CPU is: " + currentCpu.getMaxClockSpeed() + " MHz."
+                    + System.lineSeparator() +
+                    "The reported socket for this CPU is: " + currentCpu.getSocketDesignation()
+                    + System.lineSeparator() +
+                    "The reported L2 Cache is: " + currentCpu.getL2CacheSize()+ " KB and the reported L3 Cache is: "+currentCpu.getL3CacheSize() + " KB.";
 
             conciseCpuTextArea.setText(conciseText);
         }
         
         // populate cache size fields
         if(currentCacheList !=null && !currentCacheList.isEmpty()) {
-        	
-        	Map<Integer, Long> cacheLevelAndSizeMap = currentCacheList.stream()
-                    .filter(cache -> cache.getLevel()!=null && cache.getInstalledSize()!=null)
-                    .collect(Collectors.toMap(Win32CacheMemory::getLevel, Win32CacheMemory::getInstalledSize));
-
-            // set cache size fields
-        	cpuFields.get(16).setText(cacheLevelAndSizeMap.get(3)+" KB"); // level 3 - L1 cache
-            cpuFields.get(17).setText(cacheLevelAndSizeMap.get(4)+" KB"); // level 4 - L2 cache
-            cpuFields.get(18).setText(cacheLevelAndSizeMap.get(5)+" KB"); // level 5 - L3 cache
 
             // populate the text area with raw details
             JTextArea cacheTextArea = cpuTextAreas.get(1);
