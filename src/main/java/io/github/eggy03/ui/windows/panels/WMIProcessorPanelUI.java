@@ -122,17 +122,14 @@ public class WMIProcessorPanelUI extends JPanel {
 		cpuPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "CPU", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		cpuPanel.setLayout(new GridLayout(0, 1, 0, 0));
 		
-		// set scroll pane to the main cpu panel
-		JScrollPane cpuScrollPane = new JScrollPane();
-		cpuScrollPane.setViewportView(cpuPanel);
-		GridBagConstraints gbcCpuScrollPane = new GridBagConstraints();
-		gbcCpuScrollPane.fill = GridBagConstraints.BOTH;
-		gbcCpuScrollPane.gridx = 0;
-		gbcCpuScrollPane.gridy = 1;
-		add(cpuScrollPane, gbcCpuScrollPane);
+		GridBagConstraints gbcCpuPanel = new GridBagConstraints();
+		gbcCpuPanel.fill = GridBagConstraints.BOTH;
+		gbcCpuPanel.gridx = 0;
+		gbcCpuPanel.gridy = 1;
+		add(cpuPanel, gbcCpuPanel);
 		
-		// add sub panels (no scroll panes on individual sub panels)
 		// PRIMARY INFO PANEL
+		
 		JPanel primaryInfoPanel = new JPanel();
 		primaryInfoPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Primary Information", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		GridBagLayout gblPrimaryInfoPanel = new GridBagLayout();
@@ -568,9 +565,16 @@ public class WMIProcessorPanelUI extends JPanel {
 		extraCacheTextArea.setEditable(false);
 		extraCacheScrollPane.setViewportView(extraCacheTextArea);
 		
-		// add the sub panels to the cpu panel
-		cpuPanel.add(primaryInfoPanel);
-		cpuPanel.add(secondaryInfoPanel);
+		// add scroll panes to primary and secondary sub panels
+		JScrollPane primaryInfoScrollPane = new JScrollPane();
+		primaryInfoScrollPane.setViewportView(primaryInfoPanel);
+		
+		JScrollPane secondaryInfoScrollPane = new JScrollPane();
+		secondaryInfoScrollPane.setViewportView(secondaryInfoPanel);
+		
+		// add sub scroll panes and other sub panels to the main panel
+		cpuPanel.add(primaryInfoScrollPane);
+		cpuPanel.add(secondaryInfoScrollPane);
 		cpuPanel.add(cachePanel);
 	}
 
