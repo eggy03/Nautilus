@@ -1,8 +1,8 @@
 package io.github.eggy03.ui.windows.panels;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
-import io.github.eggy03.ui.windows.worker.WMIProcessorPanelWorker;
 import io.github.eggy03.ui.windows.worker.WMIHardwareIdWorker;
+import io.github.eggy03.ui.windows.worker.WMIProcessorPanelWorker;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -11,9 +11,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -39,7 +39,7 @@ public class WMIProcessorPanelUI extends JPanel {
 	private JTextField processorIdTextField;
 	private JTextField enabledCoresTextField;
 	private JTextField enabledThreadsTextField;
-	private JTextField reservedTextField;
+	private JTextField cpuArchitectureTextField;
 	private JTextField addressWidthTextField;
 	private JTextField socketTextField;
 	private JTextField baseClockTextField;
@@ -47,10 +47,9 @@ public class WMIProcessorPanelUI extends JPanel {
 	private JTextField l2TextField;
 	private JTextField l3TextField;
 	private JTextField l4TextField;
-
+	
+	private JTextArea cpuConciseInfoTextArea;
     private JTextArea extraCacheTextArea;
-    
-    private JLabel cpuManufacturerLogoLabel;
     
 	
 	public JPanel getPanel() {
@@ -439,23 +438,22 @@ public class WMIProcessorPanelUI extends JPanel {
 		secondaryInfoPanel.add(enabledThreadsTextField, gbcEnabledThreadsTextField);
 		enabledThreadsTextField.setColumns(10);
 		
-		JLabel reservedLabel = new JLabel("RESERVED");
-		GridBagConstraints gbcReservedLabel = new GridBagConstraints();
-		gbcReservedLabel.anchor = GridBagConstraints.WEST;
-		gbcReservedLabel.insets = new Insets(0, 0, 0, 5);
-		gbcReservedLabel.gridx = 4;
-		gbcReservedLabel.gridy = 2;
-		secondaryInfoPanel.add(reservedLabel, gbcReservedLabel);
+		JLabel cpuArchitectureLabel = new JLabel("Architecture");
+		GridBagConstraints gbcCpuArchitectureLabel = new GridBagConstraints();
+		gbcCpuArchitectureLabel.anchor = GridBagConstraints.WEST;
+		gbcCpuArchitectureLabel.insets = new Insets(0, 0, 0, 5);
+		gbcCpuArchitectureLabel.gridx = 4;
+		gbcCpuArchitectureLabel.gridy = 2;
+		secondaryInfoPanel.add(cpuArchitectureLabel, gbcCpuArchitectureLabel);
 		
-		reservedTextField = new JTextField();
-		reservedTextField.setText("RESERVED_FOR_FUTURE");
-		reservedTextField.setEditable(false);
-		GridBagConstraints gbcReservedTextField = new GridBagConstraints();
-		gbcReservedTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbcReservedTextField.gridx = 5;
-		gbcReservedTextField.gridy = 2;
-		secondaryInfoPanel.add(reservedTextField, gbcReservedTextField);
-		reservedTextField.setColumns(10);
+		cpuArchitectureTextField = new JTextField();
+		cpuArchitectureTextField.setEditable(false);
+		GridBagConstraints gbcCpuArchitectureTextField = new GridBagConstraints();
+		gbcCpuArchitectureTextField.fill = GridBagConstraints.HORIZONTAL;
+		gbcCpuArchitectureTextField.gridx = 5;
+		gbcCpuArchitectureTextField.gridy = 2;
+		secondaryInfoPanel.add(cpuArchitectureTextField, gbcCpuArchitectureTextField);
+		cpuArchitectureTextField.setColumns(10);
 		
 		// CACHE PANEL
 		JPanel cachePanel = new JPanel();
@@ -543,14 +541,19 @@ public class WMIProcessorPanelUI extends JPanel {
 		cacheSizePanel.add(l4TextField, gbcL4TextField);
 		l4TextField.setColumns(10);
 		
-		JPanel cpuManufacturerLogoPanel = new JPanel();
-		cpuManufacturerLogoPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "CPU Manufacturer Logo", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		cachePanel.add(cpuManufacturerLogoPanel);
-		cpuManufacturerLogoPanel.setLayout(new GridLayout(1, 0, 0, 0));
+		JPanel cpuConciseInfoPanel = new JPanel();
+		cpuConciseInfoPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Concise Information", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		cachePanel.add(cpuConciseInfoPanel);
+		cpuConciseInfoPanel.setLayout(new GridLayout(1, 0, 0, 0));
 		
-		cpuManufacturerLogoLabel = new JLabel();
-		cpuManufacturerLogoLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		cpuManufacturerLogoPanel.add(cpuManufacturerLogoLabel);
+		JScrollPane cpuConciseInfoScrollPane = new JScrollPane();
+		cpuConciseInfoPanel.add(cpuConciseInfoScrollPane);
+		
+		cpuConciseInfoTextArea = new JTextArea();
+		cpuConciseInfoScrollPane.setViewportView(cpuConciseInfoTextArea);
+		cpuConciseInfoTextArea.setLineWrap(true);
+		cpuConciseInfoTextArea.setEditable(false);
+		cpuConciseInfoTextArea.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		
 		JPanel extraCacheInfoPanel = new JPanel();
 		extraCacheInfoPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Extra Cache Info", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -576,9 +579,11 @@ public class WMIProcessorPanelUI extends JPanel {
 
 		List<JTextField> cpuFields = List.of(coreTextField, threadTextField, factoryClockTextField, cpuNameTextField,
 				versionTextField, familyTextField, steppingTextField, manufacturerTextField, captionTextField,
-				processorIdTextField, enabledCoresTextField, enabledThreadsTextField, reservedTextField, addressWidthTextField,
+				processorIdTextField, enabledCoresTextField, enabledThreadsTextField, cpuArchitectureTextField, addressWidthTextField,
 				socketTextField, baseClockTextField, l1TextField, l2TextField, l3TextField, l4TextField);
 
-		new WMIProcessorPanelWorker(cpuIdComboBox, cpuFields, extraCacheTextArea, cpuManufacturerLogoLabel).execute();
+		List<JTextArea> cpuTextAreas = List.of(cpuConciseInfoTextArea, extraCacheTextArea);
+
+		new WMIProcessorPanelWorker(cpuIdComboBox, cpuFields, cpuTextAreas).execute();
 	}
 }
