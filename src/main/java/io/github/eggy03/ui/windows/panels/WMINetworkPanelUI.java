@@ -55,18 +55,20 @@ public class WMINetworkPanelUI extends JPanel {
 	}
 	
 	private void setAdapterPanel() {
-		JScrollPane adapterScrollPane = new JScrollPane();
-		add(adapterScrollPane);
 		
 		JPanel adapterPanel = new JPanel();
 		adapterPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Adapter", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		adapterScrollPane.setViewportView(adapterPanel);
 		GridBagLayout gblAdapterPanel = new GridBagLayout();
 		gblAdapterPanel.columnWidths = new int[]{0, 0, 0};
 		gblAdapterPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gblAdapterPanel.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
 		gblAdapterPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		adapterPanel.setLayout(gblAdapterPanel);
+
+		// set scrollpane
+		JScrollPane adapterScrollPane = new JScrollPane();
+		adapterScrollPane.setViewportView(adapterPanel);
+		add(adapterScrollPane);
 		
 		JLabel networkInterfaceIdLabel = new JLabel("Interface#");
 		GridBagConstraints gbcNetworkInterfaceIdLabel = new GridBagConstraints();
