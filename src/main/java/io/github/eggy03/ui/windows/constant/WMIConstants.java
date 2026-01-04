@@ -10,6 +10,23 @@ public class WMIConstants {
     private static final String NOT_AVAILABLE = "N/A";
     private static final String NOT_RESOLVED = "Value Not Resolved For: ";
 
+    //Win32Processor
+    @NotNull
+    public static String processorArchitecture(@Nullable Integer architecture) {
+        return switch (architecture){
+            case 0 -> "x86";
+            case 1 -> "MIPS";
+            case 2 -> "Alpha";
+            case 3 -> "PowerPC";
+            case 5 -> "ARM";
+            case 6 -> "ia64";
+            case 9 -> "x64";
+            case 12 -> "ARM64";
+            case null -> NOT_AVAILABLE;
+            default -> NOT_RESOLVED+architecture;
+        };
+    }
+
     // Win32CacheMemory
     @NotNull
     public static String resolveWMICacheMemoryType(@Nullable Integer cacheType) {
@@ -21,7 +38,7 @@ public class WMIConstants {
             case 4-> "Data";
             case 5-> "Unified";
             case null -> NOT_AVAILABLE;
-            default -> NOT_RESOLVED;
+            default -> NOT_RESOLVED+cacheType;
         };
     }
 

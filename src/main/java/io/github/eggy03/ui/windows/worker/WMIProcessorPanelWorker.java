@@ -4,13 +4,12 @@ import io.github.eggy03.ferrumx.windows.entity.compounded.Win32ProcessorToCacheM
 import io.github.eggy03.ferrumx.windows.entity.processor.Win32CacheMemory;
 import io.github.eggy03.ferrumx.windows.entity.processor.Win32Processor;
 import io.github.eggy03.ferrumx.windows.service.compounded.Win32ProcessorToCacheMemoryService;
-import io.github.eggy03.ui.common.utilities.IconImageChooser;
+import io.github.eggy03.ui.windows.constant.WMIConstants;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.JComboBox;
-import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingWorker;
@@ -33,8 +32,7 @@ public class WMIProcessorPanelWorker extends SwingWorker<List<Win32ProcessorToCa
 
     private final JComboBox<String> cpuIdComboBox;
     private final List<JTextField> cpuFields;
-    private final JTextArea cacheTextArea;
-    private final JLabel cpuManufacturerLogoLabel;
+    private final List<JTextArea> cpuTextAreas;
 
     @Override
     protected @NotNull List<Win32ProcessorToCacheMemory> doInBackground() {
@@ -94,18 +92,24 @@ public class WMIProcessorPanelWorker extends SwingWorker<List<Win32ProcessorToCa
         	cpuFields.get(9).setText(currentCpu.getProcessorId());
         	cpuFields.get(10).setText(String.valueOf(currentCpu.getNumberOfEnabledCores()));
         	cpuFields.get(11).setText(String.valueOf(currentCpu.getNumberOfLogicalProcessors()));
-        	//12 is a reserved field
+        	cpuFields.get(12).setText(WMIConstants.processorArchitecture(currentCpu.getArchitecture()));
         	cpuFields.get(13).setText(currentCpu.getAddressWidth()+" bit");
         	cpuFields.get(14).setText(String.valueOf(currentCpu.getSocketDesignation()));
         	cpuFields.get(15).setText(currentCpu.getExtClock()+ "MHz");
         	
-        	// assign the cpu manufacturer logo
-        	if(currentCpu.getManufacturer()!=null)
-        		IconImageChooser.cpuImageChooser(cpuManufacturerLogoLabel, currentCpu.getManufacturer());
+        	// assign text to the concise cpu text area
+            JTextArea conciseCpuTextArea = cpuTextAreas.getFirst();
+            String conciseText = "This CPU: " + String.valueOf(currentCpu.getName()).trim() +
+                    " consists of: " + currentCpu.getNumberOfCores() +
+                    " cores and " + currentCpu.getThreadCount() + " threads, out of which " +
+                    currentCpu.getNumberOfEnabledCores() + " cores and " + currentCpu.getNumberOfLogicalProcessors() +
+                    " threads are enabled. The factory reported base clock for this CPU is: " + currentCpu.getMaxClockSpeed() +
+                    " MHz. The reported socket for this CPU is: " + currentCpu.getSocketDesignation();
+
+            conciseCpuTextArea.setText(conciseText);
         }
         
         // populate cache size fields
-
         if(currentCacheList !=null && !currentCacheList.isEmpty()) {
         	
         	Map<Integer, Long> cacheLevelAndSizeMap = currentCacheList.stream()
@@ -118,6 +122,7 @@ public class WMIProcessorPanelWorker extends SwingWorker<List<Win32ProcessorToCa
             cpuFields.get(18).setText(cacheLevelAndSizeMap.get(5)+" KB"); // level 5 - L3 cache
 
             // populate the text area with raw details
+            JTextArea cacheTextArea = cpuTextAreas.get(1);
             cacheTextArea.setText(null); //before populating, clean the previous data if any
             currentCacheList.forEach(cache -> cacheTextArea.append(
                     "DeviceID: "+cache.getDeviceId()+System.lineSeparator()+
