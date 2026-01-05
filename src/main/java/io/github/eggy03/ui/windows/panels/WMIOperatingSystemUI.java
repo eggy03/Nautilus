@@ -129,7 +129,7 @@ public class WMIOperatingSystemUI extends JPanel {
 		osConciseInfoPanel.setLayout(new GridLayout(0, 1, 0, 0));
 		
 		osConciseInfoTextArea = new JTextArea();
-		osConciseInfoTextArea.setWrapStyleWord(true);
+		osConciseInfoTextArea.setEditable(false);
 		osConciseInfoTextArea.setTabSize(4);
 		osConciseInfoPanel.add(osConciseInfoTextArea);
 		
