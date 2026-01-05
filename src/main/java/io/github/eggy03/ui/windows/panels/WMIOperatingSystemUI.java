@@ -1,27 +1,27 @@
 package io.github.eggy03.ui.windows.panels;
 
-import io.github.eggy03.ui.windows.worker.WMIOperatingSystemWorker;
-
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.TitledBorder;
-import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
 import java.util.List;
 
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.TitledBorder;
+
+import io.github.eggy03.ui.windows.worker.WMIOperatingSystemWorker;
+
 public class WMIOperatingSystemUI extends JPanel {
 	
 	// OS
 	private JComboBox<String> osCurrentOsComboBox;
-	private JLabel osCoverLabel;
+	private JTextArea osConciseInfoTextArea;
 	
 	private JTextField osCaptionTextField;
 	private JTextField osVersionTextField;
@@ -64,7 +64,8 @@ public class WMIOperatingSystemUI extends JPanel {
 	}
 	
 	public WMIOperatingSystemUI() {
-		setLayout(new BorderLayout(0, 0));
+		
+		setLayout(new GridLayout(0, 1, 0, 0));
 		
 		setOsPanel();
 		setUserPanel();
@@ -72,8 +73,9 @@ public class WMIOperatingSystemUI extends JPanel {
 	}
 	
 	private void setOsPanel() {
+		
 		JScrollPane operatingSystemScrollPane = new JScrollPane();
-		add(operatingSystemScrollPane, BorderLayout.CENTER);
+		add(operatingSystemScrollPane);
 		
 		JPanel operatingSystemPanel = new JPanel();
 		operatingSystemScrollPane.setViewportView(operatingSystemPanel);
@@ -81,7 +83,7 @@ public class WMIOperatingSystemUI extends JPanel {
 		GridBagLayout gblOperatingSystemPanel = new GridBagLayout();
 		gblOperatingSystemPanel.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0};
 		gblOperatingSystemPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gblOperatingSystemPanel.columnWeights = new double[]{0.0, 1.0, 0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE};
+		gblOperatingSystemPanel.columnWeights = new double[]{0.0, 0.0, 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
 		gblOperatingSystemPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		operatingSystemPanel.setLayout(gblOperatingSystemPanel);
 		
@@ -121,21 +123,23 @@ public class WMIOperatingSystemUI extends JPanel {
 		operatingSystemPanel.add(osCaptionTextField, gbcOsCaptionTextField);
 		osCaptionTextField.setColumns(10);
 		
-		JPanel osCoverPanel = new JPanel();
-		osCoverPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), " OS Cover", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		GridBagConstraints gbcOsCoverPanel = new GridBagConstraints();
-		gbcOsCoverPanel.fill = GridBagConstraints.BOTH;
-		gbcOsCoverPanel.gridheight = 4;
-		gbcOsCoverPanel.gridwidth = 2;
-		gbcOsCoverPanel.insets = new Insets(0, 0, 5, 5);
-		gbcOsCoverPanel.gridx = 4;
-		gbcOsCoverPanel.gridy = 1;
-		operatingSystemPanel.add(osCoverPanel, gbcOsCoverPanel);
-		osCoverPanel.setLayout(new GridLayout(0, 1, 0, 0));
+		JPanel osConciseInfoPanel = new JPanel();
+		osConciseInfoPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Concise Info", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		osConciseInfoPanel.setLayout(new GridLayout(0, 1, 0, 0));
 		
-		osCoverLabel = new JLabel("");
-		osCoverLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		osCoverPanel.add(osCoverLabel);
+		osConciseInfoTextArea = new JTextArea();
+		osConciseInfoTextArea.setWrapStyleWord(true);
+		osConciseInfoTextArea.setTabSize(4);
+		osConciseInfoPanel.add(osConciseInfoTextArea);
+		
+		GridBagConstraints gbcOsConciseInfoPanel = new GridBagConstraints();
+		gbcOsConciseInfoPanel.fill = GridBagConstraints.BOTH;
+		gbcOsConciseInfoPanel.gridheight = 4;
+		gbcOsConciseInfoPanel.gridwidth = 2;
+		gbcOsConciseInfoPanel.insets = new Insets(0, 0, 5, 5);
+		gbcOsConciseInfoPanel.gridx = 4;
+		gbcOsConciseInfoPanel.gridy = 1;
+		operatingSystemPanel.add(osConciseInfoPanel, gbcOsConciseInfoPanel);
 		
 		JLabel osVersionLabel = new JLabel("Version");
 		GridBagConstraints gbcOsVersionLabel = new GridBagConstraints();
@@ -446,8 +450,9 @@ public class WMIOperatingSystemUI extends JPanel {
 	}
 	
 	private void setUserPanel() {
+		
 		JScrollPane userScrollPane = new JScrollPane();
-		add(userScrollPane, BorderLayout.SOUTH);
+		add(userScrollPane);
 		
 		JPanel userPanel = new JPanel();
 		userScrollPane.setViewportView(userPanel);
@@ -719,7 +724,7 @@ public class WMIOperatingSystemUI extends JPanel {
 		osPortableTextField, osDeviceNameTextField, osUserCountTextField, osRegisteredUserTextField,
 		osSystemDriveTextField, osWindowsDirectoryTextField, osSystemDirectoryTextField);
 		
-		new WMIOperatingSystemWorker(osCurrentOsComboBox, osFields, osCoverLabel).execute();
+		new WMIOperatingSystemWorker(osCurrentOsComboBox, osFields, osConciseInfoTextArea).execute();
 
 		List<JTextField> userAccountFields = List.of(userNameTextField, userCaptionTextField, userDomainTextField,
 		userDescriptionTextField, userPasswordRequiredTextField, userPasswordChangeableTextField,
