@@ -1,4 +1,4 @@
-package io.github.eggy03.ui.windows.panels;
+package io.github.eggy03.ui.windows.worker;
 
 import io.github.eggy03.ferrumx.windows.entity.user.Win32UserAccount;
 import io.github.eggy03.ferrumx.windows.service.user.Win32UserAccountService;
