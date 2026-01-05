@@ -16,6 +16,7 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
 
 import io.github.eggy03.ui.windows.worker.WMIOperatingSystemWorker;
+import io.github.eggy03.ui.windows.worker.WMIUserAccountWorker;
 
 public class WMIOperatingSystemUI extends JPanel {
 	
