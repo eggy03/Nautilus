@@ -2,12 +2,6 @@ package io.github.eggy03.ui.windows.panels;
 
 import io.github.eggy03.ui.windows.worker.WMINetworkPanelWorker;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.Insets;
-import java.util.List;
-
 import javax.swing.JComboBox;
 import javax.swing.JEditorPane;
 import javax.swing.JLabel;
@@ -17,6 +11,11 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Insets;
+import java.util.List;
 
 public class WMINetworkPanelUI extends JPanel {
 	

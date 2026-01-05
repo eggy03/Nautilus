@@ -1,12 +1,11 @@
 package io.github.eggy03.ui.common.utilities;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
-import javax.swing.JLabel;
-
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import lombok.experimental.UtilityClass;
+
+import javax.swing.JLabel;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 @UtilityClass
 public class IconImageChooser {

@@ -2,21 +2,20 @@ package io.github.eggy03.ui.windows.panels;
 
 import io.github.eggy03.ui.windows.worker.WMIOperatingSystemWorker;
 
-import java.awt.BorderLayout;
-
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
-import java.awt.GridBagLayout;
-import javax.swing.JLabel;
+import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
-import javax.swing.JComboBox;
-import java.awt.Insets;
-import javax.swing.JTextField;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Insets;
 import java.util.List;
-import javax.swing.SwingConstants;
 
 public class WMIOperatingSystemUI extends JPanel {
 	

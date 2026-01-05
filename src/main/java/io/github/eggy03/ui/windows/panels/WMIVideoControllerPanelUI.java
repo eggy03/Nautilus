@@ -1,10 +1,6 @@
 package io.github.eggy03.ui.windows.panels;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.Insets;
-import java.util.List;
+import io.github.eggy03.ui.windows.worker.WMIVideoControllerPanelWorker;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -13,8 +9,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
-
-import io.github.eggy03.ui.windows.worker.WMIVideoControllerPanelWorker;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Insets;
+import java.util.List;
 
 public class WMIVideoControllerPanelUI extends JPanel {
 	

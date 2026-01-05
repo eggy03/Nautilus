@@ -1,14 +1,13 @@
 package io.github.eggy03.ui.windows.worker;
 
-import java.util.concurrent.ExecutionException;
-
-import javax.swing.JTextField;
-import javax.swing.SwingWorker;
-
 import io.github.eggy03.ferrumx.windows.entity.compounded.HardwareId;
 import io.github.eggy03.ferrumx.windows.service.compounded.HardwareIdService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import javax.swing.JTextField;
+import javax.swing.SwingWorker;
+import java.util.concurrent.ExecutionException;
 
 @Slf4j
 @RequiredArgsConstructor
