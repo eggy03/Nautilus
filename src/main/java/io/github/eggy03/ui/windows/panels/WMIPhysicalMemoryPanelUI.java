@@ -2,18 +2,18 @@ package io.github.eggy03.ui.windows.panels;
 
 import io.github.eggy03.ui.windows.worker.WMIPhysicalMemoryPanelWorker;
 
-import javax.swing.JPanel;
-import java.awt.GridLayout;
-import javax.swing.border.TitledBorder;
-import javax.swing.border.BevelBorder;
-import java.awt.GridBagLayout;
-import javax.swing.JLabel;
-import java.awt.GridBagConstraints;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.TitledBorder;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.Insets;
 import java.util.List;
-import javax.swing.JTextField;
-import javax.swing.JScrollPane;
 
 public class WMIPhysicalMemoryPanelUI extends JPanel {
 

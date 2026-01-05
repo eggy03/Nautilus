@@ -2,14 +2,12 @@ package io.github.eggy03.ui.windows.worker;
 
 import io.github.eggy03.ferrumx.windows.entity.display.Win32VideoController;
 import io.github.eggy03.ferrumx.windows.service.display.Win32VideoControllerService;
-import io.github.eggy03.ui.common.utilities.IconImageChooser;
 import io.github.eggy03.ui.windows.utilities.WMIDateUtility;
 import io.github.eggy03.ui.windows.utilities.WMISizeUtility;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.swing.JComboBox;
-import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.SwingWorker;
 import java.util.List;

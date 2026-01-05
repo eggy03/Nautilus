@@ -1,8 +1,7 @@
 package io.github.eggy03.ui.common.utilities;
 
-import java.awt.Insets;
-
 import javax.swing.UIManager;
+import java.awt.Insets;
 
 // custom UI manager configurations that allow slight changes to the LAF
 // Applies on all LAFs

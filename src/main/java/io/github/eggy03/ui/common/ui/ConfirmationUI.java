@@ -2,8 +2,6 @@ package io.github.eggy03.ui.common.ui;
 
 import lombok.Getter;
 
-import java.awt.Font;
-import java.awt.Toolkit;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -12,6 +10,8 @@ import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
+import java.awt.Font;
+import java.awt.Toolkit;
 
 @Getter
 public class ConfirmationUI extends JFrame {

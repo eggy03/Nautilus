@@ -2,20 +2,20 @@ package io.github.eggy03.ui.windows.panels;
 
 import io.github.eggy03.ui.windows.worker.WMIStorageWorker;
 
+import javax.swing.JComboBox;
+import javax.swing.JEditorPane;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
-import java.awt.GridLayout;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
-import javax.swing.border.TitledBorder;
+import javax.swing.JTextField;
 import javax.swing.border.BevelBorder;
-import java.awt.GridBagLayout;
-import javax.swing.JLabel;
+import javax.swing.border.TitledBorder;
 import java.awt.GridBagConstraints;
-import javax.swing.JComboBox;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.Insets;
 import java.util.List;
-import javax.swing.JTextField;
-import javax.swing.JEditorPane;
 
 public class WMIStoragePanelUI extends JPanel {
 	

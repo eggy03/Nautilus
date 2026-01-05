@@ -4,20 +4,19 @@ import io.github.eggy03.ui.windows.worker.WMIBaseboardWorker;
 import io.github.eggy03.ui.windows.worker.WMIBiosWorker;
 import io.github.eggy03.ui.windows.worker.WMIPortConnectorWorker;
 
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.TitledBorder;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
 import java.util.List;
-
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.TitledBorder;
-import javax.swing.JScrollPane;
 
 public class WMIMainboardPanelUI extends JPanel {
 	

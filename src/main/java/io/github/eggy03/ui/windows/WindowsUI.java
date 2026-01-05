@@ -1,13 +1,13 @@
 package io.github.eggy03.ui.windows;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
-import io.github.eggy03.ui.windows.panels.WMIProcessorPanelUI;
-import io.github.eggy03.ui.windows.panels.WMIStoragePanelUI;
-import io.github.eggy03.ui.windows.panels.WMIVideoControllerPanelUI;
 import io.github.eggy03.ui.windows.panels.WMIMainboardPanelUI;
 import io.github.eggy03.ui.windows.panels.WMINetworkPanelUI;
 import io.github.eggy03.ui.windows.panels.WMIOperatingSystemUI;
 import io.github.eggy03.ui.windows.panels.WMIPhysicalMemoryPanelUI;
+import io.github.eggy03.ui.windows.panels.WMIProcessorPanelUI;
+import io.github.eggy03.ui.windows.panels.WMIStoragePanelUI;
+import io.github.eggy03.ui.windows.panels.WMIVideoControllerPanelUI;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
