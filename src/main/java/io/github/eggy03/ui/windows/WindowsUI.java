@@ -43,10 +43,7 @@ public class WindowsUI extends JFrame {
 		JMenuBar menuBar = new JMenuBar();
 		contentPane.add(menuBar, BorderLayout.NORTH);
 		menuBar.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		
-		JMenu appearanceMenu = new JMenu("Appearance");
-		menuBar.add(appearanceMenu);
-		
+
 		JMenu helpMenu = new JMenu("Help");
 		menuBar.add(helpMenu);
 	}
