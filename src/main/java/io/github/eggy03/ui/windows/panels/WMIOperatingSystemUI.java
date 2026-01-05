@@ -84,7 +84,7 @@ public class WMIOperatingSystemUI extends JPanel {
 		GridBagLayout gblOperatingSystemPanel = new GridBagLayout();
 		gblOperatingSystemPanel.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0};
 		gblOperatingSystemPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gblOperatingSystemPanel.columnWeights = new double[]{0.0, 0.0, 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
+		gblOperatingSystemPanel.columnWeights = new double[]{0.0, 1.0, 0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE};
 		gblOperatingSystemPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		operatingSystemPanel.setLayout(gblOperatingSystemPanel);
 		
