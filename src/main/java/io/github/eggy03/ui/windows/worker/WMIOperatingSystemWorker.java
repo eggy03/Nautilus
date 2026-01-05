@@ -2,14 +2,13 @@ package io.github.eggy03.ui.windows.worker;
 
 import io.github.eggy03.ferrumx.windows.entity.system.Win32OperatingSystem;
 import io.github.eggy03.ferrumx.windows.service.system.Win32OperatingSystemService;
-import io.github.eggy03.ui.common.utilities.IconImageChooser;
 import io.github.eggy03.ui.windows.utilities.WMIBooleanUtility;
 import io.github.eggy03.ui.windows.utilities.WMIDateUtility;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.swing.JComboBox;
-import javax.swing.JLabel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingWorker;
 import java.util.List;
@@ -22,7 +21,7 @@ public class WMIOperatingSystemWorker extends SwingWorker<List<Win32OperatingSys
 
     private final JComboBox<String> osNameComboBox;
     private final List<JTextField> osFields;
-    private final JLabel osCoverLabel;
+    private final JTextArea osConciseInfoArea;
 
     @Override
     protected List<Win32OperatingSystem> doInBackground() {
@@ -87,6 +86,16 @@ public class WMIOperatingSystemWorker extends SwingWorker<List<Win32OperatingSys
         osFields.get(16).setText(os.getWindowsDirectory());
         osFields.get(17).setText(os.getSystemDirectory());
 
-        IconImageChooser.osImageChooser(osCoverLabel, os.getCaption());
+        String conciseOsText = os.getOsArchitecture() + " edition of Windows" +
+                System.lineSeparator() +
+                "Version: " + os.getVersion() +
+                System.lineSeparator() +
+                "Installed on: " + WMIDateUtility.toLocalDateTime(os.getInstallDate()) +
+                System.lineSeparator() +
+                "Last started on: " + WMIDateUtility.toLocalDateTime(os.getLastBootUpTime()) +
+                System.lineSeparator() +
+                "Registered to: " + os.getRegisteredUser();
+
+        osConciseInfoArea.setText(conciseOsText);
     }
 }
