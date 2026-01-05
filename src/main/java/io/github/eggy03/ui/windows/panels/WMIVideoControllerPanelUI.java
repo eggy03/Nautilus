@@ -1,20 +1,20 @@
 package io.github.eggy03.ui.windows.panels;
 
-import io.github.eggy03.ui.windows.worker.WMIVideoControllerPanelWorker;
-
-import javax.swing.JPanel;
-import java.awt.GridLayout;
-import javax.swing.border.TitledBorder;
-import javax.swing.border.BevelBorder;
-import javax.swing.JScrollPane;
-import java.awt.GridBagLayout;
-import javax.swing.JLabel;
 import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.Insets;
 import java.util.List;
+
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.TitledBorder;
+
+import io.github.eggy03.ui.windows.worker.WMIVideoControllerPanelWorker;
 
 public class WMIVideoControllerPanelUI extends JPanel {
 	
@@ -32,8 +32,6 @@ public class WMIVideoControllerPanelUI extends JPanel {
 	private JTextField gpuDriverVersionTextField;
 	private JTextField gpuDriverDateTextField;
 	private JTextField gpuVideoProcessorTextField;
-
-	private JLabel gpuManufacturerLogoLabel;
 	
 	public JPanel getPanel() {
 		return this;
@@ -59,9 +57,9 @@ public class WMIVideoControllerPanelUI extends JPanel {
 		identifierScrollPane.setViewportView(identifierPanel);
 		
 		GridBagLayout gblIdentifierPanel = new GridBagLayout();
-		gblIdentifierPanel.columnWidths = new int[]{0, 0, 0, 0};
+		gblIdentifierPanel.columnWidths = new int[]{0, 0};
 		gblIdentifierPanel.rowHeights = new int[]{0, 0, 0, 0};
-		gblIdentifierPanel.columnWeights = new double[]{0.0, 1.0, 1.0, Double.MIN_VALUE};
+		gblIdentifierPanel.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
 		gblIdentifierPanel.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
 		identifierPanel.setLayout(gblIdentifierPanel);
 		
@@ -80,22 +78,6 @@ public class WMIVideoControllerPanelUI extends JPanel {
 		gbcGpuDeviceIdComboBox.gridx = 1;
 		gbcGpuDeviceIdComboBox.gridy = 0;
 		identifierPanel.add(gpuDeviceIdComboBox, gbcGpuDeviceIdComboBox);
-		
-		JPanel gpuManufacturerLogoPanel = new JPanel();
-		gpuManufacturerLogoPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Manufacturer", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		gpuManufacturerLogoPanel.setLayout(new GridLayout(1, 0, 0, 0));
-		
-		GridBagConstraints gbcGpuManufacturerLogoPanel = new GridBagConstraints();
-		gbcGpuManufacturerLogoPanel.gridheight = 3;
-		gbcGpuManufacturerLogoPanel.insets = new Insets(0, 0, 5, 0);
-		gbcGpuManufacturerLogoPanel.fill = GridBagConstraints.BOTH;
-		gbcGpuManufacturerLogoPanel.gridx = 2;
-		gbcGpuManufacturerLogoPanel.gridy = 0;
-		identifierPanel.add(gpuManufacturerLogoPanel, gbcGpuManufacturerLogoPanel);
-		
-		gpuManufacturerLogoLabel = new JLabel("");
-		gpuManufacturerLogoLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		gpuManufacturerLogoPanel.add(gpuManufacturerLogoLabel);
 		
 		JLabel gpuNameLabel = new JLabel("Name");
 		GridBagConstraints gbcGpuNameLabel = new GridBagConstraints();
@@ -371,7 +353,7 @@ public class WMIVideoControllerPanelUI extends JPanel {
 		gpuAdapterDACTypeTextField, gpuVRAMTextField, gpuDriverVersionTextField, gpuDriverDateTextField,
 		gpuVideoProcessorTextField
 		);
-
-		new WMIVideoControllerPanelWorker(gpuManufacturerLogoLabel, gpuDeviceIdComboBox, gpuFields).execute();
+		
+		new WMIVideoControllerPanelWorker(gpuDeviceIdComboBox, gpuFields).execute();
 	}
 }

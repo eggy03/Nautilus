@@ -20,7 +20,6 @@ import java.util.concurrent.ExecutionException;
 @RequiredArgsConstructor
 public class WMIVideoControllerPanelWorker extends SwingWorker<List<Win32VideoController>, Void> {
 
-    private final JLabel gpuManufacturerLabel;
     private final JComboBox<String> gpuDeviceIdComboBox;
     private final List<JTextField> gpuFields;
 
@@ -79,9 +78,5 @@ public class WMIVideoControllerPanelWorker extends SwingWorker<List<Win32VideoCo
         gpuFields.get(10).setText(gpu.getDriverVersion());
         gpuFields.get(11).setText(WMIDateUtility.toLocalDateTime(gpu.getDriverDate()));
         gpuFields.get(12).setText(gpu.getVideoProcessor());
-
-        // set manufacturer logo
-        IconImageChooser.gpuImageChooser(gpuManufacturerLabel, gpu.getName());
-
     }
 }
