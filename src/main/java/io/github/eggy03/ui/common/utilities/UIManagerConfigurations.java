@@ -1,16 +1,16 @@
 package io.github.eggy03.ui.common.utilities;
 
+import lombok.experimental.UtilityClass;
+
 import javax.swing.UIManager;
 import java.awt.Insets;
 
 // custom UI manager configurations that allow slight changes to the LAF
 // Applies on all LAFs
 // Invoke this class only AFTER you've used UIManager.setLookAndFeel() and BEFORE you have laid out your components
+@UtilityClass
 public class UIManagerConfigurations {
-	private UIManagerConfigurations() {
-		throw new IllegalStateException("Utility Class");
-	}
-	
+
 	public static void enableRoundComponents() {
 		UIManager.put( "Button.arc", 999 );
 		UIManager.put( "Component.arc", 999 );
