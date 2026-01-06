@@ -1,6 +1,7 @@
 package io.github.eggy03.ui.windows;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
+import io.github.eggy03.ui.common.ui.AboutUI;
 import io.github.eggy03.ui.windows.panels.WMIMainboardPanelUI;
 import io.github.eggy03.ui.windows.panels.WMINetworkPanelUI;
 import io.github.eggy03.ui.windows.panels.WMIOperatingSystemUI;
@@ -19,6 +20,7 @@ import javax.swing.WindowConstants;
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.Toolkit;
+import javax.swing.JMenuItem;
 
 public class WindowsUI extends JFrame {
 
@@ -46,6 +48,12 @@ public class WindowsUI extends JFrame {
 
 		JMenu helpMenu = new JMenu("Help");
 		menuBar.add(helpMenu);
+		
+		JMenuItem aboutMenuItem = new JMenuItem("About");
+		aboutMenuItem.setIcon(new FlatSVGIcon(WindowsUI.class.getResource("/icons/general_icons/about.svg")));
+		aboutMenuItem.addActionListener(event -> new AboutUI().setVisible(true));
+		helpMenu.add(aboutMenuItem);
+		
 	}
 	
 	private void setTabbedPane(JPanel contentPane) {

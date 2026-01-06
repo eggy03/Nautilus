@@ -1,0 +1,7 @@
+This application does not use the internet and does not transmit any data.
+
+The app temporarily accesses and displays system information during runtime.
+All data remains local, is never stored persistently, and is discarded when the application exits.
+
+No data is collected, retained, shared, or transmitted to the developer or to any third parties, unless bug reports
+are manually submitted.
