@@ -1,6 +1,10 @@
 package io.github.eggy03.ui.windows.panels;
 
-import io.github.eggy03.ui.windows.worker.WMIStorageWorker;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Insets;
+import java.util.List;
 
 import javax.swing.JComboBox;
 import javax.swing.JEditorPane;
@@ -11,11 +15,10 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.Insets;
-import java.util.List;
+
+import com.formdev.flatlaf.extras.FlatSVGIcon;
+
+import io.github.eggy03.ui.windows.worker.WMIStorageWorker;
 
 public class WMIStoragePanelUI extends JPanel {
 	
@@ -269,7 +272,6 @@ public class WMIStoragePanelUI extends JPanel {
 		// partition
 		JPanel diskPartitionPanel = new JPanel();
 		diskPartitionPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Partition Details", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		diskPartitionAndVolumePane.addTab("Disk Partition", null, diskPartitionPanel, null);
 		diskPartitionPanel.setLayout(new GridLayout(0, 1, 0, 0));
 		
 		JScrollPane diskPartitionScrollPane = new JScrollPane();
@@ -283,7 +285,6 @@ public class WMIStoragePanelUI extends JPanel {
 		// volume
 		JPanel diskVolumePanel = new JPanel();
 		diskVolumePanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Volume Details", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		diskPartitionAndVolumePane.addTab("Logical Volume", null, diskVolumePanel, null);
 		diskVolumePanel.setLayout(new GridLayout(1, 0, 0, 0));
 		
 		JScrollPane diskVolumeScrollPane = new JScrollPane();
@@ -293,6 +294,10 @@ public class WMIStoragePanelUI extends JPanel {
 		diskVolumeEditorPane.setContentType("text/html");
 		diskVolumeScrollPane.setViewportView(diskVolumeEditorPane);
 		diskVolumeEditorPane.setEditable(false);
+		
+		// add panels to the tabbed pane
+		diskPartitionAndVolumePane.addTab("Disk Partition", new FlatSVGIcon(WMIStoragePanelUI.class.getResource("/icons/tab_icons_material_green/DiskPartition.svg")), diskPartitionPanel, null);
+		diskPartitionAndVolumePane.addTab("Logical Volume", new FlatSVGIcon(WMIStoragePanelUI.class.getResource("/icons/tab_icons_material_green/LogicalVolume.svg")), diskVolumePanel, null);
 	}
 	
 	private void setWorker() {

@@ -99,7 +99,7 @@ public class WMIProcessorPanelUI extends JPanel {
 		hardwareIdTextField.setColumns(10);
 		
 		JButton copyHwid = new JButton();
-		copyHwid.setIcon(new FlatSVGIcon(WMIProcessorPanelUI.class.getResource("/icons/extra_icons/copy.svg")));
+		copyHwid.setIcon(new FlatSVGIcon(WMIProcessorPanelUI.class.getResource("/icons/general_icons/copy.svg")));
 		copyHwid.addActionListener(copyAction -> {
 			StringSelection textToCopy = new StringSelection(hardwareIdTextField.getText());
 			Toolkit.getDefaultToolkit().getSystemClipboard().setContents(textToCopy, null);
