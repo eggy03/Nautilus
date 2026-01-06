@@ -52,13 +52,13 @@ public class WindowsUI extends JFrame {
 		JTabbedPane tabbedPane = new JTabbedPane(SwingConstants.TOP);
 		contentPane.add(tabbedPane, BorderLayout.CENTER);
 		
-		tabbedPane.addTab("CPU", new FlatSVGIcon(WindowsUI.class.getResource("/icons/tab_icons_small/CPU.svg")), new WMIProcessorPanelUI().getPanel(), null);
-		tabbedPane.addTab("Memory", new FlatSVGIcon(WindowsUI.class.getResource("/icons/tab_icons_small/RAM.svg")), new WMIPhysicalMemoryPanelUI().getPanel(), null);
-		tabbedPane.addTab("Mainboard", new FlatSVGIcon(WindowsUI.class.getResource("/icons/tab_icons_small/MainBoard.svg")), new WMIMainboardPanelUI().getPanel(), null);
-		tabbedPane.addTab("GPU", new FlatSVGIcon(WindowsUI.class.getResource("/icons/tab_icons_small/GPU.svg")), new WMIVideoControllerPanelUI().getPanel(), null);
-		tabbedPane.addTab("Network", new FlatSVGIcon(WindowsUI.class.getResource("/icons/tab_icons_small/Network.svg")), new WMINetworkPanelUI().getPanel(), null);
-		tabbedPane.addTab("Storage", new FlatSVGIcon(WindowsUI.class.getResource("/icons/tab_icons_small/Storage.svg")), new WMIStoragePanelUI().getPanel(), null);
-		tabbedPane.addTab("OS", new FlatSVGIcon(WindowsUI.class.getResource("/icons/tab_icons_small/OS.svg")), new WMIOperatingSystemUI().getPanel(), null);
+		tabbedPane.addTab("CPU", new FlatSVGIcon(WindowsUI.class.getResource("/icons/tab_icons_material_green/CPU.svg")), new WMIProcessorPanelUI().getPanel(), null);
+		tabbedPane.addTab("Memory", new FlatSVGIcon(WindowsUI.class.getResource("/icons/tab_icons_material_green/RAM.svg")), new WMIPhysicalMemoryPanelUI().getPanel(), null);
+		tabbedPane.addTab("Mainboard", new FlatSVGIcon(WindowsUI.class.getResource("/icons/tab_icons_material_green/MainBoard.svg")), new WMIMainboardPanelUI().getPanel(), null);
+		tabbedPane.addTab("GPU", new FlatSVGIcon(WindowsUI.class.getResource("/icons/tab_icons_material_green/GPU.svg")), new WMIVideoControllerPanelUI().getPanel(), null);
+		tabbedPane.addTab("Network", new FlatSVGIcon(WindowsUI.class.getResource("/icons/tab_icons_material_green/Network.svg")), new WMINetworkPanelUI().getPanel(), null);
+		tabbedPane.addTab("Storage", new FlatSVGIcon(WindowsUI.class.getResource("/icons/tab_icons_material_green/Storage.svg")), new WMIStoragePanelUI().getPanel(), null);
+		tabbedPane.addTab("OS", new FlatSVGIcon(WindowsUI.class.getResource("/icons/tab_icons_material_green/OS.svg")), new WMIOperatingSystemUI().getPanel(), null);
 	}
 
 }

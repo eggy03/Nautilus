@@ -11,6 +11,9 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
+
+import com.formdev.flatlaf.extras.FlatSVGIcon;
+
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -359,9 +362,9 @@ public class WMINetworkPanelUI extends JPanel {
 		JTabbedPane adapterPropertyTabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		add(adapterPropertyTabbedPane);
 		
+		// ip panel
 		JPanel adapterIpPanel = new JPanel();
 		adapterIpPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "IP Address", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		adapterPropertyTabbedPane.addTab("Adapter IP", null, adapterIpPanel, null);
 		adapterIpPanel.setLayout(new GridLayout(1, 0, 0, 0));
 		
 		JScrollPane adapterIpEditorScrollPane = new JScrollPane();
@@ -372,9 +375,9 @@ public class WMINetworkPanelUI extends JPanel {
 		adapterIpEditorPane.setEditable(false);
 		adapterIpEditorPane.setContentType("text/html");
 		
+		// dns panel
 		JPanel adapterDnsPanel = new JPanel();
 		adapterDnsPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "DNS", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		adapterPropertyTabbedPane.addTab("Adapter DNS", null, adapterDnsPanel, null);
 		adapterDnsPanel.setLayout(new GridLayout(0, 1, 0, 0));
 		
 		JScrollPane adapterDnsEditorScrollPane = new JScrollPane();
@@ -385,9 +388,9 @@ public class WMINetworkPanelUI extends JPanel {
 		adapterDnsEditorPane.setEditable(false);
 		adapterDnsEditorPane.setContentType("text/html");
 		
+		// connection profile
 		JPanel netConnectionProfilePanel = new JPanel();
 		netConnectionProfilePanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Connection Profile", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		adapterPropertyTabbedPane.addTab("Connection Profile", null, netConnectionProfilePanel, null);
 		netConnectionProfilePanel.setLayout(new GridLayout(0, 1, 0, 0));
 		
 		JScrollPane adapterConnectionProfileEditorScrollPane = new JScrollPane();
@@ -397,6 +400,11 @@ public class WMINetworkPanelUI extends JPanel {
 		adapterConnectionProfileEditorScrollPane.setViewportView(adapterConnectionProfileEditorPane);
 		adapterConnectionProfileEditorPane.setEditable(false);
 		adapterConnectionProfileEditorPane.setContentType("text/html");
+		
+		// add panels to the tabbed pane
+		adapterPropertyTabbedPane.addTab("Adapter IP", new FlatSVGIcon(WMINetworkPanelUI.class.getResource("/icons/tab_icons_material_green/IP.svg")), adapterIpPanel, null);
+		adapterPropertyTabbedPane.addTab("Adapter DNS", new FlatSVGIcon(WMINetworkPanelUI.class.getResource("/icons/tab_icons_material_green/DNS.svg")), adapterDnsPanel, null);
+		adapterPropertyTabbedPane.addTab("Connection Profile", new FlatSVGIcon(WMINetworkPanelUI.class.getResource("/icons/tab_icons_material_green/ConnectionProfile.svg")), netConnectionProfilePanel, null);
 	}
 
 	private void setWorker() {
