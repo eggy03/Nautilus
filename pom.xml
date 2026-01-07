@@ -153,8 +153,8 @@
                     <mainJar>${project.build.finalName}-jar-with-dependencies.jar</mainJar>
                     <mainClass>${app.main.class}</mainClass>
 
-                    <!-- Custom JRE -->
-                    <runtimeImage>${project.basedir}/jre</runtimeImage>
+                    <!-- CAn link custom jre -->
+                    <runtimeImage>${java.home}</runtimeImage>
 
                     <!-- Output -->
                     <destination>${project.basedir}/output</destination>
