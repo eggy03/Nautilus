@@ -28,10 +28,17 @@
 
         <!-- Plugin versions -->
         <maven.compiler.plugin.version>3.14.1</maven.compiler.plugin.version>
+        <maven.clean.plugin.version>3.5.0</maven.clean.plugin.version>
         <jpackage.mave.plugin.version>1.7.2</jpackage.mave.plugin.version>
+        <jlink.maven.plugin.version>1.2.1</jlink.maven.plugin.version>
 
         <!-- Extras -->
         <app.main.class>io.github.eggy03.ui.Start</app.main.class>
+        <jlink.output.directory>${project.basedir}/runtime</jlink.output.directory>
+        <jpackage.output.directory>${project.basedir}/output</jpackage.output.directory>
+
+        <project.windows.icon>${project.basedir}/icons/nautilus.ico</project.windows.icon>
+        <project.linux.icon>${project.basedir}/icons/nautilus.png</project.linux.icon>
     </properties>
 
     <dependencies>
@@ -96,6 +103,24 @@
         <finalName>${project.artifactId}</finalName>
 
         <plugins>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>${maven.clean.plugin.version}</version>
+
+                <configuration>
+                    <filesets>
+                        <fileset>
+                            <directory>${jlink.output.directory}</directory>
+                        </fileset>
+                        <fileset>
+                            <directory>${jpackage.output.directory}</directory>
+                        </fileset>
+                    </filesets>
+                </configuration>
+            </plugin>
+
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <configuration>
@@ -135,6 +160,43 @@
 
             <plugin>
                 <groupId>org.panteleyev</groupId>
+                <artifactId>jlink-maven-plugin</artifactId>
+                <version>${jlink.maven.plugin.version}</version>
+
+                <executions>
+                    <execution>
+                        <id>jlink-runtime</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jlink</goal>
+                        </goals>
+                    </execution>
+                </executions>
+
+                <configuration>
+                    <output>${jlink.output.directory}</output>
+
+                    <addModules>
+                        <addModule>java.base</addModule>
+                        <addModule>java.desktop</addModule>
+                        <addModule>java.logging</addModule>
+                        <addModule>java.xml</addModule>
+                        <addModule>java.prefs</addModule>
+                        <addModule>java.datatransfer</addModule>
+                        <addModule>java.management</addModule>
+                        <addModule>java.naming</addModule>
+                        <addModule>jdk.unsupported</addModule>
+                    </addModules>
+
+                    <stripDebug>false</stripDebug>
+                    <noHeaderFiles>true</noHeaderFiles>
+                    <noManPages>true</noManPages>
+                </configuration>
+            </plugin>
+
+
+            <plugin>
+                <groupId>org.panteleyev</groupId>
                 <artifactId>jpackage-maven-plugin</artifactId>
                 <version>${jpackage.mave.plugin.version}</version>
 
@@ -153,11 +215,11 @@
                     <mainJar>${project.build.finalName}-jar-with-dependencies.jar</mainJar>
                     <mainClass>${app.main.class}</mainClass>
 
-                    <!-- CAn link custom jre -->
-                    <runtimeImage>${java.home}</runtimeImage>
+                    <!-- Custom JRE created by jlink -->
+                    <runtimeImage>${jlink.output.directory}</runtimeImage>
 
                     <!-- Output -->
-                    <destination>${project.basedir}/output</destination>
+                    <destination>${jpackage.output.directory}</destination>
 
                     <!-- JVM opts -->
                     <javaOptions>
@@ -175,7 +237,7 @@
                     <execution>
                         <id>win</id>
                         <configuration>
-                            <icon>${project.basedir}/icons/nautilus.ico</icon>
+                            <icon>${project.windows.icon}</icon>
                         </configuration>
                     </execution>
 
@@ -183,7 +245,7 @@
                     <execution>
                         <id>linux</id>
                         <configuration>
-                            <icon>${project.basedir}/icons/nautilus.png</icon>
+                            <icon>${project.linux.icon}</icon>
                         </configuration>
                     </execution>
 
