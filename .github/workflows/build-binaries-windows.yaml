@@ -1,0 +1,51 @@
+name: Build and Release Binaries (Windows)
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+          cache: maven
+
+      - name: Download IBM Semeru Runtime (Windows x64)
+        shell: pwsh
+        run: |
+          Invoke-WebRequest `
+            -Uri https://github.com/ibmruntimes/semeru21-binaries/releases/download/jdk-21.0.9%2B10_openj9-0.56.0/ibm-semeru-open-jre_x64_windows_21.0.9_10_openj9-0.56.0.zip `
+            -OutFile semeru.zip
+
+          Expand-Archive semeru.zip -DestinationPath tempjre
+
+          Move-Item tempjre\* jre
+          Remove-Item tempjre -Recurse -Force
+      
+      - name: Build and package (Windows Executable)
+        run: mvn package jpackage:jpackage@win
+
+      - name: Create ZIP from output/
+        shell: pwsh
+        run: |
+          Push-Location output
+          tar -a -c -f ..\nautilus-${{ github.ref_name }}-windows.zip *
+          Pop-Location
+
+      - name: Upload Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: nautilus-${{ github.ref_name }}-windows.zip
