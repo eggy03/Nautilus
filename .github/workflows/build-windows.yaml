@@ -26,11 +26,11 @@ jobs:
       - name: Build and package (Windows Executable)
         run: mvn package jpackage:jpackage@win
 
-      - name: Create ZIP from output/
+      - name: Create ZIP from jpackage output
         shell: pwsh
         run: |
-          Push-Location output
-          tar -a -c -f ..\nautilus-${{ github.ref_name }}-windows.zip *
+          Push-Location target\output
+          tar -a -c -f ../../nautilus-${{ github.ref_name }}-windows.zip *
           Pop-Location
 
       - name: Upload Release

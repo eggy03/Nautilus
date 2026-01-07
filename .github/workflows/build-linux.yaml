@@ -26,12 +26,11 @@ jobs:
       - name: Build and package (Linux App Image)
         run: mvn package jpackage:jpackage@linux
 
-      - name: Create tar.gz from output/
+      - name: Create tar.gz from jpackage output
         run: |
-          cd output
-          tar -czf ../nautilus-${{ github.ref_name }}-linux.tar.gz *
-          cd ..
-
+          cd target/output
+          tar -czf ../../nautilus-${{ github.ref_name }}-linux.tar.gz *
+      
       - name: Upload Release
         uses: softprops/action-gh-release@v2
         with:
