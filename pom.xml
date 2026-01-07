@@ -128,6 +128,64 @@
                     </annotationProcessorPaths>
                 </configuration>
             </plugin>
+
+            <plugin>
+                <groupId>org.panteleyev</groupId>
+                <artifactId>jpackage-maven-plugin</artifactId>
+                <version>1.7.2</version>
+
+                <!-- Base config shared by all OSes -->
+                <configuration>
+                    <name>Nautilus</name>
+                    <appVersion>${project.version}</appVersion>
+                    <vendor>eggy03</vendor>
+                    <description>${project.description}</description>
+
+                    <!-- App-image only -->
+                    <type>APP_IMAGE</type>
+
+                    <!-- Fat JAR -->
+                    <input>${project.build.directory}</input>
+                    <mainJar>${project.build.finalName}-jar-with-dependencies.jar</mainJar>
+                    <mainClass>io.github.eggy03.ui.Start</mainClass>
+
+                    <!-- Custom JRE -->
+                    <runtimeImage>${project.basedir}/jre</runtimeImage>
+
+                    <!-- Output -->
+                    <destination>${project.basedir}/output</destination>
+
+                    <!-- JVM opts -->
+                    <javaOptions>
+                        <option>-Dfile.encoding=UTF-8</option>
+                    </javaOptions>
+
+                    <!-- Windows GUI -->
+                    <winConsole>false</winConsole>
+                </configuration>
+
+                <!-- OS-selectable executions -->
+                <executions>
+
+                    <!-- Windows -->
+                    <execution>
+                        <id>win</id>
+                        <configuration>
+                            <icon>${project.basedir}/icons/nautilus.ico</icon>
+                        </configuration>
+                    </execution>
+
+                    <!-- Linux -->
+                    <execution>
+                        <id>linux</id>
+                        <configuration>
+                            <icon>${project.basedir}/icons/nautilus.png</icon>
+                        </configuration>
+                    </execution>
+
+                </executions>
+            </plugin>
+
         </plugins>
     </build>
 
