@@ -1,8 +1,12 @@
 package io.github.eggy03.ui.linux;
 
+import com.formdev.flatlaf.extras.FlatSVGIcon;
+import io.github.eggy03.ui.common.ui.AboutUI;
+
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
@@ -35,12 +39,14 @@ public class LinuxUI extends JFrame {
 		JMenuBar menuBar = new JMenuBar();
 		contentPane.add(menuBar, BorderLayout.NORTH);
 		menuBar.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		
-		JMenu appearanceMenu = new JMenu("Appearance");
-		menuBar.add(appearanceMenu);
-		
+
 		JMenu helpMenu = new JMenu("Help");
 		menuBar.add(helpMenu);
+
+		JMenuItem aboutMenuItem = new JMenuItem("About");
+		aboutMenuItem.setIcon(new FlatSVGIcon(LinuxUI.class.getResource("/icons/general_icons/about.svg")));
+		aboutMenuItem.addActionListener(event -> new AboutUI().setVisible(true));
+		helpMenu.add(aboutMenuItem);
 	}
 	
 	private void setTabbedPane(JPanel contentPane) {

@@ -37,6 +37,7 @@ public class WindowsUI extends JFrame {
 		JPanel contentPane = new JPanel();
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
+
 		setupMenu(contentPane);
 		setTabbedPane(contentPane);
 	}
