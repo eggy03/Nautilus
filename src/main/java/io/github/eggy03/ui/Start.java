@@ -26,6 +26,7 @@ public class Start {
             DarkTheme.setup(); // register dark theme
             UIManagerConfigurations.enableRoundComponents();
             UIManagerConfigurations.enableTabSeparators(true);
+            UIManagerConfigurations.setUniversalFont();
 
             launchUIBasedOnOS();
         });

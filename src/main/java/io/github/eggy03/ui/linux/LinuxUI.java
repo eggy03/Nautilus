@@ -1,7 +1,7 @@
 package io.github.eggy03.ui.linux;
 
-import com.formdev.flatlaf.extras.FlatSVGIcon;
-import io.github.eggy03.ui.common.ui.AboutUI;
+import java.awt.BorderLayout;
+import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -11,9 +11,11 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
-import java.awt.BorderLayout;
-import java.awt.Font;
-import java.awt.Toolkit;
+
+import com.formdev.flatlaf.extras.FlatSVGIcon;
+
+import io.github.eggy03.ui.common.ui.AboutUI;
+import io.github.eggy03.ui.linux.panels.DMIProcessorPanelUI;
 
 public class LinuxUI extends JFrame {
 
@@ -38,7 +40,6 @@ public class LinuxUI extends JFrame {
 	private void setupMenu(JPanel contentPane) {
 		JMenuBar menuBar = new JMenuBar();
 		contentPane.add(menuBar, BorderLayout.NORTH);
-		menuBar.setFont(new Font("Tahoma", Font.PLAIN, 11));
 
 		JMenu helpMenu = new JMenu("Help");
 		menuBar.add(helpMenu);
@@ -52,7 +53,8 @@ public class LinuxUI extends JFrame {
 	private void setTabbedPane(JPanel contentPane) {
 		JTabbedPane tabbedPane = new JTabbedPane(SwingConstants.TOP);
 		contentPane.add(tabbedPane, BorderLayout.CENTER);
-		// TODO
+		
+		tabbedPane.addTab("CPU", new FlatSVGIcon(LinuxUI.class.getResource("/icons/tab_icons_material_green/CPU.svg")), new DMIProcessorPanelUI().getPanel(), null);
 	}
 
 }
