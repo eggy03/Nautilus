@@ -18,6 +18,7 @@
 
         <!-- Dependency versions -->
         <ferrumx.windows.version>3.1.1</ferrumx.windows.version>
+        <dmidecode4j.version>0.1.1</dmidecode4j.version>
         <slf4j.version>2.0.17</slf4j.version>
         <tinylog.version>2.7.0</tinylog.version>
         <flatlaf.version>3.7</flatlaf.version>
@@ -50,6 +51,12 @@
             <groupId>io.github.eggy03</groupId>
             <artifactId>ferrumx-windows</artifactId>
             <version>${ferrumx.windows.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.github.eggy03</groupId>
+            <artifactId>dmidecode4j</artifactId>
+            <version>${dmidecode4j.version}</version>
         </dependency>
 
         <dependency>
