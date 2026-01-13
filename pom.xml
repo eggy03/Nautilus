@@ -19,7 +19,7 @@
         <!-- Dependency versions -->
         <ferrumx.windows.version>3.1.1</ferrumx.windows.version>
         <slf4j.version>2.0.17</slf4j.version>
-        <logback.version>1.5.23</logback.version>
+        <tinylog.version>2.7.0</tinylog.version>
         <flatlaf.version>3.7</flatlaf.version>
         <jsvg.version>2.0.0</jsvg.version>
         <lombok.version>1.18.42</lombok.version>
@@ -59,9 +59,15 @@
         </dependency>
 
         <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <version>${logback.version}</version>
+            <groupId>org.tinylog</groupId>
+            <artifactId>slf4j-tinylog</artifactId>
+            <version>${tinylog.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.tinylog</groupId>
+            <artifactId>tinylog-impl</artifactId>
+            <version>${tinylog.version}</version>
         </dependency>
 
         <dependency>
