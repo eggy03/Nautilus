@@ -1,12 +1,12 @@
 package io.github.eggy03.ui.linux.panels;
 
-import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.datatransfer.StringSelection;
+import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -19,12 +19,14 @@ import javax.swing.border.TitledBorder;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 
+import io.github.eggy03.ui.linux.worker.DMIProcessorWorker;
+import io.github.eggy03.ui.linux.worker.SystemUUIDWorker;
 import io.github.eggy03.ui.windows.panels.WMIProcessorPanelUI;
 
 public class DMIProcessorPanelUI extends JPanel {
 
 	// hwid
-	private JTextField hardwareIdTextField;
+	private JTextField systemIdTextField;
 
 	// cpu
     private JComboBox<String> cpuIdComboBox;
@@ -40,17 +42,13 @@ public class DMIProcessorPanelUI extends JPanel {
 	private JTextField partNumberTextField;
 	private JTextField enabledCoresTextField;
 	private JTextField upgradeTextField;
-	private JTextField cpuArchitectureTextField;
+	private JTextField cpuStatusTextField;
 	private JTextField cpuVoltageTextField;
 	private JTextField socketTextField;
 	private JTextField baseClockTextField;
 	
-    private JTextArea cpuCharacteristicsTextArea;
-    private JTextArea cpuFlagsTextArea;
-	private JTextArea cpuConciseInfoTextArea;
-	
-	// cache
-    private JTextArea extraCacheTextArea;
+	private JTextArea cpuCharsAndFlagsTextArea;
+    private JTextArea cacheTextArea;
     
 	
 	public JPanel getPanel() {
@@ -78,41 +76,41 @@ public class DMIProcessorPanelUI extends JPanel {
 	
 	private void setHardwareIdPanel() {
 		
-		JPanel hardwareIdPanel = new JPanel();
-		hardwareIdPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "HardwareID", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-        GridBagConstraints gbcHardwareIdPanel = new GridBagConstraints();
-		gbcHardwareIdPanel.insets = new Insets(0, 0, 5, 0);
-		gbcHardwareIdPanel.fill = GridBagConstraints.BOTH;
-		gbcHardwareIdPanel.gridx = 0;
-		gbcHardwareIdPanel.gridy = 0;
-		add(hardwareIdPanel, gbcHardwareIdPanel);
-        GridBagLayout gblHardwareIdPanel = new GridBagLayout();
-        gblHardwareIdPanel.columnWidths = new int[]{956, 0, 0};
-        gblHardwareIdPanel.rowHeights = new int[]{21, 0};
-        gblHardwareIdPanel.columnWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
-        gblHardwareIdPanel.rowWeights = new double[]{0.0, Double.MIN_VALUE};
-		hardwareIdPanel.setLayout(gblHardwareIdPanel);
+		JPanel systemIdPanel = new JPanel();
+		systemIdPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "System UUID", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+        GridBagConstraints gbcSystemIdPanel = new GridBagConstraints();
+		gbcSystemIdPanel.insets = new Insets(0, 0, 5, 0);
+		gbcSystemIdPanel.fill = GridBagConstraints.BOTH;
+		gbcSystemIdPanel.gridx = 0;
+		gbcSystemIdPanel.gridy = 0;
+		add(systemIdPanel, gbcSystemIdPanel);
+        GridBagLayout gbl_systemIdPanel = new GridBagLayout();
+        gbl_systemIdPanel.columnWidths = new int[]{956, 0, 0};
+        gbl_systemIdPanel.rowHeights = new int[]{21, 0};
+        gbl_systemIdPanel.columnWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
+        gbl_systemIdPanel.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+		systemIdPanel.setLayout(gbl_systemIdPanel);
 
-		hardwareIdTextField = new JTextField();
-		hardwareIdTextField.setEditable(false);
-		GridBagConstraints gbcHardwareIdTf = new GridBagConstraints();
-		gbcHardwareIdTf.insets = new Insets(0, 0, 0, 5);
-		gbcHardwareIdTf.fill = GridBagConstraints.BOTH;
-		gbcHardwareIdTf.gridx = 0;
-		gbcHardwareIdTf.gridy = 0;
-		hardwareIdPanel.add(hardwareIdTextField, gbcHardwareIdTf);
-		hardwareIdTextField.setColumns(10);
+		systemIdTextField = new JTextField();
+		systemIdTextField.setEditable(false);
+		GridBagConstraints gbcSystemIdTextField = new GridBagConstraints();
+		gbcSystemIdTextField.insets = new Insets(0, 0, 0, 5);
+		gbcSystemIdTextField.fill = GridBagConstraints.BOTH;
+		gbcSystemIdTextField.gridx = 0;
+		gbcSystemIdTextField.gridy = 0;
+		systemIdPanel.add(systemIdTextField, gbcSystemIdTextField);
+		systemIdTextField.setColumns(10);
 		
-		JButton copyHwid = new JButton();
-		copyHwid.setIcon(new FlatSVGIcon(WMIProcessorPanelUI.class.getResource("/icons/general_icons/copy.svg")));
-		copyHwid.addActionListener(copyAction -> {
-			StringSelection textToCopy = new StringSelection(hardwareIdTextField.getText());
+		JButton copySystemId = new JButton();
+		copySystemId.setIcon(new FlatSVGIcon(WMIProcessorPanelUI.class.getResource("/icons/general_icons/copy.svg")));
+		copySystemId.addActionListener(copyAction -> {
+			StringSelection textToCopy = new StringSelection(systemIdTextField.getText());
 			Toolkit.getDefaultToolkit().getSystemClipboard().setContents(textToCopy, null);
 		});
-		GridBagConstraints gbcCopyHwid = new GridBagConstraints();
-		gbcCopyHwid.gridx = 1;
-		gbcCopyHwid.gridy = 0;
-		hardwareIdPanel.add(copyHwid, gbcCopyHwid);
+		GridBagConstraints gbcCopySystemId = new GridBagConstraints();
+		gbcCopySystemId.gridx = 1;
+		gbcCopySystemId.gridy = 0;
+		systemIdPanel.add(copySystemId, gbcCopySystemId);
 
 		
 	}
@@ -135,9 +133,9 @@ public class DMIProcessorPanelUI extends JPanel {
 		primaryInfoPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Primary Information", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		GridBagLayout gblPrimaryInfoPanel = new GridBagLayout();
 		gblPrimaryInfoPanel.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0};
-		gblPrimaryInfoPanel.rowHeights = new int[]{0, 0, 0, 0, 0};
+		gblPrimaryInfoPanel.rowHeights = new int[]{0, 0, 0, 0};
 		gblPrimaryInfoPanel.columnWeights = new double[]{0.0, 1.0, 0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE};
-		gblPrimaryInfoPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gblPrimaryInfoPanel.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
 		primaryInfoPanel.setLayout(gblPrimaryInfoPanel);
 		
 		JLabel cpuIdLabel = new JLabel("ID");
@@ -232,7 +230,7 @@ public class DMIProcessorPanelUI extends JPanel {
 		JLabel cpuVoltageLabel = new JLabel("Voltage");
 		GridBagConstraints gbcCpuVoltageLabel = new GridBagConstraints();
 		gbcCpuVoltageLabel.anchor = GridBagConstraints.WEST;
-		gbcCpuVoltageLabel.insets = new Insets(0, 0, 5, 5);
+		gbcCpuVoltageLabel.insets = new Insets(0, 0, 0, 5);
 		gbcCpuVoltageLabel.gridx = 0;
 		gbcCpuVoltageLabel.gridy = 2;
 		primaryInfoPanel.add(cpuVoltageLabel, gbcCpuVoltageLabel);
@@ -240,7 +238,7 @@ public class DMIProcessorPanelUI extends JPanel {
 		cpuVoltageTextField = new JTextField();
 		cpuVoltageTextField.setEditable(false);
 		GridBagConstraints gbcCpuVoltageTextField = new GridBagConstraints();
-		gbcCpuVoltageTextField.insets = new Insets(0, 0, 5, 5);
+		gbcCpuVoltageTextField.insets = new Insets(0, 0, 0, 5);
 		gbcCpuVoltageTextField.fill = GridBagConstraints.BOTH;
 		gbcCpuVoltageTextField.gridx = 1;
 		gbcCpuVoltageTextField.gridy = 2;
@@ -250,7 +248,7 @@ public class DMIProcessorPanelUI extends JPanel {
 		JLabel socketLabel = new JLabel("Socket");
 		GridBagConstraints gbcSocketLabel = new GridBagConstraints();
 		gbcSocketLabel.anchor = GridBagConstraints.WEST;
-		gbcSocketLabel.insets = new Insets(0, 0, 5, 5);
+		gbcSocketLabel.insets = new Insets(0, 0, 0, 5);
 		gbcSocketLabel.gridx = 2;
 		gbcSocketLabel.gridy = 2;
 		primaryInfoPanel.add(socketLabel, gbcSocketLabel);
@@ -258,7 +256,7 @@ public class DMIProcessorPanelUI extends JPanel {
 		socketTextField = new JTextField();
 		socketTextField.setEditable(false);
 		GridBagConstraints gbcSocketTextField = new GridBagConstraints();
-		gbcSocketTextField.insets = new Insets(0, 0, 5, 5);
+		gbcSocketTextField.insets = new Insets(0, 0, 0, 5);
 		gbcSocketTextField.fill = GridBagConstraints.BOTH;
 		gbcSocketTextField.gridx = 3;
 		gbcSocketTextField.gridy = 2;
@@ -268,7 +266,7 @@ public class DMIProcessorPanelUI extends JPanel {
 		JLabel baseClockLabel = new JLabel("Base Clock");
 		GridBagConstraints gbcBaseClockLabel = new GridBagConstraints();
 		gbcBaseClockLabel.anchor = GridBagConstraints.WEST;
-		gbcBaseClockLabel.insets = new Insets(0, 0, 5, 5);
+		gbcBaseClockLabel.insets = new Insets(0, 0, 0, 5);
 		gbcBaseClockLabel.gridx = 4;
 		gbcBaseClockLabel.gridy = 2;
 		primaryInfoPanel.add(baseClockLabel, gbcBaseClockLabel);
@@ -276,7 +274,6 @@ public class DMIProcessorPanelUI extends JPanel {
 		baseClockTextField = new JTextField();
 		baseClockTextField.setEditable(false);
 		GridBagConstraints gbcBaseClockTextField = new GridBagConstraints();
-		gbcBaseClockTextField.insets = new Insets(0, 0, 5, 0);
 		gbcBaseClockTextField.fill = GridBagConstraints.BOTH;
 		gbcBaseClockTextField.gridx = 5;
 		gbcBaseClockTextField.gridy = 2;
@@ -288,9 +285,9 @@ public class DMIProcessorPanelUI extends JPanel {
 		secondaryInfoPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Secondary Information", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		GridBagLayout gblSecondaryInfoPanel = new GridBagLayout();
 		gblSecondaryInfoPanel.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0};
-		gblSecondaryInfoPanel.rowHeights = new int[]{0, 0, 0, 0, 0};
+		gblSecondaryInfoPanel.rowHeights = new int[]{0, 0, 0, 0};
 		gblSecondaryInfoPanel.columnWeights = new double[]{0.0, 1.0, 0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE};
-		gblSecondaryInfoPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gblSecondaryInfoPanel.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
 		secondaryInfoPanel.setLayout(gblSecondaryInfoPanel);
 		
 		JLabel cpuSignatureLabel = new JLabel("Signature");
@@ -348,12 +345,12 @@ public class DMIProcessorPanelUI extends JPanel {
 		cpuManufacturerTextField.setColumns(10);
 		
 		JLabel serialNumberLabel = new JLabel("Serial");
-		GridBagConstraints gbc_serialNumberLabel = new GridBagConstraints();
-		gbc_serialNumberLabel.anchor = GridBagConstraints.WEST;
-		gbc_serialNumberLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_serialNumberLabel.gridx = 0;
-		gbc_serialNumberLabel.gridy = 1;
-		secondaryInfoPanel.add(serialNumberLabel, gbc_serialNumberLabel);
+		GridBagConstraints gbcSerialNumberLabel = new GridBagConstraints();
+		gbcSerialNumberLabel.anchor = GridBagConstraints.WEST;
+		gbcSerialNumberLabel.insets = new Insets(0, 0, 5, 5);
+		gbcSerialNumberLabel.gridx = 0;
+		gbcSerialNumberLabel.gridy = 1;
+		secondaryInfoPanel.add(serialNumberLabel, gbcSerialNumberLabel);
 		
 		cpuSerialTextField = new JTextField();
 		cpuSerialTextField.setEditable(false);
@@ -404,7 +401,7 @@ public class DMIProcessorPanelUI extends JPanel {
 		JLabel enabledCoresLabel = new JLabel("Enabled Cores");
 		GridBagConstraints gbcEnabledCoresLabel = new GridBagConstraints();
 		gbcEnabledCoresLabel.anchor = GridBagConstraints.WEST;
-		gbcEnabledCoresLabel.insets = new Insets(0, 0, 5, 5);
+		gbcEnabledCoresLabel.insets = new Insets(0, 0, 0, 5);
 		gbcEnabledCoresLabel.gridx = 0;
 		gbcEnabledCoresLabel.gridy = 2;
 		secondaryInfoPanel.add(enabledCoresLabel, gbcEnabledCoresLabel);
@@ -412,7 +409,7 @@ public class DMIProcessorPanelUI extends JPanel {
 		enabledCoresTextField = new JTextField();
 		enabledCoresTextField.setEditable(false);
 		GridBagConstraints gbcEnabledCoresTextField = new GridBagConstraints();
-		gbcEnabledCoresTextField.insets = new Insets(0, 0, 5, 5);
+		gbcEnabledCoresTextField.insets = new Insets(0, 0, 0, 5);
 		gbcEnabledCoresTextField.fill = GridBagConstraints.HORIZONTAL;
 		gbcEnabledCoresTextField.gridx = 1;
 		gbcEnabledCoresTextField.gridy = 2;
@@ -422,7 +419,7 @@ public class DMIProcessorPanelUI extends JPanel {
 		JLabel upgradeLabel = new JLabel("Upgrade");
 		GridBagConstraints gbcUpgradeLabel = new GridBagConstraints();
 		gbcUpgradeLabel.anchor = GridBagConstraints.WEST;
-		gbcUpgradeLabel.insets = new Insets(0, 0, 5, 5);
+		gbcUpgradeLabel.insets = new Insets(0, 0, 0, 5);
 		gbcUpgradeLabel.gridx = 2;
 		gbcUpgradeLabel.gridy = 2;
 		secondaryInfoPanel.add(upgradeLabel, gbcUpgradeLabel);
@@ -430,7 +427,7 @@ public class DMIProcessorPanelUI extends JPanel {
 		upgradeTextField = new JTextField();
 		upgradeTextField.setEditable(false);
 		GridBagConstraints gbcUpgradeTextField = new GridBagConstraints();
-		gbcUpgradeTextField.insets = new Insets(0, 0, 5, 5);
+		gbcUpgradeTextField.insets = new Insets(0, 0, 0, 5);
 		gbcUpgradeTextField.fill = GridBagConstraints.HORIZONTAL;
 		gbcUpgradeTextField.gridx = 3;
 		gbcUpgradeTextField.gridy = 2;
@@ -440,90 +437,79 @@ public class DMIProcessorPanelUI extends JPanel {
 		JLabel cpuStatusLabel = new JLabel("Status");
 		GridBagConstraints gbcCpuStatusLabel = new GridBagConstraints();
 		gbcCpuStatusLabel.anchor = GridBagConstraints.WEST;
-		gbcCpuStatusLabel.insets = new Insets(0, 0, 5, 5);
+		gbcCpuStatusLabel.insets = new Insets(0, 0, 0, 5);
 		gbcCpuStatusLabel.gridx = 4;
 		gbcCpuStatusLabel.gridy = 2;
 		secondaryInfoPanel.add(cpuStatusLabel, gbcCpuStatusLabel);
 		
-		cpuArchitectureTextField = new JTextField();
-		cpuArchitectureTextField.setEditable(false);
-		GridBagConstraints gbcCpuArchitectureTextField = new GridBagConstraints();
-		gbcCpuArchitectureTextField.insets = new Insets(0, 0, 5, 0);
-		gbcCpuArchitectureTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbcCpuArchitectureTextField.gridx = 5;
-		gbcCpuArchitectureTextField.gridy = 2;
-		secondaryInfoPanel.add(cpuArchitectureTextField, gbcCpuArchitectureTextField);
-		cpuArchitectureTextField.setColumns(10);
+		cpuStatusTextField = new JTextField();
+		cpuStatusTextField.setEditable(false);
+		GridBagConstraints gbcCpuStatusTextField = new GridBagConstraints();
+		gbcCpuStatusTextField.fill = GridBagConstraints.HORIZONTAL;
+		gbcCpuStatusTextField.gridx = 5;
+		gbcCpuStatusTextField.gridy = 2;
+		secondaryInfoPanel.add(cpuStatusTextField, gbcCpuStatusTextField);
+		cpuStatusTextField.setColumns(10);
 		
-		// CACHE INFO PANEL
+		// TERTIARY INFO PANEL
+		JPanel tertiaryInfoPanel = new JPanel();
+		tertiaryInfoPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Tertiary Information", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		tertiaryInfoPanel.setLayout(new GridLayout(1, 0, 0, 0));
+		
+		JPanel cpuCharsAndFlagsPanel = new JPanel();
+		cpuCharsAndFlagsPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Characteristics and Flags", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		tertiaryInfoPanel.add(cpuCharsAndFlagsPanel);
+		cpuCharsAndFlagsPanel.setLayout(new GridLayout(1, 0, 0, 0));
+		
+		JScrollPane cpuCharsAndFlagsScrollPane = new JScrollPane();
+		cpuCharsAndFlagsPanel.add(cpuCharsAndFlagsScrollPane);
+		
+		cpuCharsAndFlagsTextArea = new JTextArea();
+		cpuCharsAndFlagsScrollPane.setViewportView(cpuCharsAndFlagsTextArea);
+		cpuCharsAndFlagsTextArea.setEditable(false);
+
 		JPanel cacheInfoPanel = new JPanel();
-		cacheInfoPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Cache Information", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		cacheInfoPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Cache Info", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		tertiaryInfoPanel.add(cacheInfoPanel);
 		cacheInfoPanel.setLayout(new GridLayout(1, 0, 0, 0));
 		
-		JPanel cpuConciseInfoPanel = new JPanel();
-		cpuConciseInfoPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Concise Information", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		cacheInfoPanel.add(cpuConciseInfoPanel);
-		cpuConciseInfoPanel.setLayout(new GridLayout(1, 0, 0, 0));
+		JScrollPane cacheScrollPane = new JScrollPane();
+		cacheInfoPanel.add(cacheScrollPane);
 		
-		JScrollPane cpuConciseInfoScrollPane = new JScrollPane();
-		cpuConciseInfoPanel.add(cpuConciseInfoScrollPane);
-		
-		cpuConciseInfoTextArea = new JTextArea();
-		cpuConciseInfoScrollPane.setViewportView(cpuConciseInfoTextArea);
-		cpuConciseInfoTextArea.setEditable(false);
-		cpuConciseInfoTextArea.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		
-		JPanel extraCacheInfoPanel = new JPanel();
-		extraCacheInfoPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Extra Cache Info", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		cacheInfoPanel.add(extraCacheInfoPanel);
-		extraCacheInfoPanel.setLayout(new GridLayout(1, 0, 0, 0));
-		
-		JScrollPane extraCacheScrollPane = new JScrollPane();
-		extraCacheInfoPanel.add(extraCacheScrollPane);
-		
-		extraCacheTextArea = new JTextArea();
-		extraCacheTextArea.setRows(4);
-		extraCacheTextArea.setEditable(false);
-		extraCacheScrollPane.setViewportView(extraCacheTextArea);
+		cacheTextArea = new JTextArea();
+		cacheTextArea.setRows(4);
+		cacheTextArea.setEditable(false);
+		cacheScrollPane.setViewportView(cacheTextArea);
 		
 		// add scroll panes to primary and secondary sub panels
 		JScrollPane primaryInfoScrollPane = new JScrollPane();
 		primaryInfoScrollPane.setViewportView(primaryInfoPanel);
 		
-		cpuCharacteristicsTextArea = new JTextArea();
-		cpuCharacteristicsTextArea.setEditable(false);
-		cpuCharacteristicsTextArea.setLineWrap(true);
-		GridBagConstraints gbcCpuCharacteristicsTextArea = new GridBagConstraints();
-		gbcCpuCharacteristicsTextArea.fill = GridBagConstraints.HORIZONTAL;
-		gbcCpuCharacteristicsTextArea.gridwidth = 6;
-		gbcCpuCharacteristicsTextArea.gridx = 0;
-		gbcCpuCharacteristicsTextArea.gridy = 3;
-		primaryInfoPanel.add(cpuCharacteristicsTextArea, gbcCpuCharacteristicsTextArea);
-		
 		JScrollPane secondaryInfoScrollPane = new JScrollPane();
 		secondaryInfoScrollPane.setViewportView(secondaryInfoPanel);
 		
-		cpuFlagsTextArea = new JTextArea();
-		cpuFlagsTextArea.setEditable(false);
-		cpuFlagsTextArea.setLineWrap(true);
-		GridBagConstraints gbcCpuFlagsTextArea = new GridBagConstraints();
-		gbcCpuFlagsTextArea.gridwidth = 6;
-		gbcCpuFlagsTextArea.fill = GridBagConstraints.HORIZONTAL;
-		gbcCpuFlagsTextArea.gridx = 0;
-		gbcCpuFlagsTextArea.gridy = 3;
-		secondaryInfoPanel.add(cpuFlagsTextArea, gbcCpuFlagsTextArea);
-		
-		JScrollPane cacheInfoScrollPane = new JScrollPane();
-		cacheInfoScrollPane.setViewportView(cacheInfoPanel);
 		
 		// add sub scroll panes and other sub panels to the main panel
 		cpuPanel.add(primaryInfoScrollPane);
 		cpuPanel.add(secondaryInfoScrollPane);
-		cpuPanel.add(cacheInfoScrollPane);
+		cpuPanel.add(tertiaryInfoPanel);
 	}
 
 	private void setWorkers() {
+
+		List<JTextField> textFields = List.of(coreTextField, threadTextField, currentClockTextField, cpuVersionTextField,
+				cpuSignatureTextField, familyTextField, cpuManufacturerTextField, cpuSerialTextField,
+				assetTagTextField, partNumberTextField, enabledCoresTextField, upgradeTextField,
+				cpuStatusTextField, cpuVoltageTextField, socketTextField, baseClockTextField
+		);
 		
+		List<JTextArea> textAreas = List.of(cpuCharsAndFlagsTextArea, cacheTextArea);
+
+		new DMIProcessorWorker(cpuIdComboBox, textFields, textAreas).execute();
+
+		new SystemUUIDWorker(systemIdTextField).execute();
+
 	}
+
 
 }

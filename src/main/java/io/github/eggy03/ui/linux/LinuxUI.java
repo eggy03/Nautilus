@@ -1,7 +1,6 @@
 package io.github.eggy03.ui.linux;
 
 import java.awt.BorderLayout;
-import java.awt.Font;
 import java.awt.Toolkit;
 
 import javax.swing.JFrame;
@@ -41,7 +40,6 @@ public class LinuxUI extends JFrame {
 	private void setupMenu(JPanel contentPane) {
 		JMenuBar menuBar = new JMenuBar();
 		contentPane.add(menuBar, BorderLayout.NORTH);
-		menuBar.setFont(new Font("Tahoma", Font.PLAIN, 11));
 
 		JMenu helpMenu = new JMenu("Help");
 		menuBar.add(helpMenu);
