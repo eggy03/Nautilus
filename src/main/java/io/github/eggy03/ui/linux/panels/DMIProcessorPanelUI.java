@@ -20,12 +20,13 @@ import javax.swing.border.TitledBorder;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 
 import io.github.eggy03.ui.linux.worker.DMIProcessorWorker;
+import io.github.eggy03.ui.linux.worker.SystemUUIDWorker;
 import io.github.eggy03.ui.windows.panels.WMIProcessorPanelUI;
 
 public class DMIProcessorPanelUI extends JPanel {
 
 	// hwid
-	private JTextField hardwareIdTextField;
+	private JTextField systemIdTextField;
 
 	// cpu
     private JComboBox<String> cpuIdComboBox;
@@ -75,41 +76,41 @@ public class DMIProcessorPanelUI extends JPanel {
 	
 	private void setHardwareIdPanel() {
 		
-		JPanel hardwareIdPanel = new JPanel();
-		hardwareIdPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "HardwareID", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-        GridBagConstraints gbcHardwareIdPanel = new GridBagConstraints();
-		gbcHardwareIdPanel.insets = new Insets(0, 0, 5, 0);
-		gbcHardwareIdPanel.fill = GridBagConstraints.BOTH;
-		gbcHardwareIdPanel.gridx = 0;
-		gbcHardwareIdPanel.gridy = 0;
-		add(hardwareIdPanel, gbcHardwareIdPanel);
-        GridBagLayout gblHardwareIdPanel = new GridBagLayout();
-        gblHardwareIdPanel.columnWidths = new int[]{956, 0, 0};
-        gblHardwareIdPanel.rowHeights = new int[]{21, 0};
-        gblHardwareIdPanel.columnWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
-        gblHardwareIdPanel.rowWeights = new double[]{0.0, Double.MIN_VALUE};
-		hardwareIdPanel.setLayout(gblHardwareIdPanel);
+		JPanel systemIdPanel = new JPanel();
+		systemIdPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "System UUID", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+        GridBagConstraints gbcSystemIdPanel = new GridBagConstraints();
+		gbcSystemIdPanel.insets = new Insets(0, 0, 5, 0);
+		gbcSystemIdPanel.fill = GridBagConstraints.BOTH;
+		gbcSystemIdPanel.gridx = 0;
+		gbcSystemIdPanel.gridy = 0;
+		add(systemIdPanel, gbcSystemIdPanel);
+        GridBagLayout gbl_systemIdPanel = new GridBagLayout();
+        gbl_systemIdPanel.columnWidths = new int[]{956, 0, 0};
+        gbl_systemIdPanel.rowHeights = new int[]{21, 0};
+        gbl_systemIdPanel.columnWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
+        gbl_systemIdPanel.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+		systemIdPanel.setLayout(gbl_systemIdPanel);
 
-		hardwareIdTextField = new JTextField();
-		hardwareIdTextField.setEditable(false);
-		GridBagConstraints gbcHardwareIdTf = new GridBagConstraints();
-		gbcHardwareIdTf.insets = new Insets(0, 0, 0, 5);
-		gbcHardwareIdTf.fill = GridBagConstraints.BOTH;
-		gbcHardwareIdTf.gridx = 0;
-		gbcHardwareIdTf.gridy = 0;
-		hardwareIdPanel.add(hardwareIdTextField, gbcHardwareIdTf);
-		hardwareIdTextField.setColumns(10);
+		systemIdTextField = new JTextField();
+		systemIdTextField.setEditable(false);
+		GridBagConstraints gbcSystemIdTextField = new GridBagConstraints();
+		gbcSystemIdTextField.insets = new Insets(0, 0, 0, 5);
+		gbcSystemIdTextField.fill = GridBagConstraints.BOTH;
+		gbcSystemIdTextField.gridx = 0;
+		gbcSystemIdTextField.gridy = 0;
+		systemIdPanel.add(systemIdTextField, gbcSystemIdTextField);
+		systemIdTextField.setColumns(10);
 		
-		JButton copyHwid = new JButton();
-		copyHwid.setIcon(new FlatSVGIcon(WMIProcessorPanelUI.class.getResource("/icons/general_icons/copy.svg")));
-		copyHwid.addActionListener(copyAction -> {
-			StringSelection textToCopy = new StringSelection(hardwareIdTextField.getText());
+		JButton copySystemId = new JButton();
+		copySystemId.setIcon(new FlatSVGIcon(WMIProcessorPanelUI.class.getResource("/icons/general_icons/copy.svg")));
+		copySystemId.addActionListener(copyAction -> {
+			StringSelection textToCopy = new StringSelection(systemIdTextField.getText());
 			Toolkit.getDefaultToolkit().getSystemClipboard().setContents(textToCopy, null);
 		});
-		GridBagConstraints gbcCopyHwid = new GridBagConstraints();
-		gbcCopyHwid.gridx = 1;
-		gbcCopyHwid.gridy = 0;
-		hardwareIdPanel.add(copyHwid, gbcCopyHwid);
+		GridBagConstraints gbcCopySystemId = new GridBagConstraints();
+		gbcCopySystemId.gridx = 1;
+		gbcCopySystemId.gridy = 0;
+		systemIdPanel.add(copySystemId, gbcCopySystemId);
 
 		
 	}
@@ -505,6 +506,8 @@ public class DMIProcessorPanelUI extends JPanel {
 		List<JTextArea> textAreas = List.of(cpuCharsAndFlagsTextArea, cacheTextArea);
 
 		new DMIProcessorWorker(cpuIdComboBox, textFields, textAreas).execute();
+
+		new SystemUUIDWorker(systemIdTextField).execute();
 
 	}
 
