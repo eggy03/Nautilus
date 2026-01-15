@@ -3,9 +3,7 @@ package io.github.eggy03.ui.common.utilities;
 import lombok.experimental.UtilityClass;
 
 import javax.swing.UIManager;
-import java.awt.Font;
 import java.awt.Insets;
-import java.util.Enumeration;
 
 // custom UI manager configurations that allow slight changes to the LAF
 // Applies on all LAFs
@@ -31,18 +29,5 @@ public class UIManagerConfigurations {
 	public static void enableTabSeparators(boolean value) {
 		UIManager.put( "TabbedPane.showTabSeparators", value );
 		UIManager.put( "TabbedPane.tabSeparatorsFullHeight", value );
-	}
-
-	public static void setUniversalFont() {
-		Font tahoma15 = new Font("Tahoma", Font.PLAIN, 15);
-
-		Enumeration<Object> keys = UIManager.getDefaults().keys();
-		while (keys.hasMoreElements()) {
-			Object key = keys.nextElement();
-			Object value = UIManager.get(key);
-			if (value instanceof Font) {
-				UIManager.put(key, tahoma15);
-			}
-		}
 	}
 }

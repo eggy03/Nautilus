@@ -13,7 +13,6 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
-import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -464,8 +463,7 @@ public class WMIProcessorPanelUI extends JPanel {
 		cpuConciseInfoTextArea = new JTextArea();
 		cpuConciseInfoScrollPane.setViewportView(cpuConciseInfoTextArea);
 		cpuConciseInfoTextArea.setEditable(false);
-		cpuConciseInfoTextArea.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		
+
 		JPanel extraCacheInfoPanel = new JPanel();
 		extraCacheInfoPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Extra Cache Info", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		cacheInfoPanel.add(extraCacheInfoPanel);

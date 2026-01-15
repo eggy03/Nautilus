@@ -18,7 +18,6 @@ import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 import java.awt.BorderLayout;
-import java.awt.Font;
 import java.awt.Toolkit;
 import javax.swing.JMenuItem;
 
@@ -45,7 +44,6 @@ public class WindowsUI extends JFrame {
 	private void setupMenu(JPanel contentPane) {
 		JMenuBar menuBar = new JMenuBar();
 		contentPane.add(menuBar, BorderLayout.NORTH);
-		menuBar.setFont(new Font("Tahoma", Font.PLAIN, 11));
 
 		JMenu helpMenu = new JMenu("Help");
 		menuBar.add(helpMenu);
