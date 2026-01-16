@@ -15,6 +15,7 @@ import javax.swing.WindowConstants;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 
 import io.github.eggy03.ui.common.ui.AboutUI;
+import io.github.eggy03.ui.linux.panels.DMIPhysicalMemoryPanelUI;
 import io.github.eggy03.ui.linux.panels.DMIProcessorPanelUI;
 
 public class LinuxUI extends JFrame {
@@ -55,6 +56,7 @@ public class LinuxUI extends JFrame {
 		contentPane.add(tabbedPane, BorderLayout.CENTER);
 		
 		tabbedPane.addTab("CPU", new FlatSVGIcon(LinuxUI.class.getResource("/icons/tab_icons_material_green/CPU.svg")), new DMIProcessorPanelUI().getPanel(), null);
+		tabbedPane.addTab("Memory", new FlatSVGIcon(LinuxUI.class.getResource("/icons/tab_icons_material_green/RAM.svg")), new DMIPhysicalMemoryPanelUI().getPanel(), null);
 	}
 
 }

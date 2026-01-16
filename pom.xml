@@ -26,6 +26,7 @@
         <lombok.version>1.18.42</lombok.version>
         <commons.lang3.version>3.20.0</commons.lang3.version>
         <commons.io.version>2.21.0</commons.io.version>
+        <miglayout.version>11.4.2</miglayout.version>
 
         <!-- Plugin versions -->
         <maven.compiler.plugin.version>3.14.1</maven.compiler.plugin.version>
@@ -114,6 +115,12 @@
             <artifactId>commons-io</artifactId>
             <version>${commons.io.version}</version>
         </dependency>
+        
+        <dependency>
+    		<groupId>com.miglayout</groupId>
+    		<artifactId>miglayout-swing</artifactId>
+    		<version>${miglayout.version}</version>
+		</dependency>
     </dependencies>
 
     <build>
