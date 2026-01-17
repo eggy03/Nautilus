@@ -44,8 +44,8 @@ public class DMIPhysicalMemoryPanelUI extends JPanel {
     private JTextField mscProductIdTextField;
     private JTextField memoryTechnologyTextField;
     private JTextField memoryOperatingModeCapabilityTextField;
-	private JTextField errorHandleTextField;
-	private JTextField arrayHandleTextField;
+    private JTextField errorHandleTextField;
+    private JTextField arrayHandleTextField;
 
     /**
      * Create the panel.
@@ -97,7 +97,6 @@ public class DMIPhysicalMemoryPanelUI extends JPanel {
         setTextField = new JTextField();
         setTextField.setEditable(false);
         panel.add(setTextField, "cell 1 1,growx");
-        setTextField.setColumns(10);
 
         JLabel assetTagLabel = new JLabel("Asset Tag");
         panel.add(assetTagLabel, "cell 0 2,alignx leading");
@@ -105,7 +104,6 @@ public class DMIPhysicalMemoryPanelUI extends JPanel {
         assetTagTextField = new JTextField();
         assetTagTextField.setEditable(false);
         panel.add(assetTagTextField, "cell 1 2,growx");
-        assetTagTextField.setColumns(10);
 
         JLabel serialNumberLabel = new JLabel("Serial Number");
         panel.add(serialNumberLabel, "cell 0 3,alignx leading");
@@ -113,7 +111,6 @@ public class DMIPhysicalMemoryPanelUI extends JPanel {
         serialNumberTextField = new JTextField();
         serialNumberTextField.setEditable(false);
         panel.add(serialNumberTextField, "cell 1 3,growx");
-        serialNumberTextField.setColumns(10);
 
         JLabel partNumberLabel = new JLabel("Part Number");
         panel.add(partNumberLabel, "cell 0 4,alignx leading");
@@ -121,7 +118,6 @@ public class DMIPhysicalMemoryPanelUI extends JPanel {
         partNumberTextField = new JTextField();
         partNumberTextField.setEditable(false);
         panel.add(partNumberTextField, "cell 1 4,growx");
-        partNumberTextField.setColumns(10);
 
         JLabel firmwareVersionLabel = new JLabel("Firmware Version");
         panel.add(firmwareVersionLabel, "cell 0 5,alignx leading");
@@ -129,7 +125,6 @@ public class DMIPhysicalMemoryPanelUI extends JPanel {
         firmwareVersionTextField = new JTextField();
         firmwareVersionTextField.setEditable(false);
         panel.add(firmwareVersionTextField, "cell 1 5,growx");
-        firmwareVersionTextField.setColumns(10);
 
         return new JScrollPane(panel);
     }
@@ -145,7 +140,6 @@ public class DMIPhysicalMemoryPanelUI extends JPanel {
         locatorTextField = new JTextField();
         locatorTextField.setEditable(false);
         panel.add(locatorTextField, "cell 1 0,growx");
-        locatorTextField.setColumns(10);
 
         JLabel bankLocatorLabel = new JLabel("Bank Locator");
         panel.add(bankLocatorLabel, "cell 0 1,alignx leading");
@@ -153,7 +147,6 @@ public class DMIPhysicalMemoryPanelUI extends JPanel {
         bankLocatorTextField = new JTextField();
         bankLocatorTextField.setEditable(false);
         panel.add(bankLocatorTextField, "cell 1 1,growx");
-        bankLocatorTextField.setColumns(10);
 
         JLabel formFactorLabel = new JLabel("Form Factor");
         panel.add(formFactorLabel, "cell 0 2,alignx leading");
@@ -161,7 +154,6 @@ public class DMIPhysicalMemoryPanelUI extends JPanel {
         formFactorTextField = new JTextField();
         formFactorTextField.setEditable(false);
         panel.add(formFactorTextField, "cell 1 2,growx");
-        formFactorTextField.setColumns(10);
 
         JLabel typeLabel = new JLabel("Type");
         panel.add(typeLabel, "cell 0 3,alignx leading");
@@ -169,7 +161,6 @@ public class DMIPhysicalMemoryPanelUI extends JPanel {
         typeTextField = new JTextField();
         typeTextField.setEditable(false);
         panel.add(typeTextField, "cell 1 3,growx");
-        typeTextField.setColumns(10);
 
         JLabel typeDetailLabel = new JLabel("Type Detail");
         panel.add(typeDetailLabel, "cell 0 4,alignx leading");
@@ -177,7 +168,6 @@ public class DMIPhysicalMemoryPanelUI extends JPanel {
         typeDetailTextField = new JTextField();
         typeDetailTextField.setEditable(false);
         panel.add(typeDetailTextField, "cell 1 4,growx");
-        typeDetailTextField.setColumns(10);
 
         JLabel rankLabel = new JLabel("Rank");
         panel.add(rankLabel, "cell 0 5,alignx leading");
@@ -185,7 +175,6 @@ public class DMIPhysicalMemoryPanelUI extends JPanel {
         rankLabelTextField = new JTextField();
         rankLabelTextField.setEditable(false);
         panel.add(rankLabelTextField, "cell 1 5,growx");
-        rankLabelTextField.setColumns(10);
 
         return new JScrollPane(panel);
 
@@ -202,7 +191,6 @@ public class DMIPhysicalMemoryPanelUI extends JPanel {
         sizeTextField = new JTextField();
         sizeTextField.setEditable(false);
         panel.add(sizeTextField, "cell 1 0,growx");
-        sizeTextField.setColumns(10);
 
         JLabel dataWidthLabel = new JLabel("Data Width");
         panel.add(dataWidthLabel, "cell 0 1,alignx leading");
@@ -210,7 +198,6 @@ public class DMIPhysicalMemoryPanelUI extends JPanel {
         dataWidthTextField = new JTextField();
         dataWidthTextField.setEditable(false);
         panel.add(dataWidthTextField, "cell 1 1,growx");
-        dataWidthTextField.setColumns(10);
 
         JLabel totalWidthLabel = new JLabel("Total Width");
         panel.add(totalWidthLabel, "cell 0 2,alignx leading");
@@ -218,7 +205,6 @@ public class DMIPhysicalMemoryPanelUI extends JPanel {
         totalWidthTextField = new JTextField();
         totalWidthTextField.setEditable(false);
         panel.add(totalWidthTextField, "cell 1 2,growx");
-        totalWidthTextField.setColumns(10);
 
         JLabel volatileSizeLabel = new JLabel("Volatile Size");
         panel.add(volatileSizeLabel, "cell 0 3,alignx leading");
@@ -226,7 +212,6 @@ public class DMIPhysicalMemoryPanelUI extends JPanel {
         volatileSizeTextField = new JTextField();
         volatileSizeTextField.setEditable(false);
         panel.add(volatileSizeTextField, "cell 1 3,growx");
-        volatileSizeTextField.setColumns(10);
 
         JLabel nonVolatileSizeLabel = new JLabel("Non-Volatile Size");
         panel.add(nonVolatileSizeLabel, "cell 0 4,alignx leading");
@@ -234,7 +219,6 @@ public class DMIPhysicalMemoryPanelUI extends JPanel {
         nonVolatileSizeTextField = new JTextField();
         nonVolatileSizeTextField.setEditable(false);
         panel.add(nonVolatileSizeTextField, "cell 1 4,growx");
-        nonVolatileSizeTextField.setColumns(10);
 
         JLabel cacheSizeLabel = new JLabel("Cache Size");
         panel.add(cacheSizeLabel, "cell 0 5,alignx leading");
@@ -242,7 +226,6 @@ public class DMIPhysicalMemoryPanelUI extends JPanel {
         cacheSizeTextField = new JTextField();
         cacheSizeTextField.setEditable(false);
         panel.add(cacheSizeTextField, "cell 1 5,growx");
-        cacheSizeTextField.setColumns(10);
 
         JLabel logicalSizeLabel = new JLabel("Logical Size");
         panel.add(logicalSizeLabel, "cell 0 6,alignx leading");
@@ -250,7 +233,6 @@ public class DMIPhysicalMemoryPanelUI extends JPanel {
 
         logicalSizeTextField.setEditable(false);
         panel.add(logicalSizeTextField, "cell 1 6,growx");
-        logicalSizeTextField.setColumns(10);
 
         return new JScrollPane(panel);
 
@@ -267,7 +249,6 @@ public class DMIPhysicalMemoryPanelUI extends JPanel {
         factorySpeedTextField = new JTextField();
         factorySpeedTextField.setEditable(false);
         panel.add(factorySpeedTextField, "cell 1 0,growx");
-        factorySpeedTextField.setColumns(10);
 
         JLabel configuredSpeedLabel = new JLabel("Configured Speed");
         panel.add(configuredSpeedLabel, "cell 0 1,alignx leading");
@@ -275,7 +256,6 @@ public class DMIPhysicalMemoryPanelUI extends JPanel {
         configuredSpeedTextField = new JTextField();
         configuredSpeedTextField.setEditable(false);
         panel.add(configuredSpeedTextField, "cell 1 1,growx");
-        configuredSpeedTextField.setColumns(10);
 
         JLabel minimumVoltageLabel = new JLabel("Minimum Volage");
         panel.add(minimumVoltageLabel, "cell 0 2,alignx leading");
@@ -283,7 +263,6 @@ public class DMIPhysicalMemoryPanelUI extends JPanel {
         minimumVoltageTextField = new JTextField();
         minimumVoltageTextField.setEditable(false);
         panel.add(minimumVoltageTextField, "cell 1 2,growx");
-        minimumVoltageTextField.setColumns(10);
 
         JLabel maximumVoltageLabel = new JLabel("Maximum Voltage");
         panel.add(maximumVoltageLabel, "cell 0 3,alignx leading");
@@ -291,7 +270,6 @@ public class DMIPhysicalMemoryPanelUI extends JPanel {
         maximumVoltageTextField = new JTextField();
         maximumVoltageTextField.setEditable(false);
         panel.add(maximumVoltageTextField, "cell 1 3,growx");
-        maximumVoltageTextField.setColumns(10);
 
         JLabel configuredVoltageLabel = new JLabel("Configured Voltage");
         panel.add(configuredVoltageLabel, "cell 0 4,alignx leading");
@@ -299,7 +277,6 @@ public class DMIPhysicalMemoryPanelUI extends JPanel {
         configuredVoltageTextField = new JTextField();
         configuredVoltageTextField.setEditable(false);
         panel.add(configuredVoltageTextField, "cell 1 4,growx");
-        configuredVoltageTextField.setColumns(10);
 
         return new JScrollPane(panel);
 
@@ -316,7 +293,6 @@ public class DMIPhysicalMemoryPanelUI extends JPanel {
         manufacturerTextField = new JTextField();
         manufacturerTextField.setEditable(false);
         panel.add(manufacturerTextField, "cell 1 0,growx");
-        manufacturerTextField.setColumns(10);
 
         JLabel moduleManufacturerIdLabel = new JLabel("Module Manufacturer ID");
         panel.add(moduleManufacturerIdLabel, "cell 0 1,alignx leading");
@@ -324,7 +300,6 @@ public class DMIPhysicalMemoryPanelUI extends JPanel {
         moduleManufacturerIdTextField = new JTextField();
         moduleManufacturerIdTextField.setEditable(false);
         panel.add(moduleManufacturerIdTextField, "cell 1 1,growx");
-        moduleManufacturerIdTextField.setColumns(10);
 
         JLabel moduleProductIdLabel = new JLabel("Module Product ID");
         panel.add(moduleProductIdLabel, "cell 0 2,alignx leading");
@@ -332,7 +307,6 @@ public class DMIPhysicalMemoryPanelUI extends JPanel {
         moduleProductIdTextField = new JTextField();
         moduleProductIdTextField.setEditable(false);
         panel.add(moduleProductIdTextField, "cell 1 2,growx");
-        moduleProductIdTextField.setColumns(10);
 
         JLabel mscManufacturerIdLabel = new JLabel("MSC Manufacturer ID");
         mscManufacturerIdLabel.setToolTipText("Memory Sub-System Controller Manufacturer ID");
@@ -341,7 +315,6 @@ public class DMIPhysicalMemoryPanelUI extends JPanel {
         mscManufacturerIdTextField = new JTextField();
         mscManufacturerIdTextField.setEditable(false);
         panel.add(mscManufacturerIdTextField, "cell 1 3,growx");
-        mscManufacturerIdTextField.setColumns(10);
 
         JLabel mscProductIdLabel = new JLabel("MSC Product ID");
         mscProductIdLabel.setToolTipText("Memory Sub-System Controller Product ID");
@@ -350,7 +323,6 @@ public class DMIPhysicalMemoryPanelUI extends JPanel {
         mscProductIdTextField = new JTextField();
         mscProductIdTextField.setEditable(false);
         panel.add(mscProductIdTextField, "cell 1 4,growx");
-        mscProductIdTextField.setColumns(10);
 
         JLabel memoryTechnologyLabel = new JLabel("Memory Technology");
         panel.add(memoryTechnologyLabel, "cell 0 5,alignx leading");
@@ -358,7 +330,6 @@ public class DMIPhysicalMemoryPanelUI extends JPanel {
         memoryTechnologyTextField = new JTextField();
         memoryTechnologyTextField.setEditable(false);
         panel.add(memoryTechnologyTextField, "cell 1 5,growx");
-        memoryTechnologyTextField.setColumns(10);
 
         JLabel memoryOperatingModeCapabilityLabel = new JLabel("Memory Operating Mode Capability");
         panel.add(memoryOperatingModeCapabilityLabel, "cell 0 6,alignx leading");
@@ -366,23 +337,21 @@ public class DMIPhysicalMemoryPanelUI extends JPanel {
         memoryOperatingModeCapabilityTextField = new JTextField();
         memoryOperatingModeCapabilityTextField.setEditable(false);
         panel.add(memoryOperatingModeCapabilityTextField, "cell 1 6,growx");
-        memoryOperatingModeCapabilityTextField.setColumns(10);
 
         return new JScrollPane(panel);
     }
-    
+
     private JScrollPane createExtraPanel() {
-    	
-    	JPanel panel = new JPanel();
+
+        JPanel panel = new JPanel();
         panel.setBorder(new TitledBorder(null, "Extra", TitledBorder.LEADING, TitledBorder.TOP, null, null));
         panel.setLayout(new MigLayout("", "[][grow]", "[][]"));
-        
+
         JLabel arrayHandleLabel = new JLabel("Array Handle");
         panel.add(arrayHandleLabel, "cell 0 0,alignx leading");
 
         arrayHandleTextField = new JTextField();
         arrayHandleTextField.setEditable(false);
-        arrayHandleTextField.setColumns(10);
         panel.add(arrayHandleTextField, "cell 1 0,growx");
 
         JLabel errorHandleLabel = new JLabel("Error Handle");
@@ -390,7 +359,6 @@ public class DMIPhysicalMemoryPanelUI extends JPanel {
 
         errorHandleTextField = new JTextField();
         errorHandleTextField.setEditable(false);
-        errorHandleTextField.setColumns(10);
         panel.add(errorHandleTextField, "cell 1 1,growx");
 
         return new JScrollPane(panel);

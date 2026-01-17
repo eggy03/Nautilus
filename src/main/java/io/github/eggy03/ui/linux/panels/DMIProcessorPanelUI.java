@@ -79,7 +79,6 @@ public class DMIProcessorPanelUI extends JPanel {
 
 		systemIdTextField = new JTextField();
 		systemIdTextField.setEditable(false);
-		systemIdTextField.setColumns(10);
 		
 		JButton copySystemId = new JButton();
 		copySystemId.setIcon(new FlatSVGIcon(WMIProcessorPanelUI.class.getResource("/icons/general_icons/copy.svg")));
@@ -116,7 +115,6 @@ public class DMIProcessorPanelUI extends JPanel {
 		
 		cpuVersionTextField = new JTextField();
 		cpuVersionTextField.setEditable(false);
-		cpuVersionTextField.setColumns(10);
 		primaryInfoPanel.add(cpuVersionTextField, "cell 3 0 3 1,growx,aligny center");
 		
 		JLabel coreLabel = new JLabel("Cores");
@@ -124,7 +122,6 @@ public class DMIProcessorPanelUI extends JPanel {
 		
 		coreTextField = new JTextField();
 		coreTextField.setEditable(false);
-		coreTextField.setColumns(10);
 		primaryInfoPanel.add(coreTextField, "cell 1 1,grow");
 		
 		JLabel threadLabel = new JLabel("Threads");
@@ -132,7 +129,6 @@ public class DMIProcessorPanelUI extends JPanel {
 		
 		threadTextField = new JTextField();
 		threadTextField.setEditable(false);
-		threadTextField.setColumns(10);
 		primaryInfoPanel.add(threadTextField, "cell 3 1,grow");
 		
 		JLabel currentClockLabel = new JLabel("Current Clock");
@@ -140,7 +136,6 @@ public class DMIProcessorPanelUI extends JPanel {
 		
 		currentClockTextField = new JTextField();
 		currentClockTextField.setEditable(false);
-		currentClockTextField.setColumns(10);
 		primaryInfoPanel.add(currentClockTextField, "cell 5 1,grow");
 		
 		JLabel cpuVoltageLabel = new JLabel("Voltage");
@@ -148,7 +143,6 @@ public class DMIProcessorPanelUI extends JPanel {
 		
 		cpuVoltageTextField = new JTextField();
 		cpuVoltageTextField.setEditable(false);
-		cpuVoltageTextField.setColumns(10);
 		primaryInfoPanel.add(cpuVoltageTextField, "cell 1 2,grow");
 		
 		JLabel socketLabel = new JLabel("Socket");
@@ -156,7 +150,6 @@ public class DMIProcessorPanelUI extends JPanel {
 		
 		socketTextField = new JTextField();
 		socketTextField.setEditable(false);
-		socketTextField.setColumns(10);
 		primaryInfoPanel.add(socketTextField, "cell 3 2,grow");
 		
 		JLabel baseClockLabel = new JLabel("Base Clock");
@@ -164,7 +157,6 @@ public class DMIProcessorPanelUI extends JPanel {
 		
 		baseClockTextField = new JTextField();
 		baseClockTextField.setEditable(false);
-		baseClockTextField.setColumns(10);
 		primaryInfoPanel.add(baseClockTextField, "cell 5 2,grow");
 		
 		// SECONDARY INFO PANEL
@@ -177,7 +169,6 @@ public class DMIProcessorPanelUI extends JPanel {
 		
 		cpuSignatureTextField = new JTextField();
 		cpuSignatureTextField.setEditable(false);
-		cpuSignatureTextField.setColumns(10);
 		secondaryInfoPanel.add(cpuSignatureTextField, "cell 1 0,growx,aligny center");
 		
 		JLabel familyLabel = new JLabel("Family");
@@ -185,7 +176,6 @@ public class DMIProcessorPanelUI extends JPanel {
 		
 		familyTextField = new JTextField();
 		familyTextField.setEditable(false);
-		familyTextField.setColumns(10);
 		secondaryInfoPanel.add(familyTextField, "cell 3 0,growx,aligny center");
 		
 		JLabel cpuManufacturerLabel = new JLabel("Manufacturer");
@@ -193,7 +183,6 @@ public class DMIProcessorPanelUI extends JPanel {
 		
 		cpuManufacturerTextField = new JTextField();
 		cpuManufacturerTextField.setEditable(false);
-		cpuManufacturerTextField.setColumns(10);
 		secondaryInfoPanel.add(cpuManufacturerTextField, "cell 5 0,growx,aligny center");
 		
 		JLabel serialNumberLabel = new JLabel("Serial");
@@ -201,7 +190,6 @@ public class DMIProcessorPanelUI extends JPanel {
 		
 		cpuSerialTextField = new JTextField();
 		cpuSerialTextField.setEditable(false);
-		cpuSerialTextField.setColumns(10);
 		secondaryInfoPanel.add(cpuSerialTextField, "cell 1 1,growx,aligny center");
 		
 		JLabel assetTagLabel = new JLabel("Asset Tag");
@@ -209,7 +197,6 @@ public class DMIProcessorPanelUI extends JPanel {
 		
 		assetTagTextField = new JTextField();
 		assetTagTextField.setEditable(false);
-		assetTagTextField.setColumns(10);
 		secondaryInfoPanel.add(assetTagTextField, "cell 3 1,growx,aligny center");
 		
 		JLabel partNumberLabel = new JLabel("Part Number");
@@ -217,7 +204,6 @@ public class DMIProcessorPanelUI extends JPanel {
 		
 		partNumberTextField = new JTextField();
 		partNumberTextField.setEditable(false);
-		partNumberTextField.setColumns(10);
 		secondaryInfoPanel.add(partNumberTextField, "cell 5 1,growx,aligny center");
 		
 		JLabel enabledCoresLabel = new JLabel("Enabled Cores");
@@ -225,7 +211,6 @@ public class DMIProcessorPanelUI extends JPanel {
 		
 		enabledCoresTextField = new JTextField();
 		enabledCoresTextField.setEditable(false);
-		enabledCoresTextField.setColumns(10);
 		secondaryInfoPanel.add(enabledCoresTextField, "cell 1 2,growx,aligny center");
 		
 		JLabel upgradeLabel = new JLabel("Upgrade");
@@ -233,7 +218,6 @@ public class DMIProcessorPanelUI extends JPanel {
 		
 		upgradeTextField = new JTextField();
 		upgradeTextField.setEditable(false);
-		upgradeTextField.setColumns(10);
 		secondaryInfoPanel.add(upgradeTextField, "cell 3 2,growx,aligny center");
 		
 		JLabel cpuStatusLabel = new JLabel("Status");
@@ -241,7 +225,6 @@ public class DMIProcessorPanelUI extends JPanel {
 		
 		cpuStatusTextField = new JTextField();
 		cpuStatusTextField.setEditable(false);
-		cpuStatusTextField.setColumns(10);
 		secondaryInfoPanel.add(cpuStatusTextField, "cell 5 2,growx,aligny center");
 		
 		// TERTIARY INFO PANEL
