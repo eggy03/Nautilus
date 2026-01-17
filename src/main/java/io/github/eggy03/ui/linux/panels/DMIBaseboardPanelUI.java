@@ -1,0 +1,248 @@
+package io.github.eggy03.ui.linux.panels;
+
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+
+import java.awt.GridLayout;
+import javax.swing.border.TitledBorder;
+import javax.swing.border.BevelBorder;
+import net.miginfocom.swing.MigLayout;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+
+public class DMIBaseboardPanelUI extends JPanel {
+	
+	// baseboard
+	private JTextField manufacturerTextField;
+	private JTextField nameTextField;
+	private JTextField baseboardVersionTextField;
+	private JTextField serialTextField;
+	private JTextField assetTagTextField;
+	private JTextField featureTextField;
+	private JTextField chassisLocationTextField;
+	private JTextField chassisHandleTextField;
+	private JTextField typeTextField;
+	
+	// port connector
+	private JTextField erdTextField;
+	private JTextField irdTextField;
+	private JTextField ectTextField;
+	private JTextField ictTextField;
+	private JTextField portTypeTextField;
+	
+	// bios
+	private JTextField vendorTextField;
+	private JTextField versionTextField;
+	private JTextField releaseDateTextField;
+	private JTextField addressTextField;
+	private JTextField runtimeSizeTextField;
+	private JTextField romSizeTextField;
+	private JTextField characteristicsTextField;
+	private JTextField biosRevisionTextField;
+	private JTextField firmwareRevisionTextField;
+
+	public JPanel getPanel() {
+		return this;
+	}
+
+	public DMIBaseboardPanelUI() {
+		setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null),
+				"Baseboard and Accessories", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		setLayout(new GridLayout(1, 3, 0, 0));
+
+		add(createBaseboardPanel());
+		add(createBaseboardPortPanel());
+		add(createBiosPanel());
+	}
+
+	private JScrollPane createBaseboardPanel() {
+		JPanel panel = new JPanel();
+		panel.setBorder(new TitledBorder(null, "Baseboard", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel.setLayout(new MigLayout("", "[][grow]", "[][][][][][][][][]"));
+
+		JLabel manufacturerLabel = new JLabel("Manufacturer");
+		panel.add(manufacturerLabel, "cell 0 0,alignx leading");
+
+		manufacturerTextField = new JTextField();
+		manufacturerTextField.setEditable(false);
+		panel.add(manufacturerTextField, "cell 1 0,growx");
+
+		JLabel nameLabel = new JLabel("Name");
+		panel.add(nameLabel, "cell 0 1,alignx leading");
+
+		nameTextField = new JTextField();
+		nameTextField.setEditable(false);
+		panel.add(nameTextField, "cell 1 1,growx");
+
+		JLabel versionLabel = new JLabel("Version");
+		panel.add(versionLabel, "cell 0 2,alignx leading");
+
+		baseboardVersionTextField = new JTextField();
+		baseboardVersionTextField.setEditable(false);
+		panel.add(baseboardVersionTextField, "cell 1 2,growx");
+
+		JLabel serialLabel = new JLabel("Serial");
+		panel.add(serialLabel, "cell 0 3,alignx leading");
+
+		serialTextField = new JTextField();
+		serialTextField.setEditable(false);
+		panel.add(serialTextField, "cell 1 3,growx");
+
+		JLabel assetTagLabel = new JLabel("Asset Tag");
+		panel.add(assetTagLabel, "cell 0 4,alignx leading");
+
+		assetTagTextField = new JTextField();
+		assetTagTextField.setEditable(false);
+		panel.add(assetTagTextField, "cell 1 4,growx");
+
+		JLabel featuresLabel = new JLabel("Features");
+		panel.add(featuresLabel, "cell 0 5,alignx leading");
+
+		featureTextField = new JTextField();
+		featureTextField.setEditable(false);
+		panel.add(featureTextField, "cell 1 5,growx");
+
+		JLabel chassisLocationLabel = new JLabel("Location In Chassis");
+		panel.add(chassisLocationLabel, "cell 0 6,alignx leading");
+
+		chassisLocationTextField = new JTextField();
+		chassisLocationTextField.setEditable(false);
+		panel.add(chassisLocationTextField, "cell 1 6,growx");
+
+		JLabel chassisHandleLabel = new JLabel("Chassis Handle");
+		panel.add(chassisHandleLabel, "cell 0 7,alignx leading");
+
+		chassisHandleTextField = new JTextField();
+		chassisHandleTextField.setEditable(false);
+		panel.add(chassisHandleTextField, "cell 1 7,growx");
+
+		JLabel typeLabel = new JLabel("Type");
+		panel.add(typeLabel, "cell 0 8,alignx leading");
+		
+		typeTextField = new JTextField();
+		typeTextField.setEditable(false);
+		panel.add(typeTextField, "cell 1 8,growx");
+
+		return new JScrollPane(panel);
+	}
+
+	private JScrollPane createBaseboardPortPanel() {
+		JPanel panel = new JPanel();
+		panel.setBorder(new TitledBorder(null, "Baseboard Port", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel.setLayout(new MigLayout("", "[][grow]", "[][][][][]"));
+		
+		JLabel erdLabel = new JLabel("ERD");
+		erdLabel.setToolTipText("External Reference Designator");
+		panel.add(erdLabel, "cell 0 0,alignx leading");
+		
+		erdTextField = new JTextField();
+		erdTextField.setEditable(false);
+		panel.add(erdTextField, "cell 1 0,growx");
+
+		JLabel irdLabel = new JLabel("IRD");
+		irdLabel.setToolTipText("Internal Reference Designator");
+		panel.add(irdLabel, "cell 0 1,alignx leading");
+		
+		irdTextField = new JTextField();
+		irdTextField.setEditable(false);
+		panel.add(irdTextField, "cell 1 1,growx");
+
+		JLabel ectLabel = new JLabel("ECT");
+		ectLabel.setToolTipText("External Connector Type");
+		panel.add(ectLabel, "cell 0 2,alignx leading");
+		
+		ectTextField = new JTextField();
+		ectTextField.setEditable(false);
+		panel.add(ectTextField, "cell 1 2,growx");
+
+		JLabel ictLabel = new JLabel("ICT");
+		ictLabel.setToolTipText("Internal Connector Type");
+		panel.add(ictLabel, "cell 0 3,alignx leading");
+		
+		ictTextField = new JTextField();
+		ictTextField.setEditable(false);
+		panel.add(ictTextField, "cell 1 3,growx");
+
+		JLabel portTypeLabel = new JLabel("Port Type");
+		panel.add(portTypeLabel, "cell 0 4,alignx leading");
+		
+		portTypeTextField = new JTextField();
+		portTypeTextField.setEditable(false);
+		panel.add(portTypeTextField, "cell 1 4,growx");
+
+		return new JScrollPane(panel);
+	}
+
+	private JScrollPane createBiosPanel() {
+		JPanel panel = new JPanel();
+		panel.setBorder(new TitledBorder(null, "BIOS", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel.setLayout(new MigLayout("", "[][grow]", "[][][][][][][][][]"));
+		
+		JLabel vendorLabel = new JLabel("Vendor");
+		panel.add(vendorLabel, "cell 0 0,alignx leading");
+		
+		vendorTextField = new JTextField();
+		vendorTextField.setEditable(false);
+		panel.add(vendorTextField, "cell 1 0,growx");
+
+		JLabel versionLabel = new JLabel("Version");
+		panel.add(versionLabel, "cell 0 1,alignx leading");
+		
+		versionTextField = new JTextField();
+		versionTextField.setEditable(false);
+		panel.add(versionTextField, "cell 1 1,growx");
+
+		JLabel releaseDateLabel = new JLabel("Release Date");
+		panel.add(releaseDateLabel, "cell 0 2,alignx leading");
+		
+		releaseDateTextField = new JTextField();
+		releaseDateTextField.setEditable(false);
+		panel.add(releaseDateTextField, "cell 1 2,growx");
+
+		JLabel addressLabel = new JLabel("Address");
+		panel.add(addressLabel, "cell 0 3,alignx leading");
+		
+		addressTextField = new JTextField();
+		addressTextField.setEditable(false);
+		panel.add(addressTextField, "cell 1 3,growx");
+		
+		JLabel runtimeSizeLabel = new JLabel("Runtime Size");
+		panel.add(runtimeSizeLabel, "cell 0 4,alignx leading");
+		
+		runtimeSizeTextField = new JTextField();
+		runtimeSizeTextField.setEditable(false);
+		panel.add(runtimeSizeTextField, "cell 1 4,growx");
+		
+		JLabel romSizeLabel = new JLabel("ROM Size");
+		panel.add(romSizeLabel, "cell 0 5,alignx leading");
+		
+		romSizeTextField = new JTextField();
+		romSizeTextField.setEditable(false);
+		panel.add(romSizeTextField, "cell 1 5,growx");
+
+		JLabel characteristicsLabel = new JLabel("Characteristics");
+		panel.add(characteristicsLabel, "cell 0 6,alignx leading");
+		
+		characteristicsTextField = new JTextField();
+		characteristicsTextField.setEditable(false);
+		panel.add(characteristicsTextField, "cell 1 6,growx");
+		
+		JLabel biosRevisionLabel = new JLabel("BIOS Revision");
+		panel.add(biosRevisionLabel, "cell 0 7,alignx leading");
+		
+		biosRevisionTextField = new JTextField();
+		biosRevisionTextField.setEditable(false);
+		panel.add(biosRevisionTextField, "cell 1 7,growx");
+
+		JLabel firmwareRevisionLabel = new JLabel("Firmware Revision");
+		panel.add(firmwareRevisionLabel, "cell 0 8,alignx leading");
+		
+		firmwareRevisionTextField = new JTextField();
+		firmwareRevisionTextField.setEditable(false);
+		panel.add(firmwareRevisionTextField, "cell 1 8,growx");
+		
+
+		return new JScrollPane(panel);
+	}
+
+}
