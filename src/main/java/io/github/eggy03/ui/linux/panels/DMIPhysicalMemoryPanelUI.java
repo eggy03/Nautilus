@@ -44,6 +44,8 @@ public class DMIPhysicalMemoryPanelUI extends JPanel {
     private JTextField mscProductIdTextField;
     private JTextField memoryTechnologyTextField;
     private JTextField memoryOperatingModeCapabilityTextField;
+	private JTextField errorHandleTextField;
+	private JTextField arrayHandleTextField;
 
     /**
      * Create the panel.
@@ -64,13 +66,9 @@ public class DMIPhysicalMemoryPanelUI extends JPanel {
         // add panel
         JPanel memoryPanel = new JPanel();
         memoryPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Memory", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+        memoryPanel.setLayout(new GridLayout(2, 3, 0, 0));
 
-        // add scroll-pane to the main panel
-        JScrollPane memoryScrollPane = new JScrollPane();
-        memoryScrollPane.setViewportView(memoryPanel);
-        memoryPanel.setLayout(new GridLayout(5, 0, 0, 0));
-
-        add(memoryScrollPane);
+        add(memoryPanel);
 
         // add sub-panels
         memoryPanel.add(createHandlePanel());
@@ -78,10 +76,11 @@ public class DMIPhysicalMemoryPanelUI extends JPanel {
         memoryPanel.add(createSizePanel());
         memoryPanel.add(createSpeedAndVoltagePanel());
         memoryPanel.add(createManufacturerPanel());
+        memoryPanel.add(createExtraPanel());
 
     }
 
-    private JPanel createHandlePanel() {
+    private JScrollPane createHandlePanel() {
         JPanel panel = new JPanel();
         panel.setBorder(new TitledBorder(null, "Handles", TitledBorder.LEADING, TitledBorder.TOP, null, null));
         panel.setLayout(new MigLayout("", "[][grow]", "[][][][][][]"));
@@ -132,10 +131,10 @@ public class DMIPhysicalMemoryPanelUI extends JPanel {
         panel.add(firmwareVersionTextField, "cell 1 5,growx");
         firmwareVersionTextField.setColumns(10);
 
-        return panel;
+        return new JScrollPane(panel);
     }
 
-    private JPanel createCharacteristicsPanel() {
+    private JScrollPane createCharacteristicsPanel() {
         JPanel panel = new JPanel();
         panel.setBorder(new TitledBorder(null, "Characteristics", TitledBorder.LEADING, TitledBorder.TOP, null, null));
         panel.setLayout(new MigLayout("", "[][grow]", "[][][][][][]"));
@@ -188,11 +187,11 @@ public class DMIPhysicalMemoryPanelUI extends JPanel {
         panel.add(rankLabelTextField, "cell 1 5,growx");
         rankLabelTextField.setColumns(10);
 
-        return panel;
+        return new JScrollPane(panel);
 
     }
 
-    private JPanel createSizePanel() {
+    private JScrollPane createSizePanel() {
         JPanel panel = new JPanel();
         panel.setBorder(new TitledBorder(null, "Size", TitledBorder.LEADING, TitledBorder.TOP, null, null));
         panel.setLayout(new MigLayout("", "[][grow]", "[][][][][][][]"));
@@ -252,11 +251,12 @@ public class DMIPhysicalMemoryPanelUI extends JPanel {
         logicalSizeTextField.setEditable(false);
         panel.add(logicalSizeTextField, "cell 1 6,growx");
         logicalSizeTextField.setColumns(10);
-        return panel;
+
+        return new JScrollPane(panel);
 
     }
 
-    private JPanel createSpeedAndVoltagePanel() {
+    private JScrollPane createSpeedAndVoltagePanel() {
         JPanel panel = new JPanel();
         panel.setBorder(new TitledBorder(null, "Speed And Voltage", TitledBorder.LEADING, TitledBorder.TOP, null, null));
         panel.setLayout(new MigLayout("", "[][grow]", "[][][][][]"));
@@ -301,11 +301,11 @@ public class DMIPhysicalMemoryPanelUI extends JPanel {
         panel.add(configuredVoltageTextField, "cell 1 4,growx");
         configuredVoltageTextField.setColumns(10);
 
-        return panel;
+        return new JScrollPane(panel);
 
     }
 
-    private JPanel createManufacturerPanel() {
+    private JScrollPane createManufacturerPanel() {
         JPanel panel = new JPanel();
         panel.setBorder(new TitledBorder(null, "Manufacturer And Technology", TitledBorder.LEADING, TitledBorder.TOP, null, null));
         panel.setLayout(new MigLayout("", "[][grow]", "[][][][][][][]"));
@@ -368,7 +368,32 @@ public class DMIPhysicalMemoryPanelUI extends JPanel {
         panel.add(memoryOperatingModeCapabilityTextField, "cell 1 6,growx");
         memoryOperatingModeCapabilityTextField.setColumns(10);
 
-        return panel;
+        return new JScrollPane(panel);
+    }
+    
+    private JScrollPane createExtraPanel() {
+    	
+    	JPanel panel = new JPanel();
+        panel.setBorder(new TitledBorder(null, "Extra", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+        panel.setLayout(new MigLayout("", "[][grow]", "[][]"));
+        
+        JLabel arrayHandleLabel = new JLabel("Array Handle");
+        panel.add(arrayHandleLabel, "cell 0 0,alignx leading");
+
+        arrayHandleTextField = new JTextField();
+        arrayHandleTextField.setEditable(false);
+        arrayHandleTextField.setColumns(10);
+        panel.add(arrayHandleTextField, "cell 1 0,growx");
+
+        JLabel errorHandleLabel = new JLabel("Error Handle");
+        panel.add(errorHandleLabel, "cell 0 1,alignx leading");
+
+        errorHandleTextField = new JTextField();
+        errorHandleTextField.setEditable(false);
+        errorHandleTextField.setColumns(10);
+        panel.add(errorHandleTextField, "cell 1 1,growx");
+
+        return new JScrollPane(panel);
     }
 
 
