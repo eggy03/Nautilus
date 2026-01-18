@@ -18,6 +18,7 @@ import javax.swing.border.TitledBorder;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 
+import io.github.eggy03.ui.linux.worker.DMICacheWorker;
 import io.github.eggy03.ui.linux.worker.DMIProcessorWorker;
 import io.github.eggy03.ui.linux.worker.SystemUUIDWorker;
 import io.github.eggy03.ui.windows.panels.WMIProcessorPanelUI;
@@ -284,10 +285,9 @@ public class DMIProcessorPanelUI extends JPanel {
 				assetTagTextField, partNumberTextField, enabledCoresTextField, upgradeTextField,
 				cpuStatusTextField, cpuVoltageTextField, socketTextField, baseClockTextField
 		);
-		
-		List<JTextArea> textAreas = List.of(cpuCharsAndFlagsTextArea, cacheTextArea);
 
-		new DMIProcessorWorker(cpuIdComboBox, textFields, textAreas).execute();
+		new DMIProcessorWorker(cpuIdComboBox, textFields, cpuCharsAndFlagsTextArea).execute();
+		new DMICacheWorker(cacheTextArea).execute();
 
 		new SystemUUIDWorker(systemIdTextField).execute();
 

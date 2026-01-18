@@ -21,7 +21,7 @@ public class DMIProcessorWorker extends SwingWorker<List<DMIProcessor>, Void>{
 
 	private final JComboBox<String> cpuIdComboBox;
 	private final List<JTextField> cpuFields;
-	private final List<JTextArea> cpuTextAreas;
+	private final JTextArea cpuCharsAndFlagsTextArea;
 
 	@Override
 	protected List<DMIProcessor> doInBackground(){
@@ -106,7 +106,7 @@ public class DMIProcessorWorker extends SwingWorker<List<DMIProcessor>, Void>{
 					.append(System.lineSeparator()));
 		}
 
-		cpuTextAreas.get(0).setText(sb.toString());
+		cpuCharsAndFlagsTextArea.setText(sb.toString());
 
 	}
 
