@@ -1,5 +1,6 @@
 package io.github.eggy03.ui.linux.panels;
 
+import io.github.eggy03.ui.linux.worker.DMIPhysicalMemoryWorker;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.JComboBox;
@@ -10,10 +11,11 @@ import javax.swing.JTextField;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
 import java.awt.GridLayout;
+import java.util.List;
 
 public class DMIPhysicalMemoryPanelUI extends JPanel {
 
-    private JComboBox<Integer> memoryModuleNumberComboBox;
+    private JComboBox<String> memoryLocatorComboBox;
     private JTextField setTextField;
     private JTextField assetTagTextField;
     private JTextField serialNumberTextField;
@@ -88,8 +90,8 @@ public class DMIPhysicalMemoryPanelUI extends JPanel {
         JLabel memoryModuleNumberLabel = new JLabel("Memory #");
         panel.add(memoryModuleNumberLabel, "cell 0 0,alignx leading");
 
-        memoryModuleNumberComboBox = new JComboBox<>();
-        panel.add(memoryModuleNumberComboBox, "cell 1 0,growx");
+        memoryLocatorComboBox = new JComboBox<>();
+        panel.add(memoryLocatorComboBox, "cell 1 0,growx");
 
         JLabel setLabel = new JLabel("Set");
         panel.add(setLabel, "cell 0 1,alignx leading");
@@ -366,7 +368,19 @@ public class DMIPhysicalMemoryPanelUI extends JPanel {
 
 
     private void setWorker() {
-// TODO
+
+        List<JTextField> textFields = List.of(setTextField, assetTagTextField, serialNumberTextField,
+                partNumberTextField, firmwareVersionTextField, locatorTextField,
+                bankLocatorTextField, formFactorTextField, typeTextField, typeDetailTextField,
+                rankLabelTextField, sizeTextField, dataWidthTextField, totalWidthTextField,
+                volatileSizeTextField, nonVolatileSizeTextField, cacheSizeTextField, logicalSizeTextField,
+                factorySpeedTextField, configuredSpeedTextField, minimumVoltageTextField, maximumVoltageTextField,
+                configuredVoltageTextField, manufacturerTextField, moduleManufacturerIdTextField, moduleProductIdTextField,
+                mscManufacturerIdTextField, mscProductIdTextField, memoryTechnologyTextField,
+                memoryOperatingModeCapabilityTextField, errorHandleTextField, arrayHandleTextField
+        );
+
+        new DMIPhysicalMemoryWorker(memoryLocatorComboBox, textFields).execute();
     }
 
 }
