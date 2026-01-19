@@ -1,21 +1,21 @@
 package io.github.eggy03.ui.linux.panels;
 
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-
 import java.awt.GridLayout;
 import java.util.List;
-import javax.swing.border.TitledBorder;
+
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.border.BevelBorder;
+import javax.swing.border.TitledBorder;
 
 import io.github.eggy03.ui.linux.worker.DMIBIOSWorker;
 import io.github.eggy03.ui.linux.worker.DMIBaseboardWorker;
 import io.github.eggy03.ui.linux.worker.DMIPortConnectorWorker;
 import net.miginfocom.swing.MigLayout;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.JComboBox;
-import javax.swing.JTextArea;
 
 public class DMIBaseboardPanelUI extends JPanel {
 	
@@ -127,9 +127,14 @@ public class DMIBaseboardPanelUI extends JPanel {
 		typeTextField.setEditable(false);
 		panel.add(typeTextField, "cell 1 7,growx");
 		
+		JPanel featurePanel = new JPanel();
+		featurePanel.setBorder(new TitledBorder(null, "Features", TitledBorder.LEFT, TitledBorder.TOP, null, null));
+		featurePanel.setLayout(new MigLayout("", "[grow][grow]", "[grow]"));
+		panel.add(featurePanel, "cell 0 8 2 1,grow");
+		
 		featureTextArea = new JTextArea();
 		featureTextArea.setEditable(false);
-		panel.add(featureTextArea, "cell 0 8 2 1,grow");
+		featurePanel.add(featureTextArea, "cell 0 0 2 1,grow");
 
 		return new JScrollPane(panel);
 	}
@@ -254,9 +259,14 @@ public class DMIBaseboardPanelUI extends JPanel {
 		firmwareRevisionTextField.setEditable(false);
 		panel.add(firmwareRevisionTextField, "cell 1 8,growx");
 		
+		JPanel characteristicsPanel = new JPanel();
+		characteristicsPanel.setBorder(new TitledBorder(null, "Characteristics", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		characteristicsPanel.setLayout(new MigLayout("", "[grow][grow]", "[grow]"));
+		panel.add(characteristicsPanel, "cell 0 9 2 1,grow");
+		
 		characteristicsTextArea = new JTextArea();
 		characteristicsTextArea.setEditable(false);
-		panel.add(characteristicsTextArea, "cell 0 9 2 1,grow");
+		characteristicsPanel.add(characteristicsTextArea, "cell 0 0 2 1,grow");
 
 		return new JScrollPane(panel);
 	}
