@@ -5,6 +5,7 @@ import io.github.eggy03.dmidecode.service.board.DMIBaseboardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingWorker;
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.concurrent.ExecutionException;
 public class DMIBaseboardWorker extends SwingWorker<Optional<DMIBaseboard>, Void> {
 
     private final List<JTextField> baseboardFields;
+    private final JTextArea featureTextArea;
 
     @Override
     protected Optional<DMIBaseboard> doInBackground() throws Exception {
@@ -51,9 +53,16 @@ public class DMIBaseboardWorker extends SwingWorker<Optional<DMIBaseboard>, Void
         baseboardFields.get(2).setText(dmiBaseboard.getVersion());
         baseboardFields.get(3).setText(dmiBaseboard.getSerialNumber());
         baseboardFields.get(4).setText(dmiBaseboard.getAssetTag());
-        baseboardFields.get(5).setText(dmiBaseboard.getFeatures()!=null ? dmiBaseboard.getFeatures().toString() : "N/A");
-        baseboardFields.get(6).setText(dmiBaseboard.getLocationInChassis());
-        baseboardFields.get(7).setText(dmiBaseboard.getChassisHandle());
-        baseboardFields.get(8).setText(dmiBaseboard.getType());
+        baseboardFields.get(5).setText(dmiBaseboard.getLocationInChassis());
+        baseboardFields.get(6).setText(dmiBaseboard.getChassisHandle());
+        baseboardFields.get(7).setText(dmiBaseboard.getType());
+        
+        StringBuilder featureText = new StringBuilder();
+        featureText.append("Features: ").append(System.lineSeparator());
+        
+        if(dmiBaseboard.getFeatures()!=null){
+            dmiBaseboard.getFeatures().forEach(feature-> featureText.append(feature).append(System.lineSeparator()));
+        }
+        featureTextArea.setText(featureText.toString());
     }
 }

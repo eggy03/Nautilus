@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.swing.JComboBox;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingWorker;
 import java.util.List;
@@ -20,6 +21,7 @@ public class DMIBIOSWorker extends SwingWorker<List<DMIBIOS>, Void> {
 
     private final JComboBox<Integer> biosNumberComboBox;
     private final List<JTextField> biosFields;
+    private final JTextArea biosCharacteristicsTextArea;
 
     @Override
     protected List<DMIBIOS> doInBackground() throws Exception {
@@ -69,10 +71,16 @@ public class DMIBIOSWorker extends SwingWorker<List<DMIBIOS>, Void> {
             biosFields.get(3).setText(bios.getAddress());
             biosFields.get(4).setText(bios.getRuntimeSize());
             biosFields.get(5).setText(bios.getRomSize());
-            biosFields.get(6).setText(bios.getCharacteristics()!=null ? bios.getCharacteristics().toString() : "N/A");
-            biosFields.get(7).setText(bios.getBiosRevision());
-            biosFields.get(8).setText(bios.getFirmwareRevision());
+            biosFields.get(6).setText(bios.getBiosRevision());
+            biosFields.get(7).setText(bios.getFirmwareRevision());
 
+            StringBuilder characteristics = new StringBuilder();
+            characteristics.append("Characteristics: ").append(System.lineSeparator());
+
+            if(bios.getCharacteristics()!=null){
+                bios.getCharacteristics().forEach(characteristic-> characteristics.append(characteristic).append(System.lineSeparator()));
+            }
+            biosCharacteristicsTextArea.setText(characteristics.toString());
         }
     }
 }
