@@ -15,6 +15,7 @@ import net.miginfocom.swing.MigLayout;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
+import javax.swing.JTextArea;
 
 public class DMIBaseboardPanelUI extends JPanel {
 	
@@ -24,10 +25,10 @@ public class DMIBaseboardPanelUI extends JPanel {
 	private JTextField baseboardVersionTextField;
 	private JTextField serialTextField;
 	private JTextField assetTagTextField;
-	private JTextField featureTextField;
 	private JTextField chassisLocationTextField;
 	private JTextField chassisHandleTextField;
 	private JTextField typeTextField;
+	private JTextArea featureTextArea;
 	
 	// port connector
 	private JComboBox<Integer> portNumberComboBox;
@@ -45,9 +46,9 @@ public class DMIBaseboardPanelUI extends JPanel {
 	private JTextField addressTextField;
 	private JTextField runtimeSizeTextField;
 	private JTextField romSizeTextField;
-	private JTextField characteristicsTextField;
 	private JTextField biosRevisionTextField;
 	private JTextField firmwareRevisionTextField;
+	private JTextArea characteristicsTextArea;
 	
 	public JPanel getPanel() {
 		return this;
@@ -68,7 +69,7 @@ public class DMIBaseboardPanelUI extends JPanel {
 	private JScrollPane createBaseboardPanel() {
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(null, "Baseboard", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel.setLayout(new MigLayout("", "[][grow]", "[][][][][][][][][]"));
+		panel.setLayout(new MigLayout("", "[grow][grow]", "[][][][][][][][][grow]"));
 
 		JLabel manufacturerLabel = new JLabel("Manufacturer");
 		panel.add(manufacturerLabel, "cell 0 0,alignx leading");
@@ -105,33 +106,30 @@ public class DMIBaseboardPanelUI extends JPanel {
 		assetTagTextField.setEditable(false);
 		panel.add(assetTagTextField, "cell 1 4,growx");
 
-		JLabel featuresLabel = new JLabel("Features");
-		panel.add(featuresLabel, "cell 0 5,alignx leading");
-
-		featureTextField = new JTextField();
-		featureTextField.setEditable(false);
-		panel.add(featureTextField, "cell 1 5,growx");
-
 		JLabel chassisLocationLabel = new JLabel("Location In Chassis");
-		panel.add(chassisLocationLabel, "cell 0 6,alignx leading");
+		panel.add(chassisLocationLabel, "cell 0 5,alignx leading");
 
 		chassisLocationTextField = new JTextField();
 		chassisLocationTextField.setEditable(false);
-		panel.add(chassisLocationTextField, "cell 1 6,growx");
+		panel.add(chassisLocationTextField, "cell 1 5,growx");
 
 		JLabel chassisHandleLabel = new JLabel("Chassis Handle");
-		panel.add(chassisHandleLabel, "cell 0 7,alignx leading");
+		panel.add(chassisHandleLabel, "cell 0 6,alignx leading");
 
 		chassisHandleTextField = new JTextField();
 		chassisHandleTextField.setEditable(false);
-		panel.add(chassisHandleTextField, "cell 1 7,growx");
+		panel.add(chassisHandleTextField, "cell 1 6,growx");
 
 		JLabel typeLabel = new JLabel("Type");
-		panel.add(typeLabel, "cell 0 8,alignx leading");
+		panel.add(typeLabel, "cell 0 7,alignx leading");
 		
 		typeTextField = new JTextField();
 		typeTextField.setEditable(false);
-		panel.add(typeTextField, "cell 1 8,growx");
+		panel.add(typeTextField, "cell 1 7,growx");
+		
+		featureTextArea = new JTextArea();
+		featureTextArea.setEditable(false);
+		panel.add(featureTextArea, "cell 0 8 2 1,grow");
 
 		return new JScrollPane(panel);
 	}
@@ -192,7 +190,7 @@ public class DMIBaseboardPanelUI extends JPanel {
 	private JScrollPane createBiosPanel() {
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(null, "BIOS", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel.setLayout(new MigLayout("", "[][grow]", "[][][][][][][][][][]"));
+		panel.setLayout(new MigLayout("", "[grow][grow]", "[][][][][][][][][][grow]"));
 		
 		JLabel biosNumberLabel = new JLabel("BIOS #");
 		panel.add(biosNumberLabel, "cell 0 0,alignx leading");
@@ -241,50 +239,47 @@ public class DMIBaseboardPanelUI extends JPanel {
 		romSizeTextField = new JTextField();
 		romSizeTextField.setEditable(false);
 		panel.add(romSizeTextField, "cell 1 6,growx");
-
-		JLabel characteristicsLabel = new JLabel("Characteristics");
-		panel.add(characteristicsLabel, "cell 0 7,alignx leading");
-		
-		characteristicsTextField = new JTextField();
-		characteristicsTextField.setEditable(false);
-		panel.add(characteristicsTextField, "cell 1 7,growx");
 		
 		JLabel biosRevisionLabel = new JLabel("BIOS Revision");
-		panel.add(biosRevisionLabel, "cell 0 8,alignx leading");
+		panel.add(biosRevisionLabel, "cell 0 7,alignx leading");
 		
 		biosRevisionTextField = new JTextField();
 		biosRevisionTextField.setEditable(false);
-		panel.add(biosRevisionTextField, "cell 1 8,growx");
+		panel.add(biosRevisionTextField, "cell 1 7,growx");
 
 		JLabel firmwareRevisionLabel = new JLabel("Firmware Revision");
-		panel.add(firmwareRevisionLabel, "cell 0 9,alignx leading");
+		panel.add(firmwareRevisionLabel, "cell 0 8,alignx leading");
 		
 		firmwareRevisionTextField = new JTextField();
 		firmwareRevisionTextField.setEditable(false);
-		panel.add(firmwareRevisionTextField, "cell 1 9,growx");
+		panel.add(firmwareRevisionTextField, "cell 1 8,growx");
+		
+		characteristicsTextArea = new JTextArea();
+		characteristicsTextArea.setEditable(false);
+		panel.add(characteristicsTextArea, "cell 0 9 2 1,grow");
 
 		return new JScrollPane(panel);
 	}
 
 	private void setWorkers() {
-
+		
 		List<JTextField> baseboardTextFields = List.of(manufacturerTextField, nameTextField, baseboardVersionTextField,
-				serialTextField, assetTagTextField, featureTextField, chassisLocationTextField, chassisHandleTextField,
+				serialTextField, assetTagTextField, chassisLocationTextField, chassisHandleTextField,
 				typeTextField
 		);
 
 		List<JTextField> portConnectorTextFields = List.of(erdTextField, irdTextField, ectTextField, ictTextField,
 				portTypeTextField
 		);
-
+		
 		List<JTextField> biosTextFields = List.of(vendorTextField, versionTextField, releaseDateTextField,
-				addressTextField, runtimeSizeTextField, romSizeTextField, characteristicsTextField,
+				addressTextField, runtimeSizeTextField, romSizeTextField,
 				biosRevisionTextField, firmwareRevisionTextField
 		);
 
-		new DMIBaseboardWorker(baseboardTextFields).execute();
+		new DMIBaseboardWorker(baseboardTextFields, featureTextArea).execute();
 		new DMIPortConnectorWorker(portNumberComboBox, portConnectorTextFields).execute();
-		new DMIBIOSWorker(biosNumberComboBox, biosTextFields).execute();
+		new DMIBIOSWorker(biosNumberComboBox, biosTextFields, characteristicsTextArea).execute();
 	}
 
 }
