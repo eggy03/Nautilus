@@ -18,13 +18,15 @@
 
         <!-- Dependency versions -->
         <ferrumx.windows.version>3.1.1</ferrumx.windows.version>
+        <dmidecode4j.version>0.1.1</dmidecode4j.version>
         <slf4j.version>2.0.17</slf4j.version>
-        <logback.version>1.5.23</logback.version>
+        <tinylog.version>2.7.0</tinylog.version>
         <flatlaf.version>3.7</flatlaf.version>
         <jsvg.version>2.0.0</jsvg.version>
         <lombok.version>1.18.42</lombok.version>
         <commons.lang3.version>3.20.0</commons.lang3.version>
         <commons.io.version>2.21.0</commons.io.version>
+        <miglayout.version>11.4.2</miglayout.version>
 
         <!-- Plugin versions -->
         <maven.compiler.plugin.version>3.14.1</maven.compiler.plugin.version>
@@ -53,15 +55,27 @@
         </dependency>
 
         <dependency>
+            <groupId>io.github.eggy03</groupId>
+            <artifactId>dmidecode4j</artifactId>
+            <version>${dmidecode4j.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>${slf4j.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <version>${logback.version}</version>
+            <groupId>org.tinylog</groupId>
+            <artifactId>slf4j-tinylog</artifactId>
+            <version>${tinylog.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.tinylog</groupId>
+            <artifactId>tinylog-impl</artifactId>
+            <version>${tinylog.version}</version>
         </dependency>
 
         <dependency>
@@ -101,6 +115,12 @@
             <artifactId>commons-io</artifactId>
             <version>${commons.io.version}</version>
         </dependency>
+        
+        <dependency>
+    		<groupId>com.miglayout</groupId>
+    		<artifactId>miglayout-swing</artifactId>
+    		<version>${miglayout.version}</version>
+		</dependency>
     </dependencies>
 
     <build>

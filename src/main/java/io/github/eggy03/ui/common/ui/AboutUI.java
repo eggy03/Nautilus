@@ -29,26 +29,26 @@ import java.util.Objects;
 public class AboutUI extends JFrame {
 
 	private final JPanel contentPane;
-	
-	private static final String VERSION_AND_AUTHOR =
-			"Version: "+ VersionAndOtherInfo.APP_VERSION
-			+System.lineSeparator()
-			+"FerrumX Version: "+VersionAndOtherInfo.FERRUMX_WINDOWS_VERSION
-			+System.lineSeparator()
-			+"Developed By: Egg-03";
+
+	private static final String VERSION_AND_AUTHOR = "Version: " + VersionAndOtherInfo.APP_VERSION + System.lineSeparator() +
+					"Windows Build: Stable" + System.lineSeparator() +
+					"Linux Build: Beta" + System.lineSeparator() +
+					"Developed By: Egg-03";
 
 	private static final String ATTRIBUTION = """	
 			<b>Open-Source Licenses</b><br>
-			This application includes third-party open-source software.
+			This application includes third-party open-source libraries and frameworks.
 			<ul>
 			  <li>FerrumX Windows</li>
+			  <li>dmidecode4j</li>
 			  <li>Apache Commons Lang</li>
 			  <li>Apache Commons IO</li>
 			  <li>FlatLaf</li>
 			  <li>JSVG</li>
 			  <li>SLF4J</li>
-			  <li>Logback</li>
+			  <li>Tinylog</li>
 			  <li>Project Lombok</li>
+			  <li>MigLayout Layout Manager for Swing</li>
 			</ul>
 			Full license texts are included with this distribution and are also
 			available online on the project's GitHub page.<br><br>
