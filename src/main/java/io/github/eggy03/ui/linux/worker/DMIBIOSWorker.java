@@ -75,8 +75,6 @@ public class DMIBIOSWorker extends SwingWorker<List<DMIBIOS>, Void> {
             biosFields.get(7).setText(bios.getFirmwareRevision());
 
             StringBuilder characteristics = new StringBuilder();
-            characteristics.append("Characteristics: ").append(System.lineSeparator());
-
             if(bios.getCharacteristics()!=null){
                 bios.getCharacteristics().forEach(characteristic-> characteristics.append(characteristic).append(System.lineSeparator()));
             }

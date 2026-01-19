@@ -58,8 +58,6 @@ public class DMIBaseboardWorker extends SwingWorker<Optional<DMIBaseboard>, Void
         baseboardFields.get(7).setText(dmiBaseboard.getType());
         
         StringBuilder featureText = new StringBuilder();
-        featureText.append("Features: ").append(System.lineSeparator());
-        
         if(dmiBaseboard.getFeatures()!=null){
             dmiBaseboard.getFeatures().forEach(feature-> featureText.append(feature).append(System.lineSeparator()));
         }
