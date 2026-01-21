@@ -1,6 +1,5 @@
 package io.github.eggy03.ui.windows.panels;
 
-import java.awt.GridLayout;
 import java.util.List;
 
 import javax.swing.JComboBox;
@@ -36,12 +35,11 @@ public class WMIVideoControllerPanelUI extends JPanel {
 	}
 	
 	public WMIVideoControllerPanelUI() {
-		setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Video Controller", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		setLayout(new GridLayout(3, 0, 0, 0));
+		setLayout(new MigLayout("", "[grow][grow]", "[grow][grow]"));
 		
-		add(createIdentifierPanel());
-		add(createDisplayPanel());
-		add(createDriverPanel());
+		add(createIdentifierPanel(), "cell 0 0 2 1, grow");
+		add(createDisplayPanel(), "cell 0 1, grow");
+		add(createDriverPanel(), "cell 1 1, grow");
 
 		setWorker();
 	}

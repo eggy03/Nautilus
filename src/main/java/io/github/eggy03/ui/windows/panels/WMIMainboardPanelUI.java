@@ -1,6 +1,5 @@
 package io.github.eggy03.ui.windows.panels;
 
-import java.awt.GridLayout;
 import java.util.List;
 
 import javax.swing.JComboBox;
@@ -51,11 +50,11 @@ public class WMIMainboardPanelUI extends JPanel {
 	 * Create the panel.
 	 */
 	public WMIMainboardPanelUI() {
-		setLayout(new GridLayout(3, 1, 0, 0));
+		setLayout(new MigLayout("", "[grow][grow]", "[grow][grow]"));
 
-		add(createBaseboardPanel());
-		add(createBaseboardPortPanel());
-		add(createBiosPanel());
+		add(createBaseboardPanel(), "cell 0 0,grow");
+		add(createBaseboardPortPanel(), "cell 1 0,grow");
+		add(createBiosPanel(), "cell 0 1 2 1,grow");
 
 		setWorkers();
 	}
