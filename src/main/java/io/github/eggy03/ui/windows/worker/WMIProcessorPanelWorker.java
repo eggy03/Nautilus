@@ -93,7 +93,7 @@ public class WMIProcessorPanelWorker extends SwingWorker<List<Win32ProcessorToCa
         	cpuFields.get(12).setText(WMIConstants.processorArchitecture(currentCpu.getArchitecture()));
         	cpuFields.get(13).setText(currentCpu.getAddressWidth()+" bit");
         	cpuFields.get(14).setText(String.valueOf(currentCpu.getSocketDesignation()));
-        	cpuFields.get(15).setText(currentCpu.getExtClock()+ "MHz");
+        	cpuFields.get(15).setText(currentCpu.getExtClock()+ " MHz");
         	
         	// assign text to the concise cpu text area
             JTextArea conciseCpuTextArea = cpuTextAreas.getFirst();
