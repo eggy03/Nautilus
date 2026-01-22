@@ -1,7 +1,13 @@
 package io.github.eggy03.ui.common.ui;
 
-import com.formdev.flatlaf.extras.FlatSVGIcon;
-import io.github.eggy03.ui.common.constant.VersionAndOtherInfo;
+import java.awt.BorderLayout;
+import java.awt.Desktop;
+import java.awt.GridLayout;
+import java.awt.Toolkit;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URI;
+import java.util.Objects;
 
 import javax.swing.JButton;
 import javax.swing.JEditorPane;
@@ -12,23 +18,14 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.WindowConstants;
 import javax.swing.border.BevelBorder;
-import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
-import java.awt.BorderLayout;
-import java.awt.Desktop;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.Insets;
-import java.awt.Toolkit;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URI;
-import java.util.Objects;
+
+import com.formdev.flatlaf.extras.FlatSVGIcon;
+
+import io.github.eggy03.ui.common.constant.VersionAndOtherInfo;
+import net.miginfocom.swing.MigLayout;
 
 public class AboutUI extends JFrame {
-
-	private final JPanel contentPane;
 
 	private static final String VERSION_AND_AUTHOR = "Version: " + VersionAndOtherInfo.APP_VERSION + System.lineSeparator() +
 					"Windows Build: Stable" + System.lineSeparator() +
@@ -71,76 +68,58 @@ public class AboutUI extends JFrame {
 		setTitle("About Nautilus");
 		
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 450, 360);
+		setBounds(100, 100, 550, 360);
 		setResizable(false);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(AboutUI.class.getResource("/icons/icon_main.png")));
 		
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		JPanel contentPane = new JPanel();
 		contentPane.setLayout(new BorderLayout(0, 0));
-		setContentPane(contentPane);
 		
-		setVersionPanel();
-		setAttributionPanel();
-		setButtonsPanel();
+		contentPane.add(createVersionPanel(), BorderLayout.NORTH);
+		contentPane.add(createAttributionPanel(), BorderLayout.CENTER);
+		contentPane.add(createButtonsPanel(), BorderLayout.SOUTH);
+		
+		setContentPane(contentPane);
 	}
 	
-	private void setVersionPanel() {
+	private JPanel createVersionPanel() {
 		
 		JPanel versionPanel = new JPanel();
 		versionPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Version Info", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		contentPane.add(versionPanel, BorderLayout.NORTH);
-		
-		GridBagLayout gblVersionPanel = new GridBagLayout();
-		gblVersionPanel.columnWidths = new int[]{0, 0, 0};
-		gblVersionPanel.rowHeights = new int[]{0, 0};
-		gblVersionPanel.columnWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
-		gblVersionPanel.rowWeights = new double[]{0.0, Double.MIN_VALUE};
-		versionPanel.setLayout(gblVersionPanel);
+		versionPanel.setLayout(new MigLayout("", "[grow][]", "[]"));
 		
 		JTextArea versionTextArea = new JTextArea();
 		versionTextArea.setText(VERSION_AND_AUTHOR);
 		versionTextArea.setEditable(false);
-		
-		GridBagConstraints gbcVersionTextArea = new GridBagConstraints();
-		gbcVersionTextArea.insets = new Insets(0, 0, 0, 5);
-		gbcVersionTextArea.fill = GridBagConstraints.BOTH;
-		gbcVersionTextArea.gridx = 0;
-		gbcVersionTextArea.gridy = 0;
-		versionPanel.add(versionTextArea, gbcVersionTextArea);
-		versionTextArea.setColumns(10);
+		versionPanel.add(versionTextArea, "cell 0 0,growx");
 		
 		JLabel appLogoLabel = new JLabel("");
 		appLogoLabel.setIcon(new FlatSVGIcon(AboutUI.class.getResource("/icons/icon_main.svg")));
+		versionPanel.add(appLogoLabel, "cell 1 0,alignx center");
 		
-		GridBagConstraints gbcAppLogoLabel = new GridBagConstraints();
-		gbcAppLogoLabel.gridx = 1;
-		gbcAppLogoLabel.gridy = 0;
-		versionPanel.add(appLogoLabel, gbcAppLogoLabel);
+		return versionPanel;
 	}
 	
-	private void setAttributionPanel() {
+	private JPanel createAttributionPanel() {
 		
 		JPanel attributionPanel = new JPanel();
 		attributionPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Attribution", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		contentPane.add(attributionPanel, BorderLayout.CENTER);
-		attributionPanel.setLayout(new GridLayout(1, 0, 0, 0));
-
-		JScrollPane attributionEditorScrollPane = new JScrollPane();
-        attributionPanel.add(attributionEditorScrollPane);
+		attributionPanel.setLayout(new GridLayout(1, 1, 0, 0));
 
 		JEditorPane attributionEditorPane = new JEditorPane();
         attributionEditorPane.setEditable(false);
         attributionEditorPane.setContentType("text/html");
 		attributionEditorPane.setText(ATTRIBUTION);
-        attributionEditorScrollPane.setViewportView(attributionEditorPane);
+     
+        attributionPanel.add(new JScrollPane(attributionEditorPane));
+        
+        return attributionPanel;
     }
 	
-	private void setButtonsPanel() {
+	private JPanel createButtonsPanel() {
 		
 		JPanel buttonsPanel = new JPanel();
-		contentPane.add(buttonsPanel, BorderLayout.SOUTH);
-		buttonsPanel.setLayout(new GridLayout(1, 0, 0, 0));
+		buttonsPanel.setLayout(new GridLayout(1, 3, 0, 0));
 		
 		JButton githubPageButton = new JButton("Visit Nautilus GitHub Page");
 		githubPageButton.addActionListener(action-> {
@@ -165,6 +144,8 @@ public class AboutUI extends JFrame {
 			new TextViewUI("Third Party Software Licenses", stream).setVisible(true);
         });
 		buttonsPanel.add(openSourceLicenseButton);
+		
+		return buttonsPanel;
 	}
 
 }

@@ -35,16 +35,16 @@ public class WindowsUI extends JFrame {
         
 		JPanel contentPane = new JPanel();
 		contentPane.setLayout(new BorderLayout(0, 0));
+		
+		contentPane.add(createMenu(), BorderLayout.NORTH);
+		contentPane.add(createTabbedPane(), BorderLayout.CENTER);
+		
 		setContentPane(contentPane);
-
-		setupMenu(contentPane);
-		setTabbedPane(contentPane);
 	}
 	
-	private void setupMenu(JPanel contentPane) {
+	private JMenuBar createMenu() {
 		JMenuBar menuBar = new JMenuBar();
-		contentPane.add(menuBar, BorderLayout.NORTH);
-
+		
 		JMenu helpMenu = new JMenu("Help");
 		menuBar.add(helpMenu);
 		
@@ -53,11 +53,12 @@ public class WindowsUI extends JFrame {
 		aboutMenuItem.addActionListener(event -> new AboutUI().setVisible(true));
 		helpMenu.add(aboutMenuItem);
 		
+		return menuBar;
+		
 	}
 	
-	private void setTabbedPane(JPanel contentPane) {
+	private JTabbedPane createTabbedPane() {
 		JTabbedPane tabbedPane = new JTabbedPane(SwingConstants.TOP);
-		contentPane.add(tabbedPane, BorderLayout.CENTER);
 		
 		tabbedPane.addTab("CPU", new FlatSVGIcon(WindowsUI.class.getResource("/icons/tab_icons_material_green/CPU.svg")), new WMIProcessorPanelUI().getPanel(), null);
 		tabbedPane.addTab("Memory", new FlatSVGIcon(WindowsUI.class.getResource("/icons/tab_icons_material_green/RAM.svg")), new WMIPhysicalMemoryPanelUI().getPanel(), null);
@@ -66,6 +67,8 @@ public class WindowsUI extends JFrame {
 		tabbedPane.addTab("Network", new FlatSVGIcon(WindowsUI.class.getResource("/icons/tab_icons_material_green/Network.svg")), new WMINetworkPanelUI().getPanel(), null);
 		tabbedPane.addTab("Storage", new FlatSVGIcon(WindowsUI.class.getResource("/icons/tab_icons_material_green/Storage.svg")), new WMIStoragePanelUI().getPanel(), null);
 		tabbedPane.addTab("OS", new FlatSVGIcon(WindowsUI.class.getResource("/icons/tab_icons_material_green/OS.svg")), new WMIOperatingSystemUI().getPanel(), null);
+		
+		return tabbedPane;
 	}
 
 }

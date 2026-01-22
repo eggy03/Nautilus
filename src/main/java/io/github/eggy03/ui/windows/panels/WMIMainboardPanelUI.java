@@ -1,22 +1,19 @@
 package io.github.eggy03.ui.windows.panels;
 
-import io.github.eggy03.ui.windows.worker.WMIBaseboardWorker;
-import io.github.eggy03.ui.windows.worker.WMIBiosWorker;
-import io.github.eggy03.ui.windows.worker.WMIPortConnectorWorker;
+import java.util.List;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
-import javax.swing.ScrollPaneConstants;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.Insets;
-import java.util.List;
+
+import io.github.eggy03.ui.windows.worker.WMIBaseboardWorker;
+import io.github.eggy03.ui.windows.worker.WMIBiosWorker;
+import io.github.eggy03.ui.windows.worker.WMIPortConnectorWorker;
+import net.miginfocom.swing.MigLayout;
 
 public class WMIMainboardPanelUI extends JPanel {
 	
@@ -53,444 +50,201 @@ public class WMIMainboardPanelUI extends JPanel {
 	 * Create the panel.
 	 */
 	public WMIMainboardPanelUI() {
-		setLayout(new GridLayout(0, 1, 0, 0));
+		setLayout(new MigLayout("", "[grow][grow]", "[grow][grow]"));
 
-		setBaseboardPanel();
-		setBaseboardPortPanel();
-		setBIOSPanel();
+		add(createBaseboardPanel(), "cell 0 0,grow");
+		add(createBaseboardPortPanel(), "cell 1 0,grow");
+		add(createBiosPanel(), "cell 0 1 2 1,grow");
 
 		setWorkers();
 	}
 
-	private void setBaseboardPanel() {
+	private JScrollPane createBaseboardPanel() {
 		
 		//add panel
 		JPanel baseboardPanel = new JPanel();
 		baseboardPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Baseboard", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		GridBagLayout gblBaseboardPanel = new GridBagLayout();
-		gblBaseboardPanel.columnWidths = new int[]{0, 0, 0};
-		gblBaseboardPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0};
-		gblBaseboardPanel.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-		gblBaseboardPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		baseboardPanel.setLayout(gblBaseboardPanel);
+		baseboardPanel.setLayout(new MigLayout("", "[][grow]", "[][][][][][]"));
 
 		JLabel baseboardNumberLabel = new JLabel("Baseboard#");
-		GridBagConstraints gbcBaseboardNumberLabel = new GridBagConstraints();
-		gbcBaseboardNumberLabel.insets = new Insets(0, 0, 5, 5);
-		gbcBaseboardNumberLabel.anchor = GridBagConstraints.WEST;
-		gbcBaseboardNumberLabel.gridx = 0;
-		gbcBaseboardNumberLabel.gridy = 0;
-		baseboardPanel.add(baseboardNumberLabel, gbcBaseboardNumberLabel);
+		baseboardPanel.add(baseboardNumberLabel, "cell 0 0,alignx leading");
 
 		baseboardNumberComboBox = new JComboBox<>();
-		GridBagConstraints gbcBaseboardNumberComboBox = new GridBagConstraints();
-		gbcBaseboardNumberComboBox.insets = new Insets(0, 0, 5, 0);
-		gbcBaseboardNumberComboBox.fill = GridBagConstraints.HORIZONTAL;
-		gbcBaseboardNumberComboBox.gridx = 1;
-		gbcBaseboardNumberComboBox.gridy = 0;
-		baseboardPanel.add(baseboardNumberComboBox, gbcBaseboardNumberComboBox);
+		baseboardPanel.add(baseboardNumberComboBox, "cell 1 0,growx");
 
 		JLabel baseboardManufacturerLabel = new JLabel("Manufacturer");
-		GridBagConstraints gbcBaseboardManufacturerLabel = new GridBagConstraints();
-		gbcBaseboardManufacturerLabel.anchor = GridBagConstraints.WEST;
-		gbcBaseboardManufacturerLabel.insets = new Insets(0, 0, 5, 5);
-		gbcBaseboardManufacturerLabel.gridx = 0;
-		gbcBaseboardManufacturerLabel.gridy = 1;
-		baseboardPanel.add(baseboardManufacturerLabel, gbcBaseboardManufacturerLabel);
+		baseboardPanel.add(baseboardManufacturerLabel, "cell 0 1,alignx leading");
 
 		baseboardManufacturerTextField = new JTextField();
 		baseboardManufacturerTextField.setEditable(false);
-		GridBagConstraints gbcBaseboardManufacturerTextField = new GridBagConstraints();
-		gbcBaseboardManufacturerTextField.insets = new Insets(0, 0, 5, 0);
-		gbcBaseboardManufacturerTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbcBaseboardManufacturerTextField.gridx = 1;
-		gbcBaseboardManufacturerTextField.gridy = 1;
-		baseboardPanel.add(baseboardManufacturerTextField, gbcBaseboardManufacturerTextField);
-		baseboardManufacturerTextField.setColumns(10);
+		baseboardPanel.add(baseboardManufacturerTextField, "cell 1 1,growx");
 
 		JLabel baseboardModelLabel = new JLabel("Model");
-		GridBagConstraints gbcBaseboardModelLabel = new GridBagConstraints();
-		gbcBaseboardModelLabel.anchor = GridBagConstraints.WEST;
-		gbcBaseboardModelLabel.insets = new Insets(0, 0, 5, 5);
-		gbcBaseboardModelLabel.gridx = 0;
-		gbcBaseboardModelLabel.gridy = 2;
-		baseboardPanel.add(baseboardModelLabel, gbcBaseboardModelLabel);
+		baseboardPanel.add(baseboardModelLabel, "cell 0 2,alignx leading");
 
 		baseboardModelTextField = new JTextField();
 		baseboardModelTextField.setEditable(false);
-		GridBagConstraints gbcBaseboardModelTextField = new GridBagConstraints();
-		gbcBaseboardModelTextField.insets = new Insets(0, 0, 5, 0);
-		gbcBaseboardModelTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbcBaseboardModelTextField.gridx = 1;
-		gbcBaseboardModelTextField.gridy = 2;
-		baseboardPanel.add(baseboardModelTextField, gbcBaseboardModelTextField);
-		baseboardModelTextField.setColumns(10);
-
+		baseboardPanel.add(baseboardModelTextField, "cell 1 2,growx");
+		
 		JLabel baseboardProductLabel = new JLabel("Product");
-		GridBagConstraints gbcBaseboardProductLabel = new GridBagConstraints();
-		gbcBaseboardProductLabel.anchor = GridBagConstraints.WEST;
-		gbcBaseboardProductLabel.insets = new Insets(0, 0, 5, 5);
-		gbcBaseboardProductLabel.gridx = 0;
-		gbcBaseboardProductLabel.gridy = 3;
-		baseboardPanel.add(baseboardProductLabel, gbcBaseboardProductLabel);
+		baseboardPanel.add(baseboardProductLabel, "cell 0 3,alignx leading");
 
 		baseboardProductTextField = new JTextField();
 		baseboardProductTextField.setEditable(false);
-		GridBagConstraints gbcBaseboardProductTextField = new GridBagConstraints();
-		gbcBaseboardProductTextField.insets = new Insets(0, 0, 5, 0);
-		gbcBaseboardProductTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbcBaseboardProductTextField.gridx = 1;
-		gbcBaseboardProductTextField.gridy = 3;
-		baseboardPanel.add(baseboardProductTextField, gbcBaseboardProductTextField);
-		baseboardProductTextField.setColumns(10);
+		baseboardPanel.add(baseboardProductTextField, "cell 1 3,growx");
 
 		JLabel baseboardSerialNumberLabel = new JLabel("Serial Number");
-		GridBagConstraints gbcBaseboardSerialNumberLabel = new GridBagConstraints();
-		gbcBaseboardSerialNumberLabel.anchor = GridBagConstraints.WEST;
-		gbcBaseboardSerialNumberLabel.insets = new Insets(0, 0, 5, 5);
-		gbcBaseboardSerialNumberLabel.gridx = 0;
-		gbcBaseboardSerialNumberLabel.gridy = 4;
-		baseboardPanel.add(baseboardSerialNumberLabel, gbcBaseboardSerialNumberLabel);
+		baseboardPanel.add(baseboardSerialNumberLabel, "cell 0 4,alignx leading");
 
 		baseboardSerialNumberTextField = new JTextField();
 		baseboardSerialNumberTextField.setEditable(false);
-		GridBagConstraints gbcBaseboardSerialNumberTextField = new GridBagConstraints();
-		gbcBaseboardSerialNumberTextField.insets = new Insets(0, 0, 5, 0);
-		gbcBaseboardSerialNumberTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbcBaseboardSerialNumberTextField.gridx = 1;
-		gbcBaseboardSerialNumberTextField.gridy = 4;
-		baseboardPanel.add(baseboardSerialNumberTextField, gbcBaseboardSerialNumberTextField);
-		baseboardSerialNumberTextField.setColumns(10);
+		baseboardPanel.add(baseboardSerialNumberTextField, "cell 1 4,growx");
 
 		JLabel baseboardVersionLabel = new JLabel("Version");
-		GridBagConstraints gbcBaseboardVersionLabel = new GridBagConstraints();
-		gbcBaseboardVersionLabel.anchor = GridBagConstraints.WEST;
-		gbcBaseboardVersionLabel.insets = new Insets(0, 0, 0, 5);
-		gbcBaseboardVersionLabel.gridx = 0;
-		gbcBaseboardVersionLabel.gridy = 5;
-		baseboardPanel.add(baseboardVersionLabel, gbcBaseboardVersionLabel);
+		baseboardPanel.add(baseboardVersionLabel, "cell 0 5,alignx leading");
 
 		baseboardVersionTextField = new JTextField();
 		baseboardVersionTextField.setEditable(false);
-		GridBagConstraints gbcBaseboardVersionTextField = new GridBagConstraints();
-		gbcBaseboardVersionTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbcBaseboardVersionTextField.gridx = 1;
-		gbcBaseboardVersionTextField.gridy = 5;
-		baseboardPanel.add(baseboardVersionTextField, gbcBaseboardVersionTextField);
-		baseboardVersionTextField.setColumns(10);
+		baseboardPanel.add(baseboardVersionTextField, "cell 1 5,growx");
 		
 		// add scroll-pane to the panel
-		JScrollPane baseboardScrollPane = new JScrollPane();
-		baseboardScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		baseboardScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-		baseboardScrollPane.setViewportView(baseboardPanel);
-		add(baseboardScrollPane);
+		return new JScrollPane(baseboardPanel);
 
 	}
 
-	private void setBaseboardPortPanel() {
+	private JScrollPane createBaseboardPortPanel() {
 		
 		//add panel
 		JPanel baseboardPortPanel = new JPanel();
 		baseboardPortPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Baseboard Port", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		GridBagLayout gblBaseboardPortPanel = new GridBagLayout();
-		gblBaseboardPortPanel.columnWidths = new int[]{0, 0, 0};
-		gblBaseboardPortPanel.rowHeights = new int[]{0, 0, 0, 0, 0};
-		gblBaseboardPortPanel.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-		gblBaseboardPortPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		baseboardPortPanel.setLayout(gblBaseboardPortPanel);
+		baseboardPortPanel.setLayout(new MigLayout("", "[][grow]", "[][][][]"));
 		
 		JLabel baseboardPortTagLabel = new JLabel("Tag");
-		GridBagConstraints gbcBaseboardPortTagLabel = new GridBagConstraints();
-		gbcBaseboardPortTagLabel.insets = new Insets(0, 0, 5, 5);
-		gbcBaseboardPortTagLabel.anchor = GridBagConstraints.WEST;
-		gbcBaseboardPortTagLabel.gridx = 0;
-		gbcBaseboardPortTagLabel.gridy = 0;
-		baseboardPortPanel.add(baseboardPortTagLabel, gbcBaseboardPortTagLabel);
+		baseboardPortPanel.add(baseboardPortTagLabel, "cell 0 0,alignx leading");
 		
 		baseboardPortTagComboBox = new JComboBox<>();
-		GridBagConstraints gbcBaseboardPortTagComboBox = new GridBagConstraints();
-		gbcBaseboardPortTagComboBox.insets = new Insets(0, 0, 5, 0);
-		gbcBaseboardPortTagComboBox.fill = GridBagConstraints.HORIZONTAL;
-		gbcBaseboardPortTagComboBox.gridx = 1;
-		gbcBaseboardPortTagComboBox.gridy = 0;
-		baseboardPortPanel.add(baseboardPortTagComboBox, gbcBaseboardPortTagComboBox);
+		baseboardPortPanel.add(baseboardPortTagComboBox, "cell 1 0,growx");
 		
 		JLabel baseboardPortTypeLabel = new JLabel("Type");
-		GridBagConstraints gbcBaseboardPortTypeLabel = new GridBagConstraints();
-		gbcBaseboardPortTypeLabel.anchor = GridBagConstraints.WEST;
-		gbcBaseboardPortTypeLabel.insets = new Insets(0, 0, 5, 5);
-		gbcBaseboardPortTypeLabel.gridx = 0;
-		gbcBaseboardPortTypeLabel.gridy = 1;
-		baseboardPortPanel.add(baseboardPortTypeLabel, gbcBaseboardPortTypeLabel);
+		baseboardPortPanel.add(baseboardPortTypeLabel, "cell 0 1,alignx leading");
 		
 		baseboardPortTypeTextField = new JTextField();
 		baseboardPortTypeTextField.setEditable(false);
-		GridBagConstraints gbcBaseboardPortTypeTextField = new GridBagConstraints();
-		gbcBaseboardPortTypeTextField.insets = new Insets(0, 0, 5, 0);
-		gbcBaseboardPortTypeTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbcBaseboardPortTypeTextField.gridx = 1;
-		gbcBaseboardPortTypeTextField.gridy = 1;
-		baseboardPortPanel.add(baseboardPortTypeTextField, gbcBaseboardPortTypeTextField);
-		baseboardPortTypeTextField.setColumns(10);
+		baseboardPortPanel.add(baseboardPortTypeTextField, "cell 1 1,growx");
 		
 		JLabel baseboardPortIRDLabel = new JLabel("Internal RD");
-		GridBagConstraints gbcBaseboardPortIRDLabel = new GridBagConstraints();
-		gbcBaseboardPortIRDLabel.anchor = GridBagConstraints.WEST;
-		gbcBaseboardPortIRDLabel.insets = new Insets(0, 0, 5, 5);
-		gbcBaseboardPortIRDLabel.gridx = 0;
-		gbcBaseboardPortIRDLabel.gridy = 2;
-		baseboardPortPanel.add(baseboardPortIRDLabel, gbcBaseboardPortIRDLabel);
+		baseboardPortPanel.add(baseboardPortIRDLabel, "cell 0 2,alignx leading");
 		
 		baseboardPortIRDTextField = new JTextField();
 		baseboardPortIRDTextField.setEditable(false);
-		GridBagConstraints gbcBaseboardPortIRDTextField = new GridBagConstraints();
-		gbcBaseboardPortIRDTextField.insets = new Insets(0, 0, 5, 0);
-		gbcBaseboardPortIRDTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbcBaseboardPortIRDTextField.gridx = 1;
-		gbcBaseboardPortIRDTextField.gridy = 2;
-		baseboardPortPanel.add(baseboardPortIRDTextField, gbcBaseboardPortIRDTextField);
-		baseboardPortIRDTextField.setColumns(10);
+		baseboardPortPanel.add(baseboardPortIRDTextField, "cell 1 2,growx");
 		
 		JLabel baseboardPortERDLabel = new JLabel("External RD");
-		GridBagConstraints gbcBaseboardPortERDLabel = new GridBagConstraints();
-		gbcBaseboardPortERDLabel.anchor = GridBagConstraints.WEST;
-		gbcBaseboardPortERDLabel.insets = new Insets(0, 0, 0, 5);
-		gbcBaseboardPortERDLabel.gridx = 0;
-		gbcBaseboardPortERDLabel.gridy = 3;
-		baseboardPortPanel.add(baseboardPortERDLabel, gbcBaseboardPortERDLabel);
+		baseboardPortPanel.add(baseboardPortERDLabel, "cell 0 3,alignx leading");
 		
 		baseboardPortERDTextField = new JTextField();
 		baseboardPortERDTextField.setEditable(false);
-		GridBagConstraints gbcBaseboardPortERDTextField = new GridBagConstraints();
-		gbcBaseboardPortERDTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbcBaseboardPortERDTextField.gridx = 1;
-		gbcBaseboardPortERDTextField.gridy = 3;
-		baseboardPortPanel.add(baseboardPortERDTextField, gbcBaseboardPortERDTextField);
-		baseboardPortERDTextField.setColumns(10);
+		baseboardPortPanel.add(baseboardPortERDTextField, "cell 1 3,growx");
 		
 		// add scroll-pane to the panel
-		JScrollPane baseboardPortScrollPane = new JScrollPane();
-		baseboardPortScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		baseboardPortScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-		baseboardPortScrollPane.setViewportView(baseboardPortPanel);
-		add(baseboardPortScrollPane);
+		return new JScrollPane(baseboardPortPanel);
 	}
 
-	private void setBIOSPanel() {
+	private JScrollPane createBiosPanel() {
 		
 		// add panel
 		JPanel biosPanel = new JPanel();
 		biosPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "BIOS", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		GridBagLayout gblBiosPanel = new GridBagLayout();
-		gblBiosPanel.columnWidths = new int[]{0, 0, 0};
-		gblBiosPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gblBiosPanel.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-		gblBiosPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
-		biosPanel.setLayout(gblBiosPanel);
+		biosPanel.setLayout(new MigLayout("", "[][grow]", "[][][][][][][][][][][]"));
 		
 		JLabel biosNumberLabel = new JLabel("BIOS#");
-		GridBagConstraints gbcBiosNumberLabel = new GridBagConstraints();
-		gbcBiosNumberLabel.insets = new Insets(0, 0, 5, 5);
-		gbcBiosNumberLabel.anchor = GridBagConstraints.WEST;
-		gbcBiosNumberLabel.gridx = 0;
-		gbcBiosNumberLabel.gridy = 0;
-		biosPanel.add(biosNumberLabel, gbcBiosNumberLabel);
+		biosPanel.add(biosNumberLabel, "cell 0 0,alignx leading");
 		
 		biosNumberComboBox = new JComboBox<>();
-		GridBagConstraints gbcBiosNumberComboBox = new GridBagConstraints();
-		gbcBiosNumberComboBox.insets = new Insets(0, 0, 5, 0);
-		gbcBiosNumberComboBox.fill = GridBagConstraints.HORIZONTAL;
-		gbcBiosNumberComboBox.gridx = 1;
-		gbcBiosNumberComboBox.gridy = 0;
-		biosPanel.add(biosNumberComboBox, gbcBiosNumberComboBox);
+		biosPanel.add(biosNumberComboBox, "cell 1 0,growx");
 		
 		JLabel biosCaptionLabel = new JLabel("Caption");
-		GridBagConstraints gbcBiosCaptionLabel = new GridBagConstraints();
-		gbcBiosCaptionLabel.anchor = GridBagConstraints.WEST;
-		gbcBiosCaptionLabel.insets = new Insets(0, 0, 5, 5);
-		gbcBiosCaptionLabel.gridx = 0;
-		gbcBiosCaptionLabel.gridy = 1;
-		biosPanel.add(biosCaptionLabel, gbcBiosCaptionLabel);
+		biosPanel.add(biosCaptionLabel, "cell 0 1,alignx leading");
 		
 		biosCaptionTextField = new JTextField();
 		biosCaptionTextField.setEditable(false);
-		GridBagConstraints gbcBiosCaptionTextField = new GridBagConstraints();
-		gbcBiosCaptionTextField.insets = new Insets(0, 0, 5, 0);
-		gbcBiosCaptionTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbcBiosCaptionTextField.gridx = 1;
-		gbcBiosCaptionTextField.gridy = 1;
-		biosPanel.add(biosCaptionTextField, gbcBiosCaptionTextField);
+		biosPanel.add(biosCaptionTextField, "cell 1 1,growx");
 		biosCaptionTextField.setColumns(10);
 		
 		JLabel biosCurrentLanguageLevel = new JLabel("Current Language");
-		GridBagConstraints gbcBiosCurrentLanguageLevel = new GridBagConstraints();
-		gbcBiosCurrentLanguageLevel.anchor = GridBagConstraints.WEST;
-		gbcBiosCurrentLanguageLevel.insets = new Insets(0, 0, 5, 5);
-		gbcBiosCurrentLanguageLevel.gridx = 0;
-		gbcBiosCurrentLanguageLevel.gridy = 2;
-		biosPanel.add(biosCurrentLanguageLevel, gbcBiosCurrentLanguageLevel);
+		biosPanel.add(biosCurrentLanguageLevel, "cell 0 2,alignx leading");
 		
 		biosCurrentLanguageTextField = new JTextField();
 		biosCurrentLanguageTextField.setEditable(false);
-		GridBagConstraints gbcBiosCurrentLanguageTextField = new GridBagConstraints();
-		gbcBiosCurrentLanguageTextField.insets = new Insets(0, 0, 5, 0);
-		gbcBiosCurrentLanguageTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbcBiosCurrentLanguageTextField.gridx = 1;
-		gbcBiosCurrentLanguageTextField.gridy = 2;
-		biosPanel.add(biosCurrentLanguageTextField, gbcBiosCurrentLanguageTextField);
+		biosPanel.add(biosCurrentLanguageTextField, "cell 1 2,growx");
 		biosCurrentLanguageTextField.setColumns(10);
 		
 		JLabel biosManufacturerLabel = new JLabel("Manufacturer");
-		GridBagConstraints gbcBiosManufacturerLabel = new GridBagConstraints();
-		gbcBiosManufacturerLabel.anchor = GridBagConstraints.WEST;
-		gbcBiosManufacturerLabel.insets = new Insets(0, 0, 5, 5);
-		gbcBiosManufacturerLabel.gridx = 0;
-		gbcBiosManufacturerLabel.gridy = 3;
-		biosPanel.add(biosManufacturerLabel, gbcBiosManufacturerLabel);
+		biosPanel.add(biosManufacturerLabel, "cell 0 3,alignx leading");
 		
 		biosManufacturerTextField = new JTextField();
 		biosManufacturerTextField.setEditable(false);
-		GridBagConstraints gbcBiosManufacturerTextField = new GridBagConstraints();
-		gbcBiosManufacturerTextField.insets = new Insets(0, 0, 5, 0);
-		gbcBiosManufacturerTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbcBiosManufacturerTextField.gridx = 1;
-		gbcBiosManufacturerTextField.gridy = 3;
-		biosPanel.add(biosManufacturerTextField, gbcBiosManufacturerTextField);
+		biosPanel.add(biosManufacturerTextField, "cell 1 3,growx");
 		biosManufacturerTextField.setColumns(10);
 		
 		JLabel biosNameLabel = new JLabel("Name");
-		GridBagConstraints gbcBiosNameLabel = new GridBagConstraints();
-		gbcBiosNameLabel.anchor = GridBagConstraints.WEST;
-		gbcBiosNameLabel.insets = new Insets(0, 0, 5, 5);
-		gbcBiosNameLabel.gridx = 0;
-		gbcBiosNameLabel.gridy = 4;
-		biosPanel.add(biosNameLabel, gbcBiosNameLabel);
+		biosPanel.add(biosNameLabel, "cell 0 4,alignx leading");
 		
 		biosNameTextField = new JTextField();
 		biosNameTextField.setEditable(false);
-		GridBagConstraints gbcBiosNameTextField = new GridBagConstraints();
-		gbcBiosNameTextField.insets = new Insets(0, 0, 5, 0);
-		gbcBiosNameTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbcBiosNameTextField.gridx = 1;
-		gbcBiosNameTextField.gridy = 4;
-		biosPanel.add(biosNameTextField, gbcBiosNameTextField);
+		biosPanel.add(biosNameTextField, "cell 1 4,growx");
 		biosNameTextField.setColumns(10);
 		
 		JLabel biosPrimaryLabel = new JLabel("Primary BIOS");
-		GridBagConstraints gbcBiosPrimaryLabel = new GridBagConstraints();
-		gbcBiosPrimaryLabel.anchor = GridBagConstraints.WEST;
-		gbcBiosPrimaryLabel.insets = new Insets(0, 0, 5, 5);
-		gbcBiosPrimaryLabel.gridx = 0;
-		gbcBiosPrimaryLabel.gridy = 5;
-		biosPanel.add(biosPrimaryLabel, gbcBiosPrimaryLabel);
+		biosPanel.add(biosPrimaryLabel, "cell 0 5,alignx leading");
 		
 		biosPrimaryTextField = new JTextField();
 		biosPrimaryTextField.setEditable(false);
-		GridBagConstraints gbcBiosPrimaryTextField = new GridBagConstraints();
-		gbcBiosPrimaryTextField.insets = new Insets(0, 0, 5, 0);
-		gbcBiosPrimaryTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbcBiosPrimaryTextField.gridx = 1;
-		gbcBiosPrimaryTextField.gridy = 5;
-		biosPanel.add(biosPrimaryTextField, gbcBiosPrimaryTextField);
+		biosPanel.add(biosPrimaryTextField, "cell 1 5,growx");
 		biosPrimaryTextField.setColumns(10);
 		
 		JLabel biosReleaseDateLabel = new JLabel("Release Date");
-		GridBagConstraints gbcBiosReleaseDateLabel = new GridBagConstraints();
-		gbcBiosReleaseDateLabel.anchor = GridBagConstraints.WEST;
-		gbcBiosReleaseDateLabel.insets = new Insets(0, 0, 5, 5);
-		gbcBiosReleaseDateLabel.gridx = 0;
-		gbcBiosReleaseDateLabel.gridy = 6;
-		biosPanel.add(biosReleaseDateLabel, gbcBiosReleaseDateLabel);
+		biosPanel.add(biosReleaseDateLabel, "cell 0 6,alignx leading");
 		
 		biosReleaseDateTextField = new JTextField();
 		biosReleaseDateTextField.setEditable(false);
-		GridBagConstraints gbcBiosReleaseDateTextField = new GridBagConstraints();
-		gbcBiosReleaseDateTextField.insets = new Insets(0, 0, 5, 0);
-		gbcBiosReleaseDateTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbcBiosReleaseDateTextField.gridx = 1;
-		gbcBiosReleaseDateTextField.gridy = 6;
-		biosPanel.add(biosReleaseDateTextField, gbcBiosReleaseDateTextField);
+		biosPanel.add(biosReleaseDateTextField, "cell 1 6,growx");
 		biosReleaseDateTextField.setColumns(10);
 		
 		JLabel biosSmbiosPresenceLabel = new JLabel("SMBIOS Present");
-		GridBagConstraints gbcBiosSmbiosPresenceLabel = new GridBagConstraints();
-		gbcBiosSmbiosPresenceLabel.anchor = GridBagConstraints.WEST;
-		gbcBiosSmbiosPresenceLabel.insets = new Insets(0, 0, 5, 5);
-		gbcBiosSmbiosPresenceLabel.gridx = 0;
-		gbcBiosSmbiosPresenceLabel.gridy = 7;
-		biosPanel.add(biosSmbiosPresenceLabel, gbcBiosSmbiosPresenceLabel);
+		biosPanel.add(biosSmbiosPresenceLabel, "cell 0 7,alignx leading");
 		
 		biosSmbiosPresenceTextField = new JTextField();
 		biosSmbiosPresenceTextField.setEditable(false);
-		GridBagConstraints gbcBiosSmbiosPresenceTextField = new GridBagConstraints();
-		gbcBiosSmbiosPresenceTextField.insets = new Insets(0, 0, 5, 0);
-		gbcBiosSmbiosPresenceTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbcBiosSmbiosPresenceTextField.gridx = 1;
-		gbcBiosSmbiosPresenceTextField.gridy = 7;
 		biosSmbiosPresenceTextField.setColumns(10);
-		biosPanel.add(biosSmbiosPresenceTextField, gbcBiosSmbiosPresenceTextField);
+		biosPanel.add(biosSmbiosPresenceTextField, "cell 1 7,growx");
 
 		JLabel biosSmbiosVersionLabel = new JLabel("SMBIOS BIOS Ver.");
-		GridBagConstraints gbcBiosSmbiosVersionLabel = new GridBagConstraints();
-		gbcBiosSmbiosVersionLabel.anchor = GridBagConstraints.WEST;
-		gbcBiosSmbiosVersionLabel.insets = new Insets(0, 0, 5, 5);
-		gbcBiosSmbiosVersionLabel.gridx = 0;
-		gbcBiosSmbiosVersionLabel.gridy = 8;
-		biosPanel.add(biosSmbiosVersionLabel, gbcBiosSmbiosVersionLabel);
+		biosPanel.add(biosSmbiosVersionLabel, "cell 0 8,alignx leading");
 
 		biosSmbiosVersionTextField = new JTextField();
 		biosSmbiosVersionTextField.setEditable(false);
-		GridBagConstraints gbcBiosSmbiosVersionTextField = new GridBagConstraints();
-		gbcBiosSmbiosVersionTextField.insets = new Insets(0, 0, 5, 0);
-		gbcBiosSmbiosVersionTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbcBiosSmbiosVersionTextField.gridx = 1;
-		gbcBiosSmbiosVersionTextField.gridy = 8;
-		biosPanel.add(biosSmbiosVersionTextField, gbcBiosSmbiosVersionTextField);
+		biosPanel.add(biosSmbiosVersionTextField, "cell 1 8,growx");
 		biosSmbiosVersionTextField.setColumns(10);
 		
 		JLabel biosStatusLabel = new JLabel("Status");
-		GridBagConstraints gbcBiosStatusLabel = new GridBagConstraints();
-		gbcBiosStatusLabel.anchor = GridBagConstraints.WEST;
-		gbcBiosStatusLabel.insets = new Insets(0, 0, 5, 5);
-		gbcBiosStatusLabel.gridx = 0;
-		gbcBiosStatusLabel.gridy = 9;
-		biosPanel.add(biosStatusLabel, gbcBiosStatusLabel);
+		biosPanel.add(biosStatusLabel, "cell 0 9,alignx leading");
 		
 		biosStatusTextField = new JTextField();
 		biosStatusTextField.setEditable(false);
-		GridBagConstraints gbcBiosStatusTextField = new GridBagConstraints();
-		gbcBiosStatusTextField.insets = new Insets(0, 0, 5, 0);
-		gbcBiosStatusTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbcBiosStatusTextField.gridx = 1;
-		gbcBiosStatusTextField.gridy = 9;
-		biosPanel.add(biosStatusTextField, gbcBiosStatusTextField);
+		biosPanel.add(biosStatusTextField, "cell 1 9,growx");
 		biosStatusTextField.setColumns(10);
 		
 		JLabel biosVersionLabel = new JLabel("Version");
-		GridBagConstraints gbcBiosVersionLabel = new GridBagConstraints();
-		gbcBiosVersionLabel.anchor = GridBagConstraints.WEST;
-		gbcBiosVersionLabel.insets = new Insets(0, 0, 5, 5);
-		gbcBiosVersionLabel.gridx = 0;
-		gbcBiosVersionLabel.gridy = 10;
-		biosPanel.add(biosVersionLabel, gbcBiosVersionLabel);
+		biosPanel.add(biosVersionLabel, "cell 0 10,alignx leading");
 		
 		biosVersionTextField = new JTextField();
 		biosVersionTextField.setEditable(false);
-		GridBagConstraints gbcBiosVersionTextField = new GridBagConstraints();
-		gbcBiosVersionTextField.insets = new Insets(0, 0, 5, 0);
-		gbcBiosVersionTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbcBiosVersionTextField.gridx = 1;
-		gbcBiosVersionTextField.gridy = 10;
-		biosPanel.add(biosVersionTextField, gbcBiosVersionTextField);
+		biosPanel.add(biosVersionTextField, "cell 1 10,growx");
 		biosVersionTextField.setColumns(10);
 		
 		// add scroll-pane to the panel
-		JScrollPane biosScrollPane = new JScrollPane();
-		biosScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		biosScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-		biosScrollPane.setViewportView(biosPanel);
-		add(biosScrollPane);
+		return new JScrollPane(biosPanel);
 	}
 
 	private void setWorkers() {

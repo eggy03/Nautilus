@@ -1,6 +1,7 @@
 package io.github.eggy03.ui.windows.panels;
 
-import io.github.eggy03.ui.windows.worker.WMINetworkPanelWorker;
+import java.awt.GridLayout;
+import java.util.List;
 
 import javax.swing.JComboBox;
 import javax.swing.JEditorPane;
@@ -14,11 +15,8 @@ import javax.swing.border.TitledBorder;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.Insets;
-import java.util.List;
+import io.github.eggy03.ui.windows.worker.WMINetworkPanelWorker;
+import net.miginfocom.swing.MigLayout;
 
 public class WMINetworkPanelUI extends JPanel {
 	
@@ -49,362 +47,176 @@ public class WMINetworkPanelUI extends JPanel {
 	}
 
 	public WMINetworkPanelUI() {
-		setLayout(new GridLayout(2, 0, 0, 0));
+		setLayout(new GridLayout(2, 1, 0, 0));
 		
-		setAdapterPanel();
-		setAdapterPropertyTabbedPane();
+		add(createAdapterPanel());
+		add(createAdapterPropertyTabbedPane());
 		setWorker();
 	}
 	
-	private void setAdapterPanel() {
+	private JScrollPane createAdapterPanel() {
 		
 		JPanel adapterPanel = new JPanel();
 		adapterPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Adapter", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		GridBagLayout gblAdapterPanel = new GridBagLayout();
-		gblAdapterPanel.columnWidths = new int[]{0, 0, 0};
-		gblAdapterPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gblAdapterPanel.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-		gblAdapterPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		adapterPanel.setLayout(gblAdapterPanel);
-
-		// set scrollpane
-		JScrollPane adapterScrollPane = new JScrollPane();
-		adapterScrollPane.setViewportView(adapterPanel);
-		add(adapterScrollPane);
+		adapterPanel.setLayout(new MigLayout("", "[][grow]", "[][][][][][][][][][][][][][][][]"));
 		
 		JLabel networkInterfaceIdLabel = new JLabel("Interface#");
-		GridBagConstraints gbcNetworkInterfaceIdLabel = new GridBagConstraints();
-		gbcNetworkInterfaceIdLabel.insets = new Insets(0, 0, 5, 5);
-		gbcNetworkInterfaceIdLabel.anchor = GridBagConstraints.WEST;
-		gbcNetworkInterfaceIdLabel.gridx = 0;
-		gbcNetworkInterfaceIdLabel.gridy = 0;
-		adapterPanel.add(networkInterfaceIdLabel, gbcNetworkInterfaceIdLabel);
+		adapterPanel.add(networkInterfaceIdLabel, "cell 0 0,alignx leading");
 		
 		networkInterfaceIdComboBox = new JComboBox<>();
-		GridBagConstraints gbcNetworkInterfaceIdComboBox = new GridBagConstraints();
-		gbcNetworkInterfaceIdComboBox.insets = new Insets(0, 0, 5, 0);
-		gbcNetworkInterfaceIdComboBox.fill = GridBagConstraints.HORIZONTAL;
-		gbcNetworkInterfaceIdComboBox.gridx = 1;
-		gbcNetworkInterfaceIdComboBox.gridy = 0;
-		adapterPanel.add(networkInterfaceIdComboBox, gbcNetworkInterfaceIdComboBox);
+		adapterPanel.add(networkInterfaceIdComboBox, "cell 1 0,growx");
 		
 		JLabel networkDeviceIdLabel = new JLabel("DeviceID");
-		GridBagConstraints gbcNetworkDeviceIdLabel = new GridBagConstraints();
-		gbcNetworkDeviceIdLabel.insets = new Insets(0, 0, 5, 5);
-		gbcNetworkDeviceIdLabel.anchor = GridBagConstraints.WEST;
-		gbcNetworkDeviceIdLabel.gridx = 0;
-		gbcNetworkDeviceIdLabel.gridy = 1;
-		adapterPanel.add(networkDeviceIdLabel, gbcNetworkDeviceIdLabel);
+		adapterPanel.add(networkDeviceIdLabel, "cell 0 1,alignx leading");
 		
 		networkDeviceIdTextField = new JTextField();
 		networkDeviceIdTextField.setEditable(false);
-		GridBagConstraints gbcNetworkDeviceIdTextField = new GridBagConstraints();
-		gbcNetworkDeviceIdTextField.insets = new Insets(0, 0, 5, 0);
-		gbcNetworkDeviceIdTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbcNetworkDeviceIdTextField.gridx = 1;
-		gbcNetworkDeviceIdTextField.gridy = 1;
-		adapterPanel.add(networkDeviceIdTextField, gbcNetworkDeviceIdTextField);
+		adapterPanel.add(networkDeviceIdTextField, "cell 1 1,growx");
 		
 		JLabel networkNameLabel = new JLabel("Name");
-		GridBagConstraints gbcNetworkNameLabel = new GridBagConstraints();
-		gbcNetworkNameLabel.anchor = GridBagConstraints.WEST;
-		gbcNetworkNameLabel.insets = new Insets(0, 0, 5, 5);
-		gbcNetworkNameLabel.gridx = 0;
-		gbcNetworkNameLabel.gridy = 2;
-		adapterPanel.add(networkNameLabel, gbcNetworkNameLabel);
+		adapterPanel.add(networkNameLabel, "cell 0 2,alignx leading");
 		
 		networkNameTextField = new JTextField();
 		networkNameTextField.setEditable(false);
-		GridBagConstraints gbcNetworkNameTextField = new GridBagConstraints();
-		gbcNetworkNameTextField.insets = new Insets(0, 0, 5, 0);
-		gbcNetworkNameTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbcNetworkNameTextField.gridx = 1;
-		gbcNetworkNameTextField.gridy = 2;
-		adapterPanel.add(networkNameTextField, gbcNetworkNameTextField);
-		networkNameTextField.setColumns(10);
+		adapterPanel.add(networkNameTextField, "cell 1 2,growx");
 		
 		JLabel networkDriverVersionLabel = new JLabel("Driver Version");
-		GridBagConstraints gbcNetworkDriverVersionLabel = new GridBagConstraints();
-		gbcNetworkDriverVersionLabel.anchor = GridBagConstraints.WEST;
-		gbcNetworkDriverVersionLabel.insets = new Insets(0, 0, 5, 5);
-		gbcNetworkDriverVersionLabel.gridx = 0;
-		gbcNetworkDriverVersionLabel.gridy = 3;
-		adapterPanel.add(networkDriverVersionLabel, gbcNetworkDriverVersionLabel);
+		adapterPanel.add(networkDriverVersionLabel, "cell 0 3,alignx leading");
 		
 		networkDriverVersionTextField = new JTextField();
 		networkDriverVersionTextField.setEditable(false);
-		GridBagConstraints gbcNetworkDriverVersionTextField = new GridBagConstraints();
-		gbcNetworkDriverVersionTextField.insets = new Insets(0, 0, 5, 0);
-		gbcNetworkDriverVersionTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbcNetworkDriverVersionTextField.gridx = 1;
-		gbcNetworkDriverVersionTextField.gridy = 3;
-		adapterPanel.add(networkDriverVersionTextField, gbcNetworkDriverVersionTextField);
-		networkDriverVersionTextField.setColumns(10);
+		adapterPanel.add(networkDriverVersionTextField, "cell 1 3,growx");
 		
 		JLabel networkDriverDateLabel = new JLabel("Driver Date");
-		GridBagConstraints gbcNetworkDriverDateLabel = new GridBagConstraints();
-		gbcNetworkDriverDateLabel.anchor = GridBagConstraints.WEST;
-		gbcNetworkDriverDateLabel.insets = new Insets(0, 0, 5, 5);
-		gbcNetworkDriverDateLabel.gridx = 0;
-		gbcNetworkDriverDateLabel.gridy = 4;
-		adapterPanel.add(networkDriverDateLabel, gbcNetworkDriverDateLabel);
+		adapterPanel.add(networkDriverDateLabel, "cell 0 4,alignx leading");
 		
 		networkDriverDateTextField = new JTextField();
 		networkDriverDateTextField.setEditable(false);
-		GridBagConstraints gbcNetworkDriverDateTextField = new GridBagConstraints();
-		gbcNetworkDriverDateTextField.insets = new Insets(0, 0, 5, 0);
-		gbcNetworkDriverDateTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbcNetworkDriverDateTextField.gridx = 1;
-		gbcNetworkDriverDateTextField.gridy = 4;
-		adapterPanel.add(networkDriverDateTextField, gbcNetworkDriverDateTextField);
-		networkDriverDateTextField.setColumns(10);
+		adapterPanel.add(networkDriverDateTextField, "cell 1 4,growx");
 		
 		JLabel networkTypeLabel = new JLabel("Type");
-		GridBagConstraints gbcNetworkTypeLabel = new GridBagConstraints();
-		gbcNetworkTypeLabel.anchor = GridBagConstraints.WEST;
-		gbcNetworkTypeLabel.insets = new Insets(0, 0, 5, 5);
-		gbcNetworkTypeLabel.gridx = 0;
-		gbcNetworkTypeLabel.gridy = 5;
-		adapterPanel.add(networkTypeLabel, gbcNetworkTypeLabel);
+		adapterPanel.add(networkTypeLabel, "cell 0 5,alignx leading");
 		
 		networkTypeTextField = new JTextField();
 		networkTypeTextField.setEditable(false);
-		GridBagConstraints gbcNetworkTypeTextField = new GridBagConstraints();
-		gbcNetworkTypeTextField.insets = new Insets(0, 0, 5, 0);
-		gbcNetworkTypeTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbcNetworkTypeTextField.gridx = 1;
-		gbcNetworkTypeTextField.gridy = 5;
-		adapterPanel.add(networkTypeTextField, gbcNetworkTypeTextField);
-		networkTypeTextField.setColumns(10);
+		adapterPanel.add(networkTypeTextField, "cell 1 5,growx");
 		
 		JLabel networkLinkLayerAddressLabel = new JLabel("MAC");
-		GridBagConstraints gbcNetworkLinkLayerAddressLabel = new GridBagConstraints();
-		gbcNetworkLinkLayerAddressLabel.anchor = GridBagConstraints.WEST;
-		gbcNetworkLinkLayerAddressLabel.insets = new Insets(0, 0, 5, 5);
-		gbcNetworkLinkLayerAddressLabel.gridx = 0;
-		gbcNetworkLinkLayerAddressLabel.gridy = 6;
-		adapterPanel.add(networkLinkLayerAddressLabel, gbcNetworkLinkLayerAddressLabel);
+		adapterPanel.add(networkLinkLayerAddressLabel, "cell 0 6,alignx leading");
 		
 		networkLinkLayerAddressTextField = new JTextField();
 		networkLinkLayerAddressTextField.setEditable(false);
-		GridBagConstraints gbcNetworkLinkLayerAddressTextField = new GridBagConstraints();
-		gbcNetworkLinkLayerAddressTextField.insets = new Insets(0, 0, 5, 0);
-		gbcNetworkLinkLayerAddressTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbcNetworkLinkLayerAddressTextField.gridx = 1;
-		gbcNetworkLinkLayerAddressTextField.gridy = 6;
-		adapterPanel.add(networkLinkLayerAddressTextField, gbcNetworkLinkLayerAddressTextField);
-		networkLinkLayerAddressTextField.setColumns(10);
+		adapterPanel.add(networkLinkLayerAddressTextField, "cell 1 6,growx");
 		
 		JLabel networkLinkSpeedLabel = new JLabel("Link Speed");
-		GridBagConstraints gbcNetworkLinkSpeedLabel = new GridBagConstraints();
-		gbcNetworkLinkSpeedLabel.anchor = GridBagConstraints.WEST;
-		gbcNetworkLinkSpeedLabel.insets = new Insets(0, 0, 5, 5);
-		gbcNetworkLinkSpeedLabel.gridx = 0;
-		gbcNetworkLinkSpeedLabel.gridy = 7;
-		adapterPanel.add(networkLinkSpeedLabel, gbcNetworkLinkSpeedLabel);
+		adapterPanel.add(networkLinkSpeedLabel, "cell 0 7,alignx leading");
 		
 		networkLinkSpeedTextField = new JTextField();
 		networkLinkSpeedTextField.setEditable(false);
-		GridBagConstraints gbcNetworkLinkSpeedTextField = new GridBagConstraints();
-		gbcNetworkLinkSpeedTextField.insets = new Insets(0, 0, 5, 0);
-		gbcNetworkLinkSpeedTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbcNetworkLinkSpeedTextField.gridx = 1;
-		gbcNetworkLinkSpeedTextField.gridy = 7;
-		adapterPanel.add(networkLinkSpeedTextField, gbcNetworkLinkSpeedTextField);
-		networkLinkSpeedTextField.setColumns(10);
+		adapterPanel.add(networkLinkSpeedTextField, "cell 1 7,growx");
 		
 		JLabel networkMediaConnectStateLabel = new JLabel("Connect State");
-		GridBagConstraints gbcNetworkMediaConnectStateLabel = new GridBagConstraints();
-		gbcNetworkMediaConnectStateLabel.anchor = GridBagConstraints.WEST;
-		gbcNetworkMediaConnectStateLabel.insets = new Insets(0, 0, 5, 5);
-		gbcNetworkMediaConnectStateLabel.gridx = 0;
-		gbcNetworkMediaConnectStateLabel.gridy = 8;
-		adapterPanel.add(networkMediaConnectStateLabel, gbcNetworkMediaConnectStateLabel);
+		adapterPanel.add(networkMediaConnectStateLabel, "cell 0 8,alignx leading");
 		
 		networkMediaConnectStateTextField = new JTextField();
 		networkMediaConnectStateTextField.setEditable(false);
-		GridBagConstraints gbcNetworkMediaConnectStateTextField = new GridBagConstraints();
-		gbcNetworkMediaConnectStateTextField.insets = new Insets(0, 0, 5, 0);
-		gbcNetworkMediaConnectStateTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbcNetworkMediaConnectStateTextField.gridx = 1;
-		gbcNetworkMediaConnectStateTextField.gridy = 8;
-		adapterPanel.add(networkMediaConnectStateTextField, gbcNetworkMediaConnectStateTextField);
-		networkMediaConnectStateTextField.setColumns(10);
+		adapterPanel.add(networkMediaConnectStateTextField, "cell 1 8,growx");
 		
 		JLabel networkMediaConnectTypeLabel = new JLabel("Connect Type");
-		GridBagConstraints gbcNetworkMediaConnectTypeLabel = new GridBagConstraints();
-		gbcNetworkMediaConnectTypeLabel.anchor = GridBagConstraints.WEST;
-		gbcNetworkMediaConnectTypeLabel.insets = new Insets(0, 0, 5, 5);
-		gbcNetworkMediaConnectTypeLabel.gridx = 0;
-		gbcNetworkMediaConnectTypeLabel.gridy = 9;
-		adapterPanel.add(networkMediaConnectTypeLabel, gbcNetworkMediaConnectTypeLabel);
+		adapterPanel.add(networkMediaConnectTypeLabel, "cell 0 9,alignx leading");
 		
 		networkMediaConnectTypeTextField = new JTextField();
 		networkMediaConnectTypeTextField.setEditable(false);
-		GridBagConstraints gbcNetworkMediaConnectTypeTextField = new GridBagConstraints();
-		gbcNetworkMediaConnectTypeTextField.insets = new Insets(0, 0, 5, 0);
-		gbcNetworkMediaConnectTypeTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbcNetworkMediaConnectTypeTextField.gridx = 1;
-		gbcNetworkMediaConnectTypeTextField.gridy = 9;
-		adapterPanel.add(networkMediaConnectTypeTextField, gbcNetworkMediaConnectTypeTextField);
-		networkMediaConnectTypeTextField.setColumns(10);
+		adapterPanel.add(networkMediaConnectTypeTextField, "cell 1 9,growx");
 		
 		JLabel networkReceiveLinkSpeedLabel = new JLabel("Receive Speed");
-		GridBagConstraints gbcNetworkReceiveLinkSpeedLabel = new GridBagConstraints();
-		gbcNetworkReceiveLinkSpeedLabel.anchor = GridBagConstraints.WEST;
-		gbcNetworkReceiveLinkSpeedLabel.insets = new Insets(0, 0, 5, 5);
-		gbcNetworkReceiveLinkSpeedLabel.gridx = 0;
-		gbcNetworkReceiveLinkSpeedLabel.gridy = 10;
-		adapterPanel.add(networkReceiveLinkSpeedLabel, gbcNetworkReceiveLinkSpeedLabel);
+		adapterPanel.add(networkReceiveLinkSpeedLabel, "cell 0 10,alignx leading");
 		
 		networkReceiveLinkSpeedTextField = new JTextField();
 		networkReceiveLinkSpeedTextField.setEditable(false);
-		GridBagConstraints gbcNetworkReceiveLinkSpeedTextField = new GridBagConstraints();
-		gbcNetworkReceiveLinkSpeedTextField.insets = new Insets(0, 0, 5, 0);
-		gbcNetworkReceiveLinkSpeedTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbcNetworkReceiveLinkSpeedTextField.gridx = 1;
-		gbcNetworkReceiveLinkSpeedTextField.gridy = 10;
-		adapterPanel.add(networkReceiveLinkSpeedTextField, gbcNetworkReceiveLinkSpeedTextField);
-		networkReceiveLinkSpeedTextField.setColumns(10);
+		adapterPanel.add(networkReceiveLinkSpeedTextField, "cell 1 10,growx");
 		
 		JLabel networkTransmitLinkSpeedLabel = new JLabel("Transmit Speed");
-		GridBagConstraints gbcNetworkTransmitLinkSpeedLabel = new GridBagConstraints();
-		gbcNetworkTransmitLinkSpeedLabel.anchor = GridBagConstraints.WEST;
-		gbcNetworkTransmitLinkSpeedLabel.insets = new Insets(0, 0, 5, 5);
-		gbcNetworkTransmitLinkSpeedLabel.gridx = 0;
-		gbcNetworkTransmitLinkSpeedLabel.gridy = 11;
-		adapterPanel.add(networkTransmitLinkSpeedLabel, gbcNetworkTransmitLinkSpeedLabel);
+		adapterPanel.add(networkTransmitLinkSpeedLabel, "cell 0 11,alignx leading");
 		
 		networkTransmitLinkSpeedTextField = new JTextField();
 		networkTransmitLinkSpeedTextField.setEditable(false);
-		GridBagConstraints gbcNetworkTransmitLinkSpeedTextField = new GridBagConstraints();
-		gbcNetworkTransmitLinkSpeedTextField.insets = new Insets(0, 0, 5, 0);
-		gbcNetworkTransmitLinkSpeedTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbcNetworkTransmitLinkSpeedTextField.gridx = 1;
-		gbcNetworkTransmitLinkSpeedTextField.gridy = 11;
-		adapterPanel.add(networkTransmitLinkSpeedTextField, gbcNetworkTransmitLinkSpeedTextField);
-		networkTransmitLinkSpeedTextField.setColumns(10);
+		adapterPanel.add(networkTransmitLinkSpeedTextField, "cell 1 11,growx");
 		
 		JLabel networkDuplexityLabel = new JLabel("Full Duplex");
-		GridBagConstraints gbcNetworkDuplexityLabel = new GridBagConstraints();
-		gbcNetworkDuplexityLabel.anchor = GridBagConstraints.WEST;
-		gbcNetworkDuplexityLabel.insets = new Insets(0, 0, 5, 5);
-		gbcNetworkDuplexityLabel.gridx = 0;
-		gbcNetworkDuplexityLabel.gridy = 12;
-		adapterPanel.add(networkDuplexityLabel, gbcNetworkDuplexityLabel);
+		adapterPanel.add(networkDuplexityLabel, "cell 0 12,alignx leading");
 		
 		networkDuplexityTextField = new JTextField();
 		networkDuplexityTextField.setEditable(false);
-		GridBagConstraints gbcNetworkDuplexityTextField = new GridBagConstraints();
-		gbcNetworkDuplexityTextField.insets = new Insets(0, 0, 5, 0);
-		gbcNetworkDuplexityTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbcNetworkDuplexityTextField.gridx = 1;
-		gbcNetworkDuplexityTextField.gridy = 12;
-		adapterPanel.add(networkDuplexityTextField, gbcNetworkDuplexityTextField);
-		networkDuplexityTextField.setColumns(10);
+		adapterPanel.add(networkDuplexityTextField, "cell 1 12,growx");
 		
 		JLabel networkVirtualityLabel = new JLabel("Virtual");
-		GridBagConstraints gbcNetworkVirtualityLabel = new GridBagConstraints();
-		gbcNetworkVirtualityLabel.anchor = GridBagConstraints.WEST;
-		gbcNetworkVirtualityLabel.insets = new Insets(0, 0, 5, 5);
-		gbcNetworkVirtualityLabel.gridx = 0;
-		gbcNetworkVirtualityLabel.gridy = 13;
-		adapterPanel.add(networkVirtualityLabel, gbcNetworkVirtualityLabel);
+		adapterPanel.add(networkVirtualityLabel, "cell 0 13,alignx leading");
 		
 		networkVirtualityTextField = new JTextField();
 		networkVirtualityTextField.setEditable(false);
-		GridBagConstraints gbcNetworkVirtualityTextField = new GridBagConstraints();
-		gbcNetworkVirtualityTextField.insets = new Insets(0, 0, 5, 0);
-		gbcNetworkVirtualityTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbcNetworkVirtualityTextField.gridx = 1;
-		gbcNetworkVirtualityTextField.gridy = 13;
-		adapterPanel.add(networkVirtualityTextField, gbcNetworkVirtualityTextField);
-		networkVirtualityTextField.setColumns(10);
+		adapterPanel.add(networkVirtualityTextField, "cell 1 13,growx");
 		
 		JLabel networkStatusLabel = new JLabel("Status");
-		GridBagConstraints gbcNetworkStatusLabel = new GridBagConstraints();
-		gbcNetworkStatusLabel.anchor = GridBagConstraints.WEST;
-		gbcNetworkStatusLabel.insets = new Insets(0, 0, 5, 5);
-		gbcNetworkStatusLabel.gridx = 0;
-		gbcNetworkStatusLabel.gridy = 14;
-		adapterPanel.add(networkStatusLabel, gbcNetworkStatusLabel);
+		adapterPanel.add(networkStatusLabel, "cell 0 14,alignx leading");
 		
 		networkStatusTextField = new JTextField();
 		networkStatusTextField.setEditable(false);
-		GridBagConstraints gbcNetworkStatusTextField = new GridBagConstraints();
-		gbcNetworkStatusTextField.insets = new Insets(0, 0, 5, 0);
-		gbcNetworkStatusTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbcNetworkStatusTextField.gridx = 1;
-		gbcNetworkStatusTextField.gridy = 14;
-		adapterPanel.add(networkStatusTextField, gbcNetworkStatusTextField);
-		networkStatusTextField.setColumns(10);
+		adapterPanel.add(networkStatusTextField, "cell 1 14,growx");
 		
 		JLabel networkPnPDeviceIdLabel = new JLabel("PnP DeviceID");
-		GridBagConstraints gbcNetworkPnPDeviceIdLabel = new GridBagConstraints();
-		gbcNetworkPnPDeviceIdLabel.anchor = GridBagConstraints.WEST;
-		gbcNetworkPnPDeviceIdLabel.insets = new Insets(0, 0, 0, 5);
-		gbcNetworkPnPDeviceIdLabel.gridx = 0;
-		gbcNetworkPnPDeviceIdLabel.gridy = 15;
-		adapterPanel.add(networkPnPDeviceIdLabel, gbcNetworkPnPDeviceIdLabel);
+		adapterPanel.add(networkPnPDeviceIdLabel, "cell 0 15,alignx leading");
 		
 		networkPnPDeviceIdTextField = new JTextField();
 		networkPnPDeviceIdTextField.setEditable(false);
-		GridBagConstraints gbcNetworkPnPDeviceIdTextField = new GridBagConstraints();
-		gbcNetworkPnPDeviceIdTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbcNetworkPnPDeviceIdTextField.gridx = 1;
-		gbcNetworkPnPDeviceIdTextField.gridy = 15;
-		adapterPanel.add(networkPnPDeviceIdTextField, gbcNetworkPnPDeviceIdTextField);
-		networkPnPDeviceIdTextField.setColumns(10);
+		adapterPanel.add(networkPnPDeviceIdTextField, "cell 1 15,growx");
+		
+		return new JScrollPane(adapterPanel);
 	}
 	
-	private void setAdapterPropertyTabbedPane() {
+	private JTabbedPane createAdapterPropertyTabbedPane() {
 		
 		JTabbedPane adapterPropertyTabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		add(adapterPropertyTabbedPane);
 		
 		// ip panel
 		JPanel adapterIpPanel = new JPanel();
 		adapterIpPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "IP Address", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		adapterIpPanel.setLayout(new GridLayout(1, 0, 0, 0));
-		
-		JScrollPane adapterIpEditorScrollPane = new JScrollPane();
-		adapterIpPanel.add(adapterIpEditorScrollPane);
+		adapterIpPanel.setLayout(new GridLayout(1, 1, 0, 0));
 		
 		adapterIpEditorPane = new JEditorPane();
-		adapterIpEditorScrollPane.setViewportView(adapterIpEditorPane);
 		adapterIpEditorPane.setEditable(false);
 		adapterIpEditorPane.setContentType("text/html");
+		
+		adapterIpPanel.add(new JScrollPane(adapterIpEditorPane));
 		
 		// dns panel
 		JPanel adapterDnsPanel = new JPanel();
 		adapterDnsPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "DNS", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		adapterDnsPanel.setLayout(new GridLayout(0, 1, 0, 0));
-		
-		JScrollPane adapterDnsEditorScrollPane = new JScrollPane();
-		adapterDnsPanel.add(adapterDnsEditorScrollPane);
+		adapterDnsPanel.setLayout(new GridLayout(1, 1, 0, 0));
 		
 		adapterDnsEditorPane = new JEditorPane();
-		adapterDnsEditorScrollPane.setViewportView(adapterDnsEditorPane);
 		adapterDnsEditorPane.setEditable(false);
 		adapterDnsEditorPane.setContentType("text/html");
+		
+		adapterDnsPanel.add(new JScrollPane(adapterDnsEditorPane));
 		
 		// connection profile
 		JPanel netConnectionProfilePanel = new JPanel();
 		netConnectionProfilePanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Connection Profile", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		netConnectionProfilePanel.setLayout(new GridLayout(0, 1, 0, 0));
-		
-		JScrollPane adapterConnectionProfileEditorScrollPane = new JScrollPane();
-		netConnectionProfilePanel.add(adapterConnectionProfileEditorScrollPane);
+		netConnectionProfilePanel.setLayout(new GridLayout(1, 1, 0, 0));
 		
 		adapterConnectionProfileEditorPane = new JEditorPane();
-		adapterConnectionProfileEditorScrollPane.setViewportView(adapterConnectionProfileEditorPane);
 		adapterConnectionProfileEditorPane.setEditable(false);
 		adapterConnectionProfileEditorPane.setContentType("text/html");
+		
+		netConnectionProfilePanel.add(new JScrollPane(adapterConnectionProfileEditorPane));
 		
 		// add panels to the tabbed pane
 		adapterPropertyTabbedPane.addTab("Adapter IP", new FlatSVGIcon(WMINetworkPanelUI.class.getResource("/icons/tab_icons_material_green/IP.svg")), adapterIpPanel, null);
 		adapterPropertyTabbedPane.addTab("Adapter DNS", new FlatSVGIcon(WMINetworkPanelUI.class.getResource("/icons/tab_icons_material_green/DNS.svg")), adapterDnsPanel, null);
 		adapterPropertyTabbedPane.addTab("Connection Profile", new FlatSVGIcon(WMINetworkPanelUI.class.getResource("/icons/tab_icons_material_green/ConnectionProfile.svg")), netConnectionProfilePanel, null);
+		
+		return adapterPropertyTabbedPane;
 	}
 
 	private void setWorker() {

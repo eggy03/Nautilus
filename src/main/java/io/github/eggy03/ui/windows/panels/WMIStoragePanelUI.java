@@ -1,9 +1,6 @@
 package io.github.eggy03.ui.windows.panels;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.awt.Insets;
 import java.util.List;
 
 import javax.swing.JComboBox;
@@ -19,6 +16,7 @@ import javax.swing.border.TitledBorder;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 
 import io.github.eggy03.ui.windows.worker.WMIStorageWorker;
+import net.miginfocom.swing.MigLayout;
 
 public class WMIStoragePanelUI extends JPanel {
 	
@@ -46,222 +44,96 @@ public class WMIStoragePanelUI extends JPanel {
 	 * Create the panel.
 	 */
 	public WMIStoragePanelUI() {
-		setLayout(new GridLayout(2, 0, 0, 0));
+		setLayout(new GridLayout(2, 1, 0, 0));
 		
-		setDiskDrivePanel();
+		add(createDiskDrivePanel());
 		setDiskPartitionAndVolumePane();
 		setWorker();
 	}
 	
-	private void setDiskDrivePanel() {
-		
-		JScrollPane diskDriveScrollPane = new JScrollPane();
-		add(diskDriveScrollPane);
+	private JScrollPane createDiskDrivePanel() {
 		
 		JPanel diskDrivePanel = new JPanel();
 		diskDrivePanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Disk Drive", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		diskDriveScrollPane.setViewportView(diskDrivePanel);
-		GridBagLayout gblDiskDrivePanel = new GridBagLayout();
-		gblDiskDrivePanel.columnWidths = new int[]{0, 0, 0};
-		gblDiskDrivePanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gblDiskDrivePanel.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-		gblDiskDrivePanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		diskDrivePanel.setLayout(gblDiskDrivePanel);
+		diskDrivePanel.setLayout(new MigLayout("", "[][grow]", "[][][][][][][][][][][]"));
 		
 		JLabel diskDeviceIdLabel = new JLabel("Disk#");
-		GridBagConstraints gbcDiskDeviceIdLabel = new GridBagConstraints();
-		gbcDiskDeviceIdLabel.insets = new Insets(0, 0, 5, 5);
-		gbcDiskDeviceIdLabel.anchor = GridBagConstraints.WEST;
-		gbcDiskDeviceIdLabel.gridx = 0;
-		gbcDiskDeviceIdLabel.gridy = 0;
-		diskDrivePanel.add(diskDeviceIdLabel, gbcDiskDeviceIdLabel);
+		diskDrivePanel.add(diskDeviceIdLabel, "cell 0 0,alignx leading");
 		
 		diskDeviceIdComboBox = new JComboBox<>();
-		GridBagConstraints gbcDiskDeviceIdComboBox = new GridBagConstraints();
-		gbcDiskDeviceIdComboBox.insets = new Insets(0, 0, 5, 0);
-		gbcDiskDeviceIdComboBox.fill = GridBagConstraints.HORIZONTAL;
-		gbcDiskDeviceIdComboBox.gridx = 1;
-		gbcDiskDeviceIdComboBox.gridy = 0;
-		diskDrivePanel.add(diskDeviceIdComboBox, gbcDiskDeviceIdComboBox);
+		diskDrivePanel.add(diskDeviceIdComboBox, "cell 1 0,growx");
 		
 		JLabel diskPnpDeviceIdLabel = new JLabel("PnP DeviceID");
-		GridBagConstraints gbcDiskPnpDeviceIdLabel = new GridBagConstraints();
-		gbcDiskPnpDeviceIdLabel.anchor = GridBagConstraints.WEST;
-		gbcDiskPnpDeviceIdLabel.insets = new Insets(0, 0, 5, 5);
-		gbcDiskPnpDeviceIdLabel.gridx = 0;
-		gbcDiskPnpDeviceIdLabel.gridy = 1;
-		diskDrivePanel.add(diskPnpDeviceIdLabel, gbcDiskPnpDeviceIdLabel);
+		diskDrivePanel.add(diskPnpDeviceIdLabel, "cell 0 1,alignx leading");
 		
 		diskPnpDeviceIdTextField = new JTextField();
 		diskPnpDeviceIdTextField.setEditable(false);
-		GridBagConstraints gbcDiskPnpDeviceIdTextField = new GridBagConstraints();
-		gbcDiskPnpDeviceIdTextField.insets = new Insets(0, 0, 5, 0);
-		gbcDiskPnpDeviceIdTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbcDiskPnpDeviceIdTextField.gridx = 1;
-		gbcDiskPnpDeviceIdTextField.gridy = 1;
-		diskDrivePanel.add(diskPnpDeviceIdTextField, gbcDiskPnpDeviceIdTextField);
-		diskPnpDeviceIdTextField.setColumns(10);
+		diskDrivePanel.add(diskPnpDeviceIdTextField, "cell 1 1,growx");
 		
 		JLabel diskCaptionLabel = new JLabel("Name");
-		GridBagConstraints gbcDiskCaptionLabel = new GridBagConstraints();
-		gbcDiskCaptionLabel.anchor = GridBagConstraints.WEST;
-		gbcDiskCaptionLabel.insets = new Insets(0, 0, 5, 5);
-		gbcDiskCaptionLabel.gridx = 0;
-		gbcDiskCaptionLabel.gridy = 2;
-		diskDrivePanel.add(diskCaptionLabel, gbcDiskCaptionLabel);
+		diskDrivePanel.add(diskCaptionLabel, "cell 0 2,alignx leading");
 		
 		diskCaptionTextField = new JTextField();
 		diskCaptionTextField.setEditable(false);
-		GridBagConstraints gbcDiskCaptionTextField = new GridBagConstraints();
-		gbcDiskCaptionTextField.insets = new Insets(0, 0, 5, 0);
-		gbcDiskCaptionTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbcDiskCaptionTextField.gridx = 1;
-		gbcDiskCaptionTextField.gridy = 2;
-		diskDrivePanel.add(diskCaptionTextField, gbcDiskCaptionTextField);
-		diskCaptionTextField.setColumns(10);
+		diskDrivePanel.add(diskCaptionTextField, "cell 1 2,growx");
 		
 		JLabel diskModelLabel = new JLabel("Model");
-		GridBagConstraints gbcDiskModelLabel = new GridBagConstraints();
-		gbcDiskModelLabel.anchor = GridBagConstraints.WEST;
-		gbcDiskModelLabel.insets = new Insets(0, 0, 5, 5);
-		gbcDiskModelLabel.gridx = 0;
-		gbcDiskModelLabel.gridy = 3;
-		diskDrivePanel.add(diskModelLabel, gbcDiskModelLabel);
+		diskDrivePanel.add(diskModelLabel, "cell 0 3,alignx leading");
 		
 		diskModelTextField = new JTextField();
 		diskModelTextField.setEditable(false);
-		GridBagConstraints gbcDiskModelTextField = new GridBagConstraints();
-		gbcDiskModelTextField.insets = new Insets(0, 0, 5, 0);
-		gbcDiskModelTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbcDiskModelTextField.gridx = 1;
-		gbcDiskModelTextField.gridy = 3;
-		diskDrivePanel.add(diskModelTextField, gbcDiskModelTextField);
-		diskModelTextField.setColumns(10);
+		diskDrivePanel.add(diskModelTextField, "cell 1 3,growx");
 		
 		JLabel diskFirmwareRevisionLabel = new JLabel("Firmware");
-		GridBagConstraints gbcDiskFirmwareRevisionLabel = new GridBagConstraints();
-		gbcDiskFirmwareRevisionLabel.anchor = GridBagConstraints.WEST;
-		gbcDiskFirmwareRevisionLabel.insets = new Insets(0, 0, 5, 5);
-		gbcDiskFirmwareRevisionLabel.gridx = 0;
-		gbcDiskFirmwareRevisionLabel.gridy = 4;
-		diskDrivePanel.add(diskFirmwareRevisionLabel, gbcDiskFirmwareRevisionLabel);
+		diskDrivePanel.add(diskFirmwareRevisionLabel, "cell 0 4,alignx leading");
 		
 		diskFirmwareRevisionTextField = new JTextField();
 		diskFirmwareRevisionTextField.setEditable(false);
-		GridBagConstraints gbcDiskFirmwareRevisionTextField = new GridBagConstraints();
-		gbcDiskFirmwareRevisionTextField.insets = new Insets(0, 0, 5, 0);
-		gbcDiskFirmwareRevisionTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbcDiskFirmwareRevisionTextField.gridx = 1;
-		gbcDiskFirmwareRevisionTextField.gridy = 4;
-		diskDrivePanel.add(diskFirmwareRevisionTextField, gbcDiskFirmwareRevisionTextField);
-		diskFirmwareRevisionTextField.setColumns(10);
+		diskDrivePanel.add(diskFirmwareRevisionTextField, "cell 1 4,growx");
 		
 		JLabel diskInterfaceTypeLabel = new JLabel("Interface");
-		GridBagConstraints gbcDiskInterfaceTypeLabel = new GridBagConstraints();
-		gbcDiskInterfaceTypeLabel.anchor = GridBagConstraints.WEST;
-		gbcDiskInterfaceTypeLabel.insets = new Insets(0, 0, 5, 5);
-		gbcDiskInterfaceTypeLabel.gridx = 0;
-		gbcDiskInterfaceTypeLabel.gridy = 5;
-		diskDrivePanel.add(diskInterfaceTypeLabel, gbcDiskInterfaceTypeLabel);
+		diskDrivePanel.add(diskInterfaceTypeLabel, "cell 0 5,alignx leading");
 		
 		diskInterfaceTypeTextField = new JTextField();
 		diskInterfaceTypeTextField.setEditable(false);
-		GridBagConstraints gbcDiskInterfaceTypeTextField = new GridBagConstraints();
-		gbcDiskInterfaceTypeTextField.insets = new Insets(0, 0, 5, 0);
-		gbcDiskInterfaceTypeTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbcDiskInterfaceTypeTextField.gridx = 1;
-		gbcDiskInterfaceTypeTextField.gridy = 5;
-		diskDrivePanel.add(diskInterfaceTypeTextField, gbcDiskInterfaceTypeTextField);
-		diskInterfaceTypeTextField.setColumns(10);
+		diskDrivePanel.add(diskInterfaceTypeTextField, "cell 1 5,growx");
 		
 		JLabel diskSerialNumberLabel = new JLabel("Serial Number");
-		GridBagConstraints gbcDiskSerialNumberLabel = new GridBagConstraints();
-		gbcDiskSerialNumberLabel.anchor = GridBagConstraints.WEST;
-		gbcDiskSerialNumberLabel.insets = new Insets(0, 0, 5, 5);
-		gbcDiskSerialNumberLabel.gridx = 0;
-		gbcDiskSerialNumberLabel.gridy = 6;
-		diskDrivePanel.add(diskSerialNumberLabel, gbcDiskSerialNumberLabel);
+		diskDrivePanel.add(diskSerialNumberLabel, "cell 0 6,alignx leading");
 		
 		diskSerialNumberTextField = new JTextField();
 		diskSerialNumberTextField.setEditable(false);
-		GridBagConstraints gbcDiskSerialNumberTextField = new GridBagConstraints();
-		gbcDiskSerialNumberTextField.insets = new Insets(0, 0, 5, 0);
-		gbcDiskSerialNumberTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbcDiskSerialNumberTextField.gridx = 1;
-		gbcDiskSerialNumberTextField.gridy = 6;
-		diskDrivePanel.add(diskSerialNumberTextField, gbcDiskSerialNumberTextField);
-		diskSerialNumberTextField.setColumns(10);
+		diskDrivePanel.add(diskSerialNumberTextField, "cell 1 6,growx");
 		
 		JLabel diskSizeLabel = new JLabel("Size");
-		GridBagConstraints gbcDiskSizeLabel = new GridBagConstraints();
-		gbcDiskSizeLabel.anchor = GridBagConstraints.WEST;
-		gbcDiskSizeLabel.insets = new Insets(0, 0, 5, 5);
-		gbcDiskSizeLabel.gridx = 0;
-		gbcDiskSizeLabel.gridy = 7;
-		diskDrivePanel.add(diskSizeLabel, gbcDiskSizeLabel);
+		diskDrivePanel.add(diskSizeLabel, "cell 0 7,alignx leading");
 		
 		diskSizeTextField = new JTextField();
 		diskSizeTextField.setEditable(false);
-		GridBagConstraints gbcDiskSizeTextField = new GridBagConstraints();
-		gbcDiskSizeTextField.insets = new Insets(0, 0, 5, 0);
-		gbcDiskSizeTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbcDiskSizeTextField.gridx = 1;
-		gbcDiskSizeTextField.gridy = 7;
-		diskDrivePanel.add(diskSizeTextField, gbcDiskSizeTextField);
-		diskSizeTextField.setColumns(10);
+		diskDrivePanel.add(diskSizeTextField, "cell 1 7,growx");
 		
 		JLabel diskPartitionsLabel = new JLabel("Partitions");
-		GridBagConstraints gbcDiskPartitionsLabel = new GridBagConstraints();
-		gbcDiskPartitionsLabel.anchor = GridBagConstraints.WEST;
-		gbcDiskPartitionsLabel.insets = new Insets(0, 0, 5, 5);
-		gbcDiskPartitionsLabel.gridx = 0;
-		gbcDiskPartitionsLabel.gridy = 8;
-		diskDrivePanel.add(diskPartitionsLabel, gbcDiskPartitionsLabel);
+		diskDrivePanel.add(diskPartitionsLabel, "cell 0 8,alignx leading");
 		
 		diskPartitionsTextField = new JTextField();
 		diskPartitionsTextField.setEditable(false);
-		GridBagConstraints gbcDiskPartitionsTextField = new GridBagConstraints();
-		gbcDiskPartitionsTextField.insets = new Insets(0, 0, 5, 0);
-		gbcDiskPartitionsTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbcDiskPartitionsTextField.gridx = 1;
-		gbcDiskPartitionsTextField.gridy = 8;
-		diskDrivePanel.add(diskPartitionsTextField, gbcDiskPartitionsTextField);
-		diskPartitionsTextField.setColumns(10);
+		diskDrivePanel.add(diskPartitionsTextField, "cell 1 8,growx");
 		
 		JLabel diskCapabilitiesLabel = new JLabel("Capabilities");
-		GridBagConstraints gbcDiskCapabilitiesLabel = new GridBagConstraints();
-		gbcDiskCapabilitiesLabel.anchor = GridBagConstraints.WEST;
-		gbcDiskCapabilitiesLabel.insets = new Insets(0, 0, 5, 5);
-		gbcDiskCapabilitiesLabel.gridx = 0;
-		gbcDiskCapabilitiesLabel.gridy = 9;
-		diskDrivePanel.add(diskCapabilitiesLabel, gbcDiskCapabilitiesLabel);
+		diskDrivePanel.add(diskCapabilitiesLabel, "cell 0 9,alignx leading");
 		
 		diskCapabilitiesTextField = new JTextField();
 		diskCapabilitiesTextField.setEditable(false);
-		GridBagConstraints gbcDiskCapabilitiesTextField = new GridBagConstraints();
-		gbcDiskCapabilitiesTextField.insets = new Insets(0, 0, 5, 0);
-		gbcDiskCapabilitiesTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbcDiskCapabilitiesTextField.gridx = 1;
-		gbcDiskCapabilitiesTextField.gridy = 9;
-		diskDrivePanel.add(diskCapabilitiesTextField, gbcDiskCapabilitiesTextField);
-		diskCapabilitiesTextField.setColumns(10);
+		diskDrivePanel.add(diskCapabilitiesTextField, "cell 1 9,growx");
 		
 		JLabel diskStatusLabel = new JLabel("Status");
-		GridBagConstraints gbcDiskStatusLabel = new GridBagConstraints();
-		gbcDiskStatusLabel.anchor = GridBagConstraints.WEST;
-		gbcDiskStatusLabel.insets = new Insets(0, 0, 0, 5);
-		gbcDiskStatusLabel.gridx = 0;
-		gbcDiskStatusLabel.gridy = 10;
-		diskDrivePanel.add(diskStatusLabel, gbcDiskStatusLabel);
+		diskDrivePanel.add(diskStatusLabel, "cell 0 10,alignx leading");
 		
 		diskStatusTextField = new JTextField();
 		diskStatusTextField.setEditable(false);
-		GridBagConstraints gbcDiskStatusTextField = new GridBagConstraints();
-		gbcDiskStatusTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbcDiskStatusTextField.gridx = 1;
-		gbcDiskStatusTextField.gridy = 10;
-		diskDrivePanel.add(diskStatusTextField, gbcDiskStatusTextField);
-		diskStatusTextField.setColumns(10);
+		diskDrivePanel.add(diskStatusTextField, "cell 1 10,growx");
+		
+		return new JScrollPane(diskDrivePanel);
 	}
 	
 	private void setDiskPartitionAndVolumePane() {
@@ -274,26 +146,22 @@ public class WMIStoragePanelUI extends JPanel {
 		diskPartitionPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Partition Details", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		diskPartitionPanel.setLayout(new GridLayout(0, 1, 0, 0));
 		
-		JScrollPane diskPartitionScrollPane = new JScrollPane();
-		diskPartitionPanel.add(diskPartitionScrollPane);
-		
 		diskPartitionEditorPane = new JEditorPane();
 		diskPartitionEditorPane.setContentType("text/html");
-		diskPartitionScrollPane.setViewportView(diskPartitionEditorPane);
 		diskPartitionEditorPane.setEditable(false);
+		
+		diskPartitionPanel.add(new JScrollPane(diskPartitionEditorPane));
 		
 		// volume
 		JPanel diskVolumePanel = new JPanel();
 		diskVolumePanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Volume Details", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		diskVolumePanel.setLayout(new GridLayout(1, 0, 0, 0));
 		
-		JScrollPane diskVolumeScrollPane = new JScrollPane();
-		diskVolumePanel.add(diskVolumeScrollPane);
-		
 		diskVolumeEditorPane = new JEditorPane();
 		diskVolumeEditorPane.setContentType("text/html");
-		diskVolumeScrollPane.setViewportView(diskVolumeEditorPane);
 		diskVolumeEditorPane.setEditable(false);
+		
+		diskVolumePanel.add(new JScrollPane(diskVolumeEditorPane));
 		
 		// add panels to the tabbed pane
 		diskPartitionAndVolumePane.addTab("Disk Partition", new FlatSVGIcon(WMIStoragePanelUI.class.getResource("/icons/tab_icons_material_green/DiskPartition.svg")), diskPartitionPanel, null);
