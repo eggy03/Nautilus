@@ -21,14 +21,12 @@ public class Start {
 
         log.info("Detected OS: {}", OSConstants.getCurrentOS());
 
-        EventQueue.invokeLater(() -> {
-            FlatLaf.registerCustomDefaultsSource("themes"); // for maven build, this points towards src/main/resources/themes
-            DarkTheme.setup(); // register dark theme
-            UIManagerConfigurations.enableRoundComponents();
-            UIManagerConfigurations.enableTabSeparators(true);
-
-            launchUIBasedOnOS();
-        });
+        FlatLaf.registerCustomDefaultsSource("themes"); // for maven build, this points towards src/main/resources/themes
+        DarkTheme.setup(); // register dark theme
+        UIManagerConfigurations.enableRoundComponents();
+        UIManagerConfigurations.enableTabSeparators(true);
+        
+        EventQueue.invokeLater(Start::launchUIBasedOnOS);
     }
 
     private static void launchUIBasedOnOS() {
