@@ -60,20 +60,20 @@ public class DMIProcessorPanelUI extends JPanel {
 	 * Create the panel.
 	 */
 	public DMIProcessorPanelUI() {
-
+		
+		setLayout(new BorderLayout(0, 0));
+		
 		//set UI
-		setHardwareIdPanel();
-		setCpuPanel();
+		add(createHardwareIdPanel(), BorderLayout.NORTH);
+		add(createCpuPanel(), BorderLayout.CENTER);
         // execute workers
 		setWorkers();
 
 	}
 	
-	private void setHardwareIdPanel() {
-		setLayout(new BorderLayout(0, 0));
+	private JPanel createHardwareIdPanel() {
 		
 		JPanel systemIdPanel = new JPanel();
-		add(systemIdPanel, BorderLayout.NORTH);
 		
 		systemIdPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "System UUID", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		systemIdPanel.setLayout(new MigLayout("", "[grow][]", "[]"));
@@ -90,15 +90,17 @@ public class DMIProcessorPanelUI extends JPanel {
 		
 		systemIdPanel.add(systemIdTextField, "cell 0 0,grow");
 		systemIdPanel.add(copySystemId, "cell 1 0,alignx center,aligny center");
+		
+		return systemIdPanel;
 
 	}
 	
-	private void setCpuPanel() {
-		// add main cpu panel
+	private JPanel createCpuPanel() {
+		
+		// create the main cpu panel
 		JPanel cpuPanel = new JPanel();
 		cpuPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "CPU", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		cpuPanel.setLayout(new GridLayout(0, 1, 0, 0));
-		add(cpuPanel);
 		
 		// PRIMARY INFO PANEL
 		JPanel primaryInfoPanel = new JPanel();
@@ -233,49 +235,33 @@ public class DMIProcessorPanelUI extends JPanel {
 		tertiaryInfoPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Tertiary Information", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		tertiaryInfoPanel.setLayout(new GridLayout(1, 0, 0, 0));
 		
-		
-		
+		// chars and flags panel
 		JPanel cpuCharsAndFlagsPanel = new JPanel();
 		cpuCharsAndFlagsPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Characteristics and Flags", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		cpuCharsAndFlagsPanel.setLayout(new GridLayout(1, 0, 0, 0));
 		
-		JScrollPane cpuCharsAndFlagsScrollPane = new JScrollPane();
-		cpuCharsAndFlagsPanel.add(cpuCharsAndFlagsScrollPane);
-		
 		cpuCharsAndFlagsTextArea = new JTextArea();
 		cpuCharsAndFlagsTextArea.setEditable(false);
-		cpuCharsAndFlagsScrollPane.setViewportView(cpuCharsAndFlagsTextArea);
+		cpuCharsAndFlagsPanel.add(new JScrollPane(cpuCharsAndFlagsTextArea));
 		
-		
-
+		// cache panel
 		JPanel cacheInfoPanel = new JPanel();
 		cacheInfoPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Cache Info", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		cacheInfoPanel.setLayout(new GridLayout(1, 0, 0, 0));
 		
-		JScrollPane cacheScrollPane = new JScrollPane();
-		cacheInfoPanel.add(cacheScrollPane);
-		
 		cacheTextArea = new JTextArea();
-		cacheTextArea.setRows(4);
 		cacheTextArea.setEditable(false);
-		cacheScrollPane.setViewportView(cacheTextArea);
-		
+		cacheInfoPanel.add(new JScrollPane(cacheTextArea));
 		
 		tertiaryInfoPanel.add(cpuCharsAndFlagsPanel);
 		tertiaryInfoPanel.add(cacheInfoPanel);
 		
-		
-		
-		// add scroll panes to primary and secondary sub panels
-		JScrollPane primaryInfoScrollPane = new JScrollPane();
-		primaryInfoScrollPane.setViewportView(primaryInfoPanel);
-		
-		JScrollPane secondaryInfoScrollPane = new JScrollPane();
-		secondaryInfoScrollPane.setViewportView(secondaryInfoPanel);
-		// add sub scroll panes and other sub panels to the main panel
-		cpuPanel.add(primaryInfoScrollPane);
-		cpuPanel.add(secondaryInfoScrollPane);
+		// add sub panels to the main panel
+		cpuPanel.add(new JScrollPane(primaryInfoPanel));
+		cpuPanel.add(new JScrollPane(secondaryInfoPanel));
 		cpuPanel.add(tertiaryInfoPanel);
+		
+		return cpuPanel;
 	}
 
 	private void setWorkers() {

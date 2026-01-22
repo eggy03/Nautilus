@@ -33,32 +33,36 @@ public class LinuxUI extends JFrame {
         
 		JPanel contentPane = new JPanel();
 		contentPane.setLayout(new BorderLayout(0, 0));
-		setContentPane(contentPane);
 		
-		setupMenu(contentPane);
-		setTabbedPane(contentPane);
+		contentPane.add(createMenu(), BorderLayout.NORTH);
+		contentPane.add(createTabbedPane(), BorderLayout.CENTER);
+		
+		setContentPane(contentPane);
 	}
 	
-	private void setupMenu(JPanel contentPane) {
+	private JMenuBar createMenu() {
 		JMenuBar menuBar = new JMenuBar();
-		contentPane.add(menuBar, BorderLayout.NORTH);
-
+		
 		JMenu helpMenu = new JMenu("Help");
 		menuBar.add(helpMenu);
-
+		
 		JMenuItem aboutMenuItem = new JMenuItem("About");
 		aboutMenuItem.setIcon(new FlatSVGIcon(LinuxUI.class.getResource("/icons/general_icons/about.svg")));
 		aboutMenuItem.addActionListener(event -> new AboutUI().setVisible(true));
 		helpMenu.add(aboutMenuItem);
+		
+		return menuBar;
+		
 	}
 	
-	private void setTabbedPane(JPanel contentPane) {
+	private JTabbedPane createTabbedPane() {
 		JTabbedPane tabbedPane = new JTabbedPane(SwingConstants.TOP);
-		contentPane.add(tabbedPane, BorderLayout.CENTER);
 		
 		tabbedPane.addTab("CPU", new FlatSVGIcon(LinuxUI.class.getResource("/icons/tab_icons_material_green/CPU.svg")), new DMIProcessorPanelUI().getPanel(), null);
 		tabbedPane.addTab("Memory", new FlatSVGIcon(LinuxUI.class.getResource("/icons/tab_icons_material_green/RAM.svg")), new DMIPhysicalMemoryPanelUI().getPanel(), null);
 		tabbedPane.addTab("Mainboard", new FlatSVGIcon(LinuxUI.class.getResource("/icons/tab_icons_material_green/MainBoard.svg")), new DMIBaseboardPanelUI().getPanel(), null);
+		
+		return tabbedPane;
 	}
 
 }
