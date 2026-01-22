@@ -44,7 +44,7 @@ public class ThemeManagerUI extends JFrame {
 		JButton darkThemeButton = new JButton("Dark Theme");
 		darkThemeButton.addActionListener(clickEvent -> {
 			ThemeManager.registerTheme(DarkTheme.class.getCanonicalName());
-			// TODO notify user that the theme will be applied upon restart
+			new InformationUI("Theme Applied", "Changes will be applied upon restart").setVisible(true);
 		});
 		
 		return darkThemeButton;
@@ -54,7 +54,7 @@ public class ThemeManagerUI extends JFrame {
 		JButton lightThemeButton = new JButton("Light Theme");
 		lightThemeButton.addActionListener(clickEvent -> {
 			ThemeManager.registerTheme(LightTheme.class.getCanonicalName());
-			// TODO notify user that the theme will be applied upon restart
+			new InformationUI("Theme Applied", "Changes will be applied upon restart").setVisible(true);
 		});
 		
 		return lightThemeButton;
