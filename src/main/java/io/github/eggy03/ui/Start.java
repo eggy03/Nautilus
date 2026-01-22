@@ -23,7 +23,9 @@ public class Start {
         FlatLaf.registerCustomDefaultsSource("themes"); // for maven build, this points towards src/main/resources/themes
 
         EventQueue.invokeLater(()-> {
-            ThemeManager.loadSavedThemeOrDefault();
+            ThemeManager.loadAndApplySavedThemeOrDefault();
+            ThemeManager.loadAndApplySavedColorFormat();
+
             UIManagerConfigurations.enableRoundComponents();
             UIManagerConfigurations.enableTabSeparators(true);
             

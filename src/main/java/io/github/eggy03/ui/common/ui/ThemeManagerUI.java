@@ -7,6 +7,7 @@ import javax.swing.WindowConstants;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
 
+import io.github.eggy03.ui.common.constant.ThemeColorFilterConstant;
 import io.github.eggy03.ui.common.themes.DarkTheme;
 import io.github.eggy03.ui.common.themes.LightTheme;
 import io.github.eggy03.ui.common.utilities.ThemeManager;
@@ -44,6 +45,7 @@ public class ThemeManagerUI extends JFrame {
 		JButton darkThemeButton = new JButton("Dark Theme");
 		darkThemeButton.addActionListener(clickEvent -> {
 			ThemeManager.registerTheme(DarkTheme.class.getCanonicalName());
+			ThemeManager.registerColorFilter(ThemeColorFilterConstant.NONE.getHexValue());
 			new InformationUI("Theme Applied", "Changes will be applied upon restart").setVisible(true);
 		});
 		
@@ -54,6 +56,7 @@ public class ThemeManagerUI extends JFrame {
 		JButton lightThemeButton = new JButton("Light Theme");
 		lightThemeButton.addActionListener(clickEvent -> {
 			ThemeManager.registerTheme(LightTheme.class.getCanonicalName());
+			ThemeManager.registerColorFilter(ThemeColorFilterConstant.OLIVE_GREEN.getHexValue());
 			new InformationUI("Theme Applied", "Changes will be applied upon restart").setVisible(true);
 		});
 		
