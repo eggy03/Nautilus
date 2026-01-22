@@ -1,53 +1,54 @@
 package io.github.eggy03.ui.common.utilities;
 
-import com.formdev.flatlaf.extras.FlatSVGIcon;
 import io.github.eggy03.ui.common.themes.DarkTheme;
+import io.github.eggy03.ui.common.ui.ExceptionUI;
+import lombok.NonNull;
+import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.Nullable;
 
-import javax.swing.JRadioButtonMenuItem;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import java.util.prefs.Preferences;
 
 @Slf4j
+@UtilityClass
 public class ThemeManager {
-	
-	private static final Preferences prefs = Preferences.userNodeForPackage(ThemeManager.class);
-    private static final String THEME_PREF_KEY = "selectedTheme";
-    private static final String DEFAULT_THEME = DarkTheme.class.getCanonicalName();
-    
-    private ThemeManager() {
-    	throw new IllegalStateException("Utility Class");
-    }
-    public static void registerTheme(String themeName) {
-    	if(!themeName.isBlank()) {
-    		prefs.put(THEME_PREF_KEY, themeName);
-    	}
+
+    private static final Preferences prefs = Preferences.userNodeForPackage(ThemeManager.class);
+    private static final String KEY = "appliedTheme";
+
+    public static void registerTheme(@NonNull String themeClassName) {
+        prefs.put(KEY, themeClassName);
     }
 
-    public static String getRegisteredTheme() {
-    	return prefs.get(THEME_PREF_KEY, DEFAULT_THEME);
+    @Nullable
+    private static String getRegisteredTheme() {
+        return prefs.get(KEY, null);
     }
-    
-    public static void notifyCurrentTheme(JRadioButtonMenuItem... j) {
-    	/*
-    	 * Order:
-    	 * 1) Light Theme
-    	 * 2) Dark Theme
-    	 */
-    	
-    	switch(prefs.get(THEME_PREF_KEY, DEFAULT_THEME)) {
-    	
-    		case "com.ferrumx.ui.themes.LightTheme":
-    			SwingUtilities.invokeLater(()-> j[0].setSelected(true));
-    			FlatSVGIcon.ColorFilter.getInstance().setMapper(color -> java.awt.Color.decode("#fc8d00"));
-    			break;
 
-    		case "com.ferrumx.ui.themes.DarkTheme":
-    			SwingUtilities.invokeLater(()-> j[1].setSelected(true));
-    			break;
-    		
-    		default:
-    			log.warn("Theme usage could not be notified");
-    	}
+    public static void loadSavedThemeOrDefault() {
+    	
+    	if (!SwingUtilities.isEventDispatchThread()) { // if the function is not called upon an EDT thread, make it call on EDT
+            SwingUtilities.invokeLater(ThemeManager::loadSavedThemeOrDefault);
+            return;
+        }
+
+        String savedTheme = getRegisteredTheme(); // retrieve last saved theme
+
+        if (savedTheme == null || savedTheme.isBlank()) { // if no saved theme is detected, load and save dark theme as default
+            DarkTheme.setup();
+            registerTheme(DarkTheme.class.getCanonicalName());
+        } else { // else apply saved theme
+            try {
+                UIManager.setLookAndFeel(savedTheme);
+            } catch (UnsupportedLookAndFeelException | ClassNotFoundException | InstantiationException | IllegalAccessException e) {
+                log.error("Previously saved theme could not be applied", e); // if the saved theme cannot be applied, fall back to default theme and update the registry to same
+                DarkTheme.setup();
+                registerTheme(DarkTheme.class.getCanonicalName());
+                new ExceptionUI("Theme Error", "Could not load saved theme. Default theme has been applied");
+            }
+        }
     }
 }
