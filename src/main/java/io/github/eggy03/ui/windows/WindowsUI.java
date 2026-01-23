@@ -2,6 +2,7 @@ package io.github.eggy03.ui.windows;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import io.github.eggy03.ui.common.ui.AboutUI;
+import io.github.eggy03.ui.common.ui.ThemeManagerUI;
 import io.github.eggy03.ui.windows.panels.WMIMainboardPanelUI;
 import io.github.eggy03.ui.windows.panels.WMINetworkPanelUI;
 import io.github.eggy03.ui.windows.panels.WMIOperatingSystemUI;
@@ -52,6 +53,14 @@ public class WindowsUI extends JFrame {
 		aboutMenuItem.setIcon(new FlatSVGIcon(WindowsUI.class.getResource("/icons/general_icons/about.svg")));
 		aboutMenuItem.addActionListener(event -> new AboutUI().setVisible(true));
 		helpMenu.add(aboutMenuItem);
+
+		JMenu appearanceMenu = new JMenu("Appearance");
+		menuBar.add(appearanceMenu);
+
+		JMenuItem themeMenuItem = new JMenuItem("Theme");
+		themeMenuItem.setIcon(new FlatSVGIcon(WindowsUI.class.getResource("/icons/general_icons/theme.svg")));
+		themeMenuItem.addActionListener(event -> new ThemeManagerUI().setVisible(true));
+		appearanceMenu.add(themeMenuItem);
 		
 		return menuBar;
 		

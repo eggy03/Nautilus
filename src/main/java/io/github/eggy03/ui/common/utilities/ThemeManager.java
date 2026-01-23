@@ -1,53 +1,88 @@
 package io.github.eggy03.ui.common.utilities;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
+import io.github.eggy03.ui.common.constant.ThemeColorFilterConstant;
 import io.github.eggy03.ui.common.themes.DarkTheme;
+import io.github.eggy03.ui.common.ui.ExceptionUI;
+import lombok.NonNull;
+import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import javax.swing.JRadioButtonMenuItem;
-import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import java.util.prefs.Preferences;
 
 @Slf4j
+@UtilityClass
 public class ThemeManager {
-	
-	private static final Preferences prefs = Preferences.userNodeForPackage(ThemeManager.class);
-    private static final String THEME_PREF_KEY = "selectedTheme";
-    private static final String DEFAULT_THEME = DarkTheme.class.getCanonicalName();
-    
-    private ThemeManager() {
-    	throw new IllegalStateException("Utility Class");
-    }
-    public static void registerTheme(String themeName) {
-    	if(!themeName.isBlank()) {
-    		prefs.put(THEME_PREF_KEY, themeName);
-    	}
+
+    private static final Preferences prefs = Preferences.userNodeForPackage(ThemeManager.class);
+    private static final String THEME_KEY = "appliedTheme";
+    private static final String COLOR_KEY = "appliedColor";
+
+    public static void registerTheme(@NonNull String themeClassName) {
+        prefs.put(THEME_KEY, themeClassName);
     }
 
-    public static String getRegisteredTheme() {
-    	return prefs.get(THEME_PREF_KEY, DEFAULT_THEME);
+    public static void registerColorFilter(@NotNull String hexColorCode) {
+        prefs.put(COLOR_KEY, hexColorCode);
     }
-    
-    public static void notifyCurrentTheme(JRadioButtonMenuItem... j) {
-    	/*
-    	 * Order:
-    	 * 1) Light Theme
-    	 * 2) Dark Theme
-    	 */
-    	
-    	switch(prefs.get(THEME_PREF_KEY, DEFAULT_THEME)) {
-    	
-    		case "com.ferrumx.ui.themes.LightTheme":
-    			SwingUtilities.invokeLater(()-> j[0].setSelected(true));
-    			FlatSVGIcon.ColorFilter.getInstance().setMapper(color -> java.awt.Color.decode("#fc8d00"));
-    			break;
 
-    		case "com.ferrumx.ui.themes.DarkTheme":
-    			SwingUtilities.invokeLater(()-> j[1].setSelected(true));
-    			break;
-    		
-    		default:
-    			log.warn("Theme usage could not be notified");
-    	}
+    @Nullable
+    private static String getRegisteredTheme() {
+        return prefs.get(THEME_KEY, null);
+    }
+
+    @Nullable
+    private static String getRegisteredColorFilter() {
+        return prefs.get(COLOR_KEY, null);
+    }
+
+    /**
+     * IMPORTANT: Invoke this only from the Event Dispatch Thread
+     */
+    public static void loadAndApplySavedThemeOrDefault() {
+
+        // retrieve last saved theme
+        String savedTheme = getRegisteredTheme();
+
+        if (savedTheme == null || savedTheme.isBlank()) {
+            // if no saved theme is detected, load and save dark theme as default
+            DarkTheme.setup();
+            registerTheme(DarkTheme.class.getCanonicalName());
+            log.info("No saved theme detected. Registering {} as the default theme", DarkTheme.class.getCanonicalName());
+
+        } else {
+            // else apply saved theme
+            log.info("Detected a previously saved theme: {}", savedTheme);
+            try {
+                UIManager.setLookAndFeel(savedTheme);
+            } catch (UnsupportedLookAndFeelException | ClassNotFoundException | InstantiationException | IllegalAccessException e) {
+                // if the saved theme cannot be applied, fall back to default theme and update the registry to same
+                DarkTheme.setup();
+                registerTheme(DarkTheme.class.getCanonicalName());
+
+                log.error("Previously saved theme could not be applied", e);
+                new ExceptionUI("Theme Error", "Could not load saved theme. Default theme has been applied");
+            }
+        }
+    }
+
+    /**
+     * IMPORTANT: Invoke this only from the Event Dispatch Thread
+     */
+    public static void loadAndApplySavedColorFilter() {
+        String colorFilter = getRegisteredColorFilter();
+
+        if(colorFilter==null || colorFilter.isBlank() || colorFilter.equals(ThemeColorFilterConstant.NONE.getHexValue())) {
+            log.info("Saved color filter not found. No filters will be applied");
+            return;
+        }
+
+
+        FlatSVGIcon.ColorFilter.getInstance().setMapper(color -> java.awt.Color.decode(colorFilter));
+        log.info("Applied Color Filter: {}", colorFilter);
     }
 }

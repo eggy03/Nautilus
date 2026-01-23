@@ -15,6 +15,7 @@ import javax.swing.WindowConstants;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 
 import io.github.eggy03.ui.common.ui.AboutUI;
+import io.github.eggy03.ui.common.ui.ThemeManagerUI;
 import io.github.eggy03.ui.linux.panels.DMIBaseboardPanelUI;
 import io.github.eggy03.ui.linux.panels.DMIPhysicalMemoryPanelUI;
 import io.github.eggy03.ui.linux.panels.DMIProcessorPanelUI;
@@ -50,6 +51,14 @@ public class LinuxUI extends JFrame {
 		aboutMenuItem.setIcon(new FlatSVGIcon(LinuxUI.class.getResource("/icons/general_icons/about.svg")));
 		aboutMenuItem.addActionListener(event -> new AboutUI().setVisible(true));
 		helpMenu.add(aboutMenuItem);
+		
+		JMenu appearanceMenu = new JMenu("Appearance");
+		menuBar.add(appearanceMenu);
+
+		JMenuItem themeMenuItem = new JMenuItem("Theme");
+		themeMenuItem.setIcon(new FlatSVGIcon(LinuxUI.class.getResource("/icons/general_icons/theme.svg")));
+		themeMenuItem.addActionListener(event -> new ThemeManagerUI().setVisible(true));
+		appearanceMenu.add(themeMenuItem);
 		
 		return menuBar;
 		

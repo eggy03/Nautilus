@@ -2,8 +2,8 @@ package io.github.eggy03.ui;
 
 import com.formdev.flatlaf.FlatLaf;
 import io.github.eggy03.ui.common.constant.OSConstants;
-import io.github.eggy03.ui.common.themes.DarkTheme;
 import io.github.eggy03.ui.common.ui.ExceptionUI;
+import io.github.eggy03.ui.common.utilities.ThemeManager;
 import io.github.eggy03.ui.common.utilities.UIManagerConfigurations;
 import io.github.eggy03.ui.linux.LinuxUI;
 import io.github.eggy03.ui.windows.WindowsUI;
@@ -20,20 +20,24 @@ public class Start {
     public static void main(String[] args) {
 
         log.info("Detected OS: {}", OSConstants.getCurrentOS());
-
         FlatLaf.registerCustomDefaultsSource("themes"); // for maven build, this points towards src/main/resources/themes
-        DarkTheme.setup(); // register dark theme
-        UIManagerConfigurations.enableRoundComponents();
-        UIManagerConfigurations.enableTabSeparators(true);
-        
-        EventQueue.invokeLater(Start::launchUIBasedOnOS);
+
+        EventQueue.invokeLater(()-> {
+            ThemeManager.loadAndApplySavedThemeOrDefault();
+            ThemeManager.loadAndApplySavedColorFilter();
+
+            UIManagerConfigurations.enableRoundComponents();
+            UIManagerConfigurations.enableTabSeparators(true);
+            
+            launchUIBasedOnOS();
+        });
     }
 
     private static void launchUIBasedOnOS() {
-        switch (OSConstants.detectOs()){
+        switch (OSConstants.detectOs()) {
             case WINDOWS -> new WindowsUI().setVisible(true);
             case LINUX -> new LinuxUI().setVisible(true);
-            default -> new ExceptionUI("Unsupported OS", OSConstants.getCurrentOS()+" is not supported");
+            default -> new ExceptionUI("Unsupported OS", OSConstants.getCurrentOS() + " is not supported");
         }
     }
 }
