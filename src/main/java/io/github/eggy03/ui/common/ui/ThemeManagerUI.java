@@ -9,6 +9,7 @@ import javax.swing.border.TitledBorder;
 
 import io.github.eggy03.ui.common.constant.ThemeColorFilterConstant;
 import io.github.eggy03.ui.common.themes.DarkTheme;
+import io.github.eggy03.ui.common.themes.DarkYellowTheme;
 import io.github.eggy03.ui.common.themes.LightTheme;
 import io.github.eggy03.ui.common.themes.PinkTheme;
 import io.github.eggy03.ui.common.utilities.ThemeManager;
@@ -40,13 +41,14 @@ public class ThemeManagerUI extends JFrame {
 		contentPane.add(createDarkThemeButton(), "cell 0 0,growx");
 		contentPane.add(createLightThemeButton(), "cell 1 0,growx");
 		contentPane.add(createPinkThemeButton(), "cell 2 0,growx");
+		contentPane.add(createDarkYellowThemeButton(), "cell 3 0,growx");
 		
 		setContentPane(contentPane);
 		pack();
 	}
 
 	private JButton createDarkThemeButton() {
-		JButton darkThemeButton = new JButton("Dark Theme");
+		JButton darkThemeButton = new JButton("Dark");
 		darkThemeButton.addActionListener(clickEvent -> {
 			ThemeManager.registerTheme(DarkTheme.class.getCanonicalName());
 			ThemeManager.registerColorFilter(ThemeColorFilterConstant.NONE.getHexValue());
@@ -57,7 +59,7 @@ public class ThemeManagerUI extends JFrame {
 	}
 	
 	private JButton createLightThemeButton() {
-		JButton lightThemeButton = new JButton("Light Theme");
+		JButton lightThemeButton = new JButton("Light");
 		lightThemeButton.addActionListener(clickEvent -> {
 			ThemeManager.registerTheme(LightTheme.class.getCanonicalName());
 			ThemeManager.registerColorFilter(ThemeColorFilterConstant.OLIVE_GREEN.getHexValue());
@@ -68,7 +70,7 @@ public class ThemeManagerUI extends JFrame {
 	}
 
 	private JButton createPinkThemeButton() {
-		JButton pinkThemeButton = new JButton("Pink Theme");
+		JButton pinkThemeButton = new JButton("Pink");
 		pinkThemeButton.addActionListener(clickEvent -> {
 			ThemeManager.registerTheme(PinkTheme.class.getCanonicalName());
 			ThemeManager.registerColorFilter(ThemeColorFilterConstant.PINK.getHexValue());
@@ -76,6 +78,17 @@ public class ThemeManagerUI extends JFrame {
 		});
 
 		return pinkThemeButton;
+	}
+
+	private JButton createDarkYellowThemeButton() {
+		JButton darkYellowThemeButton = new JButton("Dark Yellow");
+		darkYellowThemeButton.addActionListener(clickEvent -> {
+			ThemeManager.registerTheme(DarkYellowTheme.class.getCanonicalName());
+			ThemeManager.registerColorFilter(ThemeColorFilterConstant.YELLOW.getHexValue());
+			new InformationUI(INFO_HEADING, INFO_TEXT).setVisible(true);
+		});
+
+		return darkYellowThemeButton;
 	}
 
 }

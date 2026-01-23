@@ -9,7 +9,8 @@ public enum ThemeColorFilterConstant {
 
     NONE("NONE"),
     OLIVE_GREEN("#78A75A"),
-    PINK("#F3687C");
+    PINK("#F3687C"),
+    YELLOW("#FFCC4D");
 
     private final String hexValue;
 }
