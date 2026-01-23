@@ -2,7 +2,7 @@ package io.github.eggy03.ui.common.utilities;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import io.github.eggy03.ui.common.constant.ThemeColorFilterConstant;
-import io.github.eggy03.ui.common.themes.DarkTheme;
+import io.github.eggy03.ui.common.themes.StandardDarkTheme;
 import io.github.eggy03.ui.common.ui.ExceptionUI;
 import lombok.NonNull;
 import lombok.experimental.UtilityClass;
@@ -49,10 +49,10 @@ public class ThemeManager {
         String savedTheme = getRegisteredTheme();
 
         if (savedTheme == null || savedTheme.isBlank()) {
-            // if no saved theme is detected, load and save dark theme as default
-            DarkTheme.setup();
-            registerTheme(DarkTheme.class.getCanonicalName());
-            log.info("No saved theme detected. Registering {} as the default theme", DarkTheme.class.getCanonicalName());
+            // if no saved theme is detected, load and save the standard dark theme as default
+            StandardDarkTheme.setup();
+            registerTheme(StandardDarkTheme.class.getCanonicalName());
+            log.info("No saved theme detected. Registering {} as the default theme", StandardDarkTheme.class.getCanonicalName());
 
         } else {
             // else apply saved theme
@@ -61,8 +61,8 @@ public class ThemeManager {
                 UIManager.setLookAndFeel(savedTheme);
             } catch (UnsupportedLookAndFeelException | ClassNotFoundException | InstantiationException | IllegalAccessException e) {
                 // if the saved theme cannot be applied, fall back to default theme and update the registry to same
-                DarkTheme.setup();
-                registerTheme(DarkTheme.class.getCanonicalName());
+                StandardDarkTheme.setup();
+                registerTheme(StandardDarkTheme.class.getCanonicalName());
 
                 log.error("Previously saved theme could not be applied", e);
                 new ExceptionUI("Theme Error", "Could not load saved theme. Default theme has been applied");

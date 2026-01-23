@@ -8,10 +8,10 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
 
 import io.github.eggy03.ui.common.constant.ThemeColorFilterConstant;
-import io.github.eggy03.ui.common.themes.DarkTheme;
+import io.github.eggy03.ui.common.themes.StandardDarkTheme;
 import io.github.eggy03.ui.common.themes.DarkYellowTheme;
-import io.github.eggy03.ui.common.themes.LightTheme;
-import io.github.eggy03.ui.common.themes.PinkTheme;
+import io.github.eggy03.ui.common.themes.LightGreenTheme;
+import io.github.eggy03.ui.common.themes.LightPinkTheme;
 import io.github.eggy03.ui.common.utilities.ThemeManager;
 import net.miginfocom.swing.MigLayout;
 
@@ -38,19 +38,19 @@ public class ThemeManagerUI extends JFrame {
 		contentPane.setLayout(new MigLayout("", "[grow][grow][grow]", "[]"));
 		
 		
-		contentPane.add(createDarkThemeButton(), "cell 0 0,growx");
-		contentPane.add(createLightThemeButton(), "cell 1 0,growx");
-		contentPane.add(createPinkThemeButton(), "cell 2 0,growx");
+		contentPane.add(createStandardDarkThemeButton(), "cell 0 0,growx");
+		contentPane.add(createLightGreenThemeButton(), "cell 1 0,growx");
+		contentPane.add(createLightPinkThemeButton(), "cell 2 0,growx");
 		contentPane.add(createDarkYellowThemeButton(), "cell 3 0,growx");
 		
 		setContentPane(contentPane);
 		pack();
 	}
 
-	private JButton createDarkThemeButton() {
-		JButton darkThemeButton = new JButton("Dark");
+	private JButton createStandardDarkThemeButton() {
+		JButton darkThemeButton = new JButton("Default Dark");
 		darkThemeButton.addActionListener(clickEvent -> {
-			ThemeManager.registerTheme(DarkTheme.class.getCanonicalName());
+			ThemeManager.registerTheme(StandardDarkTheme.class.getCanonicalName());
 			ThemeManager.registerColorFilter(ThemeColorFilterConstant.NONE.getHexValue());
 			new InformationUI(INFO_HEADING, INFO_TEXT).setVisible(true);
 		});
@@ -58,10 +58,10 @@ public class ThemeManagerUI extends JFrame {
 		return darkThemeButton;
 	}
 	
-	private JButton createLightThemeButton() {
-		JButton lightThemeButton = new JButton("Light");
+	private JButton createLightGreenThemeButton() {
+		JButton lightThemeButton = new JButton("Light Green");
 		lightThemeButton.addActionListener(clickEvent -> {
-			ThemeManager.registerTheme(LightTheme.class.getCanonicalName());
+			ThemeManager.registerTheme(LightGreenTheme.class.getCanonicalName());
 			ThemeManager.registerColorFilter(ThemeColorFilterConstant.OLIVE_GREEN.getHexValue());
 			new InformationUI(INFO_HEADING, INFO_TEXT).setVisible(true);
 		});
@@ -69,10 +69,10 @@ public class ThemeManagerUI extends JFrame {
 		return lightThemeButton;
 	}
 
-	private JButton createPinkThemeButton() {
-		JButton pinkThemeButton = new JButton("Pink");
+	private JButton createLightPinkThemeButton() {
+		JButton pinkThemeButton = new JButton("Light Pink");
 		pinkThemeButton.addActionListener(clickEvent -> {
-			ThemeManager.registerTheme(PinkTheme.class.getCanonicalName());
+			ThemeManager.registerTheme(LightPinkTheme.class.getCanonicalName());
 			ThemeManager.registerColorFilter(ThemeColorFilterConstant.PINK.getHexValue());
 			new InformationUI(INFO_HEADING, INFO_TEXT).setVisible(true);
 		});
