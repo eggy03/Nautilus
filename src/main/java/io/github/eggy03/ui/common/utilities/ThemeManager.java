@@ -71,7 +71,7 @@ public class ThemeManager {
     /**
      * IMPORTANT: Invoke this only from the Event Dispatch Thread
      */
-    public static void loadAndApplySavedColorFormat() {
+    public static void loadAndApplySavedColorFilter() {
         String colorFilter = getRegisteredColorFilter();
 
         if(colorFilter==null || colorFilter.isBlank() || colorFilter.equals(ThemeColorFilterConstant.NONE.getHexValue()))

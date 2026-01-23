@@ -24,7 +24,7 @@ public class Start {
 
         EventQueue.invokeLater(()-> {
             ThemeManager.loadAndApplySavedThemeOrDefault();
-            ThemeManager.loadAndApplySavedColorFormat();
+            ThemeManager.loadAndApplySavedColorFilter();
 
             UIManagerConfigurations.enableRoundComponents();
             UIManagerConfigurations.enableTabSeparators(true);
