@@ -52,9 +52,11 @@ public class ThemeManager {
             // if no saved theme is detected, load and save dark theme as default
             DarkTheme.setup();
             registerTheme(DarkTheme.class.getCanonicalName());
+            log.info("No saved theme detected. Registering {} as the default theme", DarkTheme.class.getCanonicalName());
 
         } else {
             // else apply saved theme
+            log.info("Detected a previously saved theme: {}", savedTheme);
             try {
                 UIManager.setLookAndFeel(savedTheme);
             } catch (UnsupportedLookAndFeelException | ClassNotFoundException | InstantiationException | IllegalAccessException e) {
@@ -74,9 +76,13 @@ public class ThemeManager {
     public static void loadAndApplySavedColorFilter() {
         String colorFilter = getRegisteredColorFilter();
 
-        if(colorFilter==null || colorFilter.isBlank() || colorFilter.equals(ThemeColorFilterConstant.NONE.getHexValue()))
+        if(colorFilter==null || colorFilter.isBlank() || colorFilter.equals(ThemeColorFilterConstant.NONE.getHexValue())) {
+            log.info("Saved color filter not found. No filters will be applied");
             return;
+        }
+
 
         FlatSVGIcon.ColorFilter.getInstance().setMapper(color -> java.awt.Color.decode(colorFilter));
+        log.info("Applied Color Filter: {}", colorFilter);
     }
 }
