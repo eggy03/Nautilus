@@ -57,7 +57,7 @@ public class ThemeManagerUI extends JFrame {
 	private JButton createStandardDarkThemeButton() {
 		JButton darkThemeButton = new JButton("Default Dark");
 		darkThemeButton.addActionListener(clickEvent -> {
-			THEME_MANAGER.registerThemeClass(StandardDarkTheme.class);
+			THEME_MANAGER.registerTheme(StandardDarkTheme.class);
 			THEME_MANAGER.registerColorFilter(ColorFilter.NONE.getHexValue());
 			new InformationUI(INFO_HEADING, INFO_TEXT).setVisible(true);
 		});
@@ -68,7 +68,7 @@ public class ThemeManagerUI extends JFrame {
 	private JButton createLightGreenThemeButton() {
 		JButton lightGreenThemeButton = new JButton("Light Green");
 		lightGreenThemeButton.addActionListener(clickEvent -> {
-			THEME_MANAGER.registerThemeClass(LightGreenTheme.class);
+			THEME_MANAGER.registerTheme(LightGreenTheme.class);
 			THEME_MANAGER.registerColorFilter(ColorFilter.OLIVE_GREEN.getHexValue());
 			new InformationUI(INFO_HEADING, INFO_TEXT).setVisible(true);
 		});
@@ -79,7 +79,7 @@ public class ThemeManagerUI extends JFrame {
 	private JButton createDarkGreenThemeButton() {
 		JButton darkGreenThemeButton = new JButton("Dark Green");
 		darkGreenThemeButton.addActionListener(clickEvent -> {
-			THEME_MANAGER.registerThemeClass(DarkGreenTheme.class);
+			THEME_MANAGER.registerTheme(DarkGreenTheme.class);
 			THEME_MANAGER.registerColorFilter(ColorFilter.NONE.getHexValue());
 			new InformationUI(INFO_HEADING, INFO_TEXT).setVisible(true);
 		});
@@ -90,7 +90,7 @@ public class ThemeManagerUI extends JFrame {
 	private JButton createLightPinkThemeButton() {
 		JButton lightPinkThemeButton = new JButton("Light Pink");
 		lightPinkThemeButton.addActionListener(clickEvent -> {
-			THEME_MANAGER.registerThemeClass(LightPinkTheme.class);
+			THEME_MANAGER.registerTheme(LightPinkTheme.class);
 			THEME_MANAGER.registerColorFilter(ColorFilter.PINK.getHexValue());
 			new InformationUI(INFO_HEADING, INFO_TEXT).setVisible(true);
 		});
@@ -101,7 +101,7 @@ public class ThemeManagerUI extends JFrame {
 	private JButton createDarkPinkThemeButton() {
 		JButton darkPinkThemeButton = new JButton("Dark Pink");
 		darkPinkThemeButton.addActionListener(clickEvent -> {
-			THEME_MANAGER.registerThemeClass(DarkPinkTheme.class);
+			THEME_MANAGER.registerTheme(DarkPinkTheme.class);
 			THEME_MANAGER.registerColorFilter(ColorFilter.PINK.getHexValue());
 			new InformationUI(INFO_HEADING, INFO_TEXT).setVisible(true);
 		});
@@ -112,7 +112,7 @@ public class ThemeManagerUI extends JFrame {
 	private JButton createLightYellowThemeButton() {
 		JButton lightYellowThemeButton = new JButton("Light Yellow");
 		lightYellowThemeButton.addActionListener(clickEvent -> {
-			THEME_MANAGER.registerThemeClass(LightYellowTheme.class);
+			THEME_MANAGER.registerTheme(LightYellowTheme.class);
 			THEME_MANAGER.registerColorFilter(ColorFilter.DARK_YELLOW.getHexValue());
 			new InformationUI(INFO_HEADING, INFO_TEXT).setVisible(true);
 		});
@@ -123,7 +123,7 @@ public class ThemeManagerUI extends JFrame {
 	private JButton createDarkYellowThemeButton() {
 		JButton darkYellowThemeButton = new JButton("Dark Yellow");
 		darkYellowThemeButton.addActionListener(clickEvent -> {
-			THEME_MANAGER.registerThemeClass(DarkYellowTheme.class);
+			THEME_MANAGER.registerTheme(DarkYellowTheme.class);
 			THEME_MANAGER.registerColorFilter(ColorFilter.LIGHT_YELLOW.getHexValue());
 			new InformationUI(INFO_HEADING, INFO_TEXT).setVisible(true);
 		});
