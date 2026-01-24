@@ -5,9 +5,9 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Getter
-public enum ThemeColorFilterConstant {
+public enum ColorFilter {
 
-    NONE("NONE"),
+    NONE(""),
     OLIVE_GREEN("#78A75A"),
     PINK("#F3687C"),
     LIGHT_YELLOW("#FFCC4D"),

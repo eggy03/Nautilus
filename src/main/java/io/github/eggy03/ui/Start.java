@@ -1,9 +1,10 @@
 package io.github.eggy03.ui;
 
 import com.formdev.flatlaf.FlatLaf;
+import io.github.eggy03.theme.manager.ThemeManager;
 import io.github.eggy03.ui.common.constant.OSConstants;
+import io.github.eggy03.ui.common.themes.StandardDarkTheme;
 import io.github.eggy03.ui.common.ui.ExceptionUI;
-import io.github.eggy03.ui.common.utilities.ThemeManager;
 import io.github.eggy03.ui.common.utilities.UIManagerConfigurations;
 import io.github.eggy03.ui.linux.LinuxUI;
 import io.github.eggy03.ui.windows.WindowsUI;
@@ -19,12 +20,14 @@ public class Start {
      */
     public static void main(String[] args) {
 
+        ThemeManager themeManager = new ThemeManager(Start.class);
+
         log.info("Detected OS: {}", OSConstants.getCurrentOS());
         FlatLaf.registerCustomDefaultsSource("themes"); // for maven build, this points towards src/main/resources/themes
 
         EventQueue.invokeLater(()-> {
-            ThemeManager.loadAndApplySavedThemeOrDefault();
-            ThemeManager.loadAndApplySavedColorFilter();
+            themeManager.loadAndApplyRegisteredThemeOrFallback(StandardDarkTheme.class.getCanonicalName());
+            themeManager.loadAndApplyColorFilter();
 
             UIManagerConfigurations.enableRoundComponents();
             UIManagerConfigurations.enableTabSeparators(true);
