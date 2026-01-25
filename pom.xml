@@ -19,7 +19,7 @@
         <!-- Dependency versions -->
         <ferrumx.windows.version>3.1.1</ferrumx.windows.version>
         <dmidecode4j.version>0.1.1</dmidecode4j.version>
-        <swing.theme.manager>0.0.1</swing.theme.manager>
+        <swing.theme.manager>0.1.0</swing.theme.manager>
         <slf4j.version>2.0.17</slf4j.version>
         <tinylog.version>2.7.0</tinylog.version>
         <flatlaf.version>3.7</flatlaf.version>
