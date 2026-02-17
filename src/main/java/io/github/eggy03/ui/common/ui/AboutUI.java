@@ -38,6 +38,7 @@ public class AboutUI extends JFrame {
 			<ul>
 			  <li>FerrumX Windows</li>
 			  <li>dmidecode4j</li>
+			  <li>Swing Theme Manager></li>
 			  <li>Apache Commons Lang</li>
 			  <li>Apache Commons IO</li>
 			  <li>FlatLaf</li>
