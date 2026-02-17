@@ -17,7 +17,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!-- Dependency versions -->
-        <ferrumx.windows.version>3.1.1</ferrumx.windows.version>
+        <ferrumx.windows.version>4.0.1</ferrumx.windows.version>
         <dmidecode4j.version>0.1.1</dmidecode4j.version>
         <swing.theme.manager>0.1.0</swing.theme.manager>
         <slf4j.version>2.0.17</slf4j.version>
