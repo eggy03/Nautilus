@@ -25,7 +25,7 @@ public class SystemUUIDWorker extends SwingWorker<Optional<DMISystem>, Void> {
     protected void done() {
         try {
             Optional<DMISystem> system = get();
-            system.ifPresent(sys -> uuidField.setText(sys.getUuid()));
+            system.ifPresent(sys -> uuidField.setText(sys.uuid()));
         } catch (ExecutionException e) {
             log.error("System Fetch Failed", e);
         } catch (InterruptedException e) {

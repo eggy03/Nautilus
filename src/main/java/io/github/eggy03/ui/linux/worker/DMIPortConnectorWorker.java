@@ -61,13 +61,13 @@ public class DMIPortConnectorWorker extends SwingWorker<List<DMIPortConnectorInf
 
         if(portNumberComboBox.getSelectedItem() instanceof Integer selection) {
 
-            DMIPortConnectorInformation port = mapList.getOrDefault(selection, DMIPortConnectorInformation.builder().build());
+            DMIPortConnectorInformation port = mapList.getOrDefault(selection, new DMIPortConnectorInformation.Builder().build());
 
-            portFields.get(0).setText(port.getExternalReferenceDesignator());
-            portFields.get(1).setText(port.getInternalReferenceDesignator());
-            portFields.get(2).setText(port.getExternalConnectorType());
-            portFields.get(3).setText(port.getInternalConnectorType());
-            portFields.get(4).setText(port.getPortType());
+            portFields.get(0).setText(port.externalReferenceDesignator());
+            portFields.get(1).setText(port.internalReferenceDesignator());
+            portFields.get(2).setText(port.externalConnectorType());
+            portFields.get(3).setText(port.internalConnectorType());
+            portFields.get(4).setText(port.portType());
 
         }
     }

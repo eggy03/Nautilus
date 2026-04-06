@@ -9,8 +9,10 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingWorker;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -48,19 +50,24 @@ public class DMIBaseboardWorker extends SwingWorker<Optional<DMIBaseboard>, Void
 
     private void populateFields(DMIBaseboard dmiBaseboard) {
 
-        baseboardFields.get(0).setText(dmiBaseboard.getManufacturer());
-        baseboardFields.get(1).setText(dmiBaseboard.getProductName());
-        baseboardFields.get(2).setText(dmiBaseboard.getVersion());
-        baseboardFields.get(3).setText(dmiBaseboard.getSerialNumber());
-        baseboardFields.get(4).setText(dmiBaseboard.getAssetTag());
-        baseboardFields.get(5).setText(dmiBaseboard.getLocationInChassis());
-        baseboardFields.get(6).setText(dmiBaseboard.getChassisHandle());
-        baseboardFields.get(7).setText(dmiBaseboard.getType());
-        
-        StringBuilder featureText = new StringBuilder();
-        if(dmiBaseboard.getFeatures()!=null){
-            dmiBaseboard.getFeatures().forEach(feature-> featureText.append(feature).append(System.lineSeparator()));
+        baseboardFields.get(0).setText(dmiBaseboard.manufacturer());
+        baseboardFields.get(1).setText(dmiBaseboard.productName());
+        baseboardFields.get(2).setText(dmiBaseboard.version());
+        baseboardFields.get(3).setText(dmiBaseboard.serialNumber());
+        baseboardFields.get(4).setText(dmiBaseboard.assetTag());
+        baseboardFields.get(5).setText(dmiBaseboard.locationInChassis());
+        baseboardFields.get(6).setText(dmiBaseboard.chassisHandle());
+        baseboardFields.get(7).setText(dmiBaseboard.type());
+
+        List<String> features = dmiBaseboard.features();
+        if(features!=null) {
+            featureTextArea.setText(
+                    features.stream()
+                            .filter(Objects::nonNull)
+                            .collect(Collectors.joining(System.lineSeparator()))
+            );
         }
-        featureTextArea.setText(featureText.toString());
+
+
     }
 }

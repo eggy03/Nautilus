@@ -36,18 +36,18 @@ public class DMICacheWorker extends SwingWorker<List<DMICache>, Void> {
                     .append(System.lineSeparator());
 
             dmiCacheList.forEach(cache -> sb.append(System.lineSeparator())
-                    .append("Socket Designation: ").append(cache.getSocketDesignation()).append(System.lineSeparator())
-                    .append("Configuration: ").append(cache.getConfiguration()).append(System.lineSeparator())
-                    .append("Operational Mode: ").append(cache.getOperationalMode()).append(System.lineSeparator())
-                    .append("Location: ").append(cache.getLocation()).append(System.lineSeparator())
-                    .append("Installed Size: ").append(cache.getInstalledSize()).append(System.lineSeparator())
-                    .append("Maximum Size: ").append(cache.getMaximumSize()).append(System.lineSeparator())
-                    .append("Supported SRAM Types: ").append(cache.getSupportedSramTypes()).append(System.lineSeparator())
-                    .append("Installed SRAM Type: ").append(cache.getInstalledSramType()).append(System.lineSeparator())
-                    .append("Speed: ").append(cache.getSpeed()).append(System.lineSeparator())
-                    .append("Error Correction Type: ").append(cache.getErrorCorrectionType()).append(System.lineSeparator())
-                    .append("System Type: ").append(cache.getSystemType()).append(System.lineSeparator())
-                    .append("Associativity: ").append(cache.getAssociativity()).append(System.lineSeparator())
+                    .append("Socket Designation: ").append(cache.socketDesignation()).append(System.lineSeparator())
+                    .append("Configuration: ").append(cache.configuration()).append(System.lineSeparator())
+                    .append("Operational Mode: ").append(cache.operationalMode()).append(System.lineSeparator())
+                    .append("Location: ").append(cache.location()).append(System.lineSeparator())
+                    .append("Installed Size: ").append(cache.installedSize()).append(System.lineSeparator())
+                    .append("Maximum Size: ").append(cache.maximumSize()).append(System.lineSeparator())
+                    .append("Supported SRAM Types: ").append(cache.supportedSramTypes()).append(System.lineSeparator())
+                    .append("Installed SRAM Type: ").append(cache.installedSramType()).append(System.lineSeparator())
+                    .append("Speed: ").append(cache.speed()).append(System.lineSeparator())
+                    .append("Error Correction Type: ").append(cache.errorCorrectionType()).append(System.lineSeparator())
+                    .append("System Type: ").append(cache.systemType()).append(System.lineSeparator())
+                    .append("Associativity: ").append(cache.associativity()).append(System.lineSeparator())
             );
 
             cacheTextArea.setText(sb.toString());
