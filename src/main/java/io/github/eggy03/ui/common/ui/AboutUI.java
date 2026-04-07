@@ -4,7 +4,22 @@
  */
 package io.github.eggy03.ui.common.ui;
 
-import java.awt.BorderLayout;
+import com.formdev.flatlaf.extras.FlatSVGIcon;
+import io.github.eggy03.ui.common.constant.Version;
+import net.miginfocom.swing.MigLayout;
+
+import javax.swing.JEditorPane;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.WindowConstants;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.TitledBorder;
 import java.awt.Desktop;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
@@ -12,22 +27,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.util.Objects;
-
-import javax.swing.JButton;
-import javax.swing.JEditorPane;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.WindowConstants;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.TitledBorder;
-
-import com.formdev.flatlaf.extras.FlatSVGIcon;
-
-import io.github.eggy03.ui.common.constant.Version;
-import net.miginfocom.swing.MigLayout;
 
 public class AboutUI extends JFrame {
 
@@ -76,17 +75,17 @@ public class AboutUI extends JFrame {
 		setTitle("About Nautilus");
 		
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 550, 360);
+		setBounds(100, 100, 550, 400);
 		setResizable(false);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(AboutUI.class.getResource("/icons/icon_main.png")));
 		
 		JPanel contentPane = new JPanel();
-		contentPane.setLayout(new BorderLayout(0, 0));
-		
-		contentPane.add(createVersionPanel(), BorderLayout.NORTH);
-		contentPane.add(createAttributionPanel(), BorderLayout.CENTER);
-		contentPane.add(createButtonsPanel(), BorderLayout.SOUTH);
-		
+		contentPane.setLayout(new MigLayout("insets 0", "[grow]", "[][][grow]"));
+
+		contentPane.add(createMenu(), "cell 0 0, growx");
+		contentPane.add(createVersionPanel(), "cell 0 1, growx");
+		contentPane.add(createAttributionPanel(), "cell 0 2, growx");
+
 		setContentPane(contentPane);
 	}
 	
@@ -124,43 +123,45 @@ public class AboutUI extends JFrame {
         return attributionPanel;
     }
 	
-	private JPanel createButtonsPanel() {
+	private JMenuBar createMenu() {
 		
-		JPanel buttonsPanel = new JPanel();
-		buttonsPanel.setLayout(new GridLayout(1, 3, 0, 0));
+		JMenuBar menuBar = new JMenuBar();
 		
-		JButton githubPageButton = new JButton("Visit Nautilus GitHub");
-		githubPageButton.addActionListener(action-> {
-            try {
+		JMenu attributionMenu = new JMenu("More Info");
+		menuBar.add(attributionMenu);
+		
+		JMenuItem visitGithub = new JMenuItem("Visit Nautilus GitHub");
+		visitGithub.addActionListener(action -> {
+			try {
                 Desktop.getDesktop().browse(URI.create(Version.GITHUB_PAGE));
             } catch (IOException | UnsupportedOperationException e) {
                 new ExceptionUI("Could not open browser", e.getMessage());
             }
-        });
-		buttonsPanel.add(githubPageButton);
-
-		JButton privacyPolicyButton = new JButton("Privacy Policy");
-		privacyPolicyButton.addActionListener(action-> {
+		});
+		attributionMenu.add(visitGithub);
+		
+		JMenuItem privacyPolicy = new JMenuItem("Privacy Policy");
+		privacyPolicy.addActionListener(action-> {
 			InputStream stream = Objects.requireNonNull(AboutUI.class.getResourceAsStream("/PrivacyPolicy.txt"), "Privacy Policy Stream must not be null");
 			new TextViewUI("Privacy Policy", stream).setVisible(true);
 		});
-		buttonsPanel.add(privacyPolicyButton);
-
-		JButton applicationLicenseButton = new JButton("License");
-		applicationLicenseButton.addActionListener(action-> {
+		attributionMenu.add(privacyPolicy);
+		
+		JMenuItem applicationLicense = new JMenuItem("License");
+		applicationLicense.addActionListener(action-> {
 			InputStream stream = Objects.requireNonNull(AboutUI.class.getResourceAsStream("/ApplicationLicense.txt"), "Application License Stream must not be null");
 			new TextViewUI("Application License", stream).setVisible(true);
 		});
-		buttonsPanel.add(applicationLicenseButton);
+		attributionMenu.add(applicationLicense);
 		
-		JButton openSourceLicenseButton = new JButton("Open Source Licenses");
-		openSourceLicenseButton.addActionListener(action-> {
+		JMenuItem openSourceLicenses = new JMenuItem("Open Source Licenses");
+		openSourceLicenses.addActionListener(action-> {
 			InputStream stream = Objects.requireNonNull(AboutUI.class.getResourceAsStream("/OpenSourceLicenses.txt"), "License Stream must not be null");
 			new TextViewUI("Third Party Software Licenses", stream).setVisible(true);
         });
-		buttonsPanel.add(openSourceLicenseButton);
+		attributionMenu.add(openSourceLicenses);
 		
-		return buttonsPanel;
+		return menuBar;
 	}
 
 }
