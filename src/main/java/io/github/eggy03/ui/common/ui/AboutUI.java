@@ -26,15 +26,19 @@ import javax.swing.border.TitledBorder;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 
-import io.github.eggy03.ui.common.constant.VersionAndOtherInfo;
+import io.github.eggy03.ui.common.constant.Version;
 import net.miginfocom.swing.MigLayout;
 
 public class AboutUI extends JFrame {
 
-	private static final String VERSION_AND_AUTHOR = "Version: " + VersionAndOtherInfo.APP_VERSION + System.lineSeparator() +
-					"Windows Build: Stable" + System.lineSeparator() +
-					"Linux Build: Beta" + System.lineSeparator() +
-					"Developed By: Egg-03";
+	private static final String VERSION_AND_AUTHOR =
+			"Version: " + Version.SEMVER + Version.SUFFIX
+			+ System.lineSeparator()
+			+ "Build: " + Version.BUILD_DATE
+			+ System.lineSeparator()
+			+ "Developer: " + Version.DEVELOPER
+			+ System.lineSeparator()
+			+ "License: " + Version.LICENSE;
 
 	private static final String ATTRIBUTION = """	
 			<b>Open-Source Licenses</b><br>
@@ -129,7 +133,7 @@ public class AboutUI extends JFrame {
 		JButton githubPageButton = new JButton("Visit Nautilus GitHub Page");
 		githubPageButton.addActionListener(action-> {
             try {
-                Desktop.getDesktop().browse(URI.create(VersionAndOtherInfo.APP_GITHUB_PAGE));
+                Desktop.getDesktop().browse(URI.create(Version.GITHUB_PAGE));
             } catch (IOException | UnsupportedOperationException e) {
                 new ExceptionUI("Could not open browser", e.getMessage());
             }
