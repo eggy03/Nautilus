@@ -10,5 +10,7 @@ import lombok.experimental.UtilityClass;
 public class VersionAndOtherInfo {
 	
 	public static final String APP_VERSION = "1.0.0";
+	public static final String BUILD = "20260407";
+	public static final String STATUS = "-SNAPSHOT";
 	public static final String APP_GITHUB_PAGE = "https://github.com/eggy03/Nautilus";
 }
