@@ -67,10 +67,9 @@ public class AboutUI extends JFrame {
 			licensed under the Apache License, Version 2.0.<br><br>
 			
 			<b>Security Notice</b><br>
-			This application binary is currently <b>unsigned</b>.
-			For your safety, download this software only from official sources,
-			such as the project's GitHub repository.
-			
+			This application binary is currently unsigned, and no official pre-built binaries are distributed.
+			Users are strongly encouraged to build the application from source.
+			If you choose to use a pre-built binary, ensure that it originates from a trusted and verified source.
 			""";
 
 	public AboutUI() {
@@ -130,7 +129,7 @@ public class AboutUI extends JFrame {
 		JPanel buttonsPanel = new JPanel();
 		buttonsPanel.setLayout(new GridLayout(1, 3, 0, 0));
 		
-		JButton githubPageButton = new JButton("Visit Nautilus GitHub Page");
+		JButton githubPageButton = new JButton("Visit Nautilus GitHub");
 		githubPageButton.addActionListener(action-> {
             try {
                 Desktop.getDesktop().browse(URI.create(Version.GITHUB_PAGE));
@@ -146,8 +145,15 @@ public class AboutUI extends JFrame {
 			new TextViewUI("Privacy Policy", stream).setVisible(true);
 		});
 		buttonsPanel.add(privacyPolicyButton);
+
+		JButton applicationLicenseButton = new JButton("License");
+		applicationLicenseButton.addActionListener(action-> {
+			InputStream stream = Objects.requireNonNull(AboutUI.class.getResourceAsStream("/ApplicationLicense.txt"), "Application License Stream must not be null");
+			new TextViewUI("Application License", stream).setVisible(true);
+		});
+		buttonsPanel.add(applicationLicenseButton);
 		
-		JButton openSourceLicenseButton = new JButton("See Open Source Licenses");
+		JButton openSourceLicenseButton = new JButton("Open Source Licenses");
 		openSourceLicenseButton.addActionListener(action-> {
 			InputStream stream = Objects.requireNonNull(AboutUI.class.getResourceAsStream("/OpenSourceLicenses.txt"), "License Stream must not be null");
 			new TextViewUI("Third Party Software Licenses", stream).setVisible(true);
