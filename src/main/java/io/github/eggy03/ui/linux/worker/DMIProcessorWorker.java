@@ -6,6 +6,7 @@ package io.github.eggy03.ui.linux.worker;
 
 import io.github.eggy03.dmidecode.entity.processor.DMIProcessor;
 import io.github.eggy03.dmidecode.service.processor.DMIProcessorService;
+import io.github.eggy03.ui.common.constant.TerminalConstant;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -28,7 +29,7 @@ public class DMIProcessorWorker extends SwingWorker<List<DMIProcessor>, Void>{
 
 	@Override
 	protected List<DMIProcessor> doInBackground(){
-		return new DMIProcessorService().get(15);
+		return new DMIProcessorService().get(TerminalConstant.TIMEOUT_SIXTY_SECONDS);
 	}
 
 	@Override

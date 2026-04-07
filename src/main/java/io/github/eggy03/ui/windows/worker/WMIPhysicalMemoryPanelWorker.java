@@ -6,6 +6,7 @@ package io.github.eggy03.ui.windows.worker;
 
 import io.github.eggy03.ferrumx.windows.entity.memory.Win32PhysicalMemory;
 import io.github.eggy03.ferrumx.windows.service.memory.Win32PhysicalMemoryService;
+import io.github.eggy03.ui.common.constant.TerminalConstant;
 import io.github.eggy03.ui.windows.utilities.WMISizeUtility;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +29,7 @@ public class WMIPhysicalMemoryPanelWorker extends SwingWorker<List<Win32Physical
 
     @Override
     protected List<Win32PhysicalMemory> doInBackground() {
-        return new Win32PhysicalMemoryService().get(15L);
+        return new Win32PhysicalMemoryService().get(TerminalConstant.TIMEOUT_SIXTY_SECONDS);
     }
 
     @Override

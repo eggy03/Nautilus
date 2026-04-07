@@ -8,6 +8,7 @@ import io.github.eggy03.ferrumx.windows.entity.compounded.Win32ProcessorToCacheM
 import io.github.eggy03.ferrumx.windows.entity.processor.Win32CacheMemory;
 import io.github.eggy03.ferrumx.windows.entity.processor.Win32Processor;
 import io.github.eggy03.ferrumx.windows.service.compounded.Win32ProcessorToCacheMemoryService;
+import io.github.eggy03.ui.common.constant.TerminalConstant;
 import io.github.eggy03.ui.windows.constant.WMIConstants;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -38,7 +39,7 @@ public class WMIProcessorPanelWorker extends SwingWorker<List<Win32ProcessorToCa
 
     @Override
     protected @NotNull List<Win32ProcessorToCacheMemory> doInBackground() {
-       return new Win32ProcessorToCacheMemoryService().get(15L);
+       return new Win32ProcessorToCacheMemoryService().get(TerminalConstant.TIMEOUT_SIXTY_SECONDS);
     }
 
     @Override

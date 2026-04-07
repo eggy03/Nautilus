@@ -6,6 +6,7 @@ package io.github.eggy03.ui.linux.worker;
 
 import io.github.eggy03.dmidecode.entity.board.DMIBIOS;
 import io.github.eggy03.dmidecode.service.board.DMIBIOSService;
+import io.github.eggy03.ui.common.constant.TerminalConstant;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -30,7 +31,7 @@ public class DMIBIOSWorker extends SwingWorker<List<DMIBIOS>, Void> {
 
     @Override
     protected List<DMIBIOS> doInBackground() throws Exception {
-        return new DMIBIOSService().get(15);
+        return new DMIBIOSService().get(TerminalConstant.TIMEOUT_SIXTY_SECONDS);
     }
 
     @Override

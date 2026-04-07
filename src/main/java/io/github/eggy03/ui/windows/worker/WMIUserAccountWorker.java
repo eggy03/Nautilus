@@ -6,6 +6,7 @@ package io.github.eggy03.ui.windows.worker;
 
 import io.github.eggy03.ferrumx.windows.entity.user.Win32UserAccount;
 import io.github.eggy03.ferrumx.windows.service.user.Win32UserAccountService;
+import io.github.eggy03.ui.common.constant.TerminalConstant;
 import io.github.eggy03.ui.windows.constant.WMIConstants;
 import io.github.eggy03.ui.windows.utilities.WMIBooleanUtility;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +28,7 @@ public class WMIUserAccountWorker extends SwingWorker<List<Win32UserAccount>, Vo
 
     @Override
     protected List<Win32UserAccount> doInBackground() {
-        return new Win32UserAccountService().get(15L);
+        return new Win32UserAccountService().get(TerminalConstant.TIMEOUT_SIXTY_SECONDS);
     }
 
     @Override

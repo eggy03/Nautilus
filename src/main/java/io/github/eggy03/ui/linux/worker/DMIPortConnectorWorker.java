@@ -6,6 +6,7 @@ package io.github.eggy03.ui.linux.worker;
 
 import io.github.eggy03.dmidecode.entity.board.DMIPortConnectorInformation;
 import io.github.eggy03.dmidecode.service.board.DMIPortConnectorInformationService;
+import io.github.eggy03.ui.common.constant.TerminalConstant;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -27,7 +28,7 @@ public class DMIPortConnectorWorker extends SwingWorker<List<DMIPortConnectorInf
 
     @Override
     protected List<DMIPortConnectorInformation> doInBackground() throws Exception {
-        return new DMIPortConnectorInformationService().get(15);
+        return new DMIPortConnectorInformationService().get(TerminalConstant.TIMEOUT_SIXTY_SECONDS);
     }
 
     @Override

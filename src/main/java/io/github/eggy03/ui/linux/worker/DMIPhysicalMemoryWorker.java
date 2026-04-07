@@ -6,6 +6,7 @@ package io.github.eggy03.ui.linux.worker;
 
 import io.github.eggy03.dmidecode.entity.memory.DMIMemoryDevice;
 import io.github.eggy03.dmidecode.service.memory.DMIMemoryDeviceService;
+import io.github.eggy03.ui.common.constant.TerminalConstant;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,7 +26,7 @@ public class DMIPhysicalMemoryWorker extends SwingWorker<List<DMIMemoryDevice>, 
 
     @Override
     protected List<DMIMemoryDevice> doInBackground() throws Exception {
-        return new DMIMemoryDeviceService().get(15);
+        return new DMIMemoryDeviceService().get(TerminalConstant.TIMEOUT_SIXTY_SECONDS);
     }
 
     @Override

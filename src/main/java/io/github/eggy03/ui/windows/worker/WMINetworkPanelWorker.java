@@ -10,6 +10,7 @@ import io.github.eggy03.ferrumx.windows.entity.network.MsftNetAdapter;
 import io.github.eggy03.ferrumx.windows.entity.network.MsftNetConnectionProfile;
 import io.github.eggy03.ferrumx.windows.entity.network.MsftNetIpAddress;
 import io.github.eggy03.ferrumx.windows.service.compounded.MsftNetAdapterToIpAndDnsAndProfileService;
+import io.github.eggy03.ui.common.constant.TerminalConstant;
 import io.github.eggy03.ui.windows.constant.WMIConstants;
 import io.github.eggy03.ui.windows.utilities.WMIBooleanUtility;
 import io.github.eggy03.ui.windows.utilities.WMINetworkUtility;
@@ -34,7 +35,7 @@ public class WMINetworkPanelWorker extends SwingWorker<List<MsftNetAdapterToIpAn
 
     @Override
     protected List<MsftNetAdapterToIpAndDnsAndProfile> doInBackground() {
-        return new MsftNetAdapterToIpAndDnsAndProfileService().get(15L);
+        return new MsftNetAdapterToIpAndDnsAndProfileService().get(TerminalConstant.TIMEOUT_SIXTY_SECONDS);
     }
 
     @Override

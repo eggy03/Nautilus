@@ -9,6 +9,7 @@ import io.github.eggy03.ferrumx.windows.entity.storage.Win32DiskDrive;
 import io.github.eggy03.ferrumx.windows.entity.storage.Win32DiskPartition;
 import io.github.eggy03.ferrumx.windows.entity.storage.Win32LogicalDisk;
 import io.github.eggy03.ferrumx.windows.service.compounded.Win32DiskDriveToPartitionAndLogicalDiskService;
+import io.github.eggy03.ui.common.constant.TerminalConstant;
 import io.github.eggy03.ui.windows.constant.WMIConstants;
 import io.github.eggy03.ui.windows.utilities.WMIBooleanUtility;
 import io.github.eggy03.ui.windows.utilities.WMISizeUtility;
@@ -33,7 +34,7 @@ public class WMIStorageWorker extends SwingWorker<List<Win32DiskDriveToPartition
 
     @Override
     protected List<Win32DiskDriveToPartitionAndLogicalDisk> doInBackground() {
-        return new Win32DiskDriveToPartitionAndLogicalDiskService().get(15L);
+        return new Win32DiskDriveToPartitionAndLogicalDiskService().get(TerminalConstant.TIMEOUT_SIXTY_SECONDS);
     }
 
     @Override

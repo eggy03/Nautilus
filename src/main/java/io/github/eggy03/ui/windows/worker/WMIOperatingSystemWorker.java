@@ -6,6 +6,7 @@ package io.github.eggy03.ui.windows.worker;
 
 import io.github.eggy03.ferrumx.windows.entity.system.Win32OperatingSystem;
 import io.github.eggy03.ferrumx.windows.service.system.Win32OperatingSystemService;
+import io.github.eggy03.ui.common.constant.TerminalConstant;
 import io.github.eggy03.ui.windows.utilities.WMIBooleanUtility;
 import io.github.eggy03.ui.windows.utilities.WMIDateUtility;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +30,7 @@ public class WMIOperatingSystemWorker extends SwingWorker<List<Win32OperatingSys
 
     @Override
     protected List<Win32OperatingSystem> doInBackground() {
-        return new Win32OperatingSystemService().get(15L);
+        return new Win32OperatingSystemService().get(TerminalConstant.TIMEOUT_SIXTY_SECONDS);
     }
 
     @Override

@@ -6,6 +6,7 @@ package io.github.eggy03.ui.linux.worker;
 
 import io.github.eggy03.dmidecode.entity.system.DMISystem;
 import io.github.eggy03.dmidecode.service.system.DMISystemService;
+import io.github.eggy03.ui.common.constant.TerminalConstant;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -22,7 +23,7 @@ public class SystemUUIDWorker extends SwingWorker<Optional<DMISystem>, Void> {
 
     @Override
     protected Optional<DMISystem> doInBackground() throws Exception {
-        return new DMISystemService().get(15);
+        return new DMISystemService().get(TerminalConstant.TIMEOUT_SIXTY_SECONDS);
     }
 
     @Override

@@ -6,6 +6,7 @@ package io.github.eggy03.ui.linux.worker;
 
 import io.github.eggy03.dmidecode.entity.board.DMIBaseboard;
 import io.github.eggy03.dmidecode.service.board.DMIBaseboardService;
+import io.github.eggy03.ui.common.constant.TerminalConstant;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -27,7 +28,7 @@ public class DMIBaseboardWorker extends SwingWorker<Optional<DMIBaseboard>, Void
 
     @Override
     protected Optional<DMIBaseboard> doInBackground() throws Exception {
-        return new DMIBaseboardService().get(15);
+        return new DMIBaseboardService().get(TerminalConstant.TIMEOUT_SIXTY_SECONDS);
     }
 
     @Override

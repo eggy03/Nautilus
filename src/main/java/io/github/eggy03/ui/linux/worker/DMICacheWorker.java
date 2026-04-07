@@ -6,6 +6,7 @@ package io.github.eggy03.ui.linux.worker;
 
 import io.github.eggy03.dmidecode.entity.processor.DMICache;
 import io.github.eggy03.dmidecode.service.processor.DMICacheService;
+import io.github.eggy03.ui.common.constant.TerminalConstant;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -22,7 +23,7 @@ public class DMICacheWorker extends SwingWorker<List<DMICache>, Void> {
 
     @Override
     protected List<DMICache> doInBackground() {
-        return new DMICacheService().get(15);
+        return new DMICacheService().get(TerminalConstant.TIMEOUT_SIXTY_SECONDS);
     }
 
     @Override
