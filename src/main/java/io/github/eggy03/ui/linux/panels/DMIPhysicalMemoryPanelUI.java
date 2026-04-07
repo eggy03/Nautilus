@@ -89,7 +89,7 @@ public class DMIPhysicalMemoryPanelUI extends JPanel {
     private JScrollPane createHandlePanel() {
         JPanel panel = new JPanel();
         panel.setBorder(new TitledBorder(null, "Handles", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-        panel.setLayout(new MigLayout("", "[][grow]", "[][][][][][]"));
+        panel.setLayout(new MigLayout("insets 0", "[][grow]", "[][][][][][]"));
 
         JLabel memoryModuleNumberLabel = new JLabel("Memory #");
         panel.add(memoryModuleNumberLabel, "cell 0 0,alignx leading");
@@ -138,7 +138,7 @@ public class DMIPhysicalMemoryPanelUI extends JPanel {
     private JScrollPane createCharacteristicsPanel() {
         JPanel panel = new JPanel();
         panel.setBorder(new TitledBorder(null, "Characteristics", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-        panel.setLayout(new MigLayout("", "[][grow]", "[][][][][][]"));
+        panel.setLayout(new MigLayout("insets 0", "[][grow]", "[][][][][][]"));
 
         JLabel locatorLabel = new JLabel("Locator");
         panel.add(locatorLabel, "cell 0 0,alignx leading");
@@ -189,7 +189,7 @@ public class DMIPhysicalMemoryPanelUI extends JPanel {
     private JScrollPane createSizePanel() {
         JPanel panel = new JPanel();
         panel.setBorder(new TitledBorder(null, "Size", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-        panel.setLayout(new MigLayout("", "[][grow]", "[][][][][][][]"));
+        panel.setLayout(new MigLayout("insets 0", "[][grow]", "[][][][][][][]"));
 
         JLabel sizeLabel = new JLabel("Size");
         panel.add(sizeLabel, "cell 0 0,alignx leading");
@@ -247,7 +247,7 @@ public class DMIPhysicalMemoryPanelUI extends JPanel {
     private JScrollPane createSpeedAndVoltagePanel() {
         JPanel panel = new JPanel();
         panel.setBorder(new TitledBorder(null, "Speed And Voltage", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-        panel.setLayout(new MigLayout("", "[][grow]", "[][][][][]"));
+        panel.setLayout(new MigLayout("insets 0", "[][grow]", "[][][][][]"));
 
         JLabel factorySpeedLabel = new JLabel("Factory Speed");
         panel.add(factorySpeedLabel, "cell 0 0,alignx leading");
@@ -291,7 +291,7 @@ public class DMIPhysicalMemoryPanelUI extends JPanel {
     private JScrollPane createManufacturerPanel() {
         JPanel panel = new JPanel();
         panel.setBorder(new TitledBorder(null, "Manufacturer And Technology", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-        panel.setLayout(new MigLayout("", "[][grow]", "[][][][][][][]"));
+        panel.setLayout(new MigLayout("insets 0", "[][grow]", "[][][][][][][]"));
 
         JLabel manufacturerLabel = new JLabel("Manufacturer");
         panel.add(manufacturerLabel, "cell 0 0,alignx leading");
@@ -351,7 +351,7 @@ public class DMIPhysicalMemoryPanelUI extends JPanel {
 
         JPanel panel = new JPanel();
         panel.setBorder(new TitledBorder(null, "Extra", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-        panel.setLayout(new MigLayout("", "[][grow]", "[][]"));
+        panel.setLayout(new MigLayout("insets 0", "[][grow]", "[][]"));
 
         JLabel arrayHandleLabel = new JLabel("Array Handle");
         panel.add(arrayHandleLabel, "cell 0 0,alignx leading");

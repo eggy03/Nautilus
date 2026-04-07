@@ -44,7 +44,7 @@ public class ThemeManagerUI extends JFrame {
 		
 		JPanel contentPane = new JPanel();
 		contentPane.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Theme Manager", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		contentPane.setLayout(new MigLayout("", "[grow][grow]", "[][][][]"));
+		contentPane.setLayout(new MigLayout("insets 0", "[grow][grow]", "[][][][]"));
 
 		contentPane.add(createLightGreenThemeButton(), "cell 0 0,growx");
 		contentPane.add(createDarkGreenThemeButton(), "cell 1 0,growx");

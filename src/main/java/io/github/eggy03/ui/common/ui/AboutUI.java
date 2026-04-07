@@ -41,11 +41,11 @@ public class AboutUI extends JFrame {
 
 	private static final String ATTRIBUTION = """	
 			<b>Open-Source Licenses</b><br>
-			This application includes third-party open-source libraries and frameworks.
+			This application includes the following third-party open-source libraries and frameworks:
 			<ul>
 			  <li>FerrumX Windows</li>
 			  <li>dmidecode4j</li>
-			  <li>Swing Theme Manager></li>
+			  <li>Swing Theme Manager</li>
 			  <li>Apache Commons Lang</li>
 			  <li>Apache Commons IO</li>
 			  <li>FlatLaf</li>
@@ -93,7 +93,7 @@ public class AboutUI extends JFrame {
 		
 		JPanel versionPanel = new JPanel();
 		versionPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Version Info", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		versionPanel.setLayout(new MigLayout("", "[grow][]", "[]"));
+		versionPanel.setLayout(new MigLayout("insets 0", "[grow][]", "[]"));
 		
 		JTextArea versionTextArea = new JTextArea();
 		versionTextArea.setText(VERSION_AND_AUTHOR);

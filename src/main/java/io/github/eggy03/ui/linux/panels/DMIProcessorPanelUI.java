@@ -80,7 +80,7 @@ public class DMIProcessorPanelUI extends JPanel {
 		JPanel systemIdPanel = new JPanel();
 		
 		systemIdPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "System UUID", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		systemIdPanel.setLayout(new MigLayout("", "[grow][]", "[]"));
+		systemIdPanel.setLayout(new MigLayout("insets 0", "[grow][]", "[]"));
 
 		systemIdTextField = new JTextField();
 		systemIdTextField.setEditable(false);
@@ -109,7 +109,7 @@ public class DMIProcessorPanelUI extends JPanel {
 		// PRIMARY INFO PANEL
 		JPanel primaryInfoPanel = new JPanel();
 		primaryInfoPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Primary Information", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		primaryInfoPanel.setLayout(new MigLayout("", "[][grow][][grow][][grow]", "[][]"));
+		primaryInfoPanel.setLayout(new MigLayout("insets 0", "[][grow][][grow][][grow]", "[][]"));
 		
 		JLabel cpuIdLabel = new JLabel("ID");
 		primaryInfoPanel.add(cpuIdLabel, "cell 0 0,alignx leading,aligny center");
@@ -169,7 +169,7 @@ public class DMIProcessorPanelUI extends JPanel {
 		// SECONDARY INFO PANEL
 		JPanel secondaryInfoPanel = new JPanel();
 		secondaryInfoPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Secondary Information", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		secondaryInfoPanel.setLayout(new MigLayout("", "[][grow][][grow][][grow]", "[][]"));
+		secondaryInfoPanel.setLayout(new MigLayout("insets 0", "[][grow][][grow][][grow]", "[][]"));
 		
 		JLabel cpuSignatureLabel = new JLabel("Signature");
 		secondaryInfoPanel.add(cpuSignatureLabel, "cell 0 0,alignx leading,aligny center");

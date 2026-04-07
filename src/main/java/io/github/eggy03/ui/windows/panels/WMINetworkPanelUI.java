@@ -4,8 +4,9 @@
  */
 package io.github.eggy03.ui.windows.panels;
 
-import java.awt.GridLayout;
-import java.util.List;
+import com.formdev.flatlaf.extras.FlatSVGIcon;
+import io.github.eggy03.ui.windows.worker.WMINetworkPanelWorker;
+import net.miginfocom.swing.MigLayout;
 
 import javax.swing.JComboBox;
 import javax.swing.JEditorPane;
@@ -14,13 +15,11 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
-
-import com.formdev.flatlaf.extras.FlatSVGIcon;
-
-import io.github.eggy03.ui.windows.worker.WMINetworkPanelWorker;
-import net.miginfocom.swing.MigLayout;
+import java.awt.GridLayout;
+import java.util.List;
 
 public class WMINetworkPanelUI extends JPanel {
 	
@@ -62,7 +61,7 @@ public class WMINetworkPanelUI extends JPanel {
 		
 		JPanel adapterPanel = new JPanel();
 		adapterPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Adapter", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		adapterPanel.setLayout(new MigLayout("", "[][grow]", "[][][][][][][][][][][][][][][][]"));
+		adapterPanel.setLayout(new MigLayout("insets 0", "[][grow]", "[][][][][][][][][][][][][][][][]"));
 		
 		JLabel networkInterfaceIdLabel = new JLabel("Interface#");
 		adapterPanel.add(networkInterfaceIdLabel, "cell 0 0,alignx leading");
@@ -180,7 +179,7 @@ public class WMINetworkPanelUI extends JPanel {
 	
 	private JTabbedPane createAdapterPropertyTabbedPane() {
 		
-		JTabbedPane adapterPropertyTabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		JTabbedPane adapterPropertyTabbedPane = new JTabbedPane(SwingConstants.TOP);
 		
 		// ip panel
 		JPanel adapterIpPanel = new JPanel();

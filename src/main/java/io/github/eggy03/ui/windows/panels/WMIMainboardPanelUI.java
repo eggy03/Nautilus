@@ -54,7 +54,7 @@ public class WMIMainboardPanelUI extends JPanel {
 	 * Create the panel.
 	 */
 	public WMIMainboardPanelUI() {
-		setLayout(new MigLayout("", "[grow][grow]", "[grow][grow]"));
+		setLayout(new MigLayout("insets 0", "[grow][grow]", "[grow][grow]"));
 
 		add(createBaseboardPanel(), "cell 0 0,grow");
 		add(createBaseboardPortPanel(), "cell 1 0,grow");
@@ -68,7 +68,7 @@ public class WMIMainboardPanelUI extends JPanel {
 		//add panel
 		JPanel baseboardPanel = new JPanel();
 		baseboardPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Baseboard", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		baseboardPanel.setLayout(new MigLayout("", "[][grow]", "[][][][][][]"));
+		baseboardPanel.setLayout(new MigLayout("insets 0", "[][grow]", "[][][][][][]"));
 
 		JLabel baseboardNumberLabel = new JLabel("Baseboard#");
 		baseboardPanel.add(baseboardNumberLabel, "cell 0 0,alignx leading");
@@ -121,7 +121,7 @@ public class WMIMainboardPanelUI extends JPanel {
 		//add panel
 		JPanel baseboardPortPanel = new JPanel();
 		baseboardPortPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Baseboard Port", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		baseboardPortPanel.setLayout(new MigLayout("", "[][grow]", "[][][][]"));
+		baseboardPortPanel.setLayout(new MigLayout("insets 0", "[][grow]", "[][][][]"));
 		
 		JLabel baseboardPortTagLabel = new JLabel("Tag");
 		baseboardPortPanel.add(baseboardPortTagLabel, "cell 0 0,alignx leading");
@@ -159,7 +159,7 @@ public class WMIMainboardPanelUI extends JPanel {
 		// add panel
 		JPanel biosPanel = new JPanel();
 		biosPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "BIOS", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		biosPanel.setLayout(new MigLayout("", "[][grow]", "[][][][][][][][][][][]"));
+		biosPanel.setLayout(new MigLayout("insets 0", "[][grow]", "[][][][][][][][][][][]"));
 		
 		JLabel biosNumberLabel = new JLabel("BIOS#");
 		biosPanel.add(biosNumberLabel, "cell 0 0,alignx leading");

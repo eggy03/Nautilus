@@ -59,7 +59,7 @@ public class WMIStoragePanelUI extends JPanel {
 		
 		JPanel diskDrivePanel = new JPanel();
 		diskDrivePanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Disk Drive", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		diskDrivePanel.setLayout(new MigLayout("", "[][grow]", "[][][][][][][][][][][]"));
+		diskDrivePanel.setLayout(new MigLayout("insets 0", "[][grow]", "[][][][][][][][][][][]"));
 		
 		JLabel diskDeviceIdLabel = new JLabel("Disk#");
 		diskDrivePanel.add(diskDeviceIdLabel, "cell 0 0,alignx leading");

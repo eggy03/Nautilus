@@ -39,7 +39,7 @@ public class WMIVideoControllerPanelUI extends JPanel {
 	}
 	
 	public WMIVideoControllerPanelUI() {
-		setLayout(new MigLayout("", "[grow][grow]", "[grow][grow]"));
+		setLayout(new MigLayout("insets 0", "[grow][grow]", "[grow][grow]"));
 		
 		add(createIdentifierPanel(), "cell 0 0 2 1, grow");
 		add(createDisplayPanel(), "cell 0 1, grow");
@@ -51,7 +51,7 @@ public class WMIVideoControllerPanelUI extends JPanel {
 	private JScrollPane createIdentifierPanel() {
 		JPanel identifierPanel = new JPanel();
 		identifierPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Identifier", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		identifierPanel.setLayout(new MigLayout("", "[][grow]", "[][][]"));
+		identifierPanel.setLayout(new MigLayout("insets 0", "[][grow]", "[][][]"));
 		
 		JLabel gpuDeviceIdLabel = new JLabel("Device ID");
 		identifierPanel.add(gpuDeviceIdLabel, "cell 0 0,alignx leading");
@@ -80,7 +80,7 @@ public class WMIVideoControllerPanelUI extends JPanel {
 		
 		JPanel displayPanel = new JPanel();
 		displayPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Display", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		displayPanel.setLayout(new MigLayout("", "[][grow]", "[][][][][][]"));
+		displayPanel.setLayout(new MigLayout("insets 0", "[][grow]", "[][][][][][]"));
 		
 		JLabel gpuHorizontalResLabel = new JLabel("Horizontal Res.");
 		displayPanel.add(gpuHorizontalResLabel, "cell 0 0,alignx leading");
@@ -131,7 +131,7 @@ public class WMIVideoControllerPanelUI extends JPanel {
 		
 		JPanel driverPanel = new JPanel();
 		driverPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Driver", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		driverPanel.setLayout(new MigLayout("", "[][grow]", "[][][][][]"));
+		driverPanel.setLayout(new MigLayout("insets 0", "[][grow]", "[][][][][]"));
 		
 		JLabel gpuAdapterDACTypeLabel = new JLabel("Adapter DAC Type");
 		driverPanel.add(gpuAdapterDACTypeLabel, "cell 0 0,alignx leading");

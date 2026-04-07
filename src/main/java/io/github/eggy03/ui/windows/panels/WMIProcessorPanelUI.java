@@ -75,7 +75,7 @@ public class WMIProcessorPanelUI extends JPanel {
 		
 		JPanel hardwareIdPanel = new JPanel();
 		hardwareIdPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "HardwareID", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		hardwareIdPanel.setLayout(new MigLayout("", "[grow][]", "[]"));
+		hardwareIdPanel.setLayout(new MigLayout("insets 0", "[grow][]", "[]"));
 
 		hardwareIdTextField = new JTextField();
 		hardwareIdTextField.setEditable(false);
@@ -101,7 +101,7 @@ public class WMIProcessorPanelUI extends JPanel {
 		// PRIMARY INFO PANEL
 		JPanel primaryInfoPanel = new JPanel();
 		primaryInfoPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Primary Information", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		primaryInfoPanel.setLayout(new MigLayout("", "[][grow][][grow][][grow]", "[][][]"));
+		primaryInfoPanel.setLayout(new MigLayout("insets 0", "[][grow][][grow][][grow]", "[][][]"));
 		
 		JLabel cpuIdLabel = new JLabel("CPU#");
 		primaryInfoPanel.add(cpuIdLabel, "cell 0 0,alignx leading");
@@ -161,7 +161,7 @@ public class WMIProcessorPanelUI extends JPanel {
 		// SECONDARY INFO PANEL
 		JPanel secondaryInfoPanel = new JPanel();
 		secondaryInfoPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Secondary Information", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		secondaryInfoPanel.setLayout(new MigLayout("", "[][grow][][grow][][grow]", "[][][]"));
+		secondaryInfoPanel.setLayout(new MigLayout("insets 0", "[][grow][][grow][][grow]", "[][][]"));
 		
 		JLabel versionLabel = new JLabel("Version");
 		secondaryInfoPanel.add(versionLabel, "cell 0 0,alignx leading");
