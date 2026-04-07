@@ -19,19 +19,10 @@ A cross-platform Java Swing based GUI application to view information about your
 
 - Planned
 
-# Screenshots
-
-### Windows Build
-
-TODO
-
-### Linux Build
-
-TODO
-
 # Download
 
 ## Pre-Built Binaries
+
 Pre-built binaries are not signed, which means your antivirus or smart-screen software may flag it as an
 unwanted program. If there is a demand for it, I may start releasing them, but for now, building from source
 is a viable option since your AV or Smart Screen filter wouldn't flag it.
@@ -63,6 +54,12 @@ The generated binaries will be available in `../Nautilus/target/output`
 - Output format depends on the target OS
 - A minimal runtime is generated using `jlink` which is then packaged into the target build
 - This makes your build portable
+
+# Screenshots
+
+## Windows
+
+## Linux
 
 # License
 
