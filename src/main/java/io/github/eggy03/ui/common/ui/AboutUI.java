@@ -1,6 +1,25 @@
+/*
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ * Copyright (C) 2026 Egg-03
+ */
 package io.github.eggy03.ui.common.ui;
 
-import java.awt.BorderLayout;
+import com.formdev.flatlaf.extras.FlatSVGIcon;
+import io.github.eggy03.ui.common.constant.Version;
+import net.miginfocom.swing.MigLayout;
+
+import javax.swing.JEditorPane;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.WindowConstants;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.TitledBorder;
 import java.awt.Desktop;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
@@ -9,36 +28,24 @@ import java.io.InputStream;
 import java.net.URI;
 import java.util.Objects;
 
-import javax.swing.JButton;
-import javax.swing.JEditorPane;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.WindowConstants;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.TitledBorder;
-
-import com.formdev.flatlaf.extras.FlatSVGIcon;
-
-import io.github.eggy03.ui.common.constant.VersionAndOtherInfo;
-import net.miginfocom.swing.MigLayout;
-
 public class AboutUI extends JFrame {
 
-	private static final String VERSION_AND_AUTHOR = "Version: " + VersionAndOtherInfo.APP_VERSION + System.lineSeparator() +
-					"Windows Build: Stable" + System.lineSeparator() +
-					"Linux Build: Beta" + System.lineSeparator() +
-					"Developed By: Egg-03";
+	private static final String VERSION_AND_AUTHOR =
+			"Version: " + Version.SEMVER + Version.SUFFIX
+			+ System.lineSeparator()
+			+ "Build: " + Version.BUILD_DATE
+			+ System.lineSeparator()
+			+ "Developer: " + Version.DEVELOPER
+			+ System.lineSeparator()
+			+ "License: " + Version.LICENSE;
 
 	private static final String ATTRIBUTION = """	
 			<b>Open-Source Licenses</b><br>
-			This application includes third-party open-source libraries and frameworks.
+			This application includes the following third-party open-source libraries and frameworks:
 			<ul>
 			  <li>FerrumX Windows</li>
 			  <li>dmidecode4j</li>
-			  <li>Swing Theme Manager></li>
+			  <li>Swing Theme Manager</li>
 			  <li>Apache Commons Lang</li>
 			  <li>Apache Commons IO</li>
 			  <li>FlatLaf</li>
@@ -59,27 +66,26 @@ public class AboutUI extends JFrame {
 			licensed under the Apache License, Version 2.0.<br><br>
 			
 			<b>Security Notice</b><br>
-			This application binary is currently <b>unsigned</b>.
-			For your safety, download this software only from official sources,
-			such as the project's GitHub repository.
-			
+			This application binary is currently unsigned, and no official pre-built binaries are distributed.
+			Users are strongly encouraged to build the application from source.
+			If you choose to use a pre-built binary, ensure that it originates from a trusted and verified source.
 			""";
 
 	public AboutUI() {
 		setTitle("About Nautilus");
 		
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 550, 360);
+		setBounds(100, 100, 550, 400);
 		setResizable(false);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(AboutUI.class.getResource("/icons/icon_main.png")));
 		
 		JPanel contentPane = new JPanel();
-		contentPane.setLayout(new BorderLayout(0, 0));
-		
-		contentPane.add(createVersionPanel(), BorderLayout.NORTH);
-		contentPane.add(createAttributionPanel(), BorderLayout.CENTER);
-		contentPane.add(createButtonsPanel(), BorderLayout.SOUTH);
-		
+		contentPane.setLayout(new MigLayout("insets 0", "[grow]", "[][][grow]"));
+
+		contentPane.add(createMenu(), "cell 0 0, growx");
+		contentPane.add(createVersionPanel(), "cell 0 1, growx");
+		contentPane.add(createAttributionPanel(), "cell 0 2, growx");
+
 		setContentPane(contentPane);
 	}
 	
@@ -87,7 +93,7 @@ public class AboutUI extends JFrame {
 		
 		JPanel versionPanel = new JPanel();
 		versionPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Version Info", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		versionPanel.setLayout(new MigLayout("", "[grow][]", "[]"));
+		versionPanel.setLayout(new MigLayout("insets 0", "[grow][]", "[]"));
 		
 		JTextArea versionTextArea = new JTextArea();
 		versionTextArea.setText(VERSION_AND_AUTHOR);
@@ -117,36 +123,45 @@ public class AboutUI extends JFrame {
         return attributionPanel;
     }
 	
-	private JPanel createButtonsPanel() {
+	private JMenuBar createMenu() {
 		
-		JPanel buttonsPanel = new JPanel();
-		buttonsPanel.setLayout(new GridLayout(1, 3, 0, 0));
+		JMenuBar menuBar = new JMenuBar();
 		
-		JButton githubPageButton = new JButton("Visit Nautilus GitHub Page");
-		githubPageButton.addActionListener(action-> {
-            try {
-                Desktop.getDesktop().browse(URI.create(VersionAndOtherInfo.APP_GITHUB_PAGE));
+		JMenu attributionMenu = new JMenu("More Info");
+		menuBar.add(attributionMenu);
+		
+		JMenuItem visitGithub = new JMenuItem("Visit Nautilus GitHub");
+		visitGithub.addActionListener(action -> {
+			try {
+                Desktop.getDesktop().browse(URI.create(Version.GITHUB_PAGE));
             } catch (IOException | UnsupportedOperationException e) {
                 new ExceptionUI("Could not open browser", e.getMessage());
             }
-        });
-		buttonsPanel.add(githubPageButton);
-
-		JButton privacyPolicyButton = new JButton("Privacy Policy");
-		privacyPolicyButton.addActionListener(action-> {
+		});
+		attributionMenu.add(visitGithub);
+		
+		JMenuItem privacyPolicy = new JMenuItem("Privacy Policy");
+		privacyPolicy.addActionListener(action-> {
 			InputStream stream = Objects.requireNonNull(AboutUI.class.getResourceAsStream("/PrivacyPolicy.txt"), "Privacy Policy Stream must not be null");
 			new TextViewUI("Privacy Policy", stream).setVisible(true);
 		});
-		buttonsPanel.add(privacyPolicyButton);
+		attributionMenu.add(privacyPolicy);
 		
-		JButton openSourceLicenseButton = new JButton("See Open Source Licenses");
-		openSourceLicenseButton.addActionListener(action-> {
+		JMenuItem applicationLicense = new JMenuItem("License");
+		applicationLicense.addActionListener(action-> {
+			InputStream stream = Objects.requireNonNull(AboutUI.class.getResourceAsStream("/ApplicationLicense.txt"), "Application License Stream must not be null");
+			new TextViewUI("Application License", stream).setVisible(true);
+		});
+		attributionMenu.add(applicationLicense);
+		
+		JMenuItem openSourceLicenses = new JMenuItem("Open Source Licenses");
+		openSourceLicenses.addActionListener(action-> {
 			InputStream stream = Objects.requireNonNull(AboutUI.class.getResourceAsStream("/OpenSourceLicenses.txt"), "License Stream must not be null");
 			new TextViewUI("Third Party Software Licenses", stream).setVisible(true);
         });
-		buttonsPanel.add(openSourceLicenseButton);
+		attributionMenu.add(openSourceLicenses);
 		
-		return buttonsPanel;
+		return menuBar;
 	}
 
 }

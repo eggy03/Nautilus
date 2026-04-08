@@ -1,7 +1,12 @@
+/*
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ * Copyright (C) 2026 Egg-03
+ */
 package io.github.eggy03.ui.linux.worker;
 
 import io.github.eggy03.dmidecode.entity.memory.DMIMemoryDevice;
 import io.github.eggy03.dmidecode.service.memory.DMIMemoryDeviceService;
+import io.github.eggy03.ui.common.constant.TerminalConstant;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -21,7 +26,7 @@ public class DMIPhysicalMemoryWorker extends SwingWorker<List<DMIMemoryDevice>, 
 
     @Override
     protected List<DMIMemoryDevice> doInBackground() throws Exception {
-        return new DMIMemoryDeviceService().get(15);
+        return new DMIMemoryDeviceService().get(TerminalConstant.TIMEOUT_SIXTY_SECONDS);
     }
 
     @Override
@@ -36,7 +41,7 @@ public class DMIPhysicalMemoryWorker extends SwingWorker<List<DMIMemoryDevice>, 
             log.info("Found {} DMIMemory entry/entries", dmiMemoryDeviceList.size());
 
             // populate the combo box with memory locator data
-            dmiMemoryDeviceList.forEach(memory -> memorySlotComboBox.addItem(memory.getLocator()));
+            dmiMemoryDeviceList.forEach(memory -> memorySlotComboBox.addItem(memory.locator()));
             // populate fields for the first entry in the combo box
             populateFieldsBasedOnMemory(dmiMemoryDeviceList);
             // add a listener to the combo box to re-populate fields on new selection
@@ -57,7 +62,7 @@ public class DMIPhysicalMemoryWorker extends SwingWorker<List<DMIMemoryDevice>, 
 
         Optional<DMIMemoryDevice> optionalDMIMemoryDevice = dmiMemoryDeviceList
                 .stream()
-                .filter(memory -> memory.getLocator()!=null && memory.getLocator().equals(locator))
+                .filter(memory -> memory.locator()!=null && memory.locator().equals(locator))
                 .findFirst();
 
         if(optionalDMIMemoryDevice.isEmpty())
@@ -65,37 +70,37 @@ public class DMIPhysicalMemoryWorker extends SwingWorker<List<DMIMemoryDevice>, 
 
         DMIMemoryDevice memory = optionalDMIMemoryDevice.get();
 
-        memoryFields.get(0).setText(memory.getSet());
-        memoryFields.get(1).setText(memory.getAssetTag());
-        memoryFields.get(2).setText(memory.getSerialNumber());
-        memoryFields.get(3).setText(memory.getPartNumber());
-        memoryFields.get(4).setText(memory.getFirmwareVersion());
-        memoryFields.get(5).setText(memory.getLocator());
-        memoryFields.get(6).setText(memory.getBankLocator());
-        memoryFields.get(7).setText(memory.getFormFactor());
-        memoryFields.get(8).setText(memory.getType());
-        memoryFields.get(9).setText(memory.getTypeDetail());
-        memoryFields.get(10).setText(String.valueOf(memory.getRank()));
-        memoryFields.get(11).setText(memory.getSize());
-        memoryFields.get(12).setText(memory.getDataWidth());
-        memoryFields.get(13).setText(memory.getTotalWidth());
-        memoryFields.get(14).setText(memory.getVolatileSize());
-        memoryFields.get(15).setText(memory.getNonVolatileSize());
-        memoryFields.get(16).setText(memory.getCacheSize());
-        memoryFields.get(17).setText(memory.getLogicalSize());
-        memoryFields.get(18).setText(memory.getSpeed());
-        memoryFields.get(19).setText(memory.getConfiguredMemorySpeed());
-        memoryFields.get(20).setText(memory.getMinimumVoltage());
-        memoryFields.get(21).setText(memory.getMaximumVoltage());
-        memoryFields.get(22).setText(memory.getConfiguredVoltage());
-        memoryFields.get(23).setText(memory.getManufacturer());
-        memoryFields.get(24).setText(memory.getModuleManufacturerId());
-        memoryFields.get(25).setText(memory.getModuleProductId());
-        memoryFields.get(26).setText(memory.getMemorySubsystemControllerManufacturerId());
-        memoryFields.get(27).setText(memory.getMemorySubsystemControllerProductId());
-        memoryFields.get(28).setText(memory.getMemoryTechnology());
-        memoryFields.get(29).setText(memory.getMemoryOperatingModeCapability());
-        memoryFields.get(30).setText(memory.getArrayHandle());
-        memoryFields.get(31).setText(memory.getErrorInformationHandle());
+        memoryFields.get(0).setText(memory.set());
+        memoryFields.get(1).setText(memory.assetTag());
+        memoryFields.get(2).setText(memory.serialNumber());
+        memoryFields.get(3).setText(memory.partNumber());
+        memoryFields.get(4).setText(memory.firmwareVersion());
+        memoryFields.get(5).setText(memory.locator());
+        memoryFields.get(6).setText(memory.bankLocator());
+        memoryFields.get(7).setText(memory.formFactor());
+        memoryFields.get(8).setText(memory.type());
+        memoryFields.get(9).setText(memory.typeDetail());
+        memoryFields.get(10).setText(String.valueOf(memory.rank()));
+        memoryFields.get(11).setText(memory.size());
+        memoryFields.get(12).setText(memory.dataWidth());
+        memoryFields.get(13).setText(memory.totalWidth());
+        memoryFields.get(14).setText(memory.volatileSize());
+        memoryFields.get(15).setText(memory.nonVolatileSize());
+        memoryFields.get(16).setText(memory.cacheSize());
+        memoryFields.get(17).setText(memory.logicalSize());
+        memoryFields.get(18).setText(memory.speed());
+        memoryFields.get(19).setText(memory.configuredMemorySpeed());
+        memoryFields.get(20).setText(memory.minimumVoltage());
+        memoryFields.get(21).setText(memory.maximumVoltage());
+        memoryFields.get(22).setText(memory.configuredVoltage());
+        memoryFields.get(23).setText(memory.manufacturer());
+        memoryFields.get(24).setText(memory.moduleManufacturerId());
+        memoryFields.get(25).setText(memory.moduleProductId());
+        memoryFields.get(26).setText(memory.memorySubsystemControllerManufacturerId());
+        memoryFields.get(27).setText(memory.memorySubsystemControllerProductId());
+        memoryFields.get(28).setText(memory.memoryTechnology());
+        memoryFields.get(29).setText(memory.memoryOperatingModeCapability());
+        memoryFields.get(30).setText(memory.arrayHandle());
+        memoryFields.get(31).setText(memory.errorInformationHandle());
     }
 }

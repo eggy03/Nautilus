@@ -1,8 +1,12 @@
+/*
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ * Copyright (C) 2026 Egg-03
+ */
 package io.github.eggy03.ui.linux.worker;
 
 import io.github.eggy03.dmidecode.entity.processor.DMIProcessor;
 import io.github.eggy03.dmidecode.service.processor.DMIProcessorService;
-import io.github.eggy03.ferrumx.windows.entity.compounded.Win32ProcessorToCacheMemory;
+import io.github.eggy03.ui.common.constant.TerminalConstant;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,7 +29,7 @@ public class DMIProcessorWorker extends SwingWorker<List<DMIProcessor>, Void>{
 
 	@Override
 	protected List<DMIProcessor> doInBackground(){
-		return new DMIProcessorService().get(15);
+		return new DMIProcessorService().get(TerminalConstant.TIMEOUT_SIXTY_SECONDS);
 	}
 
 	@Override
@@ -40,7 +44,7 @@ public class DMIProcessorWorker extends SwingWorker<List<DMIProcessor>, Void>{
 			log.info("Found {} DMIProcessor entry/entries", cpuList.size());
 
 			// populate the combo box with cpu device id
-			cpuList.forEach(cpu -> cpuIdComboBox.addItem(cpu.getId()));
+			cpuList.forEach(cpu -> cpuIdComboBox.addItem(cpu.id()));
 			// populate fields for the first entry in the combo box
 			populateFieldsBasedOnCurrentCpuId(cpuList);
 			// add a listener to the combo box to re-populate fields on new selection
@@ -60,8 +64,8 @@ public class DMIProcessorWorker extends SwingWorker<List<DMIProcessor>, Void>{
 
 		Optional<DMIProcessor> optionalDMIProcessor = cpuList.
 				stream().
-				filter(dmiProcessor -> dmiProcessor.getId()!=null &&
-						dmiProcessor.getId().equals(cpuIdComboBox.getSelectedItem()))
+				filter(dmiProcessor -> dmiProcessor.id()!=null &&
+						dmiProcessor.id().equals(cpuIdComboBox.getSelectedItem()))
 						.findFirst();
 
 		if(optionalDMIProcessor.isEmpty())
@@ -69,39 +73,38 @@ public class DMIProcessorWorker extends SwingWorker<List<DMIProcessor>, Void>{
 
 		DMIProcessor cpu = optionalDMIProcessor.get();
 
-		cpuFields.get(0).setText(String.valueOf(cpu.getCoreCount()));
-		cpuFields.get(1).setText(String.valueOf(cpu.getThreadCount()));
-		cpuFields.get(2).setText(cpu.getCurrentSpeed());
-		cpuFields.get(3).setText(cpu.getVersion());
-		cpuFields.get(4).setText(cpu.getSignature());
-		cpuFields.get(5).setText(cpu.getFamily());
-		cpuFields.get(6).setText(cpu.getManufacturer());
-		cpuFields.get(7).setText(cpu.getSerialNumber());
-		cpuFields.get(8).setText(cpu.getAssetTag());
-		cpuFields.get(9).setText(cpu.getPartNumber());
-		cpuFields.get(10).setText(String.valueOf(cpu.getCoreEnabled()));
-		cpuFields.get(11).setText(cpu.getUpgrade());
-		cpuFields.get(12).setText(cpu.getStatus());
-		cpuFields.get(13).setText(cpu.getVoltage());
-		cpuFields.get(14).setText(cpu.getSocketDesignation());
-		cpuFields.get(15).setText(cpu.getMaxSpeed());
+		cpuFields.get(0).setText(String.valueOf(cpu.coreCount()));
+		cpuFields.get(1).setText(String.valueOf(cpu.threadCount()));
+		cpuFields.get(2).setText(cpu.currentSpeed());
+		cpuFields.get(3).setText(cpu.version());
+		cpuFields.get(4).setText(cpu.signature());
+		cpuFields.get(5).setText(cpu.family());
+		cpuFields.get(6).setText(cpu.manufacturer());
+		cpuFields.get(7).setText(cpu.serialNumber());
+		cpuFields.get(8).setText(cpu.assetTag());
+		cpuFields.get(9).setText(cpu.partNumber());
+		cpuFields.get(10).setText(String.valueOf(cpu.coreEnabled()));
+		cpuFields.get(11).setText(cpu.upgrade());
+		cpuFields.get(12).setText(cpu.status());
+		cpuFields.get(13).setText(cpu.voltage());
+		cpuFields.get(14).setText(cpu.socketDesignation());
+		cpuFields.get(15).setText(cpu.maxSpeed());
+
+		List<String> characteristics = cpu.characteristics();
+		List<String> flags = cpu.flags();
 
 		StringBuilder sb = new StringBuilder();
-		sb.append("CPU Characteristics:")
-				.append(System.lineSeparator());
 
-		if(cpu.getCharacteristics()!=null){
-			cpu.getCharacteristics().forEach(characteristic-> sb.append("• ")
+		sb.append("CPU Characteristics:").append(System.lineSeparator());
+		if(characteristics!=null){
+			characteristics.forEach(characteristic-> sb.append("• ")
                     .append(characteristic)
                     .append(System.lineSeparator()));
 		}
 
-		sb.append(System.lineSeparator())
-				.append("CPU Flags:")
-				.append(System.lineSeparator());
-
-		if(cpu.getFlags()!=null){
-			cpu.getFlags().forEach(flag -> sb.append("• ")
+		sb.append(System.lineSeparator()).append("CPU Flags:").append(System.lineSeparator());
+		if(flags!=null){
+			flags.forEach(flag -> sb.append("• ")
 					.append(flag)
 					.append(System.lineSeparator()));
 		}
@@ -109,6 +112,4 @@ public class DMIProcessorWorker extends SwingWorker<List<DMIProcessor>, Void>{
 		cpuCharsAndFlagsTextArea.setText(sb.toString());
 
 	}
-
-
 }

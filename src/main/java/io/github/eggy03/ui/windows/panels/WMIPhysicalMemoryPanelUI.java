@@ -1,3 +1,7 @@
+/*
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ * Copyright (C) 2026 Egg-03
+ */
 package io.github.eggy03.ui.windows.panels;
 
 import java.awt.GridLayout;
@@ -50,7 +54,7 @@ public class WMIPhysicalMemoryPanelUI extends JPanel {
 		// add panel
 		JPanel memoryPanel = new JPanel();
 		memoryPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Memory", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		memoryPanel.setLayout(new MigLayout("", "[][grow]", "[][][][][][][][][][][][][][]"));
+		memoryPanel.setLayout(new MigLayout("insets 0", "[][grow]", "[][][][][][][][][][][][][][]"));
 		
 		JLabel slotLabel = new JLabel("Slot#");
 		memoryPanel.add(slotLabel, "cell 0 0,alignx leading");

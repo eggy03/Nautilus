@@ -1,7 +1,24 @@
-This application does not use the internet and does not transmit any data.
+Privacy Policy
+This application is designed with a strong emphasis on user privacy.
 
-The app temporarily accesses and displays system information during runtime.
-All data remains local, is never stored persistently, and is discarded when the application exits.
+Data Collection and Transmission
+The application operates entirely offline and does not knowingly collect, transmit, or share any user data over the internet.
 
-No data is collected, retained, shared, or transmitted to the developer or to any third parties, unless bug reports
-are manually submitted.
+Local Data Usage
+During runtime, the application temporarily accesses and displays system information required for its functionality.
+This data is processed locally, is not stored persistently, and is automatically discarded when the application is closed.
+
+Logging
+The application generates log files on the user’s system during each startup.
+These logs are stored locally and are not transmitted externally.
+
+Logs are categorized as follows:
+INFO: Contains general operational information and does not include personally identifiable data.
+DEBUG: May include detailed diagnostic information, such as hardware-related data, to assist with troubleshooting.
+
+User Control
+All log files remain under the user’s control.
+Logs are only shared externally if the user explicitly chooses to include them when submitting a bug report.
+
+Data Retention
+No data is retained beyond the current session, except for locally stored log files, which the user may review or delete at any time.

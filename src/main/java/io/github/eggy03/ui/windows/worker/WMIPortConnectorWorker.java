@@ -1,7 +1,12 @@
+/*
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ * Copyright (C) 2026 Egg-03
+ */
 package io.github.eggy03.ui.windows.worker;
 
 import io.github.eggy03.ferrumx.windows.entity.mainboard.Win32PortConnector;
 import io.github.eggy03.ferrumx.windows.service.mainboard.Win32PortConnectorService;
+import io.github.eggy03.ui.common.constant.TerminalConstant;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -23,7 +28,7 @@ public class WMIPortConnectorWorker extends SwingWorker<List<Win32PortConnector>
 
     @Override
     protected List<Win32PortConnector> doInBackground() {
-        return new Win32PortConnectorService().get(15L);
+        return new Win32PortConnectorService().get(TerminalConstant.TIMEOUT_SIXTY_SECONDS);
     }
 
     @Override

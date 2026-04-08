@@ -1,7 +1,12 @@
+/*
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ * Copyright (C) 2026 Egg-03
+ */
 package io.github.eggy03.ui.linux.worker;
 
 import io.github.eggy03.dmidecode.entity.processor.DMICache;
 import io.github.eggy03.dmidecode.service.processor.DMICacheService;
+import io.github.eggy03.ui.common.constant.TerminalConstant;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -18,7 +23,7 @@ public class DMICacheWorker extends SwingWorker<List<DMICache>, Void> {
 
     @Override
     protected List<DMICache> doInBackground() {
-        return new DMICacheService().get(15);
+        return new DMICacheService().get(TerminalConstant.TIMEOUT_SIXTY_SECONDS);
     }
 
     @Override
@@ -36,18 +41,18 @@ public class DMICacheWorker extends SwingWorker<List<DMICache>, Void> {
                     .append(System.lineSeparator());
 
             dmiCacheList.forEach(cache -> sb.append(System.lineSeparator())
-                    .append("Socket Designation: ").append(cache.getSocketDesignation()).append(System.lineSeparator())
-                    .append("Configuration: ").append(cache.getConfiguration()).append(System.lineSeparator())
-                    .append("Operational Mode: ").append(cache.getOperationalMode()).append(System.lineSeparator())
-                    .append("Location: ").append(cache.getLocation()).append(System.lineSeparator())
-                    .append("Installed Size: ").append(cache.getInstalledSize()).append(System.lineSeparator())
-                    .append("Maximum Size: ").append(cache.getMaximumSize()).append(System.lineSeparator())
-                    .append("Supported SRAM Types: ").append(cache.getSupportedSramTypes()).append(System.lineSeparator())
-                    .append("Installed SRAM Type: ").append(cache.getInstalledSramType()).append(System.lineSeparator())
-                    .append("Speed: ").append(cache.getSpeed()).append(System.lineSeparator())
-                    .append("Error Correction Type: ").append(cache.getErrorCorrectionType()).append(System.lineSeparator())
-                    .append("System Type: ").append(cache.getSystemType()).append(System.lineSeparator())
-                    .append("Associativity: ").append(cache.getAssociativity()).append(System.lineSeparator())
+                    .append("Socket Designation: ").append(cache.socketDesignation()).append(System.lineSeparator())
+                    .append("Configuration: ").append(cache.configuration()).append(System.lineSeparator())
+                    .append("Operational Mode: ").append(cache.operationalMode()).append(System.lineSeparator())
+                    .append("Location: ").append(cache.location()).append(System.lineSeparator())
+                    .append("Installed Size: ").append(cache.installedSize()).append(System.lineSeparator())
+                    .append("Maximum Size: ").append(cache.maximumSize()).append(System.lineSeparator())
+                    .append("Supported SRAM Types: ").append(cache.supportedSramTypes()).append(System.lineSeparator())
+                    .append("Installed SRAM Type: ").append(cache.installedSramType()).append(System.lineSeparator())
+                    .append("Speed: ").append(cache.speed()).append(System.lineSeparator())
+                    .append("Error Correction Type: ").append(cache.errorCorrectionType()).append(System.lineSeparator())
+                    .append("System Type: ").append(cache.systemType()).append(System.lineSeparator())
+                    .append("Associativity: ").append(cache.associativity()).append(System.lineSeparator())
             );
 
             cacheTextArea.setText(sb.toString());

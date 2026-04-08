@@ -1,7 +1,12 @@
+/*
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ * Copyright (C) 2026 Egg-03
+ */
 package io.github.eggy03.ui.windows.worker;
 
 import io.github.eggy03.ferrumx.windows.entity.compounded.HardwareId;
 import io.github.eggy03.ferrumx.windows.service.compounded.HardwareIdService;
+import io.github.eggy03.ui.common.constant.TerminalConstant;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -17,7 +22,7 @@ public class WMIHardwareIdWorker extends SwingWorker<HardwareId, Void>{
 
 	@Override
 	protected HardwareId doInBackground() {
-		return new HardwareIdService().get(15L).orElse(HardwareId.builder().build());
+		return new HardwareIdService().get(TerminalConstant.TIMEOUT_SIXTY_SECONDS).orElse(HardwareId.builder().build());
 		// I wonder if I should throw an exception or just return an empty build
 	}
 	

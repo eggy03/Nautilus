@@ -1,3 +1,7 @@
+/*
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ * Copyright (C) 2026 Egg-03
+ */
 package io.github.eggy03.ui.common.ui;
 
 import java.awt.Toolkit;
@@ -32,7 +36,7 @@ public class InformationUI extends JFrame {
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), infoHeading, TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel.setLayout(new MigLayout("", "[grow]", "[grow][grow]"));
+		panel.setLayout(new MigLayout("insets 0", "[grow]", "[grow][grow]"));
 		
 		JLabel iconLabel = new JLabel("");
 		iconLabel.setHorizontalAlignment(SwingConstants.CENTER);

@@ -1,7 +1,12 @@
+/*
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ * Copyright (C) 2026 Egg-03
+ */
 package io.github.eggy03.ui.windows.worker;
 
 import io.github.eggy03.ferrumx.windows.entity.display.Win32VideoController;
 import io.github.eggy03.ferrumx.windows.service.display.Win32VideoControllerService;
+import io.github.eggy03.ui.common.constant.TerminalConstant;
 import io.github.eggy03.ui.windows.utilities.WMIDateUtility;
 import io.github.eggy03.ui.windows.utilities.WMISizeUtility;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +28,7 @@ public class WMIVideoControllerPanelWorker extends SwingWorker<List<Win32VideoCo
 
     @Override
     protected List<Win32VideoController> doInBackground() {
-        return new Win32VideoControllerService().get(15L);
+        return new Win32VideoControllerService().get(TerminalConstant.TIMEOUT_SIXTY_SECONDS);
     }
 
     @Override

@@ -1,7 +1,12 @@
+/*
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ * Copyright (C) 2026 Egg-03
+ */
 package io.github.eggy03.ui.windows.worker;
 
 import io.github.eggy03.ferrumx.windows.entity.mainboard.Win32Baseboard;
 import io.github.eggy03.ferrumx.windows.service.mainboard.Win32BaseboardService;
+import io.github.eggy03.ui.common.constant.TerminalConstant;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -22,7 +27,7 @@ public class WMIBaseboardWorker extends SwingWorker<List<Win32Baseboard>, Void> 
 
     @Override
     protected List<Win32Baseboard> doInBackground() {
-        return new Win32BaseboardService().get(15L);
+        return new Win32BaseboardService().get(TerminalConstant.TIMEOUT_SIXTY_SECONDS);
     }
 
     @Override

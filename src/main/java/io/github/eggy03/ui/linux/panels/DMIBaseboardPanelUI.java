@@ -1,3 +1,7 @@
+/*
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ * Copyright (C) 2026 Egg-03
+ */
 package io.github.eggy03.ui.linux.panels;
 
 import java.awt.GridLayout;
@@ -69,7 +73,7 @@ public class DMIBaseboardPanelUI extends JPanel {
 	private JScrollPane createBaseboardPanel() {
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(null, "Baseboard", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel.setLayout(new MigLayout("", "[grow][grow]", "[][][][][][][][][grow]"));
+		panel.setLayout(new MigLayout("insets 0", "[grow][grow]", "[][][][][][][][][grow]"));
 
 		JLabel manufacturerLabel = new JLabel("Manufacturer");
 		panel.add(manufacturerLabel, "cell 0 0,alignx leading");
@@ -129,7 +133,7 @@ public class DMIBaseboardPanelUI extends JPanel {
 		
 		JPanel featurePanel = new JPanel();
 		featurePanel.setBorder(new TitledBorder(null, "Features", TitledBorder.LEFT, TitledBorder.TOP, null, null));
-		featurePanel.setLayout(new MigLayout("", "[grow][grow]", "[grow]"));
+		featurePanel.setLayout(new MigLayout("insets 0", "[grow][grow]", "[grow]"));
 		panel.add(featurePanel, "cell 0 8 2 1,grow");
 		
 		featureTextArea = new JTextArea();
@@ -142,7 +146,7 @@ public class DMIBaseboardPanelUI extends JPanel {
 	private JScrollPane createBaseboardPortPanel() {
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(null, "Baseboard Port", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel.setLayout(new MigLayout("", "[][grow]", "[][][][][][]"));
+		panel.setLayout(new MigLayout("insets 0", "[][grow]", "[][][][][][]"));
 		
 		JLabel portNumberLabel = new JLabel("Port #");
 		panel.add(portNumberLabel, "cell 0 0,alignx leading");
@@ -195,7 +199,7 @@ public class DMIBaseboardPanelUI extends JPanel {
 	private JScrollPane createBiosPanel() {
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(null, "BIOS", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel.setLayout(new MigLayout("", "[grow][grow]", "[][][][][][][][][][grow]"));
+		panel.setLayout(new MigLayout("insets 0", "[grow][grow]", "[][][][][][][][][][grow]"));
 		
 		JLabel biosNumberLabel = new JLabel("BIOS #");
 		panel.add(biosNumberLabel, "cell 0 0,alignx leading");
@@ -261,7 +265,7 @@ public class DMIBaseboardPanelUI extends JPanel {
 		
 		JPanel characteristicsPanel = new JPanel();
 		characteristicsPanel.setBorder(new TitledBorder(null, "Characteristics", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		characteristicsPanel.setLayout(new MigLayout("", "[grow][grow]", "[grow]"));
+		characteristicsPanel.setLayout(new MigLayout("insets 0", "[grow][grow]", "[grow]"));
 		panel.add(characteristicsPanel, "cell 0 9 2 1,grow");
 		
 		characteristicsTextArea = new JTextArea();

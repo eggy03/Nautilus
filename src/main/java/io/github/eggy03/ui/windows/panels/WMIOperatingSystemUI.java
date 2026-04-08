@@ -1,3 +1,7 @@
+/*
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ * Copyright (C) 2026 Egg-03
+ */
 package io.github.eggy03.ui.windows.panels;
 
 import java.awt.GridLayout;
@@ -75,7 +79,7 @@ public class WMIOperatingSystemUI extends JPanel {
 		
 		JPanel operatingSystemPanel = new JPanel();
 		operatingSystemPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Operating System", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		operatingSystemPanel.setLayout(new MigLayout("", "[][grow][][grow][][grow]", "[][][][][][][][]"));
+		operatingSystemPanel.setLayout(new MigLayout("insets 0", "[][grow][][grow][][grow]", "[][][][][][][][]"));
 		
 		JLabel osCurrrentOsLabel = new JLabel("CurrentOS");
 		operatingSystemPanel.add(osCurrrentOsLabel, "cell 0 0,alignx leading");
@@ -226,7 +230,7 @@ public class WMIOperatingSystemUI extends JPanel {
 		
 		JPanel userPanel = new JPanel();
 		userPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "User", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		userPanel.setLayout(new MigLayout("", "[][grow][][grow][][grow]", "[][][][][][]"));
+		userPanel.setLayout(new MigLayout("insets 0", "[][grow][][grow][][grow]", "[][][][][][]"));
 		
 		JLabel userSIDLabel = new JLabel("SID");
 		userPanel.add(userSIDLabel, "cell 0 0,alignx leading");

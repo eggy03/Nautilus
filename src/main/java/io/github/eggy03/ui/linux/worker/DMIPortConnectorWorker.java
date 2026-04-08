@@ -1,7 +1,12 @@
+/*
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ * Copyright (C) 2026 Egg-03
+ */
 package io.github.eggy03.ui.linux.worker;
 
 import io.github.eggy03.dmidecode.entity.board.DMIPortConnectorInformation;
 import io.github.eggy03.dmidecode.service.board.DMIPortConnectorInformationService;
+import io.github.eggy03.ui.common.constant.TerminalConstant;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -23,7 +28,7 @@ public class DMIPortConnectorWorker extends SwingWorker<List<DMIPortConnectorInf
 
     @Override
     protected List<DMIPortConnectorInformation> doInBackground() throws Exception {
-        return new DMIPortConnectorInformationService().get(15);
+        return new DMIPortConnectorInformationService().get(TerminalConstant.TIMEOUT_SIXTY_SECONDS);
     }
 
     @Override
@@ -61,13 +66,13 @@ public class DMIPortConnectorWorker extends SwingWorker<List<DMIPortConnectorInf
 
         if(portNumberComboBox.getSelectedItem() instanceof Integer selection) {
 
-            DMIPortConnectorInformation port = mapList.getOrDefault(selection, DMIPortConnectorInformation.builder().build());
+            DMIPortConnectorInformation port = mapList.getOrDefault(selection, new DMIPortConnectorInformation.Builder().build());
 
-            portFields.get(0).setText(port.getExternalReferenceDesignator());
-            portFields.get(1).setText(port.getInternalReferenceDesignator());
-            portFields.get(2).setText(port.getExternalConnectorType());
-            portFields.get(3).setText(port.getInternalConnectorType());
-            portFields.get(4).setText(port.getPortType());
+            portFields.get(0).setText(port.externalReferenceDesignator());
+            portFields.get(1).setText(port.internalReferenceDesignator());
+            portFields.get(2).setText(port.externalConnectorType());
+            portFields.get(3).setText(port.internalConnectorType());
+            portFields.get(4).setText(port.portType());
 
         }
     }

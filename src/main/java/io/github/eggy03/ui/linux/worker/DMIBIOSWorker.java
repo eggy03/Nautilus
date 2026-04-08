@@ -1,7 +1,12 @@
+/*
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ * Copyright (C) 2026 Egg-03
+ */
 package io.github.eggy03.ui.linux.worker;
 
 import io.github.eggy03.dmidecode.entity.board.DMIBIOS;
 import io.github.eggy03.dmidecode.service.board.DMIBIOSService;
+import io.github.eggy03.ui.common.constant.TerminalConstant;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -11,6 +16,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingWorker;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -25,7 +31,7 @@ public class DMIBIOSWorker extends SwingWorker<List<DMIBIOS>, Void> {
 
     @Override
     protected List<DMIBIOS> doInBackground() throws Exception {
-        return new DMIBIOSService().get(15);
+        return new DMIBIOSService().get(TerminalConstant.TIMEOUT_SIXTY_SECONDS);
     }
 
     @Override
@@ -63,22 +69,26 @@ public class DMIBIOSWorker extends SwingWorker<List<DMIBIOS>, Void> {
 
         if(biosNumberComboBox.getSelectedItem() instanceof Integer selection) {
 
-            DMIBIOS bios = mapList.getOrDefault(selection, DMIBIOS.builder().build());
+            DMIBIOS bios = mapList.getOrDefault(selection, new DMIBIOS.Builder().build());
 
-            biosFields.get(0).setText(bios.getVendor());
-            biosFields.get(1).setText(bios.getVersion());
-            biosFields.get(2).setText(bios.getReleaseDate());
-            biosFields.get(3).setText(bios.getAddress());
-            biosFields.get(4).setText(bios.getRuntimeSize());
-            biosFields.get(5).setText(bios.getRomSize());
-            biosFields.get(6).setText(bios.getBiosRevision());
-            biosFields.get(7).setText(bios.getFirmwareRevision());
+            biosFields.get(0).setText(bios.vendor());
+            biosFields.get(1).setText(bios.version());
+            biosFields.get(2).setText(bios.releaseDate());
+            biosFields.get(3).setText(bios.address());
+            biosFields.get(4).setText(bios.runtimeSize());
+            biosFields.get(5).setText(bios.romSize());
+            biosFields.get(6).setText(bios.biosRevision());
+            biosFields.get(7).setText(bios.firmwareRevision());
 
-            StringBuilder characteristics = new StringBuilder();
-            if(bios.getCharacteristics()!=null){
-                bios.getCharacteristics().forEach(characteristic-> characteristics.append(characteristic).append(System.lineSeparator()));
+            List<String> characteristics = bios.characteristics();
+
+            if(characteristics!=null && !characteristics.isEmpty()) {
+                biosCharacteristicsTextArea.setText(
+                    characteristics.stream()
+                            .filter(Objects::nonNull)
+                            .collect(Collectors.joining(System.lineSeparator()))
+                );
             }
-            biosCharacteristicsTextArea.setText(characteristics.toString());
         }
     }
 }
