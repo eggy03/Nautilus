@@ -61,6 +61,10 @@ The generated binaries will be available in `../Nautilus/target/output`
 
 ## Linux
 
+A modified build of Nautilus with hidden System UUID and Processor ID, running on Bazzite 43, a Fedora based distribution and using dmidecode 3.6
+
+<img width="1026" height="730" alt="Screenshot_20260408_200545" src="https://github.com/user-attachments/assets/f0c95572-9232-420f-aec3-cd335d7b5aed" />
+
 # License
 
 [GPLv3](/LICENSE.md)
