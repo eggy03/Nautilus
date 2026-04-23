@@ -4,11 +4,11 @@
  */
 package io.github.eggy03.ui.windows.worker;
 
-import io.github.eggy03.ferrumx.windows.entity.compounded.Win32DiskDriveToPartitionAndLogicalDisk;
-import io.github.eggy03.ferrumx.windows.entity.storage.Win32DiskDrive;
-import io.github.eggy03.ferrumx.windows.entity.storage.Win32DiskPartition;
-import io.github.eggy03.ferrumx.windows.entity.storage.Win32LogicalDisk;
-import io.github.eggy03.ferrumx.windows.service.compounded.Win32DiskDriveToPartitionAndLogicalDiskService;
+import io.github.eggy03.cimari.entity.compounded.Win32DiskDriveToPartitionAndLogicalDisk;
+import io.github.eggy03.cimari.entity.storage.Win32DiskDrive;
+import io.github.eggy03.cimari.entity.storage.Win32DiskPartition;
+import io.github.eggy03.cimari.entity.storage.Win32LogicalDisk;
+import io.github.eggy03.cimari.service.compounded.Win32DiskDriveToPartitionAndLogicalDiskService;
 import io.github.eggy03.ui.common.constant.TerminalConstant;
 import io.github.eggy03.ui.windows.constant.WMIConstants;
 import io.github.eggy03.ui.windows.utilities.WMIBooleanUtility;
@@ -21,6 +21,7 @@ import javax.swing.JEditorPane;
 import javax.swing.JTextField;
 import javax.swing.SwingWorker;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 
@@ -48,7 +49,7 @@ public class WMIStorageWorker extends SwingWorker<List<Win32DiskDriveToPartition
             log.info("Found {} Win32DiskDrive entry/entries", diskList.size());
 
             // populate the combo box with disk deviceIDs
-            diskList.forEach(disk-> diskIdComboBox.addItem(disk.getDeviceId()));
+            diskList.forEach(disk-> diskIdComboBox.addItem(disk.deviceId()));
             // populate fields and editor panes for the first entry in the combo box
             populate(diskList);
             // add a listener to the combo box to re-populate fields on new selection
@@ -68,28 +69,29 @@ public class WMIStorageWorker extends SwingWorker<List<Win32DiskDriveToPartition
 
         Optional<Win32DiskDriveToPartitionAndLogicalDisk> optionalDisk = diskList
                 .stream()
-                .filter(disk-> disk.getDeviceId()!=null && disk.getDeviceId().equals(selectedDiskId))
+                .filter(Objects::nonNull)
+                .filter(disk-> Objects.equals(disk.deviceId(), selectedDiskId))
                 .findFirst();
 
         if(optionalDisk.isEmpty())
             return;
 
         Win32DiskDriveToPartitionAndLogicalDisk disk = optionalDisk.get();
-        Win32DiskDrive diskDrive = disk.getDiskDrive();
-        List<Win32DiskPartition> diskPartitionList = disk.getDiskPartitionList();
-        List<Win32LogicalDisk> logicalDiskList = disk.getLogicalDiskList();
+        Win32DiskDrive diskDrive = disk.diskDrive();
+        List<Win32DiskPartition> diskPartitionList = disk.diskPartitionList();
+        List<Win32LogicalDisk> logicalDiskList = disk.logicalDiskList();
 
         if(diskDrive!=null) {
-            diskFields.get(0).setText(diskDrive.getPnpDeviceId());
-            diskFields.get(1).setText(diskDrive.getCaption());
-            diskFields.get(2).setText(diskDrive.getModel());
-            diskFields.get(3).setText(diskDrive.getFirmwareRevision());
-            diskFields.get(4).setText(diskDrive.getInterfaceType());
-            diskFields.get(5).setText(String.valueOf(diskDrive.getSerialNumber()).trim());
-            diskFields.get(6).setText(WMISizeUtility.parseToGBString(diskDrive.getSize()));
-            diskFields.get(7).setText(String.valueOf(diskDrive.getPartitions()));
-            diskFields.get(8).setText(diskDrive.getCapabilityDescriptions()==null ? "N/A" : diskDrive.getCapabilityDescriptions().toString());
-            diskFields.get(9).setText(diskDrive.getStatus());
+            diskFields.get(0).setText(diskDrive.pnpDeviceId());
+            diskFields.get(1).setText(diskDrive.caption());
+            diskFields.get(2).setText(diskDrive.model());
+            diskFields.get(3).setText(diskDrive.firmwareRevision());
+            diskFields.get(4).setText(diskDrive.interfaceType());
+            diskFields.get(5).setText(String.valueOf(diskDrive.serialNumber()).trim());
+            diskFields.get(6).setText(WMISizeUtility.parseToGBString(diskDrive.size()));
+            diskFields.get(7).setText(String.valueOf(diskDrive.partitions()));
+            diskFields.get(8).setText(diskDrive.capabilityDescriptions()==null ? "N/A" : diskDrive.capabilityDescriptions().toString());
+            diskFields.get(9).setText(diskDrive.status());
         }
 
         JEditorPane partitionPane = diskEditorPanes.get(0);
@@ -103,17 +105,17 @@ public class WMIStorageWorker extends SwingWorker<List<Win32DiskDriveToPartition
             stringBuilder.append("<html><body>");
 
             diskPartitionList.forEach(partition -> stringBuilder
-                    .append("<b>Device ID:</b> ").append(partition.getDeviceId()).append("<br>")
-                    .append("<b>Name:</b> ").append(partition.getName()).append("<br>")
-                    .append("<b>Description:</b> ").append(partition.getDescription()).append("<br>")
-                    .append("<b>Disk Index:</b> ").append(partition.getDiskIndex()).append("<br>")
-                    .append("<b>Type:</b> ").append(partition.getType()).append("<br>")
-                    .append("<b>Bootable:</b> ").append(WMIBooleanUtility.resolveBoolean(partition.isBootable())).append("<br>")
-                    .append("<b>Primary Partition:</b> ").append(WMIBooleanUtility.resolveBoolean(partition.isPrimaryPartition())).append("<br>")
-                    .append("<b>Boot Partition:</b> ").append(WMIBooleanUtility.resolveBoolean(partition.isBootPartition())).append("<br>")
-                    .append("<b>Block Size (bytes):</b> ").append(partition.getBlockSize()).append("<br>")
-                    .append("<b>Number of Blocks:</b> ").append(partition.getNumberOfBlocks()).append("<br>")
-                    .append("<b>Total Size:</b> ").append(WMISizeUtility.parseToGBString(partition.getSize()))
+                    .append("<b>Device ID:</b> ").append(partition.deviceId()).append("<br>")
+                    .append("<b>Name:</b> ").append(partition.name()).append("<br>")
+                    .append("<b>Description:</b> ").append(partition.description()).append("<br>")
+                    .append("<b>Disk Index:</b> ").append(partition.diskIndex()).append("<br>")
+                    .append("<b>Type:</b> ").append(partition.type()).append("<br>")
+                    .append("<b>Bootable:</b> ").append(WMIBooleanUtility.resolveBoolean(partition.bootable())).append("<br>")
+                    .append("<b>Primary Partition:</b> ").append(WMIBooleanUtility.resolveBoolean(partition.primaryPartition())).append("<br>")
+                    .append("<b>Boot Partition:</b> ").append(WMIBooleanUtility.resolveBoolean(partition.bootPartition())).append("<br>")
+                    .append("<b>Block Size (bytes):</b> ").append(partition.blockSize()).append("<br>")
+                    .append("<b>Number of Blocks:</b> ").append(partition.numberOfBlocks()).append("<br>")
+                    .append("<b>Total Size:</b> ").append(WMISizeUtility.parseToGBString(partition.size()))
                     .append("<br><br>")
             );
 
@@ -126,18 +128,18 @@ public class WMIStorageWorker extends SwingWorker<List<Win32DiskDriveToPartition
             stringBuilder.append("<html><body>");
 
             logicalDiskList.forEach(logicalDisk -> stringBuilder
-                    .append("<b>Device ID:</b> ").append(logicalDisk.getDeviceId()).append("<br>")
-                    .append("<b>Volume Name:</b> ").append(logicalDisk.getVolumeName()).append("<br>")
-                    .append("<b>Description:</b> ").append(logicalDisk.getDescription()).append("<br>")
-                    .append("<b>Drive Type:</b> ").append(WMIConstants.resolveWMILogicalDiskDriveType(logicalDisk.getDriveType())).append("<br>")
-                    .append("<b>Media Type:</b> ").append(WMIConstants.resolveWMILogicalDiskMediaType(logicalDisk.getMediaType())).append("<br>")
-                    .append("<b>File System:</b> ").append(logicalDisk.getFileSystem()).append("<br>")
-                    .append("<b>Total Size:</b> ").append(WMISizeUtility.parseToGBString(logicalDisk.getSize())).append("<br>")
-                    .append("<b>Free Space:</b> ").append(WMISizeUtility.parseToGBString(logicalDisk.getFreeSpace())).append("<br>")
-                    .append("<b>Compressed:</b> ").append(WMIBooleanUtility.resolveBoolean(logicalDisk.isCompressed())).append("<br>")
+                    .append("<b>Device ID:</b> ").append(logicalDisk.deviceId()).append("<br>")
+                    .append("<b>Volume Name:</b> ").append(logicalDisk.volumeName()).append("<br>")
+                    .append("<b>Description:</b> ").append(logicalDisk.description()).append("<br>")
+                    .append("<b>Drive Type:</b> ").append(WMIConstants.resolveWMILogicalDiskDriveType(logicalDisk.driveType())).append("<br>")
+                    .append("<b>Media Type:</b> ").append(WMIConstants.resolveWMILogicalDiskMediaType(logicalDisk.mediaType())).append("<br>")
+                    .append("<b>File System:</b> ").append(logicalDisk.fileSystem()).append("<br>")
+                    .append("<b>Total Size:</b> ").append(WMISizeUtility.parseToGBString(logicalDisk.size())).append("<br>")
+                    .append("<b>Free Space:</b> ").append(WMISizeUtility.parseToGBString(logicalDisk.freeSpace())).append("<br>")
+                    .append("<b>Compressed:</b> ").append(WMIBooleanUtility.resolveBoolean(logicalDisk.compressed())).append("<br>")
                     .append("<b>Supports File Compression:</b> ").append(WMIBooleanUtility.resolveBoolean(logicalDisk.supportsFileBasedCompression())).append("<br>")
                     .append("<b>Supports Disk Quotas:</b> ").append(WMIBooleanUtility.resolveBoolean(logicalDisk.supportsDiskQuotas())).append("<br>")
-                    .append("<b>Volume Serial Number:</b> ").append(logicalDisk.getVolumeSerialNumber())
+                    .append("<b>Volume Serial Number:</b> ").append(logicalDisk.volumeSerialNumber())
                     .append("<br><br>")
             );
 

@@ -4,12 +4,12 @@
  */
 package io.github.eggy03.ui.windows.worker;
 
-import io.github.eggy03.ferrumx.windows.entity.compounded.MsftNetAdapterToIpAndDnsAndProfile;
-import io.github.eggy03.ferrumx.windows.entity.network.MsftDnsClientServerAddress;
-import io.github.eggy03.ferrumx.windows.entity.network.MsftNetAdapter;
-import io.github.eggy03.ferrumx.windows.entity.network.MsftNetConnectionProfile;
-import io.github.eggy03.ferrumx.windows.entity.network.MsftNetIpAddress;
-import io.github.eggy03.ferrumx.windows.service.compounded.MsftNetAdapterToIpAndDnsAndProfileService;
+import io.github.eggy03.cimari.entity.compounded.MsftNetAdapterToIpAndDnsAndProfile;
+import io.github.eggy03.cimari.entity.network.MsftDnsClientServerAddress;
+import io.github.eggy03.cimari.entity.network.MsftNetAdapter;
+import io.github.eggy03.cimari.entity.network.MsftNetConnectionProfile;
+import io.github.eggy03.cimari.entity.network.MsftNetIpAddress;
+import io.github.eggy03.cimari.service.compounded.MsftNetAdapterToIpAndDnsAndProfileService;
 import io.github.eggy03.ui.common.constant.TerminalConstant;
 import io.github.eggy03.ui.windows.constant.WMIConstants;
 import io.github.eggy03.ui.windows.utilities.WMIBooleanUtility;
@@ -22,6 +22,7 @@ import javax.swing.JEditorPane;
 import javax.swing.JTextField;
 import javax.swing.SwingWorker;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 
@@ -49,7 +50,7 @@ public class WMINetworkPanelWorker extends SwingWorker<List<MsftNetAdapterToIpAn
             log.info("Found {} MsftNetAdapter entry/entries", netList.size());
 
             // populate the combo box with network interface indexes
-            netList.forEach(net-> networkIndexComboBox.addItem(net.getInterfaceIndex()));
+            netList.forEach(net-> networkIndexComboBox.addItem(net.interfaceIndex()));
             // populate fields and editor panes for the first entry in the combo box
             populate(netList);
             // add a listener to the combo box to re-populate fields on new selection
@@ -72,36 +73,35 @@ public class WMINetworkPanelWorker extends SwingWorker<List<MsftNetAdapterToIpAn
         Long interfaceIndex = Long.valueOf(selectedItem);
         Optional<MsftNetAdapterToIpAndDnsAndProfile> currentNetOptional = netList
                 .stream()
-                .filter(net->
-                        net.getInterfaceIndex()!=null && net.getInterfaceIndex().equals(interfaceIndex)
-                )
+                .filter(Objects::nonNull)
+                .filter(net-> Objects.equals(net.interfaceIndex(), interfaceIndex))
                 .findFirst();
 
         if(currentNetOptional.isEmpty())
             return;
 
         MsftNetAdapterToIpAndDnsAndProfile currentNet = currentNetOptional.get();
-        MsftNetAdapter currentAdapter = currentNet.getAdapter();
-        List<MsftNetIpAddress> currentNetIpAddressList = currentNet.getIpAddressList();
-        List<MsftDnsClientServerAddress> currentDnsAddressList = currentNet.getDnsClientServerAddressList();
-        List<MsftNetConnectionProfile> currentConnectionProfileList = currentNet.getNetConnectionProfileList();
+        MsftNetAdapter currentAdapter = currentNet.adapter();
+        List<MsftNetIpAddress> currentNetIpAddressList = currentNet.ipAddressList();
+        List<MsftDnsClientServerAddress> currentDnsAddressList = currentNet.dnsClientServerAddressList();
+        List<MsftNetConnectionProfile> currentConnectionProfileList = currentNet.netConnectionProfileList();
 
         if(currentAdapter!=null){
-            networkFields.get(0).setText(currentAdapter.getDeviceId());
-            networkFields.get(1).setText(currentAdapter.getInterfaceDescription());
-            networkFields.get(2).setText(currentAdapter.getDriverVersion());
-            networkFields.get(3).setText(currentAdapter.getDriverDate());
-            networkFields.get(4).setText(String.valueOf(currentAdapter.getInterfaceType())); //not parsed cause long list
-            networkFields.get(5).setText(currentAdapter.getLinkLayerAddress());
-            networkFields.get(6).setText(currentAdapter.getLinkSpeed());
-            networkFields.get(7).setText(WMIConstants.resolveMsftNetAdapterMediaConnectState(currentAdapter.getMediaConnectState()));
-            networkFields.get(8).setText(currentAdapter.getMediaType());
-            networkFields.get(9).setText(WMINetworkUtility.resolveNetworkSpeedInMbps(currentAdapter.getReceiveLinkSpeedRaw()));
-            networkFields.get(10).setText(WMINetworkUtility.resolveNetworkSpeedInMbps(currentAdapter.getTransmitLinkSpeedRaw()));
-            networkFields.get(11).setText(WMIBooleanUtility.resolveBoolean(currentAdapter.isFullDuplex()));
-            networkFields.get(12).setText(WMIBooleanUtility.resolveBoolean(currentAdapter.isVirtual()));
-            networkFields.get(13).setText(currentAdapter.getStatus());
-            networkFields.get(14).setText(currentAdapter.getPnpDeviceId());
+            networkFields.get(0).setText(currentAdapter.deviceId());
+            networkFields.get(1).setText(currentAdapter.interfaceDescription());
+            networkFields.get(2).setText(currentAdapter.driverVersion());
+            networkFields.get(3).setText(currentAdapter.driverDate());
+            networkFields.get(4).setText(String.valueOf(currentAdapter.interfaceType())); //not parsed cause long list
+            networkFields.get(5).setText(currentAdapter.linkLayerAddress());
+            networkFields.get(6).setText(currentAdapter.linkSpeed());
+            networkFields.get(7).setText(WMIConstants.resolveMsftNetAdapterMediaConnectState(currentAdapter.mediaConnectState()));
+            networkFields.get(8).setText(currentAdapter.mediaType());
+            networkFields.get(9).setText(WMINetworkUtility.resolveNetworkSpeedInMbps(currentAdapter.receiveLinkSpeedRaw()));
+            networkFields.get(10).setText(WMINetworkUtility.resolveNetworkSpeedInMbps(currentAdapter.transmitLinkSpeedRaw()));
+            networkFields.get(11).setText(WMIBooleanUtility.resolveBoolean(currentAdapter.fullDuplex()));
+            networkFields.get(12).setText(WMIBooleanUtility.resolveBoolean(currentAdapter.virtual()));
+            networkFields.get(13).setText(currentAdapter.status());
+            networkFields.get(14).setText(currentAdapter.pnpDeviceId());
         }
 
         JEditorPane ipAddressPane = networkEditorPanes.get(0);
@@ -118,14 +118,14 @@ public class WMINetworkPanelWorker extends SwingWorker<List<MsftNetAdapterToIpAn
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.append("<html><body>");
             currentNetIpAddressList.forEach(ip -> stringBuilder
-                    .append("<b>IP Interface Index:</b> ").append(ip.getInterfaceIndex()).append("<br>")
-                    .append("<b>IP Interface Alias:</b> ").append(ip.getInterfaceAlias()).append("<br>")
-                    .append("<b>Address Family:</b> ").append(WMIConstants.resolveMsftIPvAddressFamily(ip.getAddressFamily())).append("<br>")
-                    .append("<b>IPv4 Address:</b> ").append(ip.getIpv4Address()).append("<br>")
-                    .append("<b>IPv6 Address:</b> ").append(ip.getIpv6Address()).append("<br>")
-                    .append("<b>Type:</b> ").append(WMIConstants.resolveMsftNetIpAddressType(ip.getType())).append("<br>")
-                    .append("<b>Prefix Origin:</b> ").append(WMIConstants.resolveMsftNetIpAddressPrefixOrigin(ip.getPrefixOrigin())).append("<br>")
-                    .append("<b>Suffix Origin:</b> ").append(WMIConstants.resolveMsftNetIpAddressSuffixOrigin(ip.getSuffixOrigin())).append("<br><br>")
+                    .append("<b>IP Interface Index:</b> ").append(ip.interfaceIndex()).append("<br>")
+                    .append("<b>IP Interface Alias:</b> ").append(ip.interfaceAlias()).append("<br>")
+                    .append("<b>Address Family:</b> ").append(WMIConstants.resolveMsftIPvAddressFamily(ip.addressFamily())).append("<br>")
+                    .append("<b>IPv4 Address:</b> ").append(ip.ipv4Address()).append("<br>")
+                    .append("<b>IPv6 Address:</b> ").append(ip.ipv6Address()).append("<br>")
+                    .append("<b>Type:</b> ").append(WMIConstants.resolveMsftNetIpAddressType(ip.type())).append("<br>")
+                    .append("<b>Prefix Origin:</b> ").append(WMIConstants.resolveMsftNetIpAddressPrefixOrigin(ip.prefixOrigin())).append("<br>")
+                    .append("<b>Suffix Origin:</b> ").append(WMIConstants.resolveMsftNetIpAddressSuffixOrigin(ip.suffixOrigin())).append("<br><br>")
             );
             stringBuilder.append("</body></html>");
 
@@ -137,10 +137,10 @@ public class WMINetworkPanelWorker extends SwingWorker<List<MsftNetAdapterToIpAn
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.append("<html><body>");
             currentDnsAddressList.forEach(dns -> stringBuilder
-                    .append("<b>DNS Interface Index:</b> ").append(dns.getInterfaceIndex()).append("<br>")
-                    .append("<b>DNS Interface Alias:</b> ").append(dns.getInterfaceAlias()).append("<br>")
-                    .append("<b>Address Family:</b> ").append(WMIConstants.resolveMsftIPvAddressFamily(dns.getAddressFamily())).append("<br>")
-                    .append("<b>DNS Server Addresses:</b> ").append(dns.getDnsServerAddresses()).append("<br><br>")
+                    .append("<b>DNS Interface Index:</b> ").append(dns.interfaceIndex()).append("<br>")
+                    .append("<b>DNS Interface Alias:</b> ").append(dns.interfaceAlias()).append("<br>")
+                    .append("<b>Address Family:</b> ").append(WMIConstants.resolveMsftIPvAddressFamily(dns.addressFamily())).append("<br>")
+                    .append("<b>DNS Server Addresses:</b> ").append(dns.dnsServerAddresses()).append("<br><br>")
             );
             stringBuilder.append("</body></html>");
 
@@ -152,12 +152,12 @@ public class WMINetworkPanelWorker extends SwingWorker<List<MsftNetAdapterToIpAn
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.append("<html><body>");
             currentConnectionProfileList.forEach(profile -> stringBuilder
-                    .append("<b>Profile Interface Index:</b> ").append(profile.getInterfaceIndex()).append("<br>")
-                    .append("<b>Connection Interface Alias:</b> ").append(profile.getInterfaceAlias()).append("<br>")
-                    .append("<b>Category:</b> ").append(WMIConstants.resolveMsftNetConnectionProfileNetworkCategory(profile.getNetworkCategory())).append("<br>")
-                    .append("<b>Domain Auth Kind:</b> ").append(WMIConstants.resolveMsftNetConnectionProfileDomainAuthenticationKind(profile.getDomainAuthenticationKind())).append("<br>")
-                    .append("<b>IPv4 Connectivity:</b> ").append(WMIConstants.resolveMsftNetConnectionProfileConnectivity(profile.getIpv4Connectivity())).append("<br>")
-                    .append("<b>IPv6 Connectivity:</b> ").append(WMIConstants.resolveMsftNetConnectionProfileConnectivity(profile.getIpv6Connectivity())).append("<br><br>")
+                    .append("<b>Profile Interface Index:</b> ").append(profile.interfaceIndex()).append("<br>")
+                    .append("<b>Connection Interface Alias:</b> ").append(profile.interfaceAlias()).append("<br>")
+                    .append("<b>Category:</b> ").append(WMIConstants.resolveMsftNetConnectionProfileNetworkCategory(profile.networkCategory())).append("<br>")
+                    .append("<b>Domain Auth Kind:</b> ").append(WMIConstants.resolveMsftNetConnectionProfileDomainAuthenticationKind(profile.domainAuthenticationKind())).append("<br>")
+                    .append("<b>IPv4 Connectivity:</b> ").append(WMIConstants.resolveMsftNetConnectionProfileConnectivity(profile.ipv4Connectivity())).append("<br>")
+                    .append("<b>IPv6 Connectivity:</b> ").append(WMIConstants.resolveMsftNetConnectionProfileConnectivity(profile.ipv6Connectivity())).append("<br><br>")
             );
             stringBuilder.append("</body></html>");
 

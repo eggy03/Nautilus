@@ -4,8 +4,8 @@
  */
 package io.github.eggy03.ui.windows.worker;
 
-import io.github.eggy03.ferrumx.windows.entity.user.Win32UserAccount;
-import io.github.eggy03.ferrumx.windows.service.user.Win32UserAccountService;
+import io.github.eggy03.cimari.entity.user.Win32UserAccount;
+import io.github.eggy03.cimari.service.user.Win32UserAccountService;
 import io.github.eggy03.ui.common.constant.TerminalConstant;
 import io.github.eggy03.ui.windows.constant.WMIConstants;
 import io.github.eggy03.ui.windows.utilities.WMIBooleanUtility;
@@ -16,6 +16,7 @@ import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import javax.swing.SwingWorker;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 
@@ -42,7 +43,7 @@ public class WMIUserAccountWorker extends SwingWorker<List<Win32UserAccount>, Vo
             log.info("Found {} Win32UserAccount entry/entries", userAccountList.size());
 
             // fill the combo box with user account SIDs
-            userAccountList.forEach(account ->userAccountSIDComboBox.addItem(account.getSid()));
+            userAccountList.forEach(account ->userAccountSIDComboBox.addItem(account.sid()));
             // populate fields for the first entry in the combo box
             populateFields(userAccountList);
             // add a listener to the combo box to re-populate fields on new selection
@@ -61,7 +62,8 @@ public class WMIUserAccountWorker extends SwingWorker<List<Win32UserAccount>, Vo
 
         Optional<Win32UserAccount> optionalAccount = userAccountList
                 .stream()
-                .filter(account-> account.getSid()!=null && account.getSid().equals(userAccountSid))
+                .filter(Objects::nonNull)
+                .filter(account-> Objects.equals(account.sid(), userAccountSid))
                 .findFirst();
 
         if(optionalAccount.isEmpty())
@@ -69,18 +71,18 @@ public class WMIUserAccountWorker extends SwingWorker<List<Win32UserAccount>, Vo
 
         Win32UserAccount account = optionalAccount.get();
 
-        userAccountFields.get(0).setText(account.getName());
-        userAccountFields.get(1).setText(account.getCaption());
-        userAccountFields.get(2).setText(account.getDomain());
-        userAccountFields.get(3).setText(account.getDescription());
-        userAccountFields.get(4).setText(WMIBooleanUtility.resolveBoolean(account.isPasswordRequired()));
-        userAccountFields.get(5).setText(WMIBooleanUtility.resolveBoolean(account.isPasswordChangeable()));
-        userAccountFields.get(6).setText(WMIBooleanUtility.resolveBoolean(account.doesPasswordExpire()));
-        userAccountFields.get(7).setText(WMIBooleanUtility.resolveBoolean(account.isLocalAccount()));
-        userAccountFields.get(8).setText(WMIBooleanUtility.resolveBoolean(account.isDisabled()));
-        userAccountFields.get(9).setText(WMIBooleanUtility.resolveBoolean(account.isLockedOut()));
-        userAccountFields.get(10).setText(WMIConstants.resolveWMIUserAccountType(account.getAccountType()));
-        userAccountFields.get(11).setText(WMIConstants.resolveWMIUserAccountSidType(account.getSidType()));
-        userAccountFields.get(12).setText(account.getStatus());
+        userAccountFields.get(0).setText(account.name());
+        userAccountFields.get(1).setText(account.caption());
+        userAccountFields.get(2).setText(account.domain());
+        userAccountFields.get(3).setText(account.description());
+        userAccountFields.get(4).setText(WMIBooleanUtility.resolveBoolean(account.passwordRequired()));
+        userAccountFields.get(5).setText(WMIBooleanUtility.resolveBoolean(account.passwordChangeable()));
+        userAccountFields.get(6).setText(WMIBooleanUtility.resolveBoolean(account.passwordExpires()));
+        userAccountFields.get(7).setText(WMIBooleanUtility.resolveBoolean(account.localAccount()));
+        userAccountFields.get(8).setText(WMIBooleanUtility.resolveBoolean(account.disabled()));
+        userAccountFields.get(9).setText(WMIBooleanUtility.resolveBoolean(account.lockout()));
+        userAccountFields.get(10).setText(WMIConstants.resolveWMIUserAccountType(account.accountType()));
+        userAccountFields.get(11).setText(WMIConstants.resolveWMIUserAccountSidType(account.sidType()));
+        userAccountFields.get(12).setText(account.status());
     }
 }

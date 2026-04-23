@@ -4,8 +4,9 @@
  */
 package io.github.eggy03.ui.windows.worker;
 
-import io.github.eggy03.ferrumx.windows.entity.compounded.HardwareId;
-import io.github.eggy03.ferrumx.windows.service.compounded.HardwareIdService;
+import io.github.eggy03.cimari.entity.compounded.HardwareId;
+import io.github.eggy03.cimari.entity.compounded.ImmutableHardwareId;
+import io.github.eggy03.cimari.service.compounded.HardwareIdService;
 import io.github.eggy03.ui.common.constant.TerminalConstant;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +23,7 @@ public class WMIHardwareIdWorker extends SwingWorker<HardwareId, Void>{
 
 	@Override
 	protected HardwareId doInBackground() {
-		return new HardwareIdService().get(TerminalConstant.TIMEOUT_SIXTY_SECONDS).orElse(HardwareId.builder().build());
+		return new HardwareIdService().get(TerminalConstant.TIMEOUT_SIXTY_SECONDS).orElse(new ImmutableHardwareId.Builder().build());
 		// I wonder if I should throw an exception or just return an empty build
 	}
 	
@@ -31,7 +32,7 @@ public class WMIHardwareIdWorker extends SwingWorker<HardwareId, Void>{
 		
 		try {
 			HardwareId hwid = get();
-			hwidField.setText(hwid.getHashHWID());
+			hwidField.setText(hwid.hashHWID());
 		} catch (ExecutionException e) {
 			log.error("HWID Fetch Failed", e);
 		} catch (InterruptedException e) {

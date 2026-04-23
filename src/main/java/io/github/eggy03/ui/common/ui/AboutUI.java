@@ -43,7 +43,7 @@ public class AboutUI extends JFrame {
 			<b>Open-Source Licenses</b><br>
 			This application includes the following third-party open-source libraries and frameworks:
 			<ul>
-			  <li>FerrumX Windows</li>
+			  <li>cimari</li>
 			  <li>dmidecode4j</li>
 			  <li>Swing Theme Manager</li>
 			  <li>Apache Commons Lang</li>

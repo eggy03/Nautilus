@@ -4,8 +4,9 @@
  */
 package io.github.eggy03.ui.windows.worker;
 
-import io.github.eggy03.ferrumx.windows.entity.mainboard.Win32Bios;
-import io.github.eggy03.ferrumx.windows.service.mainboard.Win32BiosService;
+import io.github.eggy03.cimari.entity.mainboard.ImmutableWin32Bios;
+import io.github.eggy03.cimari.entity.mainboard.Win32Bios;
+import io.github.eggy03.cimari.service.mainboard.Win32BiosService;
 import io.github.eggy03.ui.common.constant.TerminalConstant;
 import io.github.eggy03.ui.windows.utilities.WMIDateUtility;
 import lombok.RequiredArgsConstructor;
@@ -76,27 +77,27 @@ public class WMIBiosWorker extends SwingWorker<List<Win32Bios>, Void> {
 
         Integer selectedBiosNumber = (Integer) biosNumberComboBox.getSelectedItem();
 
-        Win32Bios bios = biosMap.getOrDefault(selectedBiosNumber, Win32Bios.builder().build());
+        Win32Bios bios = biosMap.getOrDefault(selectedBiosNumber, new ImmutableWin32Bios.Builder().build());
 
-        biosFields.get(0).setText(bios.getCaption());
-        biosFields.get(1).setText(bios.getCurrentLanguage());
-        biosFields.get(2).setText(bios.getManufacturer());
-        biosFields.get(3).setText(bios.getName());
+        biosFields.get(0).setText(bios.caption());
+        biosFields.get(1).setText(bios.currentLanguage());
+        biosFields.get(2).setText(bios.manufacturer());
+        biosFields.get(3).setText(bios.name());
 
-        biosFields.get(5).setText(WMIDateUtility.toLocalDateTime(bios.getReleaseDate()));
+        biosFields.get(5).setText(WMIDateUtility.toLocalDateTime(bios.releaseDate()));
 
-        biosFields.get(7).setText(bios.getSmbiosBiosVersion());
-        biosFields.get(8).setText(bios.getStatus());
-        biosFields.get(9).setText(bios.getVersion());
+        biosFields.get(7).setText(bios.smbiosBiosVersion());
+        biosFields.get(8).setText(bios.status());
+        biosFields.get(9).setText(bios.version());
 
         // this is so bad....I cant use inline expression or sonar will detect it
-        Boolean primaryBios = bios.isPrimaryBios();
+        Boolean primaryBios = bios.primaryBios();
         if(primaryBios!=null) {
             if(primaryBios) biosFields.get(4).setText("Yes");
             else biosFields.get(4).setText("No");
         } else biosFields.get(4).setText("N/A");
 
-        Boolean smbiosPresent = bios.isSMBIOSPresent();
+        Boolean smbiosPresent = bios.smbiosPresent();
         if(smbiosPresent!=null) {
             if(smbiosPresent) biosFields.get(6).setText("Yes");
             else biosFields.get(6).setText("No");

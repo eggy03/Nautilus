@@ -4,8 +4,9 @@
  */
 package io.github.eggy03.ui.windows.worker;
 
-import io.github.eggy03.ferrumx.windows.entity.mainboard.Win32Baseboard;
-import io.github.eggy03.ferrumx.windows.service.mainboard.Win32BaseboardService;
+import io.github.eggy03.cimari.entity.mainboard.ImmutableWin32Baseboard;
+import io.github.eggy03.cimari.entity.mainboard.Win32Baseboard;
+import io.github.eggy03.cimari.service.mainboard.Win32BaseboardService;
 import io.github.eggy03.ui.common.constant.TerminalConstant;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -69,13 +70,13 @@ public class WMIBaseboardWorker extends SwingWorker<List<Win32Baseboard>, Void> 
     private void populateFields(Map<Integer, Win32Baseboard> baseboardMap) {
 
         Integer selectedBaseboardChoice = (Integer) baseboardNumberComboBox.getSelectedItem();
-        Win32Baseboard baseboard = baseboardMap.getOrDefault(selectedBaseboardChoice, Win32Baseboard.builder().build());
+        Win32Baseboard baseboard = baseboardMap.getOrDefault(selectedBaseboardChoice, new ImmutableWin32Baseboard.Builder().build());
 
-        baseboardFields.get(0).setText(baseboard.getManufacturer());
-        baseboardFields.get(1).setText(baseboard.getModel());
-        baseboardFields.get(2).setText(baseboard.getProduct());
-        baseboardFields.get(3).setText(baseboard.getSerialNumber());
-        baseboardFields.get(4).setText(baseboard.getVersion());
+        baseboardFields.get(0).setText(baseboard.manufacturer());
+        baseboardFields.get(1).setText(baseboard.model());
+        baseboardFields.get(2).setText(baseboard.product());
+        baseboardFields.get(3).setText(baseboard.serialNumber());
+        baseboardFields.get(4).setText(baseboard.version());
 
     }
 
