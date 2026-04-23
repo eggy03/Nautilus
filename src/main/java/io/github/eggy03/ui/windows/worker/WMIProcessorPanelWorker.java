@@ -4,10 +4,10 @@
  */
 package io.github.eggy03.ui.windows.worker;
 
-import io.github.eggy03.ferrumx.windows.entity.compounded.Win32ProcessorToCacheMemory;
-import io.github.eggy03.ferrumx.windows.entity.processor.Win32CacheMemory;
-import io.github.eggy03.ferrumx.windows.entity.processor.Win32Processor;
-import io.github.eggy03.ferrumx.windows.service.compounded.Win32ProcessorToCacheMemoryService;
+import io.github.eggy03.cimari.entity.compounded.Win32ProcessorToCacheMemory;
+import io.github.eggy03.cimari.entity.processor.Win32CacheMemory;
+import io.github.eggy03.cimari.entity.processor.Win32Processor;
+import io.github.eggy03.cimari.service.compounded.Win32ProcessorToCacheMemoryService;
 import io.github.eggy03.ui.common.constant.TerminalConstant;
 import io.github.eggy03.ui.windows.constant.WMIConstants;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +19,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingWorker;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 
@@ -53,7 +54,7 @@ public class WMIProcessorPanelWorker extends SwingWorker<List<Win32ProcessorToCa
             log.info("Found {} Win32Processor entry/entries", cpuAndCacheList.size());
 
             // populate the combo box with cpu device id
-            cpuAndCacheList.forEach(cpuAndCache -> cpuIdComboBox.addItem(cpuAndCache.getDeviceId()));
+            cpuAndCacheList.forEach(cpuAndCache -> cpuIdComboBox.addItem(cpuAndCache.deviceId()));
             // populate fields for the first entry in the combo box
             populateFieldsBasedOnCurrentCpuId(cpuAndCacheList);
             // add a listener to the combo box to re-populate fields on new selection
@@ -71,48 +72,49 @@ public class WMIProcessorPanelWorker extends SwingWorker<List<Win32ProcessorToCa
     	
     	// filter a cpuAndCacheObject based on the cpu id in the combo box
     	Optional<Win32ProcessorToCacheMemory> current = cpuAndCacheList.stream()
-                .filter(cpuAndCache -> cpuAndCache.getDeviceId()!=null && cpuAndCache.getDeviceId().equals(cpuIdComboBox.getSelectedItem()))
+                .filter(Objects::nonNull)
+                .filter(cpuAndCache -> Objects.equals(cpuAndCache.deviceId(), cpuIdComboBox.getSelectedItem()))
                 .findFirst();
 
         if (current.isEmpty())
             return;
 
         Win32ProcessorToCacheMemory currentCpuAndCache = current.get();
-        Win32Processor currentCpu = currentCpuAndCache.getProcessor();
-        List<Win32CacheMemory> currentCacheList = currentCpuAndCache.getCacheMemoryList();
+        Win32Processor currentCpu = currentCpuAndCache.processor();
+        List<Win32CacheMemory> currentCacheList = currentCpuAndCache.cacheMemoryList();
         
         // populate cpu fields
         if(currentCpu!=null) { // the order is maintained by the order in which the text fields have been passed to its constructor
-        	cpuFields.get(0).setText(String.valueOf(currentCpu.getNumberOfCores()));
-        	cpuFields.get(1).setText(String.valueOf(currentCpu.getThreadCount()));
-        	cpuFields.get(2).setText(currentCpu.getMaxClockSpeed()+" MHz");
-        	cpuFields.get(3).setText(currentCpu.getName());
-        	cpuFields.get(4).setText(currentCpu.getVersion());
-        	cpuFields.get(5).setText(String.valueOf(currentCpu.getFamily()));
-        	cpuFields.get(6).setText(currentCpu.getStepping());
-        	cpuFields.get(7).setText(currentCpu.getManufacturer());
-        	cpuFields.get(8).setText(currentCpu.getCaption());
-        	cpuFields.get(9).setText(currentCpu.getProcessorId());
-        	cpuFields.get(10).setText(String.valueOf(currentCpu.getNumberOfEnabledCores()));
-        	cpuFields.get(11).setText(String.valueOf(currentCpu.getNumberOfLogicalProcessors()));
-        	cpuFields.get(12).setText(WMIConstants.processorArchitecture(currentCpu.getArchitecture()));
-        	cpuFields.get(13).setText(currentCpu.getAddressWidth()+" bit");
-        	cpuFields.get(14).setText(String.valueOf(currentCpu.getSocketDesignation()));
-        	cpuFields.get(15).setText(currentCpu.getExtClock()+ " MHz");
+        	cpuFields.get(0).setText(String.valueOf(currentCpu.numberOfCores()));
+        	cpuFields.get(1).setText(String.valueOf(currentCpu.threadCount()));
+        	cpuFields.get(2).setText(currentCpu.maxClockSpeed()+" MHz");
+        	cpuFields.get(3).setText(currentCpu.name());
+        	cpuFields.get(4).setText(currentCpu.version());
+        	cpuFields.get(5).setText(String.valueOf(currentCpu.family()));
+        	cpuFields.get(6).setText(currentCpu.stepping());
+        	cpuFields.get(7).setText(currentCpu.manufacturer());
+        	cpuFields.get(8).setText(currentCpu.caption());
+        	cpuFields.get(9).setText(currentCpu.processorId());
+        	cpuFields.get(10).setText(String.valueOf(currentCpu.numberOfEnabledCores()));
+        	cpuFields.get(11).setText(String.valueOf(currentCpu.numberOfLogicalProcessors()));
+        	cpuFields.get(12).setText(WMIConstants.processorArchitecture(currentCpu.architecture()));
+        	cpuFields.get(13).setText(currentCpu.addressWidth()+" bit");
+        	cpuFields.get(14).setText(String.valueOf(currentCpu.socketDesignation()));
+        	cpuFields.get(15).setText(currentCpu.extClock()+ " MHz");
         	
         	// assign text to the concise cpu text area
             JTextArea conciseCpuTextArea = cpuTextAreas.getFirst();
-            String conciseText = "This CPU, " + String.valueOf(currentCpu.getName()).trim() + " consists of "
+            String conciseText = "This CPU, " + String.valueOf(currentCpu.name()).trim() + " consists of "
                     + System.lineSeparator() +
-                    currentCpu.getNumberOfCores() + " cores and " + currentCpu.getThreadCount() + " threads, out of which "
+                    currentCpu.numberOfCores() + " cores and " + currentCpu.threadCount() + " threads, out of which "
                     + System.lineSeparator() +
-                    currentCpu.getNumberOfEnabledCores() + " cores and " + currentCpu.getNumberOfLogicalProcessors() + " threads are enabled."
+                    currentCpu.numberOfEnabledCores() + " cores and " + currentCpu.numberOfLogicalProcessors() + " threads are enabled."
                     + System.lineSeparator() +
-                    "The factory reported base clock for this CPU is: " + currentCpu.getMaxClockSpeed() + " MHz."
+                    "The factory reported base clock for this CPU is: " + currentCpu.maxClockSpeed() + " MHz."
                     + System.lineSeparator() +
-                    "The reported socket for this CPU is: " + currentCpu.getSocketDesignation()
+                    "The reported socket for this CPU is: " + currentCpu.socketDesignation()
                     + System.lineSeparator() +
-                    "The reported L2 Cache is: " + currentCpu.getL2CacheSize()+ " KB and the reported L3 Cache is: "+currentCpu.getL3CacheSize() + " KB.";
+                    "The reported L2 Cache is: " + currentCpu.l2CacheSize()+ " KB and the reported L3 Cache is: "+currentCpu.l3CacheSize() + " KB.";
 
             conciseCpuTextArea.setText(conciseText);
         }
@@ -124,16 +126,16 @@ public class WMIProcessorPanelWorker extends SwingWorker<List<Win32ProcessorToCa
             JTextArea cacheTextArea = cpuTextAreas.get(1);
             cacheTextArea.setText(null); //before populating, clean the previous data if any
             currentCacheList.forEach(cache -> cacheTextArea.append(
-                    "DeviceID: "+cache.getDeviceId()+System.lineSeparator()+
-                    "Purpose: "+cache.getPurpose()+System.lineSeparator()+
-                    "Type: "+resolveWMICacheMemoryType(cache.getCacheType())+System.lineSeparator()+
-                    "Level: "+resolveWMICacheMemoryLevel(cache.getLevel())+System.lineSeparator()+
-                    "Size: "+cache.getInstalledSize()+" KB"+System.lineSeparator()+
-                    "Associativity: "+resolveWMICacheMemoryAssociativity(cache.getAssociativity())+System.lineSeparator()+
-                    "Location: "+resolveWMICacheMemoryLocation(cache.getLocation())+System.lineSeparator()+
-                    "Error Correct Type: "+resolveWMICacheErrorCorrectType(cache.getErrorCorrectType())+System.lineSeparator()+
-                    "Availability: "+resolveWMIAvailability(cache.getAvailability())+System.lineSeparator()+
-                    "Status: "+cache.getStatus()+System.lineSeparator()+System.lineSeparator()
+                    "DeviceID: "+cache.deviceId()+System.lineSeparator()+
+                    "Purpose: "+cache.purpose()+System.lineSeparator()+
+                    "Type: "+resolveWMICacheMemoryType(cache.cacheType())+System.lineSeparator()+
+                    "Level: "+resolveWMICacheMemoryLevel(cache.level())+System.lineSeparator()+
+                    "Size: "+cache.installedSize()+" KB"+System.lineSeparator()+
+                    "Associativity: "+resolveWMICacheMemoryAssociativity(cache.associativity())+System.lineSeparator()+
+                    "Location: "+resolveWMICacheMemoryLocation(cache.location())+System.lineSeparator()+
+                    "Error Correct Type: "+resolveWMICacheErrorCorrectType(cache.errorCorrectType())+System.lineSeparator()+
+                    "Availability: "+resolveWMIAvailability(cache.availability())+System.lineSeparator()+
+                    "Status: "+cache.status()+System.lineSeparator()+System.lineSeparator()
             ));
         }
     }

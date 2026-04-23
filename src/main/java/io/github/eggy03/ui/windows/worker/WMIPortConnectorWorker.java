@@ -4,8 +4,8 @@
  */
 package io.github.eggy03.ui.windows.worker;
 
-import io.github.eggy03.ferrumx.windows.entity.mainboard.Win32PortConnector;
-import io.github.eggy03.ferrumx.windows.service.mainboard.Win32PortConnectorService;
+import io.github.eggy03.cimari.entity.mainboard.Win32PortConnector;
+import io.github.eggy03.cimari.service.mainboard.Win32PortConnectorService;
 import io.github.eggy03.ui.common.constant.TerminalConstant;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +14,7 @@ import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import javax.swing.SwingWorker;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 
@@ -43,7 +44,7 @@ public class WMIPortConnectorWorker extends SwingWorker<List<Win32PortConnector>
             log.info("Found {} Win32PortConnector entry/entries", portList.size());
 
             //fill the combo box with port connector tags
-            portList.forEach(port-> tagComboBox.addItem(port.getTag()));
+            portList.forEach(port-> tagComboBox.addItem(port.tag()));
             // populate fields for the first entry in the combo box
             populatePortConnectorFields(portList);
             // add a listener to the combo box to re-populate fields on new selection
@@ -64,15 +65,16 @@ public class WMIPortConnectorWorker extends SwingWorker<List<Win32PortConnector>
 
         Optional<Win32PortConnector> selectedPort = portList
                 .stream()
-                .filter(port -> port.getTag()!=null && port.getTag().equals(selectedTag))
+                .filter(Objects::nonNull)
+                .filter(port -> Objects.equals(port.tag(), selectedTag))
                 .findFirst();
 
         if(selectedPort.isEmpty())
             return;
 
         Win32PortConnector port = selectedPort.get();
-        portFields.get(0).setText(resolveWMIPortType(port.getPortType()));
-        portFields.get(1).setText(port.getInternalReferenceDesignator());
-        portFields.get(2).setText(port.getExternalReferenceDesignator());
+        portFields.get(0).setText(resolveWMIPortType(port.portType()));
+        portFields.get(1).setText(port.internalReferenceDesignator());
+        portFields.get(2).setText(port.externalReferenceDesignator());
     }
 }

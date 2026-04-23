@@ -4,8 +4,8 @@
  */
 package io.github.eggy03.ui.windows.worker;
 
-import io.github.eggy03.ferrumx.windows.entity.system.Win32OperatingSystem;
-import io.github.eggy03.ferrumx.windows.service.system.Win32OperatingSystemService;
+import io.github.eggy03.cimari.entity.system.Win32OperatingSystem;
+import io.github.eggy03.cimari.service.system.Win32OperatingSystemService;
 import io.github.eggy03.ui.common.constant.TerminalConstant;
 import io.github.eggy03.ui.windows.utilities.WMIBooleanUtility;
 import io.github.eggy03.ui.windows.utilities.WMIDateUtility;
@@ -17,6 +17,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingWorker;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 
@@ -44,7 +45,7 @@ public class WMIOperatingSystemWorker extends SwingWorker<List<Win32OperatingSys
             log.info("Found {} Win32OperatingSystem entry/entries", osList.size());
 
             // fill the combo box with os names
-            osList.forEach(os -> osNameComboBox.addItem(os.getName()));
+            osList.forEach(os -> osNameComboBox.addItem(os.name()));
             // populate fields for the first entry in the combo box
             populateFields(osList);
             // add a listener to the combo box to re-populate fields on new selection
@@ -64,7 +65,8 @@ public class WMIOperatingSystemWorker extends SwingWorker<List<Win32OperatingSys
 
         Optional<Win32OperatingSystem> optionalOs = osList
                 .stream()
-                .filter(os-> os.getName()!=null && os.getName().equals(osName))
+                .filter(Objects::nonNull)
+                .filter(os-> Objects.equals(os.name(), osName))
                 .findFirst();
 
         if(optionalOs.isEmpty())
@@ -72,34 +74,34 @@ public class WMIOperatingSystemWorker extends SwingWorker<List<Win32OperatingSys
 
         Win32OperatingSystem os = optionalOs.get();
 
-        osFields.get(0).setText(os.getCaption());
-        osFields.get(1).setText(os.getVersion());
-        osFields.get(2).setText(os.getBuildNumber());
-        osFields.get(3).setText(os.getManufacturer());
-        osFields.get(4).setText(os.getOsArchitecture());
-        osFields.get(5).setText(WMIDateUtility.toLocalDateTime(os.getInstallDate()));
-        osFields.get(6).setText(WMIDateUtility.toLocalDateTime(os.getLastBootUpTime()));
-        osFields.get(7).setText(os.getSerialNumber());
-        osFields.get(8).setText(os.getMuiLanguages()==null ? "N/A" : os.getMuiLanguages().toString());
-        osFields.get(9).setText(WMIBooleanUtility.resolveBoolean(os.isPrimary()));
-        osFields.get(10).setText(WMIBooleanUtility.resolveBoolean(os.isDistributed()));
-        osFields.get(11).setText(WMIBooleanUtility.resolveBoolean(os.isPortable()));
-        osFields.get(12).setText(os.getCsName());
-        osFields.get(13).setText(String.valueOf(os.getNumberOfUsers()));
-        osFields.get(14).setText(os.getRegisteredUser());
-        osFields.get(15).setText(os.getSystemDrive());
-        osFields.get(16).setText(os.getWindowsDirectory());
-        osFields.get(17).setText(os.getSystemDirectory());
+        osFields.get(0).setText(os.caption());
+        osFields.get(1).setText(os.version());
+        osFields.get(2).setText(os.buildNumber());
+        osFields.get(3).setText(os.manufacturer());
+        osFields.get(4).setText(os.osArchitecture());
+        osFields.get(5).setText(WMIDateUtility.toLocalDateTime(os.installDate()));
+        osFields.get(6).setText(WMIDateUtility.toLocalDateTime(os.lastBootUpTime()));
+        osFields.get(7).setText(os.serialNumber());
+        osFields.get(8).setText(os.muiLanguages()==null ? "N/A" : os.muiLanguages().toString());
+        osFields.get(9).setText(WMIBooleanUtility.resolveBoolean(os.primary()));
+        osFields.get(10).setText(WMIBooleanUtility.resolveBoolean(os.distributed()));
+        osFields.get(11).setText(WMIBooleanUtility.resolveBoolean(os.portableOperatingSystem()));
+        osFields.get(12).setText(os.csName());
+        osFields.get(13).setText(String.valueOf(os.numberOfUsers()));
+        osFields.get(14).setText(os.registeredUser());
+        osFields.get(15).setText(os.systemDrive());
+        osFields.get(16).setText(os.windowsDirectory());
+        osFields.get(17).setText(os.systemDirectory());
 
-        String conciseOsText = os.getOsArchitecture() + " edition of Windows" +
+        String conciseOsText = os.osArchitecture() + " edition of Windows" +
                 System.lineSeparator() +
-                "Version: " + os.getVersion() +
+                "Version: " + os.version() +
                 System.lineSeparator() +
-                "Installed on: " + WMIDateUtility.toLocalDateTime(os.getInstallDate()) +
+                "Installed on: " + WMIDateUtility.toLocalDateTime(os.installDate()) +
                 System.lineSeparator() +
-                "Last started on: " + WMIDateUtility.toLocalDateTime(os.getLastBootUpTime()) +
+                "Last started on: " + WMIDateUtility.toLocalDateTime(os.lastBootUpTime()) +
                 System.lineSeparator() +
-                "Registered to: " + os.getRegisteredUser();
+                "Registered to: " + os.registeredUser();
 
         osConciseInfoArea.setText(conciseOsText);
     }

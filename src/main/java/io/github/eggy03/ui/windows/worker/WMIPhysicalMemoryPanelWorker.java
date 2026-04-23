@@ -4,8 +4,8 @@
  */
 package io.github.eggy03.ui.windows.worker;
 
-import io.github.eggy03.ferrumx.windows.entity.memory.Win32PhysicalMemory;
-import io.github.eggy03.ferrumx.windows.service.memory.Win32PhysicalMemoryService;
+import io.github.eggy03.cimari.entity.memory.Win32PhysicalMemory;
+import io.github.eggy03.cimari.service.memory.Win32PhysicalMemoryService;
 import io.github.eggy03.ui.common.constant.TerminalConstant;
 import io.github.eggy03.ui.windows.utilities.WMISizeUtility;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +15,7 @@ import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import javax.swing.SwingWorker;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 
@@ -44,7 +45,7 @@ public class WMIPhysicalMemoryPanelWorker extends SwingWorker<List<Win32Physical
             log.info("Found {} Win32PhysicalMemory entry/entries", physicalMemoryList.size());
 
             // fill the combo box with memory tags
-            physicalMemoryList.forEach(memory -> memoryTagComboBox.addItem(memory.getTag()));
+            physicalMemoryList.forEach(memory -> memoryTagComboBox.addItem(memory.tag()));
             // populate fields for the first entry in the combo box
             populateMemoryFields(physicalMemoryList);
             // add a listener to the combo box to re-populate fields on new selection
@@ -67,7 +68,8 @@ public class WMIPhysicalMemoryPanelWorker extends SwingWorker<List<Win32Physical
         // from the memory list, filter the memory module based on the selected tag
         Optional<Win32PhysicalMemory> selectedMemory = physicalMemoryList
                 .stream()
-                .filter(memory ->  memory.getTag()!=null && memory.getTag().equals(memoryTag))
+                .filter(Objects::nonNull)
+                .filter(memory -> Objects.equals(memory.tag(), memoryTag))
                 .findFirst(); // tag is a unique ID, and it will always return at most 1 Win32PhysicalMemory object
 
         if (selectedMemory.isEmpty())
@@ -76,19 +78,19 @@ public class WMIPhysicalMemoryPanelWorker extends SwingWorker<List<Win32Physical
         Win32PhysicalMemory memory = selectedMemory.get();
 
         // populate the fields
-        memoryFields.get(0).setText(memory.getName());
-        memoryFields.get(1).setText(memory.getManufacturer());
-        memoryFields.get(2).setText(memory.getModel());
-        memoryFields.get(3).setText(memory.getOtherIdentifyingInfo());
-        memoryFields.get(4).setText(memory.getPartNumber());
-        memoryFields.get(5).setText(memory.getSerialNumber());
-        memoryFields.get(6).setText(resolveWMIPhysicalMemoryFormFactor(memory.getFormFactor()));
-        memoryFields.get(7).setText(memory.getBankLabel());
-        memoryFields.get(8).setText(WMISizeUtility.parseToGBString(memory.getCapacity()));
-        memoryFields.get(9).setText(memory.getDataWidth()+ " Bits");
-        memoryFields.get(10).setText(memory.getSpeed()+ " MHz");
-        memoryFields.get(11).setText(memory.getConfiguredClockSpeed()+ " MHz");
-        memoryFields.get(12).setText(memory.getDeviceLocator());
+        memoryFields.get(0).setText(memory.name());
+        memoryFields.get(1).setText(memory.manufacturer());
+        memoryFields.get(2).setText(memory.model());
+        memoryFields.get(3).setText(memory.otherIdentifyingInfo());
+        memoryFields.get(4).setText(memory.partNumber());
+        memoryFields.get(5).setText(memory.serialNumber());
+        memoryFields.get(6).setText(resolveWMIPhysicalMemoryFormFactor(memory.formFactor()));
+        memoryFields.get(7).setText(memory.bankLabel());
+        memoryFields.get(8).setText(WMISizeUtility.parseToGBString(memory.capacity()));
+        memoryFields.get(9).setText(memory.dataWidth()+ " Bits");
+        memoryFields.get(10).setText(memory.speed()+ " MHz");
+        memoryFields.get(11).setText(memory.configuredClockSpeed()+ " MHz");
+        memoryFields.get(12).setText(memory.deviceLocator());
 
     }
 }

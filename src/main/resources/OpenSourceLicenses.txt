@@ -5,7 +5,7 @@ This application includes third-party open-source software.
 The following libraries are used under their respective licenses.
 
 ------------------------------------------------------------
-FerrumX Windows, dmidecode4j, Swing Theme Manager
+cimari, dmidecode4j, Swing Theme Manager
 ------------------------------------------------------------
 MIT License
 
