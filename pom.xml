@@ -18,7 +18,7 @@
 
         <!-- Dependency versions -->
         <ferrumx.windows.version>4.1.0</ferrumx.windows.version>
-        <dmidecode4j.version>0.2.0</dmidecode4j.version>
+        <dmidecode4j.version>0.3.0</dmidecode4j.version>
         <swing.theme.manager>0.1.0</swing.theme.manager>
         <slf4j.version>2.0.17</slf4j.version>
         <tinylog.version>2.7.0</tinylog.version>

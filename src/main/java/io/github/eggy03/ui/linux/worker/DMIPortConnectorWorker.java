@@ -5,6 +5,7 @@
 package io.github.eggy03.ui.linux.worker;
 
 import io.github.eggy03.dmidecode.entity.board.DMIPortConnectorInformation;
+import io.github.eggy03.dmidecode.entity.board.ImmutableDMIPortConnectorInformation;
 import io.github.eggy03.dmidecode.service.board.DMIPortConnectorInformationService;
 import io.github.eggy03.ui.common.constant.TerminalConstant;
 import lombok.RequiredArgsConstructor;
@@ -66,7 +67,7 @@ public class DMIPortConnectorWorker extends SwingWorker<List<DMIPortConnectorInf
 
         if(portNumberComboBox.getSelectedItem() instanceof Integer selection) {
 
-            DMIPortConnectorInformation port = mapList.getOrDefault(selection, new DMIPortConnectorInformation.Builder().build());
+            DMIPortConnectorInformation port = mapList.getOrDefault(selection, new ImmutableDMIPortConnectorInformation.Builder().build());
 
             portFields.get(0).setText(port.externalReferenceDesignator());
             portFields.get(1).setText(port.internalReferenceDesignator());
