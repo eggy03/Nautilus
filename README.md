@@ -61,13 +61,13 @@ The generated binaries will be available in `../Nautilus/target/output`
 
 A modified build of Nautilus with hidden Hardware ID and Processor ID, running on Windows 11 24H2
 
-<img width="800" height="640" alt="Screenshot 2026-04-07 122534" src="https://github.com/user-attachments/assets/79bcb6bf-ea05-4c85-9e2f-5b27a5d57208" />
+<img width="850" height="640" alt="Screenshot 2026-04-07 122534" src="https://github.com/user-attachments/assets/79bcb6bf-ea05-4c85-9e2f-5b27a5d57208" />
 
 ### Linux
 
 A modified build of Nautilus with hidden System UUID and Processor ID, running on Bazzite 43, a Fedora based distribution and using dmidecode 3.6
 
-<img width="800" height="640" alt="Screenshot_20260408_200545" src="https://github.com/user-attachments/assets/f0c95572-9232-420f-aec3-cd335d7b5aed" />
+<img width="850" height="640" alt="Screenshot_20260408_200545" src="https://github.com/user-attachments/assets/f0c95572-9232-420f-aec3-cd335d7b5aed" />
 
 # License
 
