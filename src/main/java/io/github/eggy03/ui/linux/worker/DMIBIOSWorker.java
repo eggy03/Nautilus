@@ -5,6 +5,7 @@
 package io.github.eggy03.ui.linux.worker;
 
 import io.github.eggy03.dmidecode.entity.board.DMIBIOS;
+import io.github.eggy03.dmidecode.entity.board.ImmutableDMIBIOS;
 import io.github.eggy03.dmidecode.service.board.DMIBIOSService;
 import io.github.eggy03.ui.common.constant.TerminalConstant;
 import lombok.RequiredArgsConstructor;
@@ -69,7 +70,7 @@ public class DMIBIOSWorker extends SwingWorker<List<DMIBIOS>, Void> {
 
         if(biosNumberComboBox.getSelectedItem() instanceof Integer selection) {
 
-            DMIBIOS bios = mapList.getOrDefault(selection, new DMIBIOS.Builder().build());
+            DMIBIOS bios = mapList.getOrDefault(selection, new ImmutableDMIBIOS.Builder().build());
 
             biosFields.get(0).setText(bios.vendor());
             biosFields.get(1).setText(bios.version());
