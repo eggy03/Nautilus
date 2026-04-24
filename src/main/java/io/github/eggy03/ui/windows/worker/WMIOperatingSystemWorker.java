@@ -17,39 +17,44 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingWorker;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Slf4j
-public class WMIOperatingSystemWorker extends SwingWorker<List<Win32OperatingSystem>, Void> {
+public class WMIOperatingSystemWorker extends SwingWorker<Map<String, Win32OperatingSystem>, Void> {
 
     private final JComboBox<String> osNameComboBox;
     private final List<JTextField> osFields;
     private final JTextArea osConciseInfoArea;
 
     @Override
-    protected List<Win32OperatingSystem> doInBackground() {
-        return new Win32OperatingSystemService().get(TerminalConstant.TIMEOUT_SIXTY_SECONDS);
+    protected Map<String, Win32OperatingSystem> doInBackground() {
+
+        List<Win32OperatingSystem> osList = new Win32OperatingSystemService().get(TerminalConstant.TIMEOUT_SIXTY_SECONDS);
+        log.info("Found {} Win32_OperatingSystem entry(s)", osList.size());
+
+        return osList.stream()
+                .filter(Objects::nonNull)
+                .filter(os -> Objects.nonNull(os.name()))
+                .collect(Collectors.toUnmodifiableMap(
+                        os -> Objects.requireNonNull(os.name()),
+                        os -> os
+                ));
     }
 
     @Override
     protected void done() {
         try {
-            List<Win32OperatingSystem> osList = get();
-            if(osList.isEmpty()) {
-                log.info("No entries for Win32OperatingSystem were found");
-                return;
-            }
-            log.info("Found {} Win32OperatingSystem entry/entries", osList.size());
-
+            Map<String, Win32OperatingSystem> osMap = get();
             // fill the combo box with os names
-            osList.forEach(os -> osNameComboBox.addItem(os.name()));
+            osMap.keySet().stream().sorted().forEach(osNameComboBox::addItem);
             // populate fields for the first entry in the combo box
-            populateFields(osList);
+            populateFields(osMap);
             // add a listener to the combo box to re-populate fields on new selection
-            osNameComboBox.addActionListener(selectEvent-> populateFields(osList));
+            osNameComboBox.addActionListener(selectEvent -> populateFields(osMap));
 
         } catch (InterruptedException e) {
             log.error("OS Fetch Interrupted", e);
@@ -59,20 +64,12 @@ public class WMIOperatingSystemWorker extends SwingWorker<List<Win32OperatingSys
         }
     }
 
-    private void populateFields(List<Win32OperatingSystem> osList) {
+    private void populateFields(Map<String, Win32OperatingSystem> osMap) {
 
         String osName = String.valueOf(osNameComboBox.getSelectedItem());
 
-        Optional<Win32OperatingSystem> optionalOs = osList
-                .stream()
-                .filter(Objects::nonNull)
-                .filter(os-> Objects.equals(os.name(), osName))
-                .findFirst();
-
-        if(optionalOs.isEmpty())
-            return;
-
-        Win32OperatingSystem os = optionalOs.get();
+        Win32OperatingSystem os = osMap.get(osName);
+        if (os == null) return;
 
         osFields.get(0).setText(os.caption());
         osFields.get(1).setText(os.version());
@@ -82,7 +79,7 @@ public class WMIOperatingSystemWorker extends SwingWorker<List<Win32OperatingSys
         osFields.get(5).setText(WMIDateUtility.toLocalDateTime(os.installDate()));
         osFields.get(6).setText(WMIDateUtility.toLocalDateTime(os.lastBootUpTime()));
         osFields.get(7).setText(os.serialNumber());
-        osFields.get(8).setText(os.muiLanguages()==null ? "N/A" : os.muiLanguages().toString());
+        osFields.get(8).setText(os.muiLanguages() == null ? "N/A" : os.muiLanguages().toString());
         osFields.get(9).setText(WMIBooleanUtility.resolveBoolean(os.primary()));
         osFields.get(10).setText(WMIBooleanUtility.resolveBoolean(os.distributed()));
         osFields.get(11).setText(WMIBooleanUtility.resolveBoolean(os.portableOperatingSystem()));

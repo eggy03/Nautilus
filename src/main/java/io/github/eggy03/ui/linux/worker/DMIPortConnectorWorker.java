@@ -16,45 +16,47 @@ import javax.swing.JTextField;
 import javax.swing.SwingWorker;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @RequiredArgsConstructor
 @Slf4j
-public class DMIPortConnectorWorker extends SwingWorker<List<DMIPortConnectorInformation>, Void> {
+public class DMIPortConnectorWorker extends SwingWorker<Map<Integer, DMIPortConnectorInformation>, Void> {
 
     private final JComboBox<Integer> portNumberComboBox;
     private final List<JTextField> portFields;
 
     @Override
-    protected List<DMIPortConnectorInformation> doInBackground() throws Exception {
-        return new DMIPortConnectorInformationService().get(TerminalConstant.TIMEOUT_SIXTY_SECONDS);
+    protected Map<Integer, DMIPortConnectorInformation> doInBackground() throws Exception {
+        List<DMIPortConnectorInformation> portList = new DMIPortConnectorInformationService()
+                .get(TerminalConstant.TIMEOUT_SIXTY_SECONDS)
+                .stream()
+                .filter(Objects::nonNull)
+                .toList();
+
+        log.info("Found {} DMIPortConnector entry(s)", portList.size());
+
+        return IntStream.range(0, portList.size())
+                .boxed()
+                .collect(Collectors.toUnmodifiableMap(
+                   index -> index + 1,
+                        portList::get
+                ));
     }
 
     @Override
     protected void done() {
 
         try {
-            List<DMIPortConnectorInformation> portList = get();
-            if(portList.isEmpty()) {
-                log.info("No entries for DMIPortConnector were found");
-                return;
-            }
-            log.info("Found {} DMIPortConnector entry/entries", portList.size());
-
-            // create a numbered map for all the port connectors found
-            Map<Integer, DMIPortConnectorInformation> mapList = IntStream
-                    .range(0, portList.size())
-                    .boxed()
-                    .collect(Collectors.toMap(key-> key+1, portList::get));
-
+            Map<Integer, DMIPortConnectorInformation> portMap = get();
             // populate the combo box with port numbers
-            mapList.keySet().forEach(portNumberComboBox::addItem);
+            portMap.keySet().stream().sorted().forEach(portNumberComboBox::addItem);
             // populate fields for the first entry in the combo box
-            populateFields(mapList);
+            populateFields(portMap);
             // add a listener to the combo box to re-populate fields on new selection
-            portNumberComboBox.addActionListener(selectEvent -> populateFields (mapList));
+            portNumberComboBox.addActionListener(selectEvent -> populateFields (portMap));
         } catch (ExecutionException e) {
             log.error("DMIPortConnectorInformation Fetch Failed", e);
         } catch (InterruptedException e) {
@@ -63,18 +65,18 @@ public class DMIPortConnectorWorker extends SwingWorker<List<DMIPortConnectorInf
         }
     }
 
-    private void populateFields(Map<Integer, DMIPortConnectorInformation> mapList) {
+    private void populateFields(Map<Integer, DMIPortConnectorInformation> portMap) {
 
-        if(portNumberComboBox.getSelectedItem() instanceof Integer selection) {
+        Integer index = (Integer) portNumberComboBox.getSelectedItem();
 
-            DMIPortConnectorInformation port = mapList.getOrDefault(selection, new ImmutableDMIPortConnectorInformation.Builder().build());
+        DMIPortConnectorInformation port = portMap.get(index);
+        if (port==null) return;
 
-            portFields.get(0).setText(port.externalReferenceDesignator());
-            portFields.get(1).setText(port.internalReferenceDesignator());
-            portFields.get(2).setText(port.externalConnectorType());
-            portFields.get(3).setText(port.internalConnectorType());
-            portFields.get(4).setText(port.portType());
+        portFields.get(0).setText(port.externalReferenceDesignator());
+        portFields.get(1).setText(port.internalReferenceDesignator());
+        portFields.get(2).setText(port.externalConnectorType());
+        portFields.get(3).setText(port.internalConnectorType());
+        portFields.get(4).setText(port.portType());
 
-        }
     }
 }

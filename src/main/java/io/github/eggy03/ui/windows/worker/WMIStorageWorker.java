@@ -21,39 +21,43 @@ import javax.swing.JEditorPane;
 import javax.swing.JTextField;
 import javax.swing.SwingWorker;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Slf4j
-public class WMIStorageWorker extends SwingWorker<List<Win32DiskDriveToPartitionAndLogicalDisk>, Void> {
+public class WMIStorageWorker extends SwingWorker<Map<String, Win32DiskDriveToPartitionAndLogicalDisk>, Void> {
 
     private final JComboBox<String> diskIdComboBox;
     private final List<JTextField> diskFields;
     private final List<JEditorPane> diskEditorPanes;
 
     @Override
-    protected List<Win32DiskDriveToPartitionAndLogicalDisk> doInBackground() {
-        return new Win32DiskDriveToPartitionAndLogicalDiskService().get(TerminalConstant.TIMEOUT_SIXTY_SECONDS);
+    protected Map<String, Win32DiskDriveToPartitionAndLogicalDisk> doInBackground() {
+        List<Win32DiskDriveToPartitionAndLogicalDisk> diskList = new Win32DiskDriveToPartitionAndLogicalDiskService().get(TerminalConstant.TIMEOUT_SIXTY_SECONDS);
+        log.info("Found {} Win32DiskDrive entry/entries", diskList.size());
+
+        return diskList.stream()
+                .filter(Objects::nonNull)
+                .filter(disk -> Objects.nonNull(disk.deviceId()))
+                .collect(Collectors.toUnmodifiableMap(
+                        disk -> Objects.requireNonNull(disk.deviceId()).replace("\\\\.\\", ""), // the device IDs have backslashes
+                        disk -> disk
+                ));
     }
 
     @Override
     protected void done() {
         try {
-            List<Win32DiskDriveToPartitionAndLogicalDisk> diskList = get();
-            if(diskList.isEmpty()) {
-                log.info("No entries for Win32DiskDrive were found");
-                return;
-            }
-            log.info("Found {} Win32DiskDrive entry/entries", diskList.size());
-
+            Map<String, Win32DiskDriveToPartitionAndLogicalDisk> diskMap = get();
             // populate the combo box with disk deviceIDs
-            diskList.forEach(disk-> diskIdComboBox.addItem(disk.deviceId()));
+            diskMap.keySet().stream().sorted().forEach(diskIdComboBox::addItem);
             // populate fields and editor panes for the first entry in the combo box
-            populate(diskList);
+            populate(diskMap);
             // add a listener to the combo box to re-populate fields on new selection
-            diskIdComboBox.addActionListener(selectAction -> populate(diskList));
+            diskIdComboBox.addActionListener(selectAction -> populate(diskMap));
 
         } catch (InterruptedException e) {
             log.error("Disk Fetch Interrupted", e);
@@ -63,25 +67,18 @@ public class WMIStorageWorker extends SwingWorker<List<Win32DiskDriveToPartition
         }
     }
 
-    private void populate(List<Win32DiskDriveToPartitionAndLogicalDisk> diskList) {
+    private void populate(Map<String, Win32DiskDriveToPartitionAndLogicalDisk> diskMap) {
 
         String selectedDiskId = String.valueOf(diskIdComboBox.getSelectedItem());
 
-        Optional<Win32DiskDriveToPartitionAndLogicalDisk> optionalDisk = diskList
-                .stream()
-                .filter(Objects::nonNull)
-                .filter(disk-> Objects.equals(disk.deviceId(), selectedDiskId))
-                .findFirst();
+        Win32DiskDriveToPartitionAndLogicalDisk disk = diskMap.get(selectedDiskId);
+        if (disk == null) return;
 
-        if(optionalDisk.isEmpty())
-            return;
-
-        Win32DiskDriveToPartitionAndLogicalDisk disk = optionalDisk.get();
         Win32DiskDrive diskDrive = disk.diskDrive();
         List<Win32DiskPartition> diskPartitionList = disk.diskPartitionList();
         List<Win32LogicalDisk> logicalDiskList = disk.logicalDiskList();
 
-        if(diskDrive!=null) {
+        if (diskDrive != null) {
             diskFields.get(0).setText(diskDrive.pnpDeviceId());
             diskFields.get(1).setText(diskDrive.caption());
             diskFields.get(2).setText(diskDrive.model());
@@ -90,7 +87,7 @@ public class WMIStorageWorker extends SwingWorker<List<Win32DiskDriveToPartition
             diskFields.get(5).setText(String.valueOf(diskDrive.serialNumber()).trim());
             diskFields.get(6).setText(WMISizeUtility.parseToGBString(diskDrive.size()));
             diskFields.get(7).setText(String.valueOf(diskDrive.partitions()));
-            diskFields.get(8).setText(diskDrive.capabilityDescriptions()==null ? "N/A" : diskDrive.capabilityDescriptions().toString());
+            diskFields.get(8).setText(diskDrive.capabilityDescriptions() == null ? "N/A" : diskDrive.capabilityDescriptions().toString());
             diskFields.get(9).setText(diskDrive.status());
         }
 

@@ -16,38 +16,42 @@ import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import javax.swing.SwingWorker;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Slf4j
-public class WMIUserAccountWorker extends SwingWorker<List<Win32UserAccount>, Void> {
+public class WMIUserAccountWorker extends SwingWorker<Map<String, Win32UserAccount>, Void> {
 
     private final JComboBox<String> userAccountSIDComboBox;
     private final List<JTextField> userAccountFields;
 
     @Override
-    protected List<Win32UserAccount> doInBackground() {
-        return new Win32UserAccountService().get(TerminalConstant.TIMEOUT_SIXTY_SECONDS);
+    protected Map<String, Win32UserAccount> doInBackground() {
+        List<Win32UserAccount> accountList = new Win32UserAccountService().get(TerminalConstant.TIMEOUT_SIXTY_SECONDS);
+        log.info("Found {} Win32_UserAccount entry(s)", accountList.size());
+
+        return accountList.stream()
+                .filter(Objects::nonNull)
+                .filter(account -> Objects.nonNull(account.sid()))
+                .collect(Collectors.toUnmodifiableMap(
+                        account -> Objects.requireNonNull(account.sid()),
+                        account -> account
+                ));
     }
 
     @Override
     protected void done() {
         try {
-            List<Win32UserAccount> userAccountList = get();
-            if(userAccountList.isEmpty()) {
-                log.info("No entries for Win32UserAccount were found");
-                return;
-            }
-            log.info("Found {} Win32UserAccount entry/entries", userAccountList.size());
-
+            Map<String, Win32UserAccount> accountMap = get();
             // fill the combo box with user account SIDs
-            userAccountList.forEach(account ->userAccountSIDComboBox.addItem(account.sid()));
+            accountMap.keySet().stream().sorted().forEach(userAccountSIDComboBox::addItem);
             // populate fields for the first entry in the combo box
-            populateFields(userAccountList);
+            populateFields(accountMap);
             // add a listener to the combo box to re-populate fields on new selection
-            userAccountSIDComboBox.addActionListener(selectEvent-> populateFields(userAccountList));
+            userAccountSIDComboBox.addActionListener(selectEvent -> populateFields(accountMap));
 
         } catch (InterruptedException e) {
             log.error("User Account Fetch Interrupted", e);
@@ -57,19 +61,11 @@ public class WMIUserAccountWorker extends SwingWorker<List<Win32UserAccount>, Vo
         }
     }
 
-    private void populateFields(List<Win32UserAccount> userAccountList) {
+    private void populateFields(Map<String, Win32UserAccount> accountMap) {
         String userAccountSid = String.valueOf(userAccountSIDComboBox.getSelectedItem());
 
-        Optional<Win32UserAccount> optionalAccount = userAccountList
-                .stream()
-                .filter(Objects::nonNull)
-                .filter(account-> Objects.equals(account.sid(), userAccountSid))
-                .findFirst();
-
-        if(optionalAccount.isEmpty())
-            return;
-
-        Win32UserAccount account = optionalAccount.get();
+        Win32UserAccount account = accountMap.get(userAccountSid);
+        if (account == null) return;
 
         userAccountFields.get(0).setText(account.name());
         userAccountFields.get(1).setText(account.caption());

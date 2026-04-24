@@ -8,6 +8,7 @@ import io.github.eggy03.cimari.entity.compounded.HardwareId;
 import io.github.eggy03.cimari.entity.compounded.ImmutableHardwareId;
 import io.github.eggy03.cimari.service.compounded.HardwareIdService;
 import io.github.eggy03.ui.common.constant.TerminalConstant;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -17,28 +18,30 @@ import java.util.concurrent.ExecutionException;
 
 @Slf4j
 @RequiredArgsConstructor
-public class WMIHardwareIdWorker extends SwingWorker<HardwareId, Void>{
-	
-	private final JTextField hwidField;
+public class WMIHardwareIdWorker extends SwingWorker<HardwareId, Void> {
 
-	@Override
-	protected HardwareId doInBackground() {
-		return new HardwareIdService().get(TerminalConstant.TIMEOUT_SIXTY_SECONDS).orElse(new ImmutableHardwareId.Builder().build());
-		// I wonder if I should throw an exception or just return an empty build
-	}
-	
-	@Override
-	protected void done() {
-		
-		try {
-			HardwareId hwid = get();
-			hwidField.setText(hwid.hashHWID());
-		} catch (ExecutionException e) {
-			log.error("HWID Fetch Failed", e);
-		} catch (InterruptedException e) {
-			log.error("HWID Fetch Interrupted", e);
-			Thread.currentThread().interrupt();
-		}
-	}
+    @NonNull
+    private final JTextField hidField;
+
+    @Override
+    protected HardwareId doInBackground() {
+        return new HardwareIdService()
+                .get(TerminalConstant.TIMEOUT_SIXTY_SECONDS)
+                .orElse(new ImmutableHardwareId.Builder().build());
+    }
+
+    @Override
+    protected void done() {
+
+        try {
+            HardwareId hid = get();
+            hidField.setText(hid.hashHWID());
+        } catch (ExecutionException e) {
+            log.error("HWID Fetch Failed", e);
+        } catch (InterruptedException e) {
+            log.error("HWID Fetch Interrupted", e);
+            Thread.currentThread().interrupt();
+        }
+    }
 
 }
