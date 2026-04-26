@@ -4,6 +4,5 @@ import lombok.experimental.UtilityClass;
 
 @UtilityClass
 public class TerminalConstant {
-
-    public static long TIMEOUT_SIXTY_SECONDS = 60L;
+    public static final long TIMEOUT_SIXTY_SECONDS = 60L;
 }

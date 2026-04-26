@@ -14,41 +14,45 @@ import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import javax.swing.SwingWorker;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 
 import static io.github.eggy03.ui.windows.constant.WMIConstants.resolveWMIPortType;
 
 @Slf4j
 @RequiredArgsConstructor
-public class WMIPortConnectorWorker extends SwingWorker<List<Win32PortConnector>, Void> {
+public class WMIPortConnectorWorker extends SwingWorker<Map<String, Win32PortConnector>, Void> {
 
     private final JComboBox<String> tagComboBox;
     private final List<JTextField> portFields;
 
     @Override
-    protected List<Win32PortConnector> doInBackground() {
-        return new Win32PortConnectorService().get(TerminalConstant.TIMEOUT_SIXTY_SECONDS);
+    protected Map<String, Win32PortConnector> doInBackground() {
+        List<Win32PortConnector> portList = new Win32PortConnectorService().get(TerminalConstant.TIMEOUT_SIXTY_SECONDS);
+        log.info("Found {} Win32_PortConnector entry(s)", portList.size());
+
+        return portList.stream()
+                .filter(Objects::nonNull)
+                .filter(port -> Objects.nonNull(port.tag()))
+                .collect(Collectors.toUnmodifiableMap(
+                        port -> Objects.requireNonNull(port.tag()),
+                        port -> port
+                ));
     }
 
     @Override
     protected void done() {
 
         try {
-            List<Win32PortConnector> portList = get();
-            if(portList.isEmpty()) {
-                log.info("No entries for Win32PortConnector were found");
-                return;
-            }
-            log.info("Found {} Win32PortConnector entry/entries", portList.size());
-
+            Map<String, Win32PortConnector> portMap = get();
             //fill the combo box with port connector tags
-            portList.forEach(port-> tagComboBox.addItem(port.tag()));
+            portMap.keySet().stream().sorted().forEach(tagComboBox::addItem);
             // populate fields for the first entry in the combo box
-            populatePortConnectorFields(portList);
+            populatePortConnectorFields(portMap);
             // add a listener to the combo box to re-populate fields on new selection
-            tagComboBox.addActionListener(selectEvent -> populatePortConnectorFields(portList));
+            tagComboBox.addActionListener(selectEvent -> populatePortConnectorFields(portMap));
 
         } catch (InterruptedException e) {
             log.error("Baseboard Port Fetch Interrupted", e);
@@ -59,20 +63,13 @@ public class WMIPortConnectorWorker extends SwingWorker<List<Win32PortConnector>
 
     }
 
-    private void populatePortConnectorFields(List<Win32PortConnector> portList) {
+    private void populatePortConnectorFields(Map<String, Win32PortConnector> portMap) {
 
         String selectedTag = String.valueOf(tagComboBox.getSelectedItem());
 
-        Optional<Win32PortConnector> selectedPort = portList
-                .stream()
-                .filter(Objects::nonNull)
-                .filter(port -> Objects.equals(port.tag(), selectedTag))
-                .findFirst();
+        Win32PortConnector port = portMap.get(selectedTag);
+        if (port == null) return;
 
-        if(selectedPort.isEmpty())
-            return;
-
-        Win32PortConnector port = selectedPort.get();
         portFields.get(0).setText(resolveWMIPortType(port.portType()));
         portFields.get(1).setText(port.internalReferenceDesignator());
         portFields.get(2).setText(port.externalReferenceDesignator());

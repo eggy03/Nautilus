@@ -19,9 +19,10 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingWorker;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 
 import static io.github.eggy03.ui.windows.constant.WMIConstants.resolveWMIAvailability;
 import static io.github.eggy03.ui.windows.constant.WMIConstants.resolveWMICacheErrorCorrectType;
@@ -32,33 +33,37 @@ import static io.github.eggy03.ui.windows.constant.WMIConstants.resolveWMICacheM
 
 @RequiredArgsConstructor
 @Slf4j
-public class WMIProcessorPanelWorker extends SwingWorker<List<Win32ProcessorToCacheMemory>, Void> {
+public class WMIProcessorPanelWorker extends SwingWorker<Map<String, Win32ProcessorToCacheMemory>, Void> {
 
     private final JComboBox<String> cpuIdComboBox;
     private final List<JTextField> cpuFields;
     private final List<JTextArea> cpuTextAreas;
 
     @Override
-    protected @NotNull List<Win32ProcessorToCacheMemory> doInBackground() {
-       return new Win32ProcessorToCacheMemoryService().get(TerminalConstant.TIMEOUT_SIXTY_SECONDS);
+    protected @NotNull Map<String, Win32ProcessorToCacheMemory> doInBackground() {
+        List<Win32ProcessorToCacheMemory> cpuList = new Win32ProcessorToCacheMemoryService().get(TerminalConstant.TIMEOUT_SIXTY_SECONDS);
+        log.info("Found {} Win32_Processor entry(s)", cpuList.size());
+
+        return cpuList.stream()
+                .filter(Objects::nonNull)
+                .filter(cpu -> Objects.nonNull(cpu.deviceId()))
+                .collect(Collectors.toUnmodifiableMap(
+                        cpu -> Objects.requireNonNull(cpu.deviceId()),
+                        cpu -> cpu
+                ));
+
     }
 
     @Override
     protected void done() {
         try {
-            List<Win32ProcessorToCacheMemory> cpuAndCacheList = get();
-            if(cpuAndCacheList.isEmpty()) {
-                log.info("No entries for Win32Processor were found");
-                return;
-            }
-            log.info("Found {} Win32Processor entry/entries", cpuAndCacheList.size());
-
+            Map<String, Win32ProcessorToCacheMemory> cpuMap = get();
             // populate the combo box with cpu device id
-            cpuAndCacheList.forEach(cpuAndCache -> cpuIdComboBox.addItem(cpuAndCache.deviceId()));
+            cpuMap.keySet().stream().sorted().forEach(cpuIdComboBox::addItem);
             // populate fields for the first entry in the combo box
-            populateFieldsBasedOnCurrentCpuId(cpuAndCacheList);
+            populate(cpuMap);
             // add a listener to the combo box to re-populate fields on new selection
-            cpuIdComboBox.addActionListener(selectEvent -> populateFieldsBasedOnCurrentCpuId (cpuAndCacheList));
+            cpuIdComboBox.addActionListener(selectEvent -> populate(cpuMap));
         } catch (ExecutionException e) {
             log.error("CPU Fetch Failed", e);
         } catch (InterruptedException e) {
@@ -68,41 +73,37 @@ public class WMIProcessorPanelWorker extends SwingWorker<List<Win32ProcessorToCa
     }
 
     // populate the fields based on the current cpu-id in the combo-box
-    private void populateFieldsBasedOnCurrentCpuId (List<Win32ProcessorToCacheMemory> cpuAndCacheList) {
-    	
-    	// filter a cpuAndCacheObject based on the cpu id in the combo box
-    	Optional<Win32ProcessorToCacheMemory> current = cpuAndCacheList.stream()
-                .filter(Objects::nonNull)
-                .filter(cpuAndCache -> Objects.equals(cpuAndCache.deviceId(), cpuIdComboBox.getSelectedItem()))
-                .findFirst();
+    private void populate(Map<String, Win32ProcessorToCacheMemory> cpuMap) {
 
-        if (current.isEmpty())
+        String deviceId = String.valueOf(cpuIdComboBox.getSelectedItem());
+
+        Win32ProcessorToCacheMemory cpuObject = cpuMap.get(deviceId);
+        if (cpuObject == null)
             return;
 
-        Win32ProcessorToCacheMemory currentCpuAndCache = current.get();
-        Win32Processor currentCpu = currentCpuAndCache.processor();
-        List<Win32CacheMemory> currentCacheList = currentCpuAndCache.cacheMemoryList();
-        
+        Win32Processor currentCpu = cpuObject.processor();
+        List<Win32CacheMemory> cacheList = cpuObject.cacheMemoryList();
+
         // populate cpu fields
-        if(currentCpu!=null) { // the order is maintained by the order in which the text fields have been passed to its constructor
-        	cpuFields.get(0).setText(String.valueOf(currentCpu.numberOfCores()));
-        	cpuFields.get(1).setText(String.valueOf(currentCpu.threadCount()));
-        	cpuFields.get(2).setText(currentCpu.maxClockSpeed()+" MHz");
-        	cpuFields.get(3).setText(currentCpu.name());
-        	cpuFields.get(4).setText(currentCpu.version());
-        	cpuFields.get(5).setText(String.valueOf(currentCpu.family()));
-        	cpuFields.get(6).setText(currentCpu.stepping());
-        	cpuFields.get(7).setText(currentCpu.manufacturer());
-        	cpuFields.get(8).setText(currentCpu.caption());
-        	cpuFields.get(9).setText(currentCpu.processorId());
-        	cpuFields.get(10).setText(String.valueOf(currentCpu.numberOfEnabledCores()));
-        	cpuFields.get(11).setText(String.valueOf(currentCpu.numberOfLogicalProcessors()));
-        	cpuFields.get(12).setText(WMIConstants.processorArchitecture(currentCpu.architecture()));
-        	cpuFields.get(13).setText(currentCpu.addressWidth()+" bit");
-        	cpuFields.get(14).setText(String.valueOf(currentCpu.socketDesignation()));
-        	cpuFields.get(15).setText(currentCpu.extClock()+ " MHz");
-        	
-        	// assign text to the concise cpu text area
+        if (currentCpu != null) { // the order is maintained by the order in which the text fields have been passed to its constructor
+            cpuFields.get(0).setText(String.valueOf(currentCpu.numberOfCores()));
+            cpuFields.get(1).setText(String.valueOf(currentCpu.threadCount()));
+            cpuFields.get(2).setText(currentCpu.maxClockSpeed() + " MHz");
+            cpuFields.get(3).setText(currentCpu.name());
+            cpuFields.get(4).setText(currentCpu.version());
+            cpuFields.get(5).setText(String.valueOf(currentCpu.family()));
+            cpuFields.get(6).setText(currentCpu.stepping());
+            cpuFields.get(7).setText(currentCpu.manufacturer());
+            cpuFields.get(8).setText(currentCpu.caption());
+            cpuFields.get(9).setText(currentCpu.processorId());
+            cpuFields.get(10).setText(String.valueOf(currentCpu.numberOfEnabledCores()));
+            cpuFields.get(11).setText(String.valueOf(currentCpu.numberOfLogicalProcessors()));
+            cpuFields.get(12).setText(WMIConstants.processorArchitecture(currentCpu.architecture()));
+            cpuFields.get(13).setText(currentCpu.addressWidth() + " bit");
+            cpuFields.get(14).setText(String.valueOf(currentCpu.socketDesignation()));
+            cpuFields.get(15).setText(currentCpu.extClock() + " MHz");
+
+            // assign text to the concise cpu text area
             JTextArea conciseCpuTextArea = cpuTextAreas.getFirst();
             String conciseText = "This CPU, " + String.valueOf(currentCpu.name()).trim() + " consists of "
                     + System.lineSeparator() +
@@ -114,28 +115,28 @@ public class WMIProcessorPanelWorker extends SwingWorker<List<Win32ProcessorToCa
                     + System.lineSeparator() +
                     "The reported socket for this CPU is: " + currentCpu.socketDesignation()
                     + System.lineSeparator() +
-                    "The reported L2 Cache is: " + currentCpu.l2CacheSize()+ " KB and the reported L3 Cache is: "+currentCpu.l3CacheSize() + " KB.";
+                    "The reported L2 Cache is: " + currentCpu.l2CacheSize() + " KB and the reported L3 Cache is: " + currentCpu.l3CacheSize() + " KB.";
 
             conciseCpuTextArea.setText(conciseText);
         }
-        
+
         // populate cache size fields
-        if(currentCacheList !=null && !currentCacheList.isEmpty()) {
+        if (cacheList != null && !cacheList.isEmpty()) {
 
             // populate the text area with raw details
             JTextArea cacheTextArea = cpuTextAreas.get(1);
             cacheTextArea.setText(null); //before populating, clean the previous data if any
-            currentCacheList.forEach(cache -> cacheTextArea.append(
-                    "DeviceID: "+cache.deviceId()+System.lineSeparator()+
-                    "Purpose: "+cache.purpose()+System.lineSeparator()+
-                    "Type: "+resolveWMICacheMemoryType(cache.cacheType())+System.lineSeparator()+
-                    "Level: "+resolveWMICacheMemoryLevel(cache.level())+System.lineSeparator()+
-                    "Size: "+cache.installedSize()+" KB"+System.lineSeparator()+
-                    "Associativity: "+resolveWMICacheMemoryAssociativity(cache.associativity())+System.lineSeparator()+
-                    "Location: "+resolveWMICacheMemoryLocation(cache.location())+System.lineSeparator()+
-                    "Error Correct Type: "+resolveWMICacheErrorCorrectType(cache.errorCorrectType())+System.lineSeparator()+
-                    "Availability: "+resolveWMIAvailability(cache.availability())+System.lineSeparator()+
-                    "Status: "+cache.status()+System.lineSeparator()+System.lineSeparator()
+            cacheList.forEach(cache -> cacheTextArea.append(
+                    "DeviceID: " + cache.deviceId() + System.lineSeparator() +
+                            "Purpose: " + cache.purpose() + System.lineSeparator() +
+                            "Type: " + resolveWMICacheMemoryType(cache.cacheType()) + System.lineSeparator() +
+                            "Level: " + resolveWMICacheMemoryLevel(cache.level()) + System.lineSeparator() +
+                            "Size: " + cache.installedSize() + " KB" + System.lineSeparator() +
+                            "Associativity: " + resolveWMICacheMemoryAssociativity(cache.associativity()) + System.lineSeparator() +
+                            "Location: " + resolveWMICacheMemoryLocation(cache.location()) + System.lineSeparator() +
+                            "Error Correct Type: " + resolveWMICacheErrorCorrectType(cache.errorCorrectType()) + System.lineSeparator() +
+                            "Availability: " + resolveWMIAvailability(cache.availability()) + System.lineSeparator() +
+                            "Status: " + cache.status() + System.lineSeparator() + System.lineSeparator()
             ));
         }
     }

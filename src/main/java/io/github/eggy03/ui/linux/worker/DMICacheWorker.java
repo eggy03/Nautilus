@@ -23,36 +23,33 @@ public class DMICacheWorker extends SwingWorker<List<DMICache>, Void> {
 
     @Override
     protected List<DMICache> doInBackground() {
-        return new DMICacheService().get(TerminalConstant.TIMEOUT_SIXTY_SECONDS);
+        List<DMICache> dmiCacheList = new DMICacheService().get(TerminalConstant.TIMEOUT_SIXTY_SECONDS);
+        log.info("Found {} DMICache entry(s)", dmiCacheList.size());
+
+        return dmiCacheList;
     }
 
     @Override
     protected void done() {
         try {
             List<DMICache> dmiCacheList = get();
-            if(dmiCacheList.isEmpty()) {
-                log.info("No entries for DMICache were found");
-                return;
-            }
-            log.info("Found {} DMICache entry/entries", dmiCacheList.size());
 
             StringBuilder sb = new StringBuilder();
-            sb.append("Cache Characteristics:")
-                    .append(System.lineSeparator());
+            sb.append("Cache Characteristics:").append("\n");
 
-            dmiCacheList.forEach(cache -> sb.append(System.lineSeparator())
-                    .append("Socket Designation: ").append(cache.socketDesignation()).append(System.lineSeparator())
-                    .append("Configuration: ").append(cache.configuration()).append(System.lineSeparator())
-                    .append("Operational Mode: ").append(cache.operationalMode()).append(System.lineSeparator())
-                    .append("Location: ").append(cache.location()).append(System.lineSeparator())
-                    .append("Installed Size: ").append(cache.installedSize()).append(System.lineSeparator())
-                    .append("Maximum Size: ").append(cache.maximumSize()).append(System.lineSeparator())
-                    .append("Supported SRAM Types: ").append(cache.supportedSramTypes()).append(System.lineSeparator())
-                    .append("Installed SRAM Type: ").append(cache.installedSramType()).append(System.lineSeparator())
-                    .append("Speed: ").append(cache.speed()).append(System.lineSeparator())
-                    .append("Error Correction Type: ").append(cache.errorCorrectionType()).append(System.lineSeparator())
-                    .append("System Type: ").append(cache.systemType()).append(System.lineSeparator())
-                    .append("Associativity: ").append(cache.associativity()).append(System.lineSeparator())
+            dmiCacheList.forEach(cache -> sb
+                    .append("\nSocket Designation: ").append(cache.socketDesignation())
+                    .append("\nConfiguration: ").append(cache.configuration())
+                    .append("\nOperational Mode: ").append(cache.operationalMode())
+                    .append("\nLocation: ").append(cache.location())
+                    .append("\nInstalled Size: ").append(cache.installedSize())
+                    .append("\nMaximum Size: ").append(cache.maximumSize())
+                    .append("\nSupported SRAM Types: ").append(cache.supportedSramTypes())
+                    .append("\nInstalled SRAM Type: ").append(cache.installedSramType())
+                    .append("\nSpeed: ").append(cache.speed())
+                    .append("\nError Correction Type: ").append(cache.errorCorrectionType())
+                    .append("\nSystem Type: ").append(cache.systemType())
+                    .append("\nAssociativity: ").append(cache.associativity()).append("\n")
             );
 
             cacheTextArea.setText(sb.toString());

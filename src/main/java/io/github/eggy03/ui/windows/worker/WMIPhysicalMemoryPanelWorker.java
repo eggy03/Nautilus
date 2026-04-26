@@ -15,41 +15,45 @@ import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import javax.swing.SwingWorker;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 
 import static io.github.eggy03.ui.windows.constant.WMIConstants.resolveWMIPhysicalMemoryFormFactor;
 
 @RequiredArgsConstructor
 @Slf4j
-public class WMIPhysicalMemoryPanelWorker extends SwingWorker<List<Win32PhysicalMemory>, Void> {
+public class WMIPhysicalMemoryPanelWorker extends SwingWorker<Map<String, Win32PhysicalMemory>, Void> {
 
     private final JComboBox<String> memoryTagComboBox;
     private final List<JTextField> memoryFields;
 
     @Override
-    protected List<Win32PhysicalMemory> doInBackground() {
-        return new Win32PhysicalMemoryService().get(TerminalConstant.TIMEOUT_SIXTY_SECONDS);
+    protected Map<String, Win32PhysicalMemory> doInBackground() {
+
+        List<Win32PhysicalMemory> memoryList = new Win32PhysicalMemoryService().get(TerminalConstant.TIMEOUT_SIXTY_SECONDS);
+        log.info("Found {} Win32_PhysicalMemory entry(s)", memoryList.size());
+
+        return memoryList.stream()
+                .filter(Objects::nonNull)
+                .filter(mem -> Objects.nonNull(mem.tag()))
+                .collect(Collectors.toUnmodifiableMap(
+                        mem -> Objects.requireNonNull(mem.tag()),
+                        mem -> mem
+                ));
     }
 
     @Override
     protected void done() {
         try {
-            List<Win32PhysicalMemory> physicalMemoryList = get();
-
-            if(physicalMemoryList.isEmpty()) {
-                log.info("No entries for Win32PhysicalMemory were found");
-                return;
-            }
-            log.info("Found {} Win32PhysicalMemory entry/entries", physicalMemoryList.size());
-
+            Map<String, Win32PhysicalMemory> memoryMap = get();
             // fill the combo box with memory tags
-            physicalMemoryList.forEach(memory -> memoryTagComboBox.addItem(memory.tag()));
+            memoryMap.keySet().stream().sorted().forEach(memoryTagComboBox::addItem);
             // populate fields for the first entry in the combo box
-            populateMemoryFields(physicalMemoryList);
+            populateMemoryFields(memoryMap);
             // add a listener to the combo box to re-populate fields on new selection
-            memoryTagComboBox.addActionListener(selectEvent-> populateMemoryFields(physicalMemoryList));
+            memoryTagComboBox.addActionListener(selectEvent -> populateMemoryFields(memoryMap));
 
         } catch (ExecutionException e) {
             log.error("Memory Fetch Failed", e);
@@ -60,22 +64,13 @@ public class WMIPhysicalMemoryPanelWorker extends SwingWorker<List<Win32Physical
     }
 
 
-    private void populateMemoryFields(List<Win32PhysicalMemory> physicalMemoryList) {
+    private void populateMemoryFields(Map<String, Win32PhysicalMemory> memoryMap) {
 
-        // get the current selected item in the combo box
+        // get the current selected tag in the combo box
         String memoryTag = String.valueOf(memoryTagComboBox.getSelectedItem());
 
-        // from the memory list, filter the memory module based on the selected tag
-        Optional<Win32PhysicalMemory> selectedMemory = physicalMemoryList
-                .stream()
-                .filter(Objects::nonNull)
-                .filter(memory -> Objects.equals(memory.tag(), memoryTag))
-                .findFirst(); // tag is a unique ID, and it will always return at most 1 Win32PhysicalMemory object
-
-        if (selectedMemory.isEmpty())
-            return;
-
-        Win32PhysicalMemory memory = selectedMemory.get();
+        Win32PhysicalMemory memory = memoryMap.get(memoryTag);
+        if (memory == null) return;
 
         // populate the fields
         memoryFields.get(0).setText(memory.name());
@@ -87,9 +82,9 @@ public class WMIPhysicalMemoryPanelWorker extends SwingWorker<List<Win32Physical
         memoryFields.get(6).setText(resolveWMIPhysicalMemoryFormFactor(memory.formFactor()));
         memoryFields.get(7).setText(memory.bankLabel());
         memoryFields.get(8).setText(WMISizeUtility.parseToGBString(memory.capacity()));
-        memoryFields.get(9).setText(memory.dataWidth()+ " Bits");
-        memoryFields.get(10).setText(memory.speed()+ " MHz");
-        memoryFields.get(11).setText(memory.configuredClockSpeed()+ " MHz");
+        memoryFields.get(9).setText(memory.dataWidth() + " Bits");
+        memoryFields.get(10).setText(memory.speed() + " MHz");
+        memoryFields.get(11).setText(memory.configuredClockSpeed() + " MHz");
         memoryFields.get(12).setText(memory.deviceLocator());
 
     }

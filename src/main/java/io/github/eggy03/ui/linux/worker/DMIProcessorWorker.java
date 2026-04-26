@@ -16,39 +16,45 @@ import javax.swing.JTextField;
 import javax.swing.SwingWorker;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Slf4j
-public class DMIProcessorWorker extends SwingWorker<List<DMIProcessor>, Void>{
+public class DMIProcessorWorker extends SwingWorker<Map<String, DMIProcessor>, Void>{
 
 	private final JComboBox<String> cpuIdComboBox;
 	private final List<JTextField> cpuFields;
 	private final JTextArea cpuCharsAndFlagsTextArea;
 
 	@Override
-	protected List<DMIProcessor> doInBackground(){
-		return new DMIProcessorService().get(TerminalConstant.TIMEOUT_SIXTY_SECONDS);
+	protected Map<String, DMIProcessor> doInBackground(){
+		List<DMIProcessor> cpuList = new DMIProcessorService().get(TerminalConstant.TIMEOUT_SIXTY_SECONDS);
+		log.info("Found {} DMIProcessor entry(s)", cpuList.size());
+
+		return cpuList.stream()
+				.filter(Objects::nonNull)
+				.filter(cpu -> Objects.nonNull(cpu.id()))
+				.collect(Collectors.toUnmodifiableMap(
+					cpu -> Objects.requireNonNull(cpu.id()),
+					cpu -> cpu
+				));
 	}
 
 	@Override
 	protected void done() {
 
 		try {
-			List<DMIProcessor> cpuList = get();
-			if(cpuList.isEmpty()) {
-				log.info("No entries for DMIProcessor were found");
-				return;
-			}
-			log.info("Found {} DMIProcessor entry/entries", cpuList.size());
-
+			Map<String, DMIProcessor> cpuMap = get();
 			// populate the combo box with cpu device id
-			cpuList.forEach(cpu -> cpuIdComboBox.addItem(cpu.id()));
+			cpuMap.keySet().stream().sorted().forEach(cpuIdComboBox::addItem);
 			// populate fields for the first entry in the combo box
-			populateFieldsBasedOnCurrentCpuId(cpuList);
+			populateFieldsBasedOnCurrentCpuId(cpuMap);
 			// add a listener to the combo box to re-populate fields on new selection
-			cpuIdComboBox.addActionListener(selectEvent -> populateFieldsBasedOnCurrentCpuId (cpuList));
+			cpuIdComboBox.addActionListener(selectEvent -> populateFieldsBasedOnCurrentCpuId (cpuMap));
 		} catch (ExecutionException e) {
 			log.error("CPU Fetch Failed", e);
 		} catch (InterruptedException e) {
@@ -58,20 +64,11 @@ public class DMIProcessorWorker extends SwingWorker<List<DMIProcessor>, Void>{
 
 	}
 
-	private void populateFieldsBasedOnCurrentCpuId(List<DMIProcessor> cpuList) {
-		if(cpuList==null || cpuList.isEmpty())
-			return;
+	private void populateFieldsBasedOnCurrentCpuId(Map<String, DMIProcessor> cpuMap) {
+		String index = String.valueOf(cpuIdComboBox.getSelectedItem());
 
-		Optional<DMIProcessor> optionalDMIProcessor = cpuList.
-				stream().
-				filter(dmiProcessor -> dmiProcessor.id()!=null &&
-						dmiProcessor.id().equals(cpuIdComboBox.getSelectedItem()))
-						.findFirst();
-
-		if(optionalDMIProcessor.isEmpty())
-			return;
-
-		DMIProcessor cpu = optionalDMIProcessor.get();
+		DMIProcessor cpu = cpuMap.get(index);
+		if (cpu==null) return;
 
 		cpuFields.get(0).setText(String.valueOf(cpu.coreCount()));
 		cpuFields.get(1).setText(String.valueOf(cpu.threadCount()));

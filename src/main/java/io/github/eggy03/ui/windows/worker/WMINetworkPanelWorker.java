@@ -22,39 +22,46 @@ import javax.swing.JEditorPane;
 import javax.swing.JTextField;
 import javax.swing.SwingWorker;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Slf4j
-public class WMINetworkPanelWorker extends SwingWorker<List<MsftNetAdapterToIpAndDnsAndProfile>, Void> {
+public class WMINetworkPanelWorker extends SwingWorker<Map<Long, MsftNetAdapterToIpAndDnsAndProfile>, Void> {
 
     private final JComboBox<Long> networkIndexComboBox;
     private final List<JTextField> networkFields;
     private final List<JEditorPane> networkEditorPanes;
 
     @Override
-    protected List<MsftNetAdapterToIpAndDnsAndProfile> doInBackground() {
-        return new MsftNetAdapterToIpAndDnsAndProfileService().get(TerminalConstant.TIMEOUT_SIXTY_SECONDS);
+    protected Map<Long, MsftNetAdapterToIpAndDnsAndProfile> doInBackground() {
+
+        List<MsftNetAdapterToIpAndDnsAndProfile> netList = new MsftNetAdapterToIpAndDnsAndProfileService().get(TerminalConstant.TIMEOUT_SIXTY_SECONDS);
+        log.info("Found {} MSFT_NetAdapter entry(s)", netList.size());
+
+        return netList.stream()
+                .filter(Objects::nonNull)
+                .filter(net -> Objects.nonNull(net.interfaceIndex()))
+                .collect(Collectors.toUnmodifiableMap(
+                        net -> Objects.requireNonNull(net.interfaceIndex()),
+                        net -> net
+                )); // IntelliJ won't shut up even tho I literally filtered out nullable interface indexes
+
     }
 
     @Override
     protected void done() {
         try {
-            List<MsftNetAdapterToIpAndDnsAndProfile> netList = get();
-            if(netList.isEmpty()) {
-                log.info("No entries for MsftNetAdapter were found");
-                return;
-            }
-            log.info("Found {} MsftNetAdapter entry/entries", netList.size());
+            Map<Long, MsftNetAdapterToIpAndDnsAndProfile> netMap = get();
 
             // populate the combo box with network interface indexes
-            netList.forEach(net-> networkIndexComboBox.addItem(net.interfaceIndex()));
+            netMap.keySet().stream().sorted().forEach(networkIndexComboBox::addItem);
             // populate fields and editor panes for the first entry in the combo box
-            populate(netList);
+            populate(netMap);
             // add a listener to the combo box to re-populate fields on new selection
-            networkIndexComboBox.addActionListener(selectAction -> populate(netList));
+            networkIndexComboBox.addActionListener(selectAction -> populate(netMap));
 
         } catch (InterruptedException e) {
             log.error("Network Fetch Interrupted", e);
@@ -64,29 +71,19 @@ public class WMINetworkPanelWorker extends SwingWorker<List<MsftNetAdapterToIpAn
         }
     }
 
-    private void populate(List<MsftNetAdapterToIpAndDnsAndProfile> netList) {
+    private void populate(Map<Long, MsftNetAdapterToIpAndDnsAndProfile> netMap) {
 
-        String selectedItem = String.valueOf(networkIndexComboBox.getSelectedItem());
-        if(selectedItem==null || selectedItem.isBlank())
-            return;
+        Long interfaceIndex = (Long) networkIndexComboBox.getSelectedItem();
 
-        Long interfaceIndex = Long.valueOf(selectedItem);
-        Optional<MsftNetAdapterToIpAndDnsAndProfile> currentNetOptional = netList
-                .stream()
-                .filter(Objects::nonNull)
-                .filter(net-> Objects.equals(net.interfaceIndex(), interfaceIndex))
-                .findFirst();
+        MsftNetAdapterToIpAndDnsAndProfile currentNet = netMap.get(interfaceIndex);
+        if (currentNet == null) return;
 
-        if(currentNetOptional.isEmpty())
-            return;
-
-        MsftNetAdapterToIpAndDnsAndProfile currentNet = currentNetOptional.get();
         MsftNetAdapter currentAdapter = currentNet.adapter();
         List<MsftNetIpAddress> currentNetIpAddressList = currentNet.ipAddressList();
         List<MsftDnsClientServerAddress> currentDnsAddressList = currentNet.dnsClientServerAddressList();
         List<MsftNetConnectionProfile> currentConnectionProfileList = currentNet.netConnectionProfileList();
 
-        if(currentAdapter!=null){
+        if (currentAdapter != null) {
             networkFields.get(0).setText(currentAdapter.deviceId());
             networkFields.get(1).setText(currentAdapter.interfaceDescription());
             networkFields.get(2).setText(currentAdapter.driverVersion());
@@ -113,7 +110,7 @@ public class WMINetworkPanelWorker extends SwingWorker<List<MsftNetAdapterToIpAn
         connectionProfilePane.setText(null);
 
 
-        if(currentNetIpAddressList!=null && !currentNetIpAddressList.isEmpty()) {
+        if (currentNetIpAddressList != null && !currentNetIpAddressList.isEmpty()) {
 
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.append("<html><body>");
@@ -132,7 +129,7 @@ public class WMINetworkPanelWorker extends SwingWorker<List<MsftNetAdapterToIpAn
             ipAddressPane.setText(stringBuilder.toString());
         }
 
-        if(currentDnsAddressList!=null && !currentDnsAddressList.isEmpty()) {
+        if (currentDnsAddressList != null && !currentDnsAddressList.isEmpty()) {
 
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.append("<html><body>");
@@ -147,7 +144,7 @@ public class WMINetworkPanelWorker extends SwingWorker<List<MsftNetAdapterToIpAn
             dnsAddressPane.setText(stringBuilder.toString());
         }
 
-        if(currentConnectionProfileList!=null && !currentConnectionProfileList.isEmpty()) {
+        if (currentConnectionProfileList != null && !currentConnectionProfileList.isEmpty()) {
 
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.append("<html><body>");

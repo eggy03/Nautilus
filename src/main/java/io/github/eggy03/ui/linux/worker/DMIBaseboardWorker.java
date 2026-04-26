@@ -5,6 +5,7 @@
 package io.github.eggy03.ui.linux.worker;
 
 import io.github.eggy03.dmidecode.entity.board.DMIBaseboard;
+import io.github.eggy03.dmidecode.entity.board.ImmutableDMIBaseboard;
 import io.github.eggy03.dmidecode.service.board.DMIBaseboardService;
 import io.github.eggy03.ui.common.constant.TerminalConstant;
 import lombok.RequiredArgsConstructor;
@@ -21,29 +22,27 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Slf4j
-public class DMIBaseboardWorker extends SwingWorker<Optional<DMIBaseboard>, Void> {
+public class DMIBaseboardWorker extends SwingWorker<DMIBaseboard, Void> {
 
     private final List<JTextField> baseboardFields;
     private final JTextArea featureTextArea;
 
     @Override
-    protected Optional<DMIBaseboard> doInBackground() throws Exception {
-        return new DMIBaseboardService().get(TerminalConstant.TIMEOUT_SIXTY_SECONDS);
+    protected DMIBaseboard doInBackground() throws Exception {
+        Optional<DMIBaseboard> optionalDMIBaseboard = new DMIBaseboardService().get(TerminalConstant.TIMEOUT_SIXTY_SECONDS);
+        if (optionalDMIBaseboard.isEmpty())
+            log.info("No DMIBaseboard entry found");
+        else
+            log.info("DMIBaseboard entry found");
+
+        return optionalDMIBaseboard.orElse(new ImmutableDMIBaseboard.Builder().build());
     }
 
     @Override
     protected void done() {
 
         try {
-            Optional<DMIBaseboard> optionalDMIBaseboard = get();
-            if(optionalDMIBaseboard.isEmpty()) {
-                log.info("No entries for DMIBaseboard were found");
-                return;
-            }
-            log.info("Found a DMIBaseboard entry");
-
-            // populate fields
-            populateFields(optionalDMIBaseboard.get());
+            populateFields(get());
 
         } catch (ExecutionException e) {
             log.error("Baseboard Fetch Failed", e);
@@ -65,7 +64,7 @@ public class DMIBaseboardWorker extends SwingWorker<Optional<DMIBaseboard>, Void
         baseboardFields.get(7).setText(dmiBaseboard.type());
 
         List<String> features = dmiBaseboard.features();
-        if(features!=null) {
+        if (features != null) {
             featureTextArea.setText(
                     features.stream()
                             .filter(Objects::nonNull)

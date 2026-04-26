@@ -16,38 +16,43 @@ import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import javax.swing.SwingWorker;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
-public class WMIVideoControllerPanelWorker extends SwingWorker<List<Win32VideoController>, Void> {
+public class WMIVideoControllerPanelWorker extends SwingWorker<Map<String, Win32VideoController>, Void> {
 
     private final JComboBox<String> gpuDeviceIdComboBox;
     private final List<JTextField> gpuFields;
 
     @Override
-    protected List<Win32VideoController> doInBackground() {
-        return new Win32VideoControllerService().get(TerminalConstant.TIMEOUT_SIXTY_SECONDS);
+    protected Map<String, Win32VideoController> doInBackground() {
+
+        List<Win32VideoController> videoList = new Win32VideoControllerService().get(TerminalConstant.TIMEOUT_SIXTY_SECONDS);
+        log.info("Found {} Win32_VideoController entry(s)", videoList.size());
+
+        return videoList.stream()
+                .filter(Objects::nonNull)
+                .filter(video -> Objects.nonNull(video.deviceId()))
+                .collect(Collectors.toUnmodifiableMap(
+                        video -> Objects.requireNonNull(video.deviceId()),
+                        video -> video
+                ));
     }
 
     @Override
     protected void done() {
         try {
-            List<Win32VideoController> videoControllerList = get();
-            if (videoControllerList.isEmpty()) {
-                log.info("No entries for Win32VideoController were found");
-                return;
-            }
-            log.info("Found {} Win32VideoController entry/entries", videoControllerList.size());
-
+            Map<String, Win32VideoController> videoMap = get();
             // fill video controller IDs in the combo box
-            videoControllerList.forEach(v -> gpuDeviceIdComboBox.addItem(v.deviceId()));
+            videoMap.keySet().stream().sorted().forEach(gpuDeviceIdComboBox::addItem);
             // populate fields for the first entry in the combo box
-            populateFields(videoControllerList);
+            populateFields(videoMap);
             // add a listener to the combo box to re-populate fields on new selection
-            gpuDeviceIdComboBox.addActionListener(selectEvent -> populateFields(videoControllerList));
+            gpuDeviceIdComboBox.addActionListener(selectEvent -> populateFields(videoMap));
 
         } catch (InterruptedException e) {
             log.error("Video Controller Fetch Interrupted", e);
@@ -57,19 +62,13 @@ public class WMIVideoControllerPanelWorker extends SwingWorker<List<Win32VideoCo
         }
     }
 
-    private void populateFields(List<Win32VideoController> videoControllerList) {
+    private void populateFields(Map<String, Win32VideoController> videoMap) {
 
         String gpuDeviceId = String.valueOf(gpuDeviceIdComboBox.getSelectedItem());
-        Optional<Win32VideoController> optionalGpu = videoControllerList
-                .stream()
-                .filter(Objects::nonNull)
-                .filter(v -> Objects.equals(v.deviceId(), gpuDeviceId))
-                .findFirst();
 
-        if (optionalGpu.isEmpty())
-            return;
+        Win32VideoController gpu = videoMap.get(gpuDeviceId);
+        if (gpu == null) return;
 
-        Win32VideoController gpu = optionalGpu.get();
         gpuFields.get(0).setText(gpu.name());
         gpuFields.get(1).setText(gpu.pnpDeviceId());
         gpuFields.get(2).setText(gpu.currentHorizontalResolution() + " px");
