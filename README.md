@@ -37,16 +37,16 @@ is a viable option since your AV or Smart Screen filter wouldn't flag it.
 ### Steps
 
 - Clone the repository
-```
+```shell
 git clone https://github.com/eggy03/Nautilus.git
 cd Nautilus
 ```
 - Build the application depending on your platform
+```shell
+./mvnw -Pdist package jpackage:jpackage@win
 ```
-./mvnw package jpackage:jpackage@win
-```
-```
-./mvnw package jpackage:jpackage@linux
+```shell
+./mvnw -Pdist package jpackage:jpackage@linux
 ```
 The generated binaries will be available in `../Nautilus/target/output`
 
@@ -56,6 +56,50 @@ Note that each subsequent build requires manually clearing out the target folder
 - Output format depends on the target OS
 - A minimal runtime is generated using `jlink` which is then packaged into the target build
 - This makes your build portable
+
+## Native Builds (Experimental)
+
+Nautilus also supports native builds via [GraalVM](https://www.graalvm.org/latest/reference-manual/native-image/).
+This feature is experimental and may produce unstable builds.
+
+Native builds offer faster startup and reduced memory consumption. However, you will lose
+JVM's cross-platform compatibility.
+
+To build a native image, you will require GraalVM JDK (25+ is recommended).
+
+Building Nautilus is a 2-Step Process:
+
+### Step 1: Create reachability-metadata
+
+```shell
+./mvnw -Pnative -DskipNativeBuild=true exec:exec@java-agent
+```
+This launches the Nautilus GUI with the GraalVM tracing agent enabled.
+You must interact with the UI as thoroughly as you can, to enable proper generation of `reachability-metadata`.
+This will create the `reachability-metadata.json` in `src/main/resources/META-INF/native-image/{groupId}/{artifactId}`
+which is required in the next step.
+
+### Step 2: Build the native executable
+
+```shell
+./mvnw clean -Pnative package 
+```
+This performs ahead-of-time (AOT) compilation and produces a native executable in the target directory.
+Note that this is a resource intensive process.
+
+After completion, you will need to run Nautilus via
+
+```shell
+./nautilus "<java.home.path>"
+```
+Native images do not include a JVM runtime, so `java.home` may be unavailable.
+Provide a valid JDK path manually as a launch argument.
+
+Example: 
+```shell
+./nautilus "C:/Users/Username/.jdks/graalvm-ce-25.0.2"
+```
+
 
 # Screenshots
 
