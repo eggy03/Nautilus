@@ -50,6 +50,8 @@ cd Nautilus
 ```
 The generated binaries will be available in `../Nautilus/target/output`
 
+Note that each subsequent build requires manually clearing out the target folder or else the build will fail
+
 - The build uses `jpackage` to generate native app images
 - Output format depends on the target OS
 - A minimal runtime is generated using `jlink` which is then packaged into the target build
