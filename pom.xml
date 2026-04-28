@@ -4,7 +4,7 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>io.github.egg-03</groupId>
+    <groupId>io.github.eggy03</groupId>
     <artifactId>nautilus</artifactId>
     <version>1.0.0</version>
 
@@ -35,6 +35,8 @@
         <maven.resources.plugin.version>3.5.0</maven.resources.plugin.version>
         <jpackage.mave.plugin.version>1.7.4</jpackage.mave.plugin.version>
         <jlink.maven.plugin.version>1.2.1</jlink.maven.plugin.version>
+        <native-maven-plugin.version>1.1.0</native-maven-plugin.version>
+        <exec.maven.plugin.version>3.6.3</exec.maven.plugin.version>
 
         <!-- Extras -->
         <app.main.class>io.github.eggy03.ui.Start</app.main.class>
@@ -128,6 +130,7 @@
     		<artifactId>miglayout-swing</artifactId>
     		<version>${miglayout.version}</version>
 		</dependency>
+
     </dependencies>
 
     <build>
@@ -165,32 +168,6 @@
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-resources-plugin</artifactId>
-                <version>${maven.resources.plugin.version}</version>
-                <executions>
-                    <execution>
-                        <id>prepare-jpackage-input</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${app.fatjar.directory}</outputDirectory>
-                            <resources>
-                                <resource>
-                                    <directory>${project.build.directory}</directory>
-                                    <includes>
-                                        <include>${app.fatjar.name}</include>
-                                    </includes>
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${maven.compiler.plugin.version}</version>
                 <configuration>
@@ -204,100 +181,193 @@
                 </configuration>
             </plugin>
 
-            <plugin>
-                <groupId>org.panteleyev</groupId>
-                <artifactId>jlink-maven-plugin</artifactId>
-                <version>${jlink.maven.plugin.version}</version>
-
-                <executions>
-                    <execution>
-                        <id>jlink-runtime</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>jlink</goal>
-                        </goals>
-                    </execution>
-                </executions>
-
-                <configuration>
-                    <output>${jlink.output.directory}</output>
-
-                    <addModules>
-                        <addModule>java.base</addModule>
-                        <addModule>java.desktop</addModule>
-                        <addModule>java.logging</addModule>
-                        <addModule>java.xml</addModule>
-                        <addModule>java.prefs</addModule>
-                        <addModule>java.datatransfer</addModule>
-                        <addModule>java.management</addModule>
-                        <addModule>java.naming</addModule>
-                        <addModule>jdk.unsupported</addModule>
-                    </addModules>
-
-                    <stripDebug>false</stripDebug>
-                    <noHeaderFiles>true</noHeaderFiles>
-                    <noManPages>true</noManPages>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.panteleyev</groupId>
-                <artifactId>jpackage-maven-plugin</artifactId>
-                <version>${jpackage.mave.plugin.version}</version>
-
-                <!-- Base config shared by all OSes -->
-                <configuration>
-                    <name>Nautilus</name>
-                    <appVersion>${project.version}</appVersion>
-                    <vendor>eggy03</vendor>
-                    <description>${project.name}</description>
-
-                    <!-- App-image only -->
-                    <type>APP_IMAGE</type>
-
-                    <!-- Fat JAR -->
-                    <input>${app.fatjar.directory}</input>
-                    <mainJar>${app.fatjar.name}</mainJar>
-                    <mainClass>${app.main.class}</mainClass>
-
-                    <!-- Custom JRE created by jlink -->
-                    <runtimeImage>${jlink.output.directory}</runtimeImage>
-
-                    <!-- Output -->
-                    <destination>${jpackage.output.directory}</destination>
-
-                    <!-- JVM opts -->
-                    <javaOptions>
-                        <option>-Dfile.encoding=UTF-8</option>
-                    </javaOptions>
-
-                    <!-- Windows GUI -->
-                    <winConsole>false</winConsole>
-                </configuration>
-
-                <!-- OS-selectable executions -->
-                <executions>
-
-                    <!-- Windows -->
-                    <execution>
-                        <id>win</id>
-                        <configuration>
-                            <icon>${project.windows.icon}</icon>
-                        </configuration>
-                    </execution>
-
-                    <!-- Linux -->
-                    <execution>
-                        <id>linux</id>
-                        <configuration>
-                            <icon>${project.linux.icon}</icon>
-                        </configuration>
-                    </execution>
-
-                </executions>
-            </plugin>
-
         </plugins>
     </build>
 
+    <profiles>
+        <!-- Native Builds -->
+        <profile>
+            <id>native</id>
+            <build>
+                <plugins>
+
+                    <plugin>
+                        <groupId>org.graalvm.buildtools</groupId>
+                        <artifactId>native-maven-plugin</artifactId>
+                        <version>${native-maven-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>build-native</id>
+                                <goals>
+                                    <goal>compile</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <mainClass>${app.main.class}</mainClass>
+                            <agent>
+                                <enabled>false</enabled>
+                            </agent>
+                            <buildArgs>
+                                --add-modules=java.desktop
+                                --initialize-at-run-time=java.awt.Toolkit,java.awt.GraphicsEnvironment
+                            </buildArgs>
+                        </configuration>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>${exec.maven.plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>java-agent</id>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <configuration>
+                                    <executable>java</executable>
+                                    <workingDirectory>${project.build.directory}</workingDirectory>
+                                    <arguments>
+                                        <argument>-agentlib:native-image-agent=config-output-dir=${project.basedir}/src/main/resources/META-INF/native-image/io/github/eggy03/nautilus</argument>
+                                        <argument>-classpath</argument>
+                                        <classpath/>
+                                        <argument>${app.main.class}</argument>
+                                    </arguments>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                </plugins>
+            </build>
+        </profile>
+
+        <!--JVM Builds With Jpackage-->
+        <profile>
+            <id>dist</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-resources-plugin</artifactId>
+                        <version>${maven.resources.plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>prepare-jpackage-input</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>copy-resources</goal>
+                                </goals>
+                                <configuration>
+                                    <outputDirectory>${app.fatjar.directory}</outputDirectory>
+                                    <resources>
+                                        <resource>
+                                            <directory>${project.build.directory}</directory>
+                                            <includes>
+                                                <include>${app.fatjar.name}</include>
+                                            </includes>
+                                        </resource>
+                                    </resources>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.panteleyev</groupId>
+                        <artifactId>jlink-maven-plugin</artifactId>
+                        <version>${jlink.maven.plugin.version}</version>
+
+                        <executions>
+                            <execution>
+                                <id>jlink-runtime</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>jlink</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+
+                        <configuration>
+                            <output>${jlink.output.directory}</output>
+
+                            <addModules>
+                                <addModule>java.base</addModule>
+                                <addModule>java.desktop</addModule>
+                                <addModule>java.logging</addModule>
+                                <addModule>java.xml</addModule>
+                                <addModule>java.prefs</addModule>
+                                <addModule>java.datatransfer</addModule>
+                                <addModule>java.management</addModule>
+                                <addModule>java.naming</addModule>
+                                <addModule>jdk.unsupported</addModule>
+                            </addModules>
+
+                            <stripDebug>false</stripDebug>
+                            <noHeaderFiles>true</noHeaderFiles>
+                            <noManPages>true</noManPages>
+                        </configuration>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.panteleyev</groupId>
+                        <artifactId>jpackage-maven-plugin</artifactId>
+                        <version>${jpackage.mave.plugin.version}</version>
+
+                        <!-- Base config shared by all OSes -->
+                        <configuration>
+                            <name>Nautilus</name>
+                            <appVersion>${project.version}</appVersion>
+                            <vendor>eggy03</vendor>
+                            <description>${project.name}</description>
+
+                            <!-- App-image only -->
+                            <type>APP_IMAGE</type>
+
+                            <!-- Fat JAR -->
+                            <input>${app.fatjar.directory}</input>
+                            <mainJar>${app.fatjar.name}</mainJar>
+                            <mainClass>${app.main.class}</mainClass>
+
+                            <!-- Custom JRE created by jlink -->
+                            <runtimeImage>${jlink.output.directory}</runtimeImage>
+
+                            <!-- Output -->
+                            <destination>${jpackage.output.directory}</destination>
+
+                            <!-- JVM opts -->
+                            <javaOptions>
+                                <option>-Dfile.encoding=UTF-8</option>
+                            </javaOptions>
+
+                            <!-- Windows GUI -->
+                            <winConsole>false</winConsole>
+                        </configuration>
+
+                        <!-- OS-selectable executions -->
+                        <executions>
+
+                            <!-- Windows -->
+                            <execution>
+                                <id>win</id>
+                                <configuration>
+                                    <icon>${project.windows.icon}</icon>
+                                </configuration>
+                            </execution>
+
+                            <!-- Linux -->
+                            <execution>
+                                <id>linux</id>
+                                <configuration>
+                                    <icon>${project.linux.icon}</icon>
+                                </configuration>
+                            </execution>
+
+                        </executions>
+                    </plugin>
+
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
