@@ -271,3 +271,4 @@ $RECYCLE.BIN/
 /.idea
 /jre
 /output
+/src/main/resources/META-INF/native-image/io/github/eggy03/nautilus/reachability-metadata.json
