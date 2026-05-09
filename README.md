@@ -1,3 +1,6 @@
+> [!IMPORTANT]
+> Project has been archived. Development is continued [here](https://github.com/nautiliday)
+
 # Nautilus
 
 A cross-platform Java Swing based GUI application to view information about your hardware.
